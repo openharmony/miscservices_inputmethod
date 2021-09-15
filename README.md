@@ -1,22 +1,41 @@
 # miscservices_inputmethod
 
-#### 介绍
-输入法框架
+####Introduction
 
+Input Method Framework, is used to connect the application and input method. the application can input text through the input method
 
-#### 安装教程
+####Warehouse path
 
-1.  随版本烧录即可带上
+/base/miscservices/inputmethod
 
-#### 使用说明
+####Introduction to framework code
 
-1.  在编辑属性的控件中进行点击操作，即可通过输入法框架调起默认输入法应用
-2.  通过输入法应用可以进行打字，并上屏输入字符到应用客户端
+The input method framework currently has four modules, as follows:
 
-#### 参与贡献
+1. Application client
+Path: /base/miscservices/inputmethod/frameworks/inputmethod_controller
+Function: realize the service delivery of application and input method framework, including the binding between application and input method service, application display and hiding request for input method, etc
 
-1.  Fork 本仓库
-2.  新建 Feat_master 分支
-3.  提交代码
-4.  新建 Pull Request
+2. Input method client
+Path: /base/miscservices/inputmethod/frameworks/inputmethod_ability
+Function: the intermediate bridge between input method framework service and input method delivery, including monitoring the current status of input method, etc
 
+3. Input method service
+Path: /base/miscservices/inputmethod/services
+Function: as the core of the input method framework, the main processing logic of the input method is completed here
+
+4. Input method JS interface
+Path: /base/miscservices/inputmethod/interfaces/kits/JS
+Function: the temporarily exposed JS interface is mainly reserved for calling input methods
+
+####Main functions supported by the framework
+
+1. Click in the edit attribute control to invoke the default input method application through the input method framework
+2. Typing can be carried out through the input method application, and characters can be input to the application client on the screen
+
+####Participation contribution
+
+1. Fork warehouse
+2. Submission code
+3. Create a new pull request
+4. Commit is complete
