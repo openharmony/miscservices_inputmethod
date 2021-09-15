@@ -71,7 +71,7 @@ namespace MiscServices {
         sptr<InputMethodSystemAbilityProxy> mImms;
         sptr<ImsaDeathRecipient> deathRecipient_;
         sptr<InputMethodAgentProxy> mAgent;
-        sptr<OnTextChangedListener> textListener;
+        OnTextChangedListener* textListener;
         InputAttribute mAttribute;
 
         static std::mutex instanceLock_;
