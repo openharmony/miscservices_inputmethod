@@ -139,6 +139,7 @@ using namespace MessageID;
                 case MSG_ID_EXIT_SERVICE:{
                     MessageParcel* data = msg->msgContent_;
                     int32_t ret = data->ReadInt32();
+                    textListener = nullptr;
                     IMSA_HILOGI("MSG_ID_EXIT_SERVICE : %{public}d", ret);
                     break;
                 }
