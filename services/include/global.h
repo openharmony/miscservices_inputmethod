@@ -66,7 +66,7 @@ namespace CommonEvent {
 
 // User State
 namespace UserState {
-    /*! The states of a user in the system.
+    // The states of a user in the system.
     enum {
         USER_STATE_NOT_AVAILABLE = -1,
         USER_STATE_STARTED = 0, // a user is started.
@@ -76,7 +76,7 @@ namespace UserState {
 
 // Error Code
 namespace ErrorCode {
-    /*! Error Code definition in the input method management system
+    // Error Code definition in the input method management system
     enum {
         ERROR_STATUS_UNKNOWN_ERROR = (-2147483647 - 1), // unknown error
         ERROR_STATUS_NO_MEMORY = -ENOMEM, // no memory
