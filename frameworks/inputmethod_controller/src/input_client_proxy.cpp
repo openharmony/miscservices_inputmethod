@@ -18,12 +18,11 @@
 namespace OHOS {
 namespace MiscServices {
 using namespace ErrorCode;
-    InputClientProxy::InputClientProxy(const sptr<IRemoteObject> &object) : IRemoteProxy<IInputClient>(object)
-    {
+    InputClientProxy::InputClientProxy(const sptr<IRemoteObject> &object) : IRemoteProxy<IInputClient>(object) {
     }
 
-    int32_t InputClientProxy::onInputReady(int32_t retValue, const sptr<IInputMethodAgent>& agent, const InputChannel* channel)
-    {
+    int32_t InputClientProxy::onInputReady(int32_t retValue, const sptr<IInputMethodAgent>& agent,
+        const InputChannel* channel) {
         IMSA_HILOGI("InputClientProxy::onInputReady");
         MessageParcel data, reply;
         MessageOption option;

@@ -17,7 +17,6 @@
 #include "message_parcel.h"
 #include "message.h"
 
-
 namespace OHOS {
     namespace MiscServices {
         InputMethodAbilityConnectionStub::InputMethodAbilityConnectionStub(const int index){
@@ -28,7 +27,8 @@ namespace OHOS {
 
         }
 
-        void InputMethodAbilityConnectionStub::OnAbilityConnectDone(const AppExecFwk::ElementName &element, const sptr<IRemoteObject> &remoteObject, int resultCode){
+        void InputMethodAbilityConnectionStub::OnAbilityConnectDone(const AppExecFwk::ElementName &element,
+                                               const sptr<IRemoteObject> &remoteObject, int resultCode){
             IMSA_HILOGE("ConnectAbility: OnAbilityConnectDone.");
             if(messageHandler != nullptr){
                 MessageParcel* data = new MessageParcel();
@@ -40,7 +40,8 @@ namespace OHOS {
             }
         }
 
-        void InputMethodAbilityConnectionStub::OnAbilityDisconnectDone(const AppExecFwk::ElementName &element, int resultCode) {
+        void InputMethodAbilityConnectionStub::OnAbilityDisconnectDone(const AppExecFwk::ElementName &element,
+                                                                       int resultCode) {
             IMSA_HILOGE("ConnectAbility: OnAbilityDisconnectDone.");
             if(messageHandler != nullptr){
                 MessageParcel* data = new MessageParcel();

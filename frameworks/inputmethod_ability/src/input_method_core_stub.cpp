@@ -12,8 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 #include <chrono>
 #include <stdint.h>
 #include "message_handler.h"
@@ -39,7 +37,8 @@ namespace MiscServices {
     InputMethodCoreStub::~InputMethodCoreStub() {
     }
 
-    int32_t InputMethodCoreStub::OnRemoteRequest(uint32_t code, MessageParcel & data, MessageParcel & reply, MessageOption & option) {
+    int32_t InputMethodCoreStub::OnRemoteRequest(uint32_t code, MessageParcel& data, MessageParcel& reply,
+                                                 MessageOption& option) {
         IMSA_HILOGI("InputMethodCoreStub::OnRemoteRequest");
         auto descriptorToken = data.ReadInterfaceToken();
         if (descriptorToken != GetDescriptor()) {
@@ -112,7 +111,8 @@ namespace MiscServices {
         return NO_ERROR;
     }
 
-    int32_t InputMethodCoreStub::initializeInput(sptr<IRemoteObject>& startInputToken, int32_t displayId, sptr<IInputControlChannel>& inputControlChannel) {
+    int32_t InputMethodCoreStub::initializeInput(sptr<IRemoteObject>& startInputToken, int32_t displayId,
+        sptr<IInputControlChannel>& inputControlChannel) {
         IMSA_HILOGI("InputMethodCoreStub::initializeInput");
         if (msgHandler_==nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;
@@ -133,7 +133,8 @@ namespace MiscServices {
         return ErrorCode::NO_ERROR;
     }
 
-    bool InputMethodCoreStub::startInput(const sptr<IInputDataChannel>& inputDataChannel, const InputAttribute& editorAttribute, bool supportPhysicalKbd) {
+    bool InputMethodCoreStub::startInput(const sptr<IInputDataChannel>& inputDataChannel,
+        const InputAttribute& editorAttribute, bool supportPhysicalKbd) {
         IMSA_HILOGI("InputMethodCoreStub::startInput");
         if (msgHandler_ == nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;
@@ -202,7 +203,7 @@ namespace MiscServices {
         return ErrorCode::NO_ERROR;
     }
 
-    int32_t InputMethodCoreStub::getKeyboardWindowHeight(int32_t * retHeight) {
+    int32_t InputMethodCoreStub::getKeyboardWindowHeight(int32_t* retHeight) {
         IMSA_HILOGI("InputMethodCoreStub::getKeyboardWindowHeight");
         if (msgHandler_==nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;

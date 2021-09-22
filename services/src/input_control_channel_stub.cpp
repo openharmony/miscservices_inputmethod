@@ -45,7 +45,8 @@ namespace OHOS {
         \param flags the flags of handling transaction
         \return int32_t
         */
-        int32_t InputControlChannelStub::OnRemoteRequest(uint32_t code, MessageParcel& data, MessageParcel& reply, MessageOption& option)
+        int32_t InputControlChannelStub::OnRemoteRequest(uint32_t code, MessageParcel& data,
+                                                         MessageParcel& reply, MessageOption& option)
         {
             IMSA_HILOGI("InputControlChannelStub::OnRemoteRequest code = %{public}u", code);
             auto descriptorToken = data.ReadInterfaceToken();

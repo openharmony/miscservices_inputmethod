@@ -47,9 +47,9 @@ namespace MiscServices {
             RemoteObjectDeathRecipient(int userId, int msgId);
             ~RemoteObjectDeathRecipient();
             void OnRemoteDied(const wptr<IRemoteObject>& who) override;
-        private :
-            int userId_; //!< the id of the user to whom the object is linking
-            int msgId_; //!< the message id can be  MessageID::MSG_ID_CLIENT_DIED and MessageID::MSG_ID_IMS_DIED
+        private:
+            int userId_; // the id of the user to whom the object is linking
+            int msgId_; // the message id can be  MessageID::MSG_ID_CLIENT_DIED and MessageID::MSG_ID_IMS_DIED
         };
 
     /*! \class ClientInfo
@@ -57,13 +57,13 @@ namespace MiscServices {
     */
     class ClientInfo {
         public:
-            int pid; //!< the process id of the process in which the input client is running
-            int uid; //!< the uid of the process in which the input client is running
-            int userId; //!< the user if of the user under which the input client is running
-            int displayId; //!< the display id on which the input client is showing
-            sptr<IInputClient> client; //!< the remote object handler for the service to callback to the input client
-            sptr<IInputDataChannel> channel; //!< the remote object handler for input method service callback to input client
-            InputAttribute attribute; //!< the input attribute of the input client
+            int pid; // the process id of the process in which the input client is running
+            int uid; // the uid of the process in which the input client is running
+            int userId; // the user if of the user under which the input client is running
+            int displayId; // the display id on which the input client is showing
+            sptr<IInputClient> client; // the remote object handler for the service to callback to the input client
+            sptr<IInputDataChannel> channel; // the remote object handler for IMSA callback to input client
+            InputAttribute attribute; // the input attribute of the input client
 
         ClientInfo(int pid, int uid, int userId, int displayId, const sptr<IInputClient>& client,
                    const sptr<IInputDataChannel>& channel, const InputAttribute& attribute)
@@ -91,9 +91,9 @@ namespace MiscServices {
     */
     class PerUserSession {
         enum {
-            DEFAULT_IME = 0,  //!< index for default input method service
-            SECURITY_IME = 1, //!< index for security input method service
-            MAX_IME = 2, //!< the maximum count of ims started for a user
+            DEFAULT_IME = 0,  // index for default input method service
+            SECURITY_IME = 1, // index for security input method service
+            MAX_IME = 2, // the maximum count of ims started for a user
         };
 
         public:
@@ -117,33 +117,33 @@ namespace MiscServices {
             void SetInputMethodAbility(sptr<InputMethodAbility> &inputMethodAbility);
             static void BindInputAbility();
         private:
-            int userId_; //!< the id of the user to whom the object is linking
-            int userState; //!< the state of the user to whom the object is linking
-            int displayId; //!< the id of the display screen on which the user is
+            int userId_; // the id of the user to whom the object is linking
+            int userState; // the state of the user to whom the object is linking
+            int displayId; // the id of the display screen on which the user is
             int currentIndex;
-            std::map<sptr<IRemoteObject>, ClientInfo*> mapClients; //!< a map to manage the input clients connected to the service
+            std::map<sptr<IRemoteObject>, ClientInfo*> mapClients;
 
-            InputMethodProperty* currentIme[MAX_IME]; //!< 0 - the default ime. 1 - security ime
+            InputMethodProperty* currentIme[MAX_IME]; // 0 - the default ime. 1 - security ime
 
-            InputControlChannelStub* localControlChannel[MAX_IME]; //!< inputControlChannel object used by the local process
-            sptr<IInputControlChannel> inputControlChannel[MAX_IME]; //!< channels between the service and input method service
-            sptr<IInputMethodCore> imsCore[MAX_IME]; //!< the remote handlers of input method service
-            sptr<IRemoteObject> inputMethodToken[MAX_IME]; //!< the window token of keyboard
-            int currentKbdIndex[MAX_IME]; //!< current keyboard index
-            int lastImeIndex; //!< The last ime which showed keyboard
-            InputMethodSetting* inputMethodSetting; //!< The pointer referred to the object in PerUserSetting
-            int currentDisplayMode; //!< the display mode of the current keyboard
+            InputControlChannelStub* localControlChannel[MAX_IME];
+            sptr<IInputControlChannel> inputControlChannel[MAX_IME];
+            sptr<IInputMethodCore> imsCore[MAX_IME]; // the remote handlers of input method service
+            sptr<IRemoteObject> inputMethodToken[MAX_IME]; // the window token of keyboard
+            int currentKbdIndex[MAX_IME]; // current keyboard index
+            int lastImeIndex; // The last ime which showed keyboard
+            InputMethodSetting* inputMethodSetting; // The pointer referred to the object in PerUserSetting
+            int currentDisplayMode; // the display mode of the current keyboard
 
             sptr<IInputMethodAgent> imsAgent;
-            InputChannel* imsChannel; //!< the write channel created by input method service
-            sptr<IInputClient> currentClient; //!< the current input client
-            sptr<IInputClient> needReshowClient; //!< the input client for which keyboard need to re-show
+            InputChannel* imsChannel; // the write channel created by input method service
+            sptr<IInputClient> currentClient; // the current input client
+            sptr<IInputClient> needReshowClient; // the input client for which keyboard need to re-show
 
-            sptr<RemoteObjectDeathRecipient> clientDeathRecipient; //!< remote object death monitor for input client
-            sptr<RemoteObjectDeathRecipient> imsDeathRecipient; //!< remote object death monitor for input method service
-            MessageHandler* msgHandler = nullptr; //!< message handler working with Work Thread
-            std::thread workThreadHandler; //!< work thread handler
-            std::mutex mtx; //!< mutex to lock the operations among multi work threads
+            sptr<RemoteObjectDeathRecipient> clientDeathRecipient; // remote object death monitor for input client
+            sptr<RemoteObjectDeathRecipient> imsDeathRecipient;
+            MessageHandler* msgHandler = nullptr; // message handler working with Work Thread
+            std::thread workThreadHandler; // work thread handler
+            std::mutex mtx; // mutex to lock the operations among multi work threads
             sptr<AAFwk::AbilityConnectionProxy> connCallback;
             sptr<InputMethodAbility> inputMethodAbility_;
 

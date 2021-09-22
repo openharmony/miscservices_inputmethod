@@ -42,5 +42,3 @@ namespace MiscServices {
 }
 }
 #endif // FM_IMMS_PROJECT_INPUTCONTROLCHANNELPROXY_H
-
-

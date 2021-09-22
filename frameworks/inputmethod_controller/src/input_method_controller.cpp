@@ -174,7 +174,8 @@ using namespace MessageID;
         ReleaseInput(mClient);
     }
 
-    void InputMethodController::PrepareInput(int32_t displayId,sptr<InputClientStub> &client,sptr<InputDataChannelStub> &channel,InputAttribute &attribute)
+    void InputMethodController::PrepareInput(int32_t displayId, sptr<InputClientStub> &client,
+                                             sptr<InputDataChannelStub> &channel, InputAttribute &attribute)
     {
         IMSA_HILOGI("InputMethodController::PrepareInput");
         if(mImms == nullptr){

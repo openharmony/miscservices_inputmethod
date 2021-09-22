@@ -20,12 +20,14 @@
 
 namespace OHOS {
 namespace MiscServices {
-    InputMethodCoreProxy::InputMethodCoreProxy(const OHOS::sptr<OHOS::IRemoteObject> &impl) : IRemoteProxy<IInputMethodCore>(impl) {
+    InputMethodCoreProxy::InputMethodCoreProxy(const OHOS::sptr<OHOS::IRemoteObject> &impl)
+    : IRemoteProxy<IInputMethodCore>(impl) {
     }
 
     InputMethodCoreProxy::~InputMethodCoreProxy() = default;
 
-    int32_t InputMethodCoreProxy::initializeInput(sptr<IRemoteObject> &startInputToken, int32_t displayId, sptr<IInputControlChannel> &inputControlChannel) {
+    int32_t InputMethodCoreProxy::initializeInput(sptr<IRemoteObject> &startInputToken, int32_t displayId,
+                                                  sptr<IInputControlChannel> &inputControlChannel) {
         IMSA_HILOGI("InputMethodCoreProxy::initializeInput");
         if (startInputToken == nullptr) {
             IMSA_HILOGI("InputMethodCoreProxy::initializeInput startInputToken is nullptr");
@@ -58,7 +60,8 @@ namespace MiscServices {
         return code;
     }
 
-    bool InputMethodCoreProxy::startInput(const sptr<IInputDataChannel> &inputDataChannel, const InputAttribute& editorAttribute, bool supportPhysicalKbd) {
+    bool InputMethodCoreProxy::startInput(const sptr<IInputDataChannel> &inputDataChannel,
+                                          const InputAttribute& editorAttribute, bool supportPhysicalKbd) {
         IMSA_HILOGI("InputMethodCoreProxy::startInput");
         if (inputDataChannel == nullptr) {
             IMSA_HILOGI("InputMethodCoreProxy::startInput inputDataChannel is nullptr");
@@ -160,7 +163,7 @@ namespace MiscServices {
         return code;
     }
 
-    int32_t InputMethodCoreProxy::getKeyboardWindowHeight(int32_t * retHeight) {
+    int32_t InputMethodCoreProxy::getKeyboardWindowHeight(int32_t* retHeight) {
         IMSA_HILOGI("InputMethodCoreProxy::getKeyboardWindowHeight");
         MessageParcel data, reply;
         data.WriteInterfaceToken(GetDescriptor());

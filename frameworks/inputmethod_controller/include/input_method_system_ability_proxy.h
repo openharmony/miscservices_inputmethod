@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-
 #ifndef FM_IMC_PROJECT_INPUTMETHODSYSTEMABILITYPROXY_H
 #define FM_IMC_PROJECT_INPUTMETHODSYSTEMABILITYPROXY_H
 
@@ -30,35 +29,34 @@
 
 namespace OHOS {
 namespace MiscServices {
+class InputMethodSystemAbilityProxy : public IRemoteProxy<IInputMethodSystemAbility> {
+    public:
+        explicit InputMethodSystemAbilityProxy(const sptr<IRemoteObject> &object);
+        ~InputMethodSystemAbilityProxy() = default;
+        DISALLOW_COPY_AND_MOVE(InputMethodSystemAbilityProxy);
 
-class InputMethodSystemAbilityProxy : public IRemoteProxy<IInputMethodSystemAbility>
-{
-public:
-    explicit InputMethodSystemAbilityProxy(const sptr<IRemoteObject> &object);
-    ~InputMethodSystemAbilityProxy() = default;
-    DISALLOW_COPY_AND_MOVE(InputMethodSystemAbilityProxy);
+        virtual void prepareInput(MessageParcel& data) override;
+        virtual void releaseInput(MessageParcel& data) override;
+        virtual void startInput(MessageParcel& data) override;
+        virtual void stopInput(MessageParcel& data) override;
+        virtual int32_t setInputMethodCore(sptr<IInputMethodCore> &core) override;
 
-    virtual void prepareInput(MessageParcel& data) override;
-    virtual void releaseInput(MessageParcel& data) override;
-    virtual void startInput(MessageParcel& data) override;
-    virtual void stopInput(MessageParcel& data) override;
-    virtual int32_t setInputMethodCore(sptr<IInputMethodCore> &core) override;
+        int32_t Prepare(int32_t displayId, sptr<InputClientStub> &client, sptr<InputDataChannelStub> &channel,
+                        InputAttribute &attribute);
+        int32_t Release(sptr<InputClientStub> &client);
+        int32_t Start(sptr<InputClientStub> &client);
+        int32_t Stop(sptr<InputClientStub> &client);
 
-    int32_t Prepare(int32_t displayId, sptr<InputClientStub> &client, sptr<InputDataChannelStub> &channel, InputAttribute &attribute);
-    int32_t Release(sptr<InputClientStub> &client);
-    int32_t Start(sptr<InputClientStub> &client);
-    int32_t Stop(sptr<InputClientStub> &client);
+        virtual int32_t getDisplayMode(int32_t *retMode) override;
+        virtual int32_t getKeyboardWindowHeight(int32_t *retHeight) override;
+        virtual int32_t getCurrentKeyboardType(KeyboardType* retType) override;
+        virtual int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) override;
+        virtual int32_t listInputMethod(std::vector<InputMethodProperty*> *properties) override;
+        virtual int32_t listKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) override;
 
-    virtual int32_t getDisplayMode(int32_t *retMode) override;
-    virtual int32_t getKeyboardWindowHeight(int32_t *retHeight) override;
-    virtual int32_t getCurrentKeyboardType(KeyboardType* retType) override;
-    virtual int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) override;
-    virtual int32_t listInputMethod(std::vector<InputMethodProperty*> *properties) override;
-    virtual int32_t listKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) override;
-
-private:
-    static inline BrokerDelegator<InputMethodSystemAbilityProxy> delegator_;
-};
+    private:
+        static inline BrokerDelegator<InputMethodSystemAbilityProxy> delegator_;
+    };
 }
 }
 #endif

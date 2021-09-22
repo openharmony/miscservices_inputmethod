@@ -28,18 +28,18 @@
 
 namespace OHOS {
     namespace MiscServices {
-
-
         class Platform {
         public:
             static Platform* Instance();
             void SetPlatform(const sptr<IPlatformApi>& platformApi);
-            sptr<IInputMethodCore> BindInputMethodService(int userId, const std::u16string& packageName, const std::u16string& intention);
+            sptr<IInputMethodCore> BindInputMethodService(int userId, const std::u16string& packageName,
+                                                          const std::u16string& intention);
             int UnbindInputMethodService(int userId, const std::u16string& packageName);
             sptr<IRemoteObject> CreateWindowToken(int userId, int displayId, const std::u16string& packageName);
             int DestroyWindowToken(int userId, const std::u16string& packageName);
-            int ListInputMethod(int userId, std::vector<InputMethodProperty*>* inputMethodProperties);
-            int GetInputMethodProperty(int userId, const std::u16string& packageName, InputMethodProperty* inputMethodProperty);
+            int ListInputMethod(int userId, std::vector<InputMethodProperty*>* properties);
+            int GetInputMethodProperty(int userId, const std::u16string& packageName,
+                                       InputMethodProperty* inputMethodProperty);
             int GetInputMethodSetting(int userId, InputMethodSetting* inputMethodSetting);
             int SetInputMethodSetting(int userId, const InputMethodSetting& inputMethodSetting);
             bool CheckPhysicalKeyboard();

@@ -19,23 +19,23 @@
 
 namespace OHOS {
 namespace MiscServices {
-class InputAttribute : public Parcelable {
-public:
-    InputAttribute();
-    InputAttribute(const InputAttribute& attribute);
-    InputAttribute& operator=(const InputAttribute& attribute);
-    ~InputAttribute();
-    virtual bool Marshalling(Parcel &parcel) const override;
-    static InputAttribute *Unmarshalling(Parcel &parcel);
-    void SetInputPattern(int32_t pattern);
-    bool GetSecurityFlag();
-    static const int32_t PATTERN_TEXT = 0x00000001;
-    static const int32_t PATTERN_PASSWORD = 0x00000007;
-private:
-    int32_t inputPattern;
-    int32_t enterKeyType;
-    int32_t inputOption;
-};
+    class InputAttribute : public Parcelable {
+    public:
+        InputAttribute();
+        InputAttribute(const InputAttribute& attribute);
+        InputAttribute& operator=(const InputAttribute& attribute);
+        ~InputAttribute();
+        virtual bool Marshalling(Parcel &parcel) const override;
+        static InputAttribute *Unmarshalling(Parcel &parcel);
+        void SetInputPattern(int32_t pattern);
+        bool GetSecurityFlag();
+        static const int32_t PATTERN_TEXT = 0x00000001;
+        static const int32_t PATTERN_PASSWORD = 0x00000007;
+    private:
+        int32_t inputPattern;
+        int32_t enterKeyType;
+        int32_t inputOption;
+    };
 }
 }
 

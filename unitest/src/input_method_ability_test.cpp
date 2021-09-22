@@ -31,14 +31,12 @@
 #include "input_method_ability.h"
 #include "message_handler.h"
 
-
 using namespace testing::ext;
 using namespace OHOS;
 using namespace OHOS::MiscServices;
 using namespace OHOS::AAFwk;
 
-class InputMethodAbilityTest : public testing::Test
-{
+class InputMethodAbilityTest : public testing::Test {
 public:
     static void SetUpTestCase(void);
     static void TearDownTestCase(void);
@@ -46,23 +44,18 @@ public:
     void TearDown();
 };
 
-
-void InputMethodAbilityTest::SetUpTestCase(void)
-{
+void InputMethodAbilityTest::SetUpTestCase(void) {
     IMSA_HILOGI("InputMethodAbilityTest::SetUpTestCase");
 }
 
-void InputMethodAbilityTest::TearDownTestCase(void)
-{
+void InputMethodAbilityTest::TearDownTestCase(void) {
     IMSA_HILOGI("InputMethodAbilityTest::TearDownTestCase");
 }
 
-void InputMethodAbilityTest::SetUp(void)
-{
+void InputMethodAbilityTest::SetUp(void) {
     IMSA_HILOGI("InputMethodAbilityTest::SetUp");
 }
 
-void InputMethodAbilityTest::TearDown(void)
-{
+void InputMethodAbilityTest::TearDown(void) {
     IMSA_HILOGI("InputMethodAbilityTest::TearDown");
 }

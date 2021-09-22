@@ -22,9 +22,7 @@
 
 namespace OHOS {
 namespace MiscServices {
-
-class InputClientProxy : public IRemoteProxy<IInputClient>
-{
+class InputClientProxy : public IRemoteProxy<IInputClient> {
 public:
     explicit InputClientProxy(const sptr<IRemoteObject> &object);
     ~InputClientProxy() = default;

@@ -43,7 +43,8 @@ namespace MiscServices {
         
         int32_t GetUserState(int32_t userId);
 
-        int32_t OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply, MessageOption &option) override;
+        int32_t OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply,
+                                MessageOption &option) override;
         virtual int32_t getDisplayMode(int32_t *retMode) override;
         virtual int32_t getKeyboardWindowHeight(int32_t *retHeight) override;
         virtual int32_t getCurrentKeyboardType(KeyboardType* retType) override;

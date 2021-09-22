@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-
 #include "message_handler.h"
 #include "message.h"
 #include "message_parcel.h"
@@ -30,7 +29,8 @@ namespace MiscServices {
     PlatformCallbackStub::~PlatformCallbackStub() {
     }
 
-    int PlatformCallbackStub::OnRemoteRequest(uint32_t code, MessageParcel & data, MessageParcel & reply, MessageOption & option) {
+    int PlatformCallbackStub::OnRemoteRequest(uint32_t code, MessageParcel& data, MessageParcel& reply,
+                                              MessageOption& option) {
         switch (code) {
             case NOTIFY_EVENT: {
                 int eventId = data.ReadInt32();

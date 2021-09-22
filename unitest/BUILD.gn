@@ -27,7 +27,7 @@ ohos_unittest("InputMethodControllerTest") {
   module_out_path = module_output_path
 
   sources = [
-    "src/test_imc.cpp"]
+    "src/input_method_controller_test.cpp"]
 
   configs = [
     ":module_private_config",
@@ -60,7 +60,7 @@ ohos_unittest("InputMethodAbilityTest") {
   module_out_path = module_output_path
 
   sources = [
-    "src/test_ima.cpp"]
+    "src/input_method_ability_test.cpp"]
 
   configs = [
     ":module_private_config",

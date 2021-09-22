@@ -28,7 +28,8 @@ namespace MiscServices {
     InputMethodAgentStub::~InputMethodAgentStub() {
     }
 
-    int32_t InputMethodAgentStub::OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply, MessageOption &option) {
+    int32_t InputMethodAgentStub::OnRemoteRequest(uint32_t code, MessageParcel &data,
+                                                  MessageParcel &reply, MessageOption &option) {
         IMSA_HILOGI("InputMethodAgentStub::OnRemoteRequest code = %{public}d", code);
         auto descriptorToken = data.ReadInterfaceToken();
         if (descriptorToken != GetDescriptor()) {

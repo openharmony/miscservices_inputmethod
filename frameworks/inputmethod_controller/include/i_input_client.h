@@ -27,21 +27,21 @@
  */
 namespace OHOS {
 namespace MiscServices {
-  class IInputClient : public IRemoteBroker {
-  public:
-      enum {
-          ON_INPUT_READY              = 0,
-          ON_INPUT_RELEASED           ,
-          SET_DISPLAY_MODE            ,
-      };
+    class IInputClient : public IRemoteBroker {
+    public:
+        enum {
+            ON_INPUT_READY = 0,
+            ON_INPUT_RELEASED,
+            SET_DISPLAY_MODE,
+        };
 
-      DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.InputClient");
+        DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.InputClient");
 
-      virtual int32_t onInputReady(int32_t retValue, const sptr<IInputMethodAgent>& agent, const InputChannel* channel) = 0;
-      virtual int32_t onInputReleased(int32_t retValue) = 0;
-      virtual int32_t setDisplayMode(int32_t mode) = 0;
-  };
+        virtual int32_t onInputReady(int32_t retValue, const sptr<IInputMethodAgent>& agent,
+            const InputChannel* channel) = 0;
+        virtual int32_t onInputReleased(int32_t retValue) = 0;
+        virtual int32_t setDisplayMode(int32_t mode) = 0;
+    };
 } 
 }
-
 #endif // FM_IMMS_PROJECT_IINPUTCLIENT_H

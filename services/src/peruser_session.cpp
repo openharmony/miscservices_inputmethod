@@ -335,7 +335,7 @@ namespace MiscServices {
         mapClients.insert(std::pair<sptr<IRemoteObject>, ClientInfo*>(obj, clientInfo));
         int ret = obj->AddDeathRecipient(clientDeathRecipient);
         if (ret != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::AddClient AddDeathRecipient return : %{public}s [%{public}d]", ErrorCode::ToString(ret), userId_);
+            IMSA_HILOGE("PerUserSession::AddClient AddDeathRecipient return : %{public}s", ErrorCode::ToString(ret));
         }
         return ErrorCode::NO_ERROR;
     }
@@ -354,18 +354,18 @@ namespace MiscServices {
         sptr<IRemoteObject> b = inputClient->AsObject();
         std::map<sptr<IRemoteObject>, ClientInfo*>::iterator it = mapClients.find(b);
         if (it == mapClients.end()) {
-            IMSA_HILOGE("PerUserSession::RemoveClient %{public}s [%{public}d]", ErrorCode::ToString(ErrorCode::ERROR_CLIENT_NOT_FOUND), userId_);
+            IMSA_HILOGE("PerUserSession::RemoveClient ErrorCode::ERROR_CLIENT_NOT_FOUND");
             return ErrorCode::ERROR_CLIENT_NOT_FOUND;
         }
         ClientInfo* clientInfo = it->second;
         bool flag = clientInfo->attribute.GetSecurityFlag();
         int ret = b->RemoveDeathRecipient(clientDeathRecipient);
         if (ret != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::RemoveClient RemoveDeathRecipient return : %{public}s [%{public}d]\n", ErrorCode::ToString(ret), userId_);
+            IMSA_HILOGE("PerUserSession::RemoveClient RemoveDeathRecipient return : %{public}s", ErrorCode::ToString(ret));
         }
         ret = clientInfo->client->onInputReleased(0);
         if (ret != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::RemoveClient  onInputReleased return : %{public}s [%{public}d]\n", ErrorCode::ToString(ret), userId_);
+            IMSA_HILOGE("PerUserSession::RemoveClient  onInputReleased return : %{public}s", ErrorCode::ToString(ret));
         }
         delete clientInfo;
         mapClients.erase(it);
@@ -405,7 +405,7 @@ namespace MiscServices {
         inputControlChannel[index] = localControlChannel[index];
         int ret_init = imsCore[index]->initializeInput(inputMethodToken[index], displayId, inputControlChannel[index]);
         if (ret_init != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::StartInputMethod initializeInput return : %{public}s [%{public}d]\n", ErrorCode::ToString(ret_init), userId_);
+            IMSA_HILOGE("PerUserSession::StartInputMethod initializeInput return : %{public}s", ErrorCode::ToString(ret_init));
             localControlChannel[index] = nullptr;
             inputControlChannel[index] = nullptr;
             return ret_init;
@@ -425,11 +425,11 @@ namespace MiscServices {
     {
         IMSA_HILOGI("Start... index = %{public}d [%{public}d]\n", index, userId_);
         if (index >= MAX_IME || index < 0) {
-            IMSA_HILOGE("Aborted! %{public}s [%{public}d]\n", ErrorCode::ToString(ErrorCode::ERROR_BAD_PARAMETERS), userId_);
+            IMSA_HILOGE("Aborted! %{public}s", ErrorCode::ToString(ErrorCode::ERROR_BAD_PARAMETERS));
             return ErrorCode::ERROR_BAD_PARAMETERS;
         }
         if (imsCore[index] == nullptr || currentIme[index] == nullptr) {
-            IMSA_HILOGE("Aborted! %{public}s [%{public}d]\n", ErrorCode::ToString(ErrorCode::ERROR_IME_NOT_STARTED), userId_);
+            IMSA_HILOGE("Aborted! %{public}s", ErrorCode::ToString(ErrorCode::ERROR_IME_NOT_STARTED));
             return ErrorCode::ERROR_IME_NOT_STARTED;
         }
         if (currentIme[index] == currentIme[1-index] && imsCore[1-index] != nullptr) {
@@ -491,7 +491,7 @@ namespace MiscServices {
             IMSA_HILOGE("PerUserSession::ShowKeyboard Aborted! client is not ready");
             int result = clientInfo->client->onInputReady(1, nullptr, nullptr);
             if (result != ErrorCode::NO_ERROR) {
-                IMSA_HILOGE("PerUserSession::ShowKeyboard onInputReady return : %{public}s [%{public}d]\n", ErrorCode::ToString(ret), userId_);
+                IMSA_HILOGE("PerUserSession::ShowKeyboard onInputReady return : %{public}s", ErrorCode::ToString(ret));
             }
             return ErrorCode::ERROR_IME_START_FAILED;
         }
@@ -534,7 +534,7 @@ namespace MiscServices {
         IMSA_HILOGI("PerUserSession::HideKeyboard");
         int index = GetImeIndex(inputClient);
         if (index == -1) {
-            IMSA_HILOGE("PerUserSession::HideKeyboard Aborted! %{public}s [%{public}d]\n", ErrorCode::ToString(ErrorCode::ERROR_CLIENT_NOT_FOUND), userId_);
+            IMSA_HILOGE("PerUserSession::HideKeyboard Aborted! ErrorCode::ERROR_CLIENT_NOT_FOUND");
             return ErrorCode::ERROR_CLIENT_NOT_FOUND;
         }
         ClientInfo* clientInfo = GetClientInfo(inputClient);
@@ -549,7 +549,7 @@ namespace MiscServices {
 
         if (currentClient == nullptr) {
             clientInfo->client->onInputReady(1, nullptr, nullptr);
-            IMSA_HILOGE("PerUserSession::HideKeyboard Aborted! %{public}s [%{public}d]\n", ErrorCode::ToString(ErrorCode::ERROR_KBD_IS_NOT_SHOWING), userId_);
+            IMSA_HILOGE("PerUserSession::HideKeyboard Aborted! ErrorCode::ERROR_KBD_IS_NOT_SHOWING");
             return ErrorCode::ERROR_KBD_IS_NOT_SHOWING;
         }
         bool ret = imsCore[index]->hideKeyboard(1);
@@ -560,7 +560,7 @@ namespace MiscServices {
 
         int ret_client_stop = clientInfo->client->onInputReady(1, nullptr, nullptr);
         if (ret_client_stop != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::HideKeyboard onInputReady return : %{public}s [%{public}d]\n", ErrorCode::ToString(ret_client_stop), userId_);
+            IMSA_HILOGE("PerUserSession::HideKeyboard onInputReady return : %{public}s", ErrorCode::ToString(ret_client_stop));
         }
         currentClient = nullptr;
         imsAgent = nullptr;
@@ -593,7 +593,7 @@ namespace MiscServices {
         if (imsCore[lastImeIndex] != nullptr) {
             int ret = imsCore[lastImeIndex]->getKeyboardWindowHeight(retHeight);
             if (ret != ErrorCode::NO_ERROR) {
-                IMSA_HILOGE("getKeyboardWindowHeight return : %{public}s [%{public}d]\n", ErrorCode::ToString(ret), userId_);
+                IMSA_HILOGE("getKeyboardWindowHeight return : %{public}s", ErrorCode::ToString(ret));
             }
             return ret;
         }
@@ -727,7 +727,9 @@ namespace MiscServices {
         }
         std::u16string currentValue = inputMethodSetting->GetValue(key);
 
-        IMSA_HILOGD("%{public}s=%{public}s, currentValue = %{public}s\n", Utils::to_utf8(key).c_str(), Utils::to_utf8(value).c_str(), Utils::to_utf8(currentValue).c_str());
+        IMSA_HILOGD("PerUserSession::OnSettingChanged key = %{public}s", Utils::to_utf8(key).c_str());
+        IMSA_HILOGD("PerUserSession::OnSettingChanged value = %{public}s", Utils::to_utf8(value).c_str());
+        IMSA_HILOGD("PerUserSession::OnSettingChanged currentValue = %{public}s", Utils::to_utf8(currentValue).c_str());
 
         if (currentValue == value) {
             IMSA_HILOGI("End...[%{public}d]\n", userId_);
@@ -947,7 +949,7 @@ namespace MiscServices {
             if (clientInfo != nullptr) {
                 int ret = clientInfo->client->onInputReleased(0);
                 if (ret != ErrorCode::NO_ERROR) {
-                    IMSA_HILOGE("2-onInputReleased return : %{public}s [%{public}d]\n", ErrorCode::ToString(ret), userId_);
+                    IMSA_HILOGE("2-onInputReleased return : %{public}s", ErrorCode::ToString(ret));
                 }
                 delete clientInfo;
             }
@@ -962,14 +964,14 @@ namespace MiscServices {
         needReshowClient = nullptr;
     }
 
-    /*! Print the session information of this user into the given stream
-    \n The information includes:
-    \li the information of all the input clients connected to the input method management system.
-    \li current input method engine information
-    \li security input method engine information
-    \li current session information
-    \param fd the raw file descriptor that the dump is being sent to
-    */
+    /* Print the session information of this user into the given stream
+     * The information includes:
+     * the information of all the input clients connected to the input method management system.
+     * current input method engine information
+     * security input method engine information
+     * current session information
+     * param fd the raw file descriptor that the dump is being sent to
+     */
     void PerUserSession::Dump(int fd)
     {
         std::map<sptr<IRemoteObject>, ClientInfo*>::const_iterator it;
@@ -1163,8 +1165,7 @@ namespace MiscServices {
                 }
             }
             if (flag == false) {
-                IMSA_HILOGW("The current keyboard type [hashCode=%{public}d] is not found in the current IME. Reset it! [%{public}d]\n",
-                    hashCode, userId_);
+                IMSA_HILOGW("The current keyboard type is not found in the current IME. Reset it!");
                 type = GetKeyboardType(imeIndex, currentKbdIndex[imeIndex]);
             } else if (imsCore[imeIndex] == imsCore[1-imeIndex]) {
                 currentKbdIndex[1-imeIndex] = currentKbdIndex[imeIndex];
@@ -1314,7 +1315,7 @@ namespace MiscServices {
 
         int ret = AddClient(pid, uid, displayId, client, channel, *attribute);
         if (ret != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::OnPrepareInput Aborted! %{public}s [%{public}d]\n", ErrorCode::ToString(ret), userId_);
+            IMSA_HILOGE("PerUserSession::OnPrepareInput Aborted! %{public}s", ErrorCode::ToString(ret));
             return;
         }
         SetDisplayId(displayId);
@@ -1363,7 +1364,7 @@ namespace MiscServices {
         sptr<InputClientProxy> client = new InputClientProxy(clientObject);
         int ret = ShowKeyboard(client);
         if (ret != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::OnStartInput Aborted! %{public}s [%{public}d]\n", ErrorCode::ToString(ret), userId_);
+            IMSA_HILOGE("PerUserSession::OnStartInput Aborted! %{public}s", ErrorCode::ToString(ret));
         } else {
             IMSA_HILOGI("PerUserSession::OnStartInput End...[%{public}d]\n", userId_);
         }
@@ -1379,17 +1380,17 @@ namespace MiscServices {
         int index = currentIndex;
         IMSA_HILOGI("PerUserSession::onSetInputMethodCore index = [%{public}d]\n", index);
         if (index >= MAX_IME || index < 0) {
-            IMSA_HILOGE("PerUserSession::onSetInputMethodCore Aborted! %{public}s [%{public}d]\n", ErrorCode::ToString(ErrorCode::ERROR_BAD_PARAMETERS), userId_);
+            IMSA_HILOGE("PerUserSession::onSetInputMethodCore Aborted! ErrorCode::ERROR_BAD_PARAMETERS");
             return;
         }
         if (imsCore[index] != nullptr) {
-            IMSA_HILOGI("PerUserSession::onSetInputMethodCore End... Input Method Service has already been started ! [%{public}d]\n", userId_);
+            IMSA_HILOGI("PerUserSession::onSetInputMethodCore End... Input Method Service has already been started ! ");
             return;
         }
         imsCore[index]=core;
         int ret = StartInputMethod(index);
         if (ret != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::onSetInputMethodCore Aborted! %{public}s [%{public}d]\n", ErrorCode::ToString(ret), userId_);
+            IMSA_HILOGE("PerUserSession::onSetInputMethodCore Aborted! %{public}s", ErrorCode::ToString(ret));
         } else {
             IMSA_HILOGI("PerUserSession::onSetInputMethodCore End...[%{public}d]\n", userId_);
         }
@@ -1409,7 +1410,7 @@ namespace MiscServices {
         sptr<InputClientProxy> client = new InputClientProxy(clientObject);
         int ret = HideKeyboard(client);
         if (ret != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::OnStopInput Aborted! %{public}s [%{public}d]\n", ErrorCode::ToString(ret), userId_);
+            IMSA_HILOGE("PerUserSession::OnStopInput Aborted! %{public}s", ErrorCode::ToString(ret));
         } else {
             IMSA_HILOGI("PerUserSession::OnStopInput End...[%{public}d]\n", userId_);
         }
