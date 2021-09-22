@@ -66,7 +66,6 @@ namespace MiscServices {
         sptr<InputMethodSystemAbilityProxy> mImms;
         sptr<InputMethodSystemAbilityProxy> GetImsaProxy();
 
-
         void Initialize();
         void WorkThread();
         void CreateInputMethodAgent(bool supportPhysicalKbd);

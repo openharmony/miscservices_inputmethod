@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FOUNDATION_ACE_NAPI_TEST_NATIVE_MODULE_NETSERVER_EVENT_TARGET_H
-#define FOUNDATION_ACE_NAPI_TEST_NATIVE_MODULE_NETSERVER_EVENT_TARGET_H
+#ifndef INPUT_METHOD_NAPI_EVENT_TARGET_H
+#define INPUT_METHOD_NAPI_EVENT_TARGET_H
 
 #include "napi/native_api.h"
 #include "global.h"
@@ -23,7 +23,6 @@
 namespace OHOS {
 namespace MiscServices {
 struct EventListener;
-
 class Event {
 public:
     virtual napi_value ToJsObject() = 0;
@@ -48,4 +47,4 @@ protected:
 };
 }
 }
-#endif /* FOUNDATION_ACE_NAPI_TEST_NATIVE_MODULE_NETSERVER_EVENT_TARGET_H */
+#endif // INPUT_METHOD_NAPI_EVENT_TARGET_H

@@ -42,9 +42,7 @@ namespace OHOS {
                 (void)status;
                 return NO_ERROR;
             }
-
         };
-
     }
 }
 

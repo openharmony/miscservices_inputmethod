@@ -26,13 +26,11 @@ namespace MiscServices {
     class InputMethodSetting : public Parcelable {
     public:
 
-        const static std::u16string CURRENT_INPUT_METHOD_TAG; //!< the item name of 'default IME' in the system setting
-        const static std::u16string ENABLED_INPUT_METHODS_TAG; //!< the item name of 'enabled IME list' in the system setting
-        const static std::u16string CURRENT_KEYBOARD_TYPE_TAG; //!< the item name of 'default keyboard type' in the system setting
-        const static std::u16string CURRENT_SYS_KEYBOARD_TYPE_TAG;
-        //!< the item name of 'default keyboard type for security IME in the system setting
-
-        const static std::u16string SYSTEM_LOCALE_TAG;  //!< the item name of locale list supported in the system
+        const static std::u16string CURRENT_INPUT_METHOD_TAG; // default IME
+        const static std::u16string ENABLED_INPUT_METHODS_TAG; // enabled IME list
+        const static std::u16string CURRENT_KEYBOARD_TYPE_TAG; // default keyboard type
+        const static std::u16string CURRENT_SYS_KEYBOARD_TYPE_TAG; // default keyboard type for security IME
+        const static std::u16string SYSTEM_LOCALE_TAG;  // locale list supported in the system
 
 
         InputMethodSetting();

@@ -52,7 +52,7 @@ namespace MiscServices {
         virtual bool showKeyboard(int32_t flags) override;
         virtual bool hideKeyboard(int32_t flags)override;
         virtual int32_t setKeyboardType(const KeyboardType& type) override;
-        virtual int32_t getKeyboardWindowHeight(int32_t * retHeight) override;
+        virtual int32_t getKeyboardWindowHeight(int32_t *retHeight) override;
         void SetMessageHandler(MessageHandler* msgHandler);
 
     private:

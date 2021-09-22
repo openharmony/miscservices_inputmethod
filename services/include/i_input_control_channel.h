@@ -43,5 +43,4 @@ namespace OHOS {
         };
     }
 }
-
 #endif // FM_IMMS_PROJECT_IINPUTCONTROLCHANNEL_H

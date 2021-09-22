@@ -191,7 +191,7 @@ napi_value InputMethodAbilityInit(napi_env env, napi_value exports)
         DECLARE_NAPI_FUNCTION("off", JS_Off),
     };
     napi_define_class(env, className, sizeof(className),JS_Constructor, nullptr,
-            sizeof(desc) / sizeof(desc[0]), desc, &constructor);
+                      sizeof(desc) / sizeof(desc[0]), desc, &constructor);
     napi_set_named_property(env, exports, "InputMethodAbility", constructor);
     return exports;
 }

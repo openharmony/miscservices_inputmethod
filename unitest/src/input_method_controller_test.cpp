@@ -30,7 +30,6 @@
 #include "iservice_registry.h"
 #include "system_ability_definition.h"
 
-
 using namespace testing::ext;
 using namespace OHOS;
 using namespace OHOS::MiscServices;
@@ -51,8 +50,7 @@ public:
         IMSA_HILOGI("IMC TEST TextListener SetKeyboardStatus %{public}d", status);
     }
 };
-class InputMethodControllerTest : public testing::Test
-{
+class InputMethodControllerTest : public testing::Test {
 public:
     static void SetUpTestCase(void);
     static void TearDownTestCase(void);
@@ -60,23 +58,19 @@ public:
     void TearDown();
 };
 
-void InputMethodControllerTest::SetUpTestCase(void)
-{
+void InputMethodControllerTest::SetUpTestCase(void) {
     IMSA_HILOGI("InputMethodControllerTest::SetUpTestCase");
 }
 
-void InputMethodControllerTest::TearDownTestCase(void)
-{
+void InputMethodControllerTest::TearDownTestCase(void) {
     IMSA_HILOGI("InputMethodControllerTest::TearDownTestCase");
 }
 
-void InputMethodControllerTest::SetUp(void)
-{
+void InputMethodControllerTest::SetUp(void) {
     IMSA_HILOGI("InputMethodControllerTest::SetUp");
 }
 
-void InputMethodControllerTest::TearDown(void)
-{
+void InputMethodControllerTest::TearDown(void) {
     IMSA_HILOGI("InputMethodControllerTest::TearDown");
 }
 
@@ -85,8 +79,7 @@ void InputMethodControllerTest::TearDown(void)
 * @tc.desc: Bind IMSA.
 * @tc.type: FUNC
 */
-HWTEST_F(InputMethodControllerTest, Imc001, TestSize.Level0)
-{
+HWTEST_F(InputMethodControllerTest, Imc001, TestSize.Level0) {
     IMSA_HILOGI("IMC TEST START");
     sptr<InputMethodController> imc = InputMethodController::GetInstance();
     ASSERT_TRUE(imc!=nullptr);

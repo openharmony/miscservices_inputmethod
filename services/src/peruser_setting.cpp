@@ -13,7 +13,6 @@
  * limitations under the License.
  */
  
- 
 #include "unistd.h"   //usleep
 #include "peruser_setting.h"
 #include "platform.h"
@@ -23,8 +22,7 @@ namespace MiscServices {
     /*! Constructor
     \param userId the id number of this user
     */
-    PerUserSetting::PerUserSetting(int userId)
-    {
+    PerUserSetting::PerUserSetting(int userId) {
         userId_ = userId;
         currentImeId = Utils::to_utf16("");
         userState = UserState::USER_STATE_STARTED;
@@ -39,13 +37,12 @@ namespace MiscServices {
         }
     }
 
-    /*! Initialize data for this user.
-    \n It's called when this user is unlocked. The work includes:
-    \li read all installed input method engine information from the system
-    \li read input method setting data from the system
-    */
-    void PerUserSetting::Initialize()
-    {
+    /* Initialize data for this user.
+     * It's called when this user is unlocked. The work includes:
+     * read all installed input method engine information from the system
+     * read input method setting data from the system
+     */
+    void PerUserSetting::Initialize() {
         userState = UserState::USER_STATE_UNLOCKED;
 
         inputMethodProperties.clear();
@@ -76,8 +73,7 @@ namespace MiscServices {
     \return ErrorCode::ERROR_NOT_IME_PACKAGE The installed package is not an IME package.
     \return ErrorCode::ERROR_IME_PACKAGE_DUPLICATED The installed package is duplicated.
     */
-    int PerUserSetting::OnPackageAdded(std::u16string& packageName, bool* isSecurityIme)
-    {
+    int PerUserSetting::OnPackageAdded(std::u16string& packageName, bool* isSecurityIme) {
         if (isSecurityIme) {
             *isSecurityIme = false;
         }
@@ -123,8 +119,7 @@ namespace MiscServices {
     \return ErrorCode::NO_ERROR The removed package is an IME package, and is removed from the input method management system
     \return ErrorCode::ERROR_NOT_IME_PACKAGE The removed package is not an IME package.
     */
-    int PerUserSetting::OnPackageRemoved(std::u16string& packageName, bool* isSecurityIme)
-    {
+    int PerUserSetting::OnPackageRemoved(std::u16string& packageName, bool* isSecurityIme) {
         if (isSecurityIme) {
             *isSecurityIme = false;
         }
@@ -175,8 +170,7 @@ namespace MiscServices {
     \return ErrorCode::NO_ERROR update the setting data to input method management system.
     \return ErrorCode::ERROR_SETTING_SAME_VALUE the current value is same as the one in the system.
     */
-    int PerUserSetting::OnSettingChanged(const std::u16string& key, const std::u16string& value)
-    {
+    int PerUserSetting::OnSettingChanged(const std::u16string& key, const std::u16string& value) {
         std::u16string currentValue = inputMethodSetting.GetValue(key);
 
         if (currentValue == value) {
@@ -203,8 +197,7 @@ namespace MiscServices {
 
     /*! Switch to the next input method service.
     */
-    void PerUserSetting::OnAdvanceToNext()
-    {
+    void PerUserSetting::OnAdvanceToNext() {
         bool flag = false;
         std::u16string enabledInputMethods = inputMethodSetting.GetValue(InputMethodSetting::ENABLED_INPUT_METHODS_TAG);
         std::u16string imeId;
@@ -240,13 +233,12 @@ namespace MiscServices {
         Platform::Instance()->SetInputMethodSetting(userId_, tmpSetting);
     }
 
-    /*! It's Called when this user is locked.
-    \n Release data for this user including:
-    \li release input method engine information
-    \li release input method setting data
-    */
-    void PerUserSetting::OnUserLocked()
-    {
+    /* It's Called when this user is locked.
+     * Release data for this user including:
+     * release input method engine information
+     * release input method setting data
+     */
+    void PerUserSetting::OnUserLocked() {
         if (userState == UserState::USER_STATE_STARTED) {
             return;
         }
@@ -267,15 +259,14 @@ namespace MiscServices {
         inputMethodSetting.ClearData();
     }
 
-    /*! Print the related information for this user into the given stream
-    \n The information includes:
-    \li The user id and user state
-    \li The information of all input method engine installed in the system
-    \li The input method setting data of this user.
-    \param fd the raw file descriptor that the dump is being sent to
-    */
-    void PerUserSetting::Dump(int fd)
-    {
+    /* Print the related information for this user into the given stream
+     * The information includes:
+     * The user id and user state
+     * The information of all input method engine installed in the system
+     * The input method setting data of this user.
+     * param fd the raw file descriptor that the dump is being sent to
+     */
+    void PerUserSetting::Dump(int fd) {
         int size = inputMethodProperties.size();
         dprintf(fd, "\n - User Setting State :\n");
         dprintf(fd, " * Installed IME count = %d\n", size);
@@ -302,8 +293,7 @@ namespace MiscServices {
     \return UserState::USER_STATE_STARTED user is started
     \return UserState::USER_STATE_UNLOCKED user is unlocked
     */
-    int PerUserSetting::GetUserState()
-    {
+    int PerUserSetting::GetUserState() {
         return userState;
     }
 
@@ -312,8 +302,7 @@ namespace MiscServices {
     \return null when there is no enabled IME in the system.
     \note The returned pointer should NOT be freed by caller
     */
-    InputMethodProperty* PerUserSetting::GetCurrentInputMethod()
-    {
+    InputMethodProperty* PerUserSetting::GetCurrentInputMethod() {
         for(int i=0; i<(int)inputMethodProperties.size(); i++) {
             if (currentImeId == inputMethodProperties[i]->mImeId) {
                 return inputMethodProperties[i];
@@ -328,8 +317,7 @@ namespace MiscServices {
     \return null when there is no security IME in the system.
     \note The returned pointer should NOT be freed by caller
     */
-    InputMethodProperty* PerUserSetting::GetSecurityInputMethod()
-    {
+    InputMethodProperty* PerUserSetting::GetSecurityInputMethod() {
         InputMethodProperty* ime = nullptr;
         std::u16string systemLocales = inputMethodSetting.GetValue(InputMethodSetting::SYSTEM_LOCALE_TAG);
         for(int i=0; i<(int)inputMethodProperties.size(); i++) {
@@ -359,8 +347,7 @@ namespace MiscServices {
     \return null when the next enabled IME is not available.
     \note The returned pointer should NOT be freed by caller
     */
-    InputMethodProperty* PerUserSetting::GetNextInputMethod()
-    {
+    InputMethodProperty* PerUserSetting::GetNextInputMethod() {
         bool flag = false;
         std::u16string enabledInputMethods = inputMethodSetting.GetValue(InputMethodSetting::ENABLED_INPUT_METHODS_TAG);
         std::u16string imeId;
@@ -384,8 +371,7 @@ namespace MiscServices {
     \return a pointer of InputMethodSetting.
     \note The returned pointer should NOT be freed by caller
     */
-    InputMethodSetting* PerUserSetting::GetInputMethodSetting()
-    {
+    InputMethodSetting* PerUserSetting::GetInputMethodSetting() {
         return &inputMethodSetting;
     }
 
@@ -393,8 +379,7 @@ namespace MiscServices {
     \param[out] properties the details will be written to the param properties
     \return ErrorCode::NO_ERROR
     */
-    int32_t PerUserSetting::ListInputMethodEnabled(std::vector<InputMethodProperty*> *properties)
-    {
+    int32_t PerUserSetting::ListInputMethodEnabled(std::vector<InputMethodProperty*> *properties) {
         std::u16string enabledInputMethods = inputMethodSetting.GetValue(InputMethodSetting::ENABLED_INPUT_METHODS_TAG);
         for(int i=0; i<(int)inputMethodProperties.size(); i++) {
 
@@ -409,8 +394,7 @@ namespace MiscServices {
     \param[out] properties the details will be written to the param properties
     \return ErrorCode::NO_ERROR
     */
-    int32_t PerUserSetting::ListInputMethod(std::vector<InputMethodProperty*> *properties)
-    {
+    int32_t PerUserSetting::ListInputMethod(std::vector<InputMethodProperty*> *properties) {
         for(int i=0; i<(int)inputMethodProperties.size(); i++) {
             properties->push_back(inputMethodProperties[i]);
         }
@@ -422,8 +406,7 @@ namespace MiscServices {
     \param[out] types the data of type list of the given IME will be written to types
     \return ErrorCode::NO_ERROR
     */
-    int32_t PerUserSetting::ListKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types)
-    {
+    int32_t PerUserSetting::ListKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) {
         for(int i=0; i<(int)inputMethodProperties.size(); i++) {
             if (imeId == inputMethodProperties[i]->mImeId) {
                 for(int j=0; j<(int)inputMethodProperties[i]->mTypes.size(); j++) {
@@ -441,8 +424,7 @@ namespace MiscServices {
     \return null when the given IME is not available
     \note the returned pointer should not be freed by the caller.
     */
-    InputMethodProperty* PerUserSetting::GetInputMethodProperty(const std::u16string& imeId)
-    {
+    InputMethodProperty* PerUserSetting::GetInputMethodProperty(const std::u16string& imeId) {
         for(int i=0; i<(int)inputMethodProperties.size(); i++) {
             if (inputMethodProperties[i]->mImeId == imeId) {
                 return inputMethodProperties[i];
@@ -457,8 +439,7 @@ namespace MiscServices {
     \return language value when the given hashCode is found
     \return an empty string when the given hashCode is not found
     */
-    std::u16string PerUserSetting::GetKeyboardTypeLanguage(const InputMethodProperty* property, int hashCode)
-    {
+    std::u16string PerUserSetting::GetKeyboardTypeLanguage(const InputMethodProperty* property, int hashCode) {
         for(int i=0; i<(int)property->mTypes.size(); i++) {
             if (property->mTypes[i]->getHashCode() == hashCode) {
                 return property->mTypes[i]->getLanguage();
@@ -469,8 +450,7 @@ namespace MiscServices {
 
     /*! Init input method setting data
     */
-    void PerUserSetting::InitInputMethodSetting()
-    {
+    void PerUserSetting::InitInputMethodSetting() {
         bool flag = inputMethodSetting.FindKey(InputMethodSetting::ENABLED_INPUT_METHODS_TAG);
         if (flag == false) {
             for(int i=0; i<(int)inputMethodProperties.size(); i++) {
@@ -506,8 +486,7 @@ namespace MiscServices {
     \li If no system ime is there, we use the first enabled ime as current ime.
     \li If no enabled ime, set current ime as null.
     */
-    void PerUserSetting::ResetCurrentInputMethod()
-    {
+    void PerUserSetting::ResetCurrentInputMethod() {
         std::u16string systemLocales = inputMethodSetting.GetValue(InputMethodSetting::SYSTEM_LOCALE_TAG);
         std::u16string enabledInputMethods = inputMethodSetting.GetValue(InputMethodSetting::ENABLED_INPUT_METHODS_TAG);
         std::u16string imeId;
@@ -554,8 +533,7 @@ namespace MiscServices {
     \param packageName the packageName of the given IME
     \return the id of the given IME
     */
-    std::u16string PerUserSetting::GetImeId(const std::u16string& packageName)
-    {
+    std::u16string PerUserSetting::GetImeId(const std::u16string& packageName) {
         for(int i=0; i<(int)inputMethodProperties.size(); i++) {
             if (inputMethodProperties[i]->mPackageName == packageName) {
                 return inputMethodProperties[i]->mImeId;
@@ -569,8 +547,7 @@ namespace MiscServices {
     \return true - It's a security Ime
     \n      false - It's not a security Ime
     */
-    bool PerUserSetting::CheckIfSecurityIme(const InputMethodProperty& property)
-    {
+    bool PerUserSetting::CheckIfSecurityIme(const InputMethodProperty& property) {
         return property.isSystemIme;
     }
 }

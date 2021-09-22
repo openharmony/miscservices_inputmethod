@@ -53,7 +53,7 @@ namespace OHOS {
         std::condition_variable cv;
         bool agentReadyFlag = false;
         bool keyboardReadyFlag = false;
-  };
+    };
 }
 }
 #endif // FM_IMMS_PROJECT_INPUTCONTROLCHANNEL_SK_H
