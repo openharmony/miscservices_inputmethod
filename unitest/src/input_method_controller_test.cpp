@@ -38,15 +38,18 @@ class TextListener : public OnTextChangedListener {
 public:
     TextListener() {}
     ~TextListener() {}
-    void InsertText(const std::u16string& text) {
+    void InsertText(const std::u16string& text)
+    {
         IMSA_HILOGI("IMC TEST TextListener InsertText: %{public}s", MiscServices::Utils::to_utf8(text).c_str());
     }
 
-    void DeleteBackward(int32_t length){
+    void DeleteBackward(int32_t length)
+    {
         IMSA_HILOGI("IMC TEST TextListener DeleteBackward length: %{public}d", length);
     }
 
-    void SetKeyboardStatus(bool status) {
+    void SetKeyboardStatus(bool status)
+    {
         IMSA_HILOGI("IMC TEST TextListener SetKeyboardStatus %{public}d", status);
     }
 };
@@ -58,19 +61,23 @@ public:
     void TearDown();
 };
 
-void InputMethodControllerTest::SetUpTestCase(void) {
+void InputMethodControllerTest::SetUpTestCase(void)
+{
     IMSA_HILOGI("InputMethodControllerTest::SetUpTestCase");
 }
 
-void InputMethodControllerTest::TearDownTestCase(void) {
+void InputMethodControllerTest::TearDownTestCase(void)
+{
     IMSA_HILOGI("InputMethodControllerTest::TearDownTestCase");
 }
 
-void InputMethodControllerTest::SetUp(void) {
+void InputMethodControllerTest::SetUp(void)
+{
     IMSA_HILOGI("InputMethodControllerTest::SetUp");
 }
 
-void InputMethodControllerTest::TearDown(void) {
+void InputMethodControllerTest::TearDown(void)
+{
     IMSA_HILOGI("InputMethodControllerTest::TearDown");
 }
 
@@ -79,7 +86,8 @@ void InputMethodControllerTest::TearDown(void) {
 * @tc.desc: Bind IMSA.
 * @tc.type: FUNC
 */
-HWTEST_F(InputMethodControllerTest, Imc001, TestSize.Level0) {
+HWTEST_F(InputMethodControllerTest, Imc001, TestSize.Level0)
+{
     IMSA_HILOGI("IMC TEST START");
     sptr<InputMethodController> imc = InputMethodController::GetInstance();
     ASSERT_TRUE(imc!=nullptr);

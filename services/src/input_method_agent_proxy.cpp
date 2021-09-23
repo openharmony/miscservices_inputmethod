@@ -24,25 +24,25 @@
   This class should be implemented by input client
 */
 namespace OHOS {
-    namespace MiscServices {
-        class InputMethodAgentProxy : public IRemoteProxy<IInputMethodAgent> {
-        public:
-            InputMethodAgentProxy(const sptr<IRemoteObject>& impl)
-                : IRemoteProxy<IInputMethodAgent>(impl)
-            {
-            }
+namespace MiscServices {
+    class InputMethodAgentProxy : public IRemoteProxy<IInputMethodAgent> {
+    public:
+        InputMethodAgentProxy(const sptr<IRemoteObject>& impl)
+            : IRemoteProxy<IInputMethodAgent>(impl)
+        {
+        }
 
-            ~InputMethodAgentProxy()
-            {
-            }
+        ~InputMethodAgentProxy()
+    {
+        }
 
-            int32_t dispatchKey(int key, int status)
-            {
-                (void)key;
-                (void)status;
-                return NO_ERROR;
-            }
-        };
-    }
+        int32_t dispatchKey(int key, int status)
+        {
+            (void)key;
+            (void)status;
+            return NO_ERROR;
+        }
+    };
+}
 }
 

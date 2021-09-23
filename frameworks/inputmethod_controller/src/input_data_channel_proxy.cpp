@@ -20,7 +20,8 @@
 namespace OHOS {
 namespace MiscServices {
     InputDataChannelProxy::InputDataChannelProxy(const sptr<IRemoteObject> &object)
-        : IRemoteProxy<IInputDataChannel>(object) {
+        : IRemoteProxy<IInputDataChannel>(object)
+    {
     }
 
     bool InputDataChannelProxy::InsertText(const std::u16string& text)

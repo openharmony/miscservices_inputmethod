@@ -32,14 +32,15 @@
 namespace OHOS {
 namespace MiscServices {
     InputControlChannelProxy::InputControlChannelProxy(const sptr<IRemoteObject> &impl)
-        : IRemoteProxy<IInputControlChannel>(impl) {
+        : IRemoteProxy<IInputControlChannel>(impl)
+    {
     }
 
     InputControlChannelProxy::~InputControlChannelProxy()
     {
     }
 
-    void InputControlChannelProxy::onAgentCreated(sptr<IInputMethodAgent> &agent, InputChannel* channel)
+    void InputControlChannelProxy::onAgentCreated(sptr<IInputMethodAgent> &agent, InputChannel *channel)
     {
         IMSA_HILOGI("InputControlChannelProxy::onAgentCreated start.");
         MessageParcel data, reply;
@@ -101,5 +102,3 @@ namespace MiscServices {
     }
 }
 }
-
-

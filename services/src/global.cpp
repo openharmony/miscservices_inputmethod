@@ -29,7 +29,7 @@ namespace MiscServices {
     }
 
     namespace ErrorCode {
-        const char* ToString(int errorCode)
+        const char *ToString(int errorCode)
         {
             switch (errorCode) {
                 case NO_ERROR: {

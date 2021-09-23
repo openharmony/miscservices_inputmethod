@@ -33,9 +33,9 @@ namespace MiscServices {
                                         MessageParcel &reply,
                                         MessageOption &option) override;
         virtual int32_t DispatchKey(int32_t key, int32_t status) override;
-        void SetMessageHandler(MessageHandler* msgHandler);
+        void SetMessageHandler(MessageHandler *msgHandler);
     private:
-        MessageHandler* msgHandler_;
+        MessageHandler *msgHandler_;
     };
 }
 }

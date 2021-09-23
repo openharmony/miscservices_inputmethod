@@ -33,14 +33,14 @@ namespace MiscServices {
 
         void Initialize();
         int32_t GetUserState();
-        InputMethodProperty* GetCurrentInputMethod();
-        InputMethodProperty* GetSecurityInputMethod();
-        InputMethodProperty* GetNextInputMethod();
-        InputMethodSetting* GetInputMethodSetting();
-        InputMethodProperty* GetInputMethodProperty(const std::u16string& imeId);
+        InputMethodProperty *GetCurrentInputMethod();
+        InputMethodProperty *GetSecurityInputMethod();
+        InputMethodProperty *GetNextInputMethod();
+        InputMethodSetting *GetInputMethodSetting();
+        InputMethodProperty *GetInputMethodProperty(const std::u16string& imeId);
 
-        int32_t OnPackageAdded(std::u16string& packageName, bool* isSecurityIme = nullptr);
-        int32_t OnPackageRemoved(std::u16string& packageName, bool* isSecurityIme = nullptr);
+        int32_t OnPackageAdded(std::u16string& packageName, bool isSecurityIme);
+        int32_t OnPackageRemoved(std::u16string& packageName, bool isSecurityIme);
         int32_t OnSettingChanged(const std::u16string& key, const std::u16string& value);
         void OnAdvanceToNext();
         void OnUserLocked();
@@ -65,7 +65,7 @@ namespace MiscServices {
         PerUserSetting& operator= (const PerUserSetting&&);
         void InitInputMethodSetting();
         void ResetCurrentInputMethod();
-        std::u16string GetKeyboardTypeLanguage(const InputMethodProperty* property, int32_t hashCode);
+        std::u16string GetKeyboardTypeLanguage(const InputMethodProperty *property, int32_t hashCode);
         std::u16string GetImeId(const std::u16string& packageName);
     };
 }

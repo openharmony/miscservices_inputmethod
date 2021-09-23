@@ -32,13 +32,16 @@ namespace MiscServices {
     class PlatformApiProxy : public IRemoteProxy < IPlatformApi > {
     public:
         PlatformApiProxy(const sptr<IRemoteObject>& impl)
-        : IRemoteProxy < IPlatformApi >(impl) {
+        : IRemoteProxy < IPlatformApi >(impl)
+        {
         }
 
-        ~PlatformApiProxy() {
+        ~PlatformApiProxy()
+        {
         }
 
-        int32_t registerCallback(const sptr < IPlatformCallback >& cb) {
+        int32_t registerCallback(const sptr < IPlatformCallback >& cb)
+        {
             MessageParcel data, reply;
             MessageOption option;
             data.WriteInterfaceToken(GetDescriptor());
@@ -54,12 +57,14 @@ namespace MiscServices {
             return ErrorCode::NO_ERROR;
         }
 
-        std::u16string getInterfaceDescriptor() {
+        std::u16string getInterfaceDescriptor()
+        {
             return Utils::to_utf16("20210814");
         }
 
         sptr < IInputMethodCore > bindInputMethodService(const std::u16string& packageName,
-            const std::u16string& intention, int userId) {
+            const std::u16string& intention, int userId)
+        {
             MessageParcel data, reply;
             MessageOption option;
             data.WriteInterfaceToken(GetDescriptor());
@@ -81,7 +86,8 @@ namespace MiscServices {
             return ims;
         }
 
-        int32_t unbindInputMethodService(int userId, const std::u16string& packageName) {
+        int32_t unbindInputMethodService(int userId, const std::u16string& packageName)
+        {
             MessageParcel data, reply;
             MessageOption option;
             data.WriteInterfaceToken(GetDescriptor());
@@ -98,7 +104,8 @@ namespace MiscServices {
             return ErrorCode::NO_ERROR;
         }
 
-        sptr < IRemoteObject > createWindowToken(int userId, int displayId, const std::u16string& packageName) {
+        sptr < IRemoteObject > createWindowToken(int userId, int displayId, const std::u16string& packageName)
+        {
             MessageParcel data, reply;
             MessageOption option;
             data.WriteInterfaceToken(GetDescriptor());
@@ -118,7 +125,8 @@ namespace MiscServices {
             return token;
         }
 
-        int32_t destroyWindowToken(int userId, const std::u16string& packageName) {
+        int32_t destroyWindowToken(int userId, const std::u16string& packageName)
+        {
             MessageParcel data, reply;
             MessageOption option;
             data.WriteInterfaceToken(GetDescriptor());
@@ -136,7 +144,8 @@ namespace MiscServices {
             return ErrorCode::NO_ERROR;
         }
 
-        int32_t listInputMethod(int userId, std::vector < InputMethodProperty* >* inputMethodProperties) {
+        int32_t listInputMethod(int userId, std::vector<InputMethodProperty*> *inputMethodProperties)
+        {
             MessageParcel data, reply;
             MessageOption option;
             data.WriteInterfaceToken(GetDescriptor());
@@ -152,7 +161,7 @@ namespace MiscServices {
             }
             int size = reply.ReadInt32();
             for (int i = 0; i < size; i++) {
-                InputMethodProperty* property = new InputMethodProperty();
+                InputMethodProperty *property = new InputMethodProperty();
                 property = reply.ReadParcelable<InputMethodProperty>();
                 inputMethodProperties->push_back(property);
             }
@@ -161,7 +170,8 @@ namespace MiscServices {
 
 
         virtual int32_t getInputMethodProperty(int userId, const std::u16string& packageName,
-            InputMethodProperty* inputMethodProperty) {
+            InputMethodProperty *inputMethodProperty)
+        {
             MessageParcel data, reply;
             MessageOption option;
             data.WriteInterfaceToken(GetDescriptor());
@@ -180,7 +190,8 @@ namespace MiscServices {
             return status;
         }
 
-        int32_t getInputMethodSetting(int userId, InputMethodSetting* inputMethodSetting) {
+        int32_t getInputMethodSetting(int userId, InputMethodSetting *inputMethodSetting)
+        {
             MessageParcel data, reply;
             MessageOption option;
             data.WriteInterfaceToken(GetDescriptor());
@@ -198,7 +209,8 @@ namespace MiscServices {
             return status;
         }
 
-        int32_t setInputMethodSetting(int userId, const InputMethodSetting& inputMethodSetting) {
+        int32_t setInputMethodSetting(int userId, const InputMethodSetting& inputMethodSetting)
+        {
             MessageParcel data, reply;
             MessageOption option;
             data.WriteInterfaceToken(GetDescriptor());

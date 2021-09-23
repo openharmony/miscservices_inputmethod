@@ -88,7 +88,7 @@ namespace MiscServices {
       \return ErrorCode::NO_ERROR
       \return ErrorCode::ERROR_NULL_POINTER parcel is null
     */
-    KeyboardType* KeyboardType::Unmarshalling(Parcel &parcel)
+    KeyboardType *KeyboardType::Unmarshalling(Parcel &parcel)
     {
         auto info = new KeyboardType();
         info->mId = parcel.ReadInt32();

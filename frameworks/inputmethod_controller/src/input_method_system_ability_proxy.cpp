@@ -21,7 +21,6 @@ namespace MiscServices {
     InputMethodSystemAbilityProxy::InputMethodSystemAbilityProxy(const sptr<IRemoteObject> &object)
         : IRemoteProxy<IInputMethodSystemAbility>(object)
     {
-
     }
 
     void InputMethodSystemAbilityProxy::prepareInput(MessageParcel& data)
@@ -98,27 +97,29 @@ namespace MiscServices {
         }
     }
 
-        int32_t InputMethodSystemAbilityProxy::setInputMethodCore(sptr<IInputMethodCore> &core)
-        {
-            IMSA_HILOGI("InputMethodSystemAbilityProxy::setInputMethodCore");
+    int32_t InputMethodSystemAbilityProxy::setInputMethodCore(sptr<IInputMethodCore> &core)
+    {
+        IMSA_HILOGI("InputMethodSystemAbilityProxy::setInputMethodCore");
 
-            if (core == nullptr) {
-                IMSA_HILOGI("InputMethodSystemAbilityProxy::setInputMethodCore inputDataChannel is nullptr");
-            }
-            auto remote = Remote();
-            if (remote == nullptr)
-                return -1;
-            MessageParcel data;
-            if (!(data.WriteInterfaceToken(GetDescriptor())
-            && data.WriteRemoteObject(core->AsObject())))
-                return -1;
-            MessageParcel reply;
-            MessageOption option { MessageOption::TF_SYNC };
-
-            int32_t status = Remote()->SendRequest(SET_INPUT_METHOD_CORE, data, reply, option);
-
-            return status;
+        if (core == nullptr) {
+            IMSA_HILOGI("InputMethodSystemAbilityProxy::setInputMethodCore inputDataChannel is nullptr");
         }
+        auto remote = Remote();
+        if (remote == nullptr) {
+            return -1;
+        }
+        MessageParcel data;
+        if (!(data.WriteInterfaceToken(GetDescriptor())
+        && data.WriteRemoteObject(core->AsObject()))) {
+            return -1;
+        }
+        MessageParcel reply;
+        MessageOption option { MessageOption::TF_SYNC };
+
+        int32_t status = Remote()->SendRequest(SET_INPUT_METHOD_CORE, data, reply, option);
+
+        return status;
+    }
 
     int32_t InputMethodSystemAbilityProxy::Prepare(int32_t displayId, sptr<InputClientStub> &client,
                                                    sptr<InputDataChannelStub> &channel, InputAttribute &attribute)
@@ -250,12 +251,8 @@ namespace MiscServices {
         return NO_ERROR;
     }
 
-    int32_t InputMethodSystemAbilityProxy::getKeyboardWindowHeight(int32_t *retHeight)
+    int32_t InputMethodSystemAbilityProxy::getKeyboardWindowHeight(int32_t retHeight)
     {
-        if (retHeight == nullptr) {
-            return ERROR_NULL_POINTER;
-        }
-
         MessageParcel data, reply;
         MessageOption option;
 
@@ -273,13 +270,13 @@ namespace MiscServices {
             return ret;
         }
 
-        if (!reply.ReadInt32(*retHeight)) {
+        if (!reply.ReadInt32(retHeight)) {
             return ERROR_STATUS_BAD_VALUE;
         }
         return NO_ERROR;
     }
 
-    int32_t InputMethodSystemAbilityProxy::getCurrentKeyboardType(KeyboardType* retType)
+    int32_t InputMethodSystemAbilityProxy::getCurrentKeyboardType(KeyboardType *retType)
     {
         if (retType == nullptr) {
             return ERROR_NULL_POINTER;
@@ -302,7 +299,7 @@ namespace MiscServices {
             return ret;
         }
 
-        KeyboardType* keyType = reply.ReadParcelable<KeyboardType>();
+        KeyboardType *keyType = reply.ReadParcelable<KeyboardType>();
         *retType = *keyType;
         delete keyType;
         return NO_ERROR;
@@ -333,7 +330,7 @@ namespace MiscServices {
 
         auto size = reply.ReadInt32();
         while (size > 0) {
-            InputMethodProperty* imp = reply.ReadParcelable<InputMethodProperty>();
+            InputMethodProperty *imp = reply.ReadParcelable<InputMethodProperty>();
             properties->push_back(imp);
             size--;
         }
@@ -367,7 +364,7 @@ namespace MiscServices {
         auto size = reply.ReadInt32();
 
         while (size > 0) {
-            InputMethodProperty* imp = reply.ReadParcelable<InputMethodProperty>();
+            InputMethodProperty *imp = reply.ReadParcelable<InputMethodProperty>();
             properties->push_back(imp);
             size--;
         }
@@ -401,7 +398,7 @@ namespace MiscServices {
 
         auto size = reply.ReadInt32();
         while (size > 0) {
-            KeyboardType* kt = reply.ReadParcelable<KeyboardType>();
+            KeyboardType *kt = reply.ReadParcelable<KeyboardType>();
             types->push_back(kt);
             size--;
         }
