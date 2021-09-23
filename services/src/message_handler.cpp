@@ -29,7 +29,7 @@ namespace MiscServices {
     {
         std::unique_lock<std::mutex> lock(mMutex);
         while (! mQueue.empty()) {
-            Message* msg = mQueue.front();
+            Message *msg = mQueue.front();
             mQueue.pop();
             delete msg;
         }
@@ -39,7 +39,7 @@ namespace MiscServices {
       \param msg a message to be sent
       \note the msg pointer should not be freed by the caller
     */
-    void MessageHandler::SendMessage(Message* msg)
+    void MessageHandler::SendMessage(Message *msg)
     {
       {
         std::unique_lock<std::mutex> lock(mMutex);
@@ -52,14 +52,14 @@ namespace MiscServices {
       \return a pointer referred to an object of message
       \note the returned pointer should be freed by the caller.
     */
-    Message* MessageHandler::GetMessage()
+    Message *MessageHandler::GetMessage()
     {
         std::unique_lock<std::mutex> lock(mMutex);
         mCV.wait(lock, [this]{
             return !this->mQueue.empty();
         });
 
-        Message* msg = (Message*) mQueue.front();
+        Message *msg = (Message*) mQueue.front();
         mQueue.pop();
         return msg;
     }
@@ -67,7 +67,7 @@ namespace MiscServices {
     /*! The single instance of MessageHandler in the service
       \return the pointer referred to an object.
     */
-    MessageHandler* MessageHandler::Instance()
+    MessageHandler *MessageHandler::Instance()
     {
         static MessageHandler *handler = nullptr;
         if (handler == nullptr) {

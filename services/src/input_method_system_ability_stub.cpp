@@ -44,25 +44,25 @@ namespace MiscServices {
                 break;
             }
             case RELEASE_INPUT: {
-                MessageParcel* msgParcel = (MessageParcel*) &data;
+                MessageParcel *msgParcel = (MessageParcel*) &data;
                 releaseInput(*msgParcel);
                 reply.WriteInt32(NO_ERROR);
                 break;
             }
             case START_INPUT: {
-                MessageParcel* msgParcel = (MessageParcel*) &data;
+                MessageParcel *msgParcel = (MessageParcel*) &data;
                 startInput(*msgParcel);
                 reply.WriteInt32(NO_ERROR);
                 break;
             }
             case STOP_INPUT: {
-                MessageParcel* msgParcel = (MessageParcel*) &data;
+                MessageParcel *msgParcel = (MessageParcel*) &data;
                 stopInput(*msgParcel);
                 reply.WriteInt32(NO_ERROR);
                 break;
             }
             case SET_INPUT_METHOD_CORE:{
-                MessageParcel* msgParcel = (MessageParcel*) &data;
+                MessageParcel *msgParcel = (MessageParcel*) &data;
                 setInputMethodCoreFromHap(*msgParcel);
                 reply.WriteInt32(NO_ERROR);
                 break;
@@ -81,7 +81,7 @@ namespace MiscServices {
             }
             case GET_KEYBOARD_WINDOW_HEIGHT: {
                 int32_t height = 0;
-                int32_t status = getKeyboardWindowHeight(&height);
+                int32_t status = getKeyboardWindowHeight(height);
                 if (status == ErrorCode::NO_ERROR) {
                     reply.WriteInt32(NO_ERROR);
                     reply.WriteInt32(height);
@@ -177,7 +177,7 @@ namespace MiscServices {
         int32_t pid = IPCSkeleton::GetCallingPid();
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
-        MessageParcel* parcel = new MessageParcel();
+        MessageParcel *parcel = new MessageParcel();
         parcel->WriteInt32(userId);
         parcel->WriteInt32(pid);
         parcel->WriteInt32(uid);
@@ -186,7 +186,7 @@ namespace MiscServices {
         parcel->WriteRemoteObject(data.ReadRemoteObject());
         parcel->WriteParcelable(data.ReadParcelable<InputAttribute>());
 
-        Message* msg = new Message(MSG_ID_PREPARE_INPUT, parcel);
+        Message *msg = new Message(MSG_ID_PREPARE_INPUT, parcel);
         MessageHandler::Instance()->SendMessage(msg);
     }
 
@@ -201,11 +201,11 @@ namespace MiscServices {
         IMSA_HILOGE("InputMethodSystemAbilityStub::releaseInput");
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
-        MessageParcel* parcel = new MessageParcel();
+        MessageParcel *parcel = new MessageParcel();
         parcel->WriteInt32(userId);
         parcel->WriteRemoteObject(data.ReadRemoteObject());
 
-        Message* msg = new Message(MSG_ID_RELEASE_INPUT, parcel);
+        Message *msg = new Message(MSG_ID_RELEASE_INPUT, parcel);
         MessageHandler::Instance()->SendMessage(msg);
 
     }
@@ -220,11 +220,11 @@ namespace MiscServices {
     {
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
-        MessageParcel* parcel = new MessageParcel();
+        MessageParcel *parcel = new MessageParcel();
         parcel->WriteInt32(userId);
         parcel->WriteRemoteObject(data.ReadRemoteObject());
 
-        Message* msg = new Message(MSG_ID_START_INPUT, parcel);
+        Message *msg = new Message(MSG_ID_START_INPUT, parcel);
         MessageHandler::Instance()->SendMessage(msg);
     }
 
@@ -238,11 +238,11 @@ namespace MiscServices {
     {
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
-        MessageParcel* parcel = new MessageParcel();
+        MessageParcel *parcel = new MessageParcel();
         parcel->WriteInt32(userId);
         parcel->WriteRemoteObject(data.ReadRemoteObject());
 
-        Message* msg = new Message(MSG_ID_STOP_INPUT, parcel);
+        Message *msg = new Message(MSG_ID_STOP_INPUT, parcel);
         MessageHandler::Instance()->SendMessage(msg);
     }
 
@@ -252,18 +252,18 @@ namespace MiscServices {
     \see PerUserSession::OnPrepareInput
     \param data the parcel in which the parameters are saved
     */
-        void InputMethodSystemAbilityStub::setInputMethodCoreFromHap(MessageParcel& data)
-        {
-            IMSA_HILOGI("InputMethodSystemAbilityStub::setInputMethodCoreFromHap");
-            int32_t uid = IPCSkeleton::GetCallingUid();
-            int32_t userId = getUserId(uid);
-            MessageParcel* parcel = new MessageParcel();
-            parcel->WriteInt32(userId);
-            parcel->WriteRemoteObject(data.ReadRemoteObject());
+    void InputMethodSystemAbilityStub::setInputMethodCoreFromHap(MessageParcel& data)
+    {
+        IMSA_HILOGI("InputMethodSystemAbilityStub::setInputMethodCoreFromHap");
+        int32_t uid = IPCSkeleton::GetCallingUid();
+        int32_t userId = getUserId(uid);
+        MessageParcel *parcel = new MessageParcel();
+        parcel->WriteInt32(userId);
+        parcel->WriteRemoteObject(data.ReadRemoteObject());
 
-            Message* msg = new Message(MSG_ID_SET_INPUT_METHOD_CORE, parcel);
-            MessageHandler::Instance()->SendMessage(msg);
-        }
+        Message *msg = new Message(MSG_ID_SET_INPUT_METHOD_CORE, parcel);
+        MessageHandler::Instance()->SendMessage(msg);
+    }
 
     /*! Get user id from uid
     \param uid the uid from which the remote call is

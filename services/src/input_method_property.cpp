@@ -47,7 +47,7 @@ namespace MiscServices {
         mDefaultImeId = property.mDefaultImeId;
 
         for(int i = 0; i < (int)mTypes.size(); i++) {
-            KeyboardType* type = new KeyboardType(*property.mTypes[i]);
+            KeyboardType *type = new KeyboardType(*property.mTypes[i]);
             mTypes.push_back(type);
         }
     }
@@ -69,7 +69,7 @@ namespace MiscServices {
         mDefaultImeId = property.mDefaultImeId;
 
         for(int i = 0; i < (int)mTypes.size(); i++) {
-            KeyboardType* type = new KeyboardType(*property.mTypes[i]);
+            KeyboardType *type = new KeyboardType(*property.mTypes[i]);
             mTypes.push_back(type);
         }
         return *this;
@@ -104,7 +104,7 @@ namespace MiscServices {
     \return ErrorCode::NO_ERROR
     \return ErrorCode::ERROR_NULL_POINTER parcel is null
     */
-    InputMethodProperty* InputMethodProperty::Unmarshalling(Parcel &parcel)
+    InputMethodProperty *InputMethodProperty::Unmarshalling(Parcel &parcel)
     {
         auto info = new InputMethodProperty();
         info->mImeId = parcel.ReadString16();

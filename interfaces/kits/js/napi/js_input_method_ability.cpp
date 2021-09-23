@@ -27,14 +27,14 @@ napi_value JS_Constructor(napi_env env, napi_callback_info cbInfo)
     void* data = nullptr;
     napi_get_cb_info(env, cbInfo, nullptr, nullptr, &thisVar, &data);
 
-    OHOS::MiscServices::EventTarget* imeAbility = new OHOS::MiscServices::EventTarget(env,thisVar);
-    napi_wrap(env, thisVar, imeAbility,
+    OHOS::MiscServices::EventTarget *eventTarget = new OHOS::MiscServices::EventTarget(env,thisVar);
+    napi_wrap(env, thisVar, eventTarget,
         [](napi_env env, void* data, void* hint){
-            EventTarget* imeAbility = (EventTarget*)data;
-            delete imeAbility;
+            EventTarget *eventTarget = (EventTarget*)data;
+            delete eventTarget;
         },
         nullptr, nullptr);
-    OHOS::sptr<EventTarget> eventTarget_=imeAbility;
+    OHOS::sptr<EventTarget> eventTarget_ = eventTarget;
     InputMethodAbility::GetInstance()->setEventTarget(eventTarget_);
     return thisVar;
 }
@@ -48,8 +48,8 @@ napi_value JS_InsertText(napi_env env, napi_callback_info cbInfo)
     void* data = nullptr;
     napi_get_cb_info(env, cbInfo, &argc, argv, &thisVar, &data);
 
-    EventTarget* imeAbility = nullptr;
-    napi_unwrap(env, thisVar, (void **)&imeAbility);
+    EventTarget *eventTarget = nullptr;
+    napi_unwrap(env, thisVar, (void **)&eventTarget);
 
     char type[64] = { 0 };
     size_t typeLen = 0;
@@ -72,8 +72,8 @@ napi_value JS_DeleteBackward(napi_env env, napi_callback_info cbInfo)
     void* data = nullptr;
     napi_get_cb_info(env, cbInfo, &argc, argv, &thisVar, &data);
 
-    EventTarget* imeAbility = nullptr;
-    napi_unwrap(env, thisVar, (void **)&imeAbility);
+    EventTarget *eventTarget = nullptr;
+    napi_unwrap(env, thisVar, (void **)&eventTarget);
 
     int32_t value32 = 0;
     napi_get_value_int32(env, argv[0], &value32);
@@ -93,8 +93,8 @@ napi_value JS_HideKeyboardSelf(napi_env env, napi_callback_info cbInfo)
     void* data = nullptr;
     napi_get_cb_info(env, cbInfo, &argc, argv, &thisVar, &data);
 
-    EventTarget* imeAbility = nullptr;
-    napi_unwrap(env, thisVar, (void **)&imeAbility);
+    EventTarget *eventTarget = nullptr;
+    napi_unwrap(env, thisVar, (void **)&eventTarget);
 
     InputMethodAbility::GetInstance()->HideKeyboardSelf();
 
@@ -113,8 +113,8 @@ napi_value JS_On(napi_env env, napi_callback_info cbInfo)
     void* data = nullptr;
     napi_get_cb_info(env, cbInfo, &argc, argv, &thisVar, &data);
 
-    EventTarget* imeAbility = nullptr;
-    napi_unwrap(env, thisVar, (void **)&imeAbility);
+    EventTarget *eventTarget = nullptr;
+    napi_unwrap(env, thisVar, (void **)&eventTarget);
 
     NAPI_ASSERT(env, argc >= requireArgc, "requires 2 parameter");
 
@@ -131,7 +131,7 @@ napi_value JS_On(napi_env env, napi_callback_info cbInfo)
     napi_get_value_string_utf8(env, argv[0], type, sizeof(type), &typeLen);
 
     IMSA_HILOGI("call ima on function");
-    imeAbility->On((const char*)type, argv[1]);
+    eventTarget->On((const char*)type, argv[1]);
 
     napi_value result = nullptr;
     napi_get_undefined(env, &result);
@@ -148,8 +148,8 @@ napi_value JS_Off(napi_env env, napi_callback_info cbInfo)
     void* data = nullptr;
     napi_get_cb_info(env, cbInfo, &argc, argv, &thisVar, &data);
 
-    EventTarget* imeAbility = nullptr;
-    napi_unwrap(env, thisVar, (void **)&imeAbility);
+    EventTarget *eventTarget = nullptr;
+    napi_unwrap(env, thisVar, (void **)&eventTarget);
 
     NAPI_ASSERT(env, argc >= requireArgc, "requires 2 parameter");
 
@@ -165,10 +165,9 @@ napi_value JS_Off(napi_env env, napi_callback_info cbInfo)
 
     if (argc > requireArgc) {
         NAPI_ASSERT(env, eventValueType == napi_function, "type mismatch for parameter 2");
-
-        imeAbility->Off(type, argv[1]);
+        eventTarget->Off(type, argv[1]);
     } else {
-        imeAbility->Off(type);
+        eventTarget->Off(type);
     }
 
     delete type;

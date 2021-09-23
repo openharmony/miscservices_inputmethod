@@ -35,7 +35,7 @@ namespace OHOS {
                                       MessageParcel &data,
                                       MessageParcel &reply,
                                       MessageOption &option) override;
-        virtual void onAgentCreated(sptr<IInputMethodAgent>& agent, InputChannel* channel) override;
+        virtual void onAgentCreated(sptr<IInputMethodAgent>& agent, InputChannel *channel) override;
         virtual void hideKeyboardSelf(int flags) override;
         virtual bool advanceToNext(bool isCurrentIme) override;
         virtual void setDisplayMode(int mode) override;
@@ -47,12 +47,13 @@ namespace OHOS {
     private:
         int userId_;
         sptr<IInputMethodAgent> agent = nullptr;
-        InputChannel* channel = nullptr;
+        InputChannel *channel = nullptr;
 
         std::mutex mtx;
         std::condition_variable cv;
         bool agentReadyFlag = false;
         bool keyboardReadyFlag = false;
+        const int32_t sleepTime = 300;
     };
 }
 }

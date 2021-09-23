@@ -70,13 +70,13 @@ namespace MiscServices {
         sptr<InputMethodSystemAbilityProxy> mImms;
         sptr<ImsaDeathRecipient> deathRecipient_;
         sptr<InputMethodAgentProxy> mAgent;
-        OnTextChangedListener* textListener;
+        OnTextChangedListener *textListener;
         InputAttribute mAttribute;
 
         static std::mutex instanceLock_;
         static sptr<InputMethodController> instance_;
         std::thread workThreadHandler;
-        MessageHandler* msgHandler;
+        MessageHandler *msgHandler;
     };
 }
 }

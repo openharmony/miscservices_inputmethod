@@ -20,16 +20,14 @@ namespace OHOS {
 namespace MiscServices {
     InputClientStub::InputClientStub()
     {
-
     }
 
     InputClientStub::~InputClientStub()
     {
-
     }
 
     int32_t InputClientStub::OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply,
-        MessageOption &option)
+                                             MessageOption &option)
     {
         IMSA_HILOGI("InputClientStub::OnRemoteRequest. code = %{public}u", code);
         auto descriptorToken = data.ReadInterfaceToken();
@@ -41,7 +39,7 @@ namespace MiscServices {
                 if (msgHandler == nullptr) {
                     break;
                 }
-                MessageParcel* parcel = new MessageParcel();
+                MessageParcel *parcel = new MessageParcel();
                 parcel->WriteInt32(data.ReadInt32());
                 if (data.ReadInt32() > 0) {
                     parcel->WriteRemoteObject(data.ReadRemoteObject());
@@ -50,7 +48,7 @@ namespace MiscServices {
                     parcel->WriteParcelable(data.ReadParcelable<InputChannel>());
                 }
 
-                Message* msg = new Message(MessageID::MSG_ID_ON_INPUT_READY, parcel);
+                Message *msg = new Message(MessageID::MSG_ID_ON_INPUT_READY, parcel);
                 msgHandler->SendMessage(msg);
                 break;
             }
@@ -58,9 +56,9 @@ namespace MiscServices {
                 if (msgHandler == nullptr) {
                     break;
                 }
-                MessageParcel* parcel = new MessageParcel();
+                MessageParcel *parcel = new MessageParcel();
                 parcel->WriteInt32(data.ReadInt32());
-                Message* msg = new Message(MessageID::MSG_ID_EXIT_SERVICE, parcel);
+                Message *msg = new Message(MessageID::MSG_ID_EXIT_SERVICE, parcel);
                 msgHandler->SendMessage(msg);
                 break;
             }
@@ -68,9 +66,9 @@ namespace MiscServices {
                 if (msgHandler == nullptr) {
                     break;
                 }
-                MessageParcel* parcel = new MessageParcel();
+                MessageParcel *parcel = new MessageParcel();
                 parcel->WriteInt32(data.ReadInt32());
-                Message* msg = new Message(MessageID::MSG_ID_SET_DISPLAY_MODE, parcel);
+                Message *msg = new Message(MessageID::MSG_ID_SET_DISPLAY_MODE, parcel);
                 msgHandler->SendMessage(msg);
                 break;
             }
@@ -81,7 +79,8 @@ namespace MiscServices {
     }
 
     int32_t InputClientStub::onInputReady(int32_t retValue, const sptr<IInputMethodAgent>& agent,
-        const InputChannel* channel) {
+        const InputChannel *channel)
+    {
         return ErrorCode::NO_ERROR;
     }
 
@@ -95,7 +94,7 @@ namespace MiscServices {
         return ErrorCode::NO_ERROR;
     }
 
-    void InputClientStub::SetHandler(MessageHandler* handler)
+    void InputClientStub::SetHandler(MessageHandler *handler)
     {
         msgHandler = handler;
     }

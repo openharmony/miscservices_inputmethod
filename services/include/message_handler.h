@@ -80,9 +80,9 @@ class MessageHandler {
     public:
         MessageHandler();
         ~MessageHandler();
-        void SendMessage(Message* msg);
-        Message* GetMessage();
-        static MessageHandler* Instance();
+        void SendMessage(Message *msg);
+        Message *GetMessage();
+        static MessageHandler *Instance();
 
     private:
         std::mutex mMutex; // a mutex to guard message queue

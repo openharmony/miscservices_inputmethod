@@ -19,7 +19,8 @@
 
 namespace OHOS {
 namespace MiscServices {
-    void Platform::SetPlatform(const sptr < IPlatformApi >& platformApi) {
+    void Platform::SetPlatform(const sptr < IPlatformApi >& platformApi)
+    {
         this->platformApi = platformApi;
         sptr < IPlatformCallback > cb = new PlatformCallbackStub();
         this->platformApi->registerCallback(cb);
@@ -27,18 +28,21 @@ namespace MiscServices {
 
     /*! Constructor
     */
-    Platform::Platform() {
+    Platform::Platform()
+    {
     }
 
     /*! Destructor
     */
-    Platform::~Platform() {
+    Platform::~Platform()
+    {
     }
 
     /*! Single instance exists in the service
     */
-    Platform* Platform::Instance() {
-        static Platform* platform = nullptr;
+    Platform *Platform::Instance()
+    {
+        static Platform *platform = nullptr;
         if (platform == nullptr) {
             platform = new Platform();
         }
@@ -51,8 +55,9 @@ namespace MiscServices {
       \param intention the intention to start the service
       \return the remote object handler of started input method service.
     */
-    sptr < IInputMethodCore > Platform::BindInputMethodService(int userId, const std::u16string& packageName,
-                                                               const std::u16string& intention) {
+    sptr<IInputMethodCore> Platform::BindInputMethodService(int userId, const std::u16string& packageName,
+                                                            const std::u16string& intention)
+    {
         if (platformApi == nullptr) {
             return nullptr;
         }
@@ -64,7 +69,8 @@ namespace MiscServices {
       \param packageName the packageName of the given input method engine which is going to stop
       \return ErrorCode
     */
-    int Platform::UnbindInputMethodService(int userId, const std::u16string& packageName) {
+    int Platform::UnbindInputMethodService(int userId, const std::u16string& packageName)
+    {
         if (platformApi == nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
@@ -77,7 +83,8 @@ namespace MiscServices {
       \param packageName the packageName of the given input method engine
       \return ErrorCode
     */
-    sptr < IRemoteObject > Platform::CreateWindowToken(int userId, int displayId, const std::u16string& packageName) {
+    sptr < IRemoteObject > Platform::CreateWindowToken(int userId, int displayId, const std::u16string& packageName)
+    {
         if (platformApi == nullptr) {
             return nullptr;
         }
@@ -89,7 +96,8 @@ namespace MiscServices {
       \param packageName the packageName of the given input method engine
       \return ErrorCode
     */
-    int Platform::DestroyWindowToken(int userId, const std::u16string& packageName) {
+    int Platform::DestroyWindowToken(int userId, const std::u16string& packageName)
+    {
         if (platformApi == nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
@@ -101,7 +109,8 @@ namespace MiscServices {
       \param[out] inputMethodProperties the input method engine list installed in the system for the given user
       \return ErrorCode
     */
-    int Platform::ListInputMethod(int userId, std::vector < InputMethodProperty* > * inputMethodProperties) {
+    int Platform::ListInputMethod(int userId, std::vector<InputMethodProperty*> *inputMethodProperties)
+    {
         return 0;
     }
 
@@ -112,7 +121,8 @@ namespace MiscServices {
       \return ErrorCode
     */
     int Platform::GetInputMethodProperty(int userId, const std::u16string& packageName,
-                                         InputMethodProperty* inputMethodProperty) {
+                                         InputMethodProperty *inputMethodProperty)
+    {
         if (platformApi == nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
@@ -125,7 +135,8 @@ namespace MiscServices {
       \return ErrorCode
     */
 
-    int Platform::GetInputMethodSetting(int userId, InputMethodSetting* inputMethodSetting) {
+    int Platform::GetInputMethodSetting(int userId, InputMethodSetting *inputMethodSetting)
+    {
         return 0;
     }
 
@@ -134,7 +145,8 @@ namespace MiscServices {
       \param inputMethodSetting the input method setting data for the given user
       \return ErrorCode
     */
-    int Platform::SetInputMethodSetting(int userId, const InputMethodSetting& inputMethodSetting) {
+    int Platform::SetInputMethodSetting(int userId, const InputMethodSetting& inputMethodSetting)
+    {
         if (platformApi == nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
@@ -145,7 +157,8 @@ namespace MiscServices {
       \return true - a physical keyboard is connected
       \n      false - no physical keyboard
     */
-    bool Platform::CheckPhysicalKeyboard() {
+    bool Platform::CheckPhysicalKeyboard()
+    {
         return true;
     }
 
@@ -153,7 +166,8 @@ namespace MiscServices {
       \return true - the remote caller is from a valid window
       \n      false - the remote caller is not from a valid window
     */
-    bool Platform::IsValidWindow(int uid, int pid, int displayId) {
+    bool Platform::IsValidWindow(int uid, int pid, int displayId)
+    {
         (void)uid;
         (void)pid;
         (void)displayId;
@@ -164,7 +178,8 @@ namespace MiscServices {
       \return true - the remote caller is from a focused window
       \n      false - the remote caller is not from a focused window
     */
-    bool Platform::IsWindowFocused(int uid, int pid, int displayId) {
+    bool Platform::IsWindowFocused(int uid, int pid, int displayId)
+    {
         (void)uid;
         (void)pid;
         (void)displayId;

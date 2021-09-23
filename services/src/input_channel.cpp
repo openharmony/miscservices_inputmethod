@@ -36,7 +36,8 @@ namespace MiscServices {
       \return ErrorCode::NO_ERROR
       \return ErrorCode::ERROR_NULL_POINTER parcel is null
     */
-    bool InputChannel::Marshalling(Parcel &parcel) const {
+    bool InputChannel::Marshalling(Parcel &parcel) const
+    {
         parcel.ParseFrom(inputChannelParcel.GetData(), inputChannelParcel.GetDataSize());
         return NO_ERROR;
     }
@@ -46,7 +47,8 @@ namespace MiscServices {
       \return ErrorCode::NO_ERROR
       \return ErrorCode::ERROR_NULL_POINTER parcel is null
     */
-    InputChannel* InputChannel::Unmarshalling(Parcel &parcel) {
+    InputChannel *InputChannel::Unmarshalling(Parcel &parcel)
+    {
         auto inputChannel = new InputChannel();
         inputChannel->inputChannelParcel.RewindRead(0);
         inputChannel->inputChannelParcel.ParseFrom(parcel.GetData(), parcel.GetDataSize());

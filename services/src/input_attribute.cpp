@@ -59,7 +59,8 @@ namespace MiscServices {
       \return ErrorCode::NO_ERROR
       \return ErrorCode::ERROR_NULL_POINTER parcel is null
     */
-    bool InputAttribute::Marshalling(OHOS::Parcel &parcel) const {
+    bool InputAttribute::Marshalling(OHOS::Parcel &parcel) const
+    {
         if (!(parcel.WriteInt32(inputPattern)
                   && parcel.WriteInt32(enterKeyType)
                   && parcel.WriteInt32(inputOption)))
@@ -72,7 +73,8 @@ namespace MiscServices {
       \return ErrorCode::NO_ERROR
       \return ErrorCode::ERROR_NULL_POINTER parcel is null
     */
-    InputAttribute* InputAttribute::Unmarshalling(OHOS::Parcel &parcel) {
+    InputAttribute *InputAttribute::Unmarshalling(OHOS::Parcel &parcel)
+    {
         auto info = new InputAttribute();
         info->inputPattern = parcel.ReadInt32();
         info->enterKeyType = parcel.ReadInt32();

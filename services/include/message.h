@@ -25,7 +25,7 @@ namespace MiscServices {
     public:
         int32_t msgId_; // message id
         MessageParcel *msgContent_ = nullptr; // message content
-        Message(int32_t msgId, MessageParcel* msgContent);
+        Message(int32_t msgId, MessageParcel *msgContent);
         explicit Message(const Message& msg);
         Message& operator= (const Message& msg);
         ~Message();

@@ -19,7 +19,6 @@ namespace OHOS {
 namespace MiscServices {
     InputDataChannelStub::InputDataChannelStub() : msgHandler(nullptr)
     {
-
     }
 
     InputDataChannelStub::~InputDataChannelStub()
@@ -62,9 +61,9 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputDataChannelStub::InsertText");
         if (msgHandler != nullptr) {
-            MessageParcel* parcel = new MessageParcel;
+            MessageParcel *parcel = new MessageParcel;
             parcel->WriteString16(text);
-            Message* msg = new Message(MessageID::MSG_ID_INSERT_CHAR, parcel);
+            Message *msg = new Message(MessageID::MSG_ID_INSERT_CHAR, parcel);
             msgHandler->SendMessage(msg);
             IMSA_HILOGI("InputDataChannelStub::InsertText return true");
             return true;
@@ -76,9 +75,9 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputDataChannelStub::DeleteBackward");
         if (msgHandler != nullptr) {
-            MessageParcel* parcel = new MessageParcel;
+            MessageParcel *parcel = new MessageParcel;
             parcel->WriteInt32(length);
-            Message* msg = new Message(MessageID::MSG_ID_DELETE_BACKWARD, parcel);
+            Message *msg = new Message(MessageID::MSG_ID_DELETE_BACKWARD, parcel);
             msgHandler->SendMessage(msg);
             return true;
         }
@@ -90,7 +89,7 @@ namespace MiscServices {
 
     }
 
-    void InputDataChannelStub::SetHandler(MessageHandler* handler)
+    void InputDataChannelStub::SetHandler(MessageHandler *handler)
     {
         msgHandler = handler;
     }

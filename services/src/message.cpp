@@ -21,7 +21,7 @@ namespace MiscServices {
     \param msgId a message Id
     \param msgContent the content of a message
     */
-    Message::Message(int32_t msgId, MessageParcel* msgContent)
+    Message::Message(int32_t msgId, MessageParcel *msgContent)
     {
         msgId_ = msgId;
         msgContent_ = msgContent;
@@ -39,7 +39,7 @@ namespace MiscServices {
         if (msgContent_ != nullptr) {
             delete msgContent_;
         }
-        MessageParcel* src = msg.msgContent_;
+        MessageParcel *src = msg.msgContent_;
         if (src) {
             msgContent_ = new MessageParcel();
             msgContent_->ParseFrom(src->GetData(), src->GetDataSize());
@@ -63,7 +63,8 @@ namespace MiscServices {
         return *this;
     }
 
-    Message::~Message( ) {
+    Message::~Message()
+    {
         if (msgContent_) {
             delete msgContent_;
         }
