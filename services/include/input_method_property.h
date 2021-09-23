@@ -22,23 +22,23 @@
 
 namespace OHOS {
 namespace MiscServices {
-class InputMethodProperty : public Parcelable {
-public:
-    std::u16string mImeId;
-    std::u16string mPackageName;
-    std::u16string mAbilityName;
-    std::u16string mConfigurationPage;
-    bool isSystemIme;
-    int32_t mDefaultImeId;
-    std::vector<KeyboardType*> mTypes;
+    class InputMethodProperty : public Parcelable {
+    public:
+        std::u16string mImeId;
+        std::u16string mPackageName;
+        std::u16string mAbilityName;
+        std::u16string mConfigurationPage;
+        bool isSystemIme;
+        int32_t mDefaultImeId;
+        std::vector<KeyboardType*> mTypes;
 
-    InputMethodProperty();
-    ~InputMethodProperty();
-    InputMethodProperty(const InputMethodProperty& property);
-    InputMethodProperty& operator=(const InputMethodProperty& property);
-    virtual bool Marshalling(Parcel &parcel) const override;
-    static InputMethodProperty *Unmarshalling(Parcel &parcel);
-};
+        InputMethodProperty();
+        ~InputMethodProperty();
+        InputMethodProperty(const InputMethodProperty& property);
+        InputMethodProperty& operator=(const InputMethodProperty& property);
+        virtual bool Marshalling(Parcel &parcel) const override;
+        static InputMethodProperty *Unmarshalling(Parcel &parcel);
+    };
 }
 }
 #endif // FM_IMMS_PROJECT_INPUTMETHODPROPERTY_H

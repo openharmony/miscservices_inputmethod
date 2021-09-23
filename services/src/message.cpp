@@ -17,57 +17,57 @@
 
 namespace OHOS {
 namespace MiscServices {
-/*! Constructor
-\param msgId a message Id
-\param msgContent the content of a message
-*/
-Message::Message(int32_t msgId, MessageParcel* msgContent)
-{
-    msgId_ = msgId;
-    msgContent_ = msgContent;
-    if (msgContent_) {
-        msgContent_->RewindRead(0);
+    /*! Constructor
+    \param msgId a message Id
+    \param msgContent the content of a message
+    */
+    Message::Message(int32_t msgId, MessageParcel *msgContent)
+    {
+        msgId_ = msgId;
+        msgContent_ = msgContent;
+        if (msgContent_) {
+            msgContent_->RewindRead(0);
+        }
     }
-}
 
-/*! Constructor
-\param msg a source message
-*/
-Message::Message(const Message& msg)
-{
-    msgId_ = msg.msgId_;
-    if (msgContent_ != nullptr) {
-        delete msgContent_;
+    /*! Constructor
+    \param msg a source message
+    */
+    Message::Message(const Message& msg)
+    {
+        msgId_ = msg.msgId_;
+        if (msgContent_ != nullptr) {
+            delete msgContent_;
+        }
+        MessageParcel *src = msg.msgContent_;
+        if (src) {
+            msgContent_ = new MessageParcel();
+            msgContent_->ParseFrom(src->GetData(), src->GetDataSize());
+        }
     }
-    MessageParcel* src = msg.msgContent_;
-    if (src) {
-        msgContent_ = new MessageParcel();
-        msgContent_->ParseFrom(src->GetData(), src->GetDataSize());
-//        msgContent_->RewindRead(0);
-    }
-}
 
-Message& Message::operator=(const Message& msg)
-{
-    if (this == &msg) {
+    Message& Message::operator=(const Message& msg)
+    {
+        if (this == &msg) {
+            return *this;
+        }
+        msgId_ = msg.msgId_;
+        if (msgContent_ != nullptr) {
+            delete msgContent_;
+        }
+        if (msg.msgContent_) {
+            msgContent_ = new MessageParcel();
+            msgContent_->ParseFrom(msg.msgContent_->GetData(), msg.msgContent_->GetDataSize());
+            msgContent_->RewindRead(0);
+        }
         return *this;
     }
-    msgId_ = msg.msgId_;
-    if (msgContent_ != nullptr) {
-        delete msgContent_;
-    }
-    if (msg.msgContent_) {
-        msgContent_ = new MessageParcel();
-        msgContent_->ParseFrom(msg.msgContent_->GetData(), msg.msgContent_->GetDataSize());
-        msgContent_->RewindRead(0);
-    }
-    return *this;
-}
 
-Message::~Message( ) {
-    if (msgContent_) {
-        delete msgContent_;
+    Message::~Message()
+    {
+        if (msgContent_) {
+            delete msgContent_;
+        }
     }
-}
 }
 }

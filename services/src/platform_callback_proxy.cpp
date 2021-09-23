@@ -19,15 +19,12 @@
 #include "global.h"
 #include "i_platform_callback.h"
 
-
-
 /*! \class PlatformCallbackProxy
   \brief The proxy of IPlatformCallback
-  \todo This class will be deleted on target platform
 */
 namespace OHOS {
 namespace MiscServices {
-    class PlatformCallbackProxy : public IRemoteProxy < IPlatformCallback > {
+    class PlatformCallbackProxy : public IRemoteProxy<IPlatformCallback> {
     public:
         PlatformCallbackProxy(const sptr < IRemoteObject >& impl)
         : IRemoteProxy < IPlatformCallback >(impl)

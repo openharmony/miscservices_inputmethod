@@ -17,7 +17,6 @@
 #ifndef FM_IMC_PROJECT_INPUTMETHODCONTROLLER_H
 #define FM_IMC_PROJECT_INPUTMETHODCONTROLLER_H
 
-//#include "refbase.h"
 #include <mutex>
 #include <thread>
 #include "input_data_channel_stub.h"
@@ -30,7 +29,6 @@
 
 namespace OHOS {
 namespace MiscServices {
-
     class OnTextChangedListener : public virtual RefBase {
     public:
         virtual void InsertText(const std::u16string& text) = 0;
@@ -60,7 +58,8 @@ namespace MiscServices {
 
         bool Initialize();
         sptr<InputMethodSystemAbilityProxy> GetImsaProxy();
-        void PrepareInput(int32_t displayId,sptr<InputClientStub> &client,sptr<InputDataChannelStub> &channel,InputAttribute &attribute);
+        void PrepareInput(int32_t displayId, sptr<InputClientStub> &client, sptr<InputDataChannelStub> &channel,
+                          InputAttribute &attribute);
         void StartInput(sptr<InputClientStub> &client);
         void StopInput(sptr<InputClientStub> &client);
         void ReleaseInput(sptr<InputClientStub> &client);
@@ -71,13 +70,13 @@ namespace MiscServices {
         sptr<InputMethodSystemAbilityProxy> mImms;
         sptr<ImsaDeathRecipient> deathRecipient_;
         sptr<InputMethodAgentProxy> mAgent;
-        OnTextChangedListener* textListener;
+        OnTextChangedListener *textListener;
         InputAttribute mAttribute;
 
         static std::mutex instanceLock_;
         static sptr<InputMethodController> instance_;
         std::thread workThreadHandler;
-        MessageHandler* msgHandler;
+        MessageHandler *msgHandler;
     };
 }
 }

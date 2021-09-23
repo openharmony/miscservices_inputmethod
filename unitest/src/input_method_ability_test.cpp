@@ -31,21 +31,18 @@
 #include "input_method_ability.h"
 #include "message_handler.h"
 
-
 using namespace testing::ext;
 using namespace OHOS;
 using namespace OHOS::MiscServices;
 using namespace OHOS::AAFwk;
 
-class InputMethodAbilityTest : public testing::Test
-{
+class InputMethodAbilityTest : public testing::Test {
 public:
     static void SetUpTestCase(void);
     static void TearDownTestCase(void);
     void SetUp();
     void TearDown();
 };
-
 
 void InputMethodAbilityTest::SetUpTestCase(void)
 {

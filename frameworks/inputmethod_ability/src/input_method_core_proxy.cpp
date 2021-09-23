@@ -20,12 +20,16 @@
 
 namespace OHOS {
 namespace MiscServices {
-    InputMethodCoreProxy::InputMethodCoreProxy(const OHOS::sptr<OHOS::IRemoteObject> &impl) : IRemoteProxy<IInputMethodCore>(impl) {
+    InputMethodCoreProxy::InputMethodCoreProxy(const OHOS::sptr<OHOS::IRemoteObject> &impl)
+    : IRemoteProxy<IInputMethodCore>(impl)
+    {
     }
 
     InputMethodCoreProxy::~InputMethodCoreProxy() = default;
 
-    int32_t InputMethodCoreProxy::initializeInput(sptr<IRemoteObject> &startInputToken, int32_t displayId, sptr<IInputControlChannel> &inputControlChannel) {
+    int32_t InputMethodCoreProxy::initializeInput(sptr<IRemoteObject> &startInputToken, int32_t displayId,
+                                                  sptr<IInputControlChannel> &inputControlChannel)
+    {
         IMSA_HILOGI("InputMethodCoreProxy::initializeInput");
         if (startInputToken == nullptr) {
             IMSA_HILOGI("InputMethodCoreProxy::initializeInput startInputToken is nullptr");
@@ -58,7 +62,9 @@ namespace MiscServices {
         return code;
     }
 
-    bool InputMethodCoreProxy::startInput(const sptr<IInputDataChannel> &inputDataChannel, const InputAttribute& editorAttribute, bool supportPhysicalKbd) {
+    bool InputMethodCoreProxy::startInput(const sptr<IInputDataChannel> &inputDataChannel,
+                                          const InputAttribute& editorAttribute, bool supportPhysicalKbd)
+    {
         IMSA_HILOGI("InputMethodCoreProxy::startInput");
         if (inputDataChannel == nullptr) {
             IMSA_HILOGI("InputMethodCoreProxy::startInput inputDataChannel is nullptr");
@@ -85,7 +91,8 @@ namespace MiscServices {
         return code == ErrorCode::NO_ERROR;
     }
 
-    int32_t InputMethodCoreProxy::stopInput() {
+    int32_t InputMethodCoreProxy::stopInput()
+    {
         IMSA_HILOGI("InputMethodCoreProxy::stopInput");
         MessageParcel data, reply;
         data.WriteInterfaceToken(GetDescriptor());
@@ -103,7 +110,8 @@ namespace MiscServices {
         return reply.ReadInt32();
     }
 
-    bool InputMethodCoreProxy::showKeyboard(int32_t flags) {
+    bool InputMethodCoreProxy::showKeyboard(int32_t flags)
+    {
         IMSA_HILOGI("InputMethodCoreProxy::showKeyboard");
         auto remote = Remote();
         if (remote == nullptr){
@@ -125,7 +133,8 @@ namespace MiscServices {
         return true;
     }
 
-    bool InputMethodCoreProxy::hideKeyboard(int32_t flags) {
+    bool InputMethodCoreProxy::hideKeyboard(int32_t flags)
+    {
         IMSA_HILOGI("InputMethodCoreProxy::hideKeyboard");
         auto remote = Remote();
         if (remote == nullptr) {
@@ -146,7 +155,8 @@ namespace MiscServices {
         return true;
     }
 
-    int32_t InputMethodCoreProxy::setKeyboardType(const KeyboardType& type) {
+    int32_t InputMethodCoreProxy::setKeyboardType(const KeyboardType& type)
+    {
         IMSA_HILOGI("InputMethodCoreProxy::setKeyboardType");
         MessageParcel data, reply;
         data.WriteInterfaceToken(GetDescriptor());
@@ -160,7 +170,8 @@ namespace MiscServices {
         return code;
     }
 
-    int32_t InputMethodCoreProxy::getKeyboardWindowHeight(int32_t * retHeight) {
+    int32_t InputMethodCoreProxy::getKeyboardWindowHeight(int32_t retHeight)
+    {
         IMSA_HILOGI("InputMethodCoreProxy::getKeyboardWindowHeight");
         MessageParcel data, reply;
         data.WriteInterfaceToken(GetDescriptor());
@@ -173,7 +184,7 @@ namespace MiscServices {
         if (code != 0) {
             return code;
         }
-        *retHeight = reply.ReadInt32();
+        retHeight = reply.ReadInt32();
         return ErrorCode::NO_ERROR;
     }
 }

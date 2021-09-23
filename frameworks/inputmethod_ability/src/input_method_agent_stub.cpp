@@ -22,13 +22,17 @@ namespace OHOS {
 namespace MiscServices {
     using namespace MessageID;
 
-    InputMethodAgentStub::InputMethodAgentStub() {
+    InputMethodAgentStub::InputMethodAgentStub()
+    {
     }
 
-    InputMethodAgentStub::~InputMethodAgentStub() {
+    InputMethodAgentStub::~InputMethodAgentStub()
+    {
     }
 
-    int32_t InputMethodAgentStub::OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply, MessageOption &option) {
+    int32_t InputMethodAgentStub::OnRemoteRequest(uint32_t code, MessageParcel &data,
+                                                  MessageParcel &reply, MessageOption &option)
+    {
         IMSA_HILOGI("InputMethodAgentStub::OnRemoteRequest code = %{public}d", code);
         auto descriptorToken = data.ReadInterfaceToken();
         if (descriptorToken != GetDescriptor()) {
@@ -54,20 +58,22 @@ namespace MiscServices {
         return ErrorCode::NO_ERROR;
     }
 
-    int32_t InputMethodAgentStub::DispatchKey(int32_t key, int32_t status) {
+    int32_t InputMethodAgentStub::DispatchKey(int32_t key, int32_t status)
+    {
         IMSA_HILOGI("InputMethodAgentStub::DispatchKey key = %{public}d, status = %{public}d", key, status);
         if (msgHandler_ == nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
-        MessageParcel* data = new MessageParcel();
+        MessageParcel *data = new MessageParcel();
         data->WriteInt32(key);
         data->WriteInt32(status);
-        Message* message = new Message(MessageID::MSG_ID_DISPATCH_KEY, data);
+        Message *message = new Message(MessageID::MSG_ID_DISPATCH_KEY, data);
         msgHandler_->SendMessage(message);
         return ErrorCode::NO_ERROR;
     }
 
-    void InputMethodAgentStub::SetMessageHandler(MessageHandler* msgHandler) {
+    void InputMethodAgentStub::SetMessageHandler(MessageHandler *msgHandler)
+    {
         msgHandler_ = msgHandler;
     }
 }

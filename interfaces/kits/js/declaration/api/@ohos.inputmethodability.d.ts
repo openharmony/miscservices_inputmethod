@@ -18,8 +18,7 @@ import { AsyncCallback } from './basic';
 /**
  * inputmethod
  *
- * @since 6
- * @import inputmethod from '@ohos.inputmethod';
+ * @since 7
  * @devices phone, tablet, tv, wearable
  */
 declare namespace inputMethodAbility {

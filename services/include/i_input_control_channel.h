@@ -35,7 +35,7 @@ namespace OHOS {
 
             DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.InputControlChannel");
 
-            virtual void onAgentCreated(sptr<IInputMethodAgent>& agent, InputChannel* channel) = 0;
+            virtual void onAgentCreated(sptr<IInputMethodAgent>& agent, InputChannel *channel) = 0;
             virtual void hideKeyboardSelf(int flags) = 0;
             virtual bool advanceToNext(bool isCurrentIme) = 0;
             virtual void setDisplayMode(int mode) = 0;
@@ -43,5 +43,4 @@ namespace OHOS {
         };
     }
 }
-
 #endif // FM_IMMS_PROJECT_IINPUTCONTROLCHANNEL_H
