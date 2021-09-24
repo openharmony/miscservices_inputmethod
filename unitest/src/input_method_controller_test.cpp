@@ -29,6 +29,7 @@
 #include "input_client_stub.h"
 #include "iservice_registry.h"
 #include "system_ability_definition.h"
+#include "input_method_setting.h"
 
 using namespace testing::ext;
 using namespace OHOS;
@@ -83,10 +84,114 @@ void InputMethodControllerTest::TearDown(void)
 
 /**
 * @tc.name: Imc001
-* @tc.desc: Bind IMSA.
+* @tc.desc: Get Imsa Proxy.
 * @tc.type: FUNC
 */
 HWTEST_F(InputMethodControllerTest, Imc001, TestSize.Level0)
+{
+    auto systemAbilityManager = SystemAbilityManagerClient::GetInstance().GetSystemAbilityManager();
+    ASSERT_TRUE(systemAbilityManager != nullptr);
+    auto systemAbility = systemAbilityManager->GetSystemAbility(INPUT_METHOD_SYSTEM_ABILITY_ID, "");
+    ASSERT_TRUE(systemAbility != nullptr);
+}
+
+/**
+* @tc.name: Imc002
+* @tc.desc: Checkout IInputDataChannel.
+* @tc.type: FUNC
+*/
+HWTEST_F(InputMethodControllerTest, Imc002, TestSize.Level0)
+{
+    sptr<InputDataChannelStub> mInputDataChannel = new InputDataChannelStub();
+    MessageParcel data;
+    auto ret = data.WriteRemoteObject(mInputDataChannel->AsObject());
+    ASSERT_TRUE(ret);
+    auto remoteObject = data.ReadRemoteObject();
+    sptr<IInputDataChannel> iface = iface_cast<IInputDataChannel>(remoteObject);
+    ASSERT_TRUE(iface != nullptr);
+}
+
+/**
+* @tc.name: Imc003
+* @tc.desc: Bind IMSA.
+* @tc.type: FUNC
+*/
+HWTEST_F(InputMethodControllerTest, Imc003, TestSize.Level0)
+{
+    sptr<InputClientStub> mClient = new InputClientStub();
+    MessageParcel data;
+    auto ret = data.WriteRemoteObject(mClient->AsObject());
+    ASSERT_TRUE(ret);
+    auto remoteObject = data.ReadRemoteObject();
+    sptr<IInputClient> iface = iface_cast<IInputClient>(remoteObject);
+    ASSERT_TRUE(iface != nullptr);
+}
+
+/**
+* @tc.name: Imc004
+* @tc.desc: Checkout setting.
+* @tc.type: FUNC
+*/
+HWTEST_F(InputMethodControllerTest, Imc004, TestSize.Level0)
+{
+    InputMethodSetting setting;
+    std::u16string key = InputMethodSetting::CURRENT_INPUT_METHOD_TAG;
+    std::u16string oldValue = setting.GetValue(key);
+    std::u16string newValue = u"testCurrentImeId";
+    setting.SetValue(key, newValue);
+    ASSERT_TRUE(newValue == setting.GetValue(key));
+
+    setting.SetValue(key, oldValue);
+    ASSERT_TRUE(oldValue == setting.GetValue(key));
+}
+
+/**
+* @tc.name: Imc005
+* @tc.desc: Checkout setting.
+* @tc.type: FUNC
+*/
+HWTEST_F(InputMethodControllerTest, Imc005, TestSize.Level0)
+{
+    InputMethodSetting setting;
+    std::u16string curIme = setting.GetCurrentInputMethod();
+    std::u16string testIme = u"testCurrentImeId";
+    setting.SetCurrentInputMethod(testIme);
+    ASSERT_TRUE(testIme == setting.GetCurrentInputMethod());
+
+    setting.SetCurrentInputMethod(curIme);
+    ASSERT_TRUE(curIme == setting.GetCurrentInputMethod());
+}
+
+/**
+* @tc.name: Imc006
+* @tc.desc: Checkout setting.
+* @tc.type: FUNC
+*/
+HWTEST_F(InputMethodControllerTest, Imc006, TestSize.Level0)
+{
+    InputMethodSetting setting;
+    int32_t curType = setting.GetCurrentKeyboardType();
+    int32_t testType = 10;
+    setting.SetCurrentKeyboardType(testType);
+    ASSERT_TRUE(testType == setting.GetCurrentKeyboardType());
+
+    setting.SetCurrentKeyboardType(curType);
+    ASSERT_TRUE(curType == setting.GetCurrentKeyboardType());
+
+    curType = setting.GetCurrentKeyboardType();
+    setting.SetCurrentKeyboardType(testType);
+    ASSERT_TRUE(testType == setting.GetCurrentKeyboardType());
+
+    setting.SetCurrentKeyboardType(curType);
+    ASSERT_TRUE(curType == setting.GetCurrentKeyboardType());
+}
+
+/**
+* @tc.name: Imc007
+* @tc.desc: Bind IMSA.
+* @tc.type: FUNC
+*/
+HWTEST_F(InputMethodControllerTest, Imc007, TestSize.Level0)
 {
     IMSA_HILOGI("IMC TEST START");
     sptr<InputMethodController> imc = InputMethodController::GetInstance();

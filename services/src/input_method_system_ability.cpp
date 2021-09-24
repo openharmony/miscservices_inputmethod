@@ -37,7 +37,7 @@ namespace MiscServices {
      * @param runOnCreate
      */
     InputMethodSystemAbility::InputMethodSystemAbility(int32_t systemAbilityId, bool runOnCreate)
-    : SystemAbility(systemAbilityId, runOnCreate), state_(ServiceRunningState::STATE_NOT_START)
+        : SystemAbility(systemAbilityId, runOnCreate), state_(ServiceRunningState::STATE_NOT_START)
     {
     }
 
@@ -200,7 +200,7 @@ namespace MiscServices {
     \return ErrorCode::NO_ERROR no error
     \return ErrorCode::ERROR_USER_NOT_UNLOCKED user not unlocked
     */
-    int32_t InputMethodSystemAbility::getDisplayMode(int32_t *retMode)
+    int32_t InputMethodSystemAbility::getDisplayMode(int32_t retMode)
     {
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
@@ -209,7 +209,7 @@ namespace MiscServices {
             IMSA_HILOGE("%s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_UNLOCKED), userId);
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
-        *retMode = GetUserSession(userId)->GetDisplayMode();
+        retMode = GetUserSession(userId)->GetDisplayMode();
         return ErrorCode::NO_ERROR;
     }
 

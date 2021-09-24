@@ -81,7 +81,7 @@ namespace MiscServices {
         mImms = GetImsaProxy();
         sptr<InputMethodCoreStub> stub = new InputMethodCoreStub(0);
         stub->SetMessageHandler(msgHandler);
-        sptr<IInputMethodCore> stub2=stub;
+        sptr<IInputMethodCore> stub2 = stub;
         if (mImms != nullptr) {
             mImms->setInputMethodCore(stub2);
         }
@@ -94,7 +94,10 @@ namespace MiscServices {
         IMSA_HILOGI("InputMethodAbility::Initialize");
         InitialInputWindow();
         msgHandler = new MessageHandler();
-        workThreadHandler = std::thread([this]{WorkThread();});
+        workThreadHandler = std::thread([this]
+        {
+            WorkThread();
+        });
     }
 
     void InputMethodAbility::setEventTarget(sptr<EventTarget> &eventTarget) {
@@ -104,7 +107,8 @@ namespace MiscServices {
 
     void InputMethodAbility::WorkThread()
     {
-        while(1){
+        while(1)
+        {
             Message *msg = msgHandler->GetMessage();
             switch(msg->msgId_) {
                 case MSG_ID_INITIALIZE_INPUT: {
@@ -132,7 +136,7 @@ namespace MiscServices {
                     break;
                 }
 
-                case MSG_ID_DISPATCH_KEY : {
+                case MSG_ID_DISPATCH_KEY: {
                     DispatchKey(msg);
                     break;
                 }
@@ -155,9 +159,10 @@ namespace MiscServices {
             IMSA_HILOGI("InputMethodAbility::OnInitialInput channelObject is nullptr");
             return;
         }
-        sptr<InputControlChannelProxy> channelProxy=new InputControlChannelProxy(channelObject);
+        sptr<InputControlChannelProxy> channelProxy = new InputControlChannelProxy(channelObject);
         inputControlChannel = channelProxy;
-        if(inputControlChannel == nullptr) {
+        if (inputControlChannel == nullptr)
+        {
             IMSA_HILOGI("InputMethodAbility::OnInitialInput inputControlChannel is nullptr");
             return;
         }
@@ -170,17 +175,20 @@ namespace MiscServices {
         MessageParcel *data = msg->msgContent_;
         sptr<InputDataChannelProxy> channalProxy = new InputDataChannelProxy(data->ReadRemoteObject());
         inputDataChannel = channalProxy;
-        if(inputDataChannel == nullptr) {
+        if (inputDataChannel == nullptr)
+        {
             IMSA_HILOGI("InputMethodAbility::OnStartInput inputDataChannel is nullptr");
         }
         editorAttribute = data->ReadParcelable<InputAttribute>();
-        if(editorAttribute == nullptr) {
+        if (editorAttribute == nullptr)
+        {
             IMSA_HILOGI("InputMethodAbility::OnStartInput editorAttribute is nullptr");
         }
         mSupportPhysicalKbd = data->ReadBool();
 
         CreateInputMethodAgent(mSupportPhysicalKbd);
-        if (inputControlChannel != nullptr) {
+        if (inputControlChannel != nullptr)
+        {
             IMSA_HILOGI("InputMethodAbility::OnStartInput inputControlChannel is not nullptr");
             inputControlChannel->onAgentCreated(inputMethodAgent, nullptr);
         }
@@ -232,13 +240,13 @@ namespace MiscServices {
     void InputMethodAbility::ShowInputWindow()
     {
         IMSA_HILOGI("InputMethodAbility::ShowInputWindow");
-        eventTarget_->Emit("keyboardShow",nullptr);
+        eventTarget_->Emit("keyboardShow", nullptr);
     }
 
     void InputMethodAbility::DissmissInputWindow()
     {
         IMSA_HILOGI("InputMethodAbility::DissmissInputWindow");
-        eventTarget_->Emit("keyboardHide",nullptr);
+        eventTarget_->Emit("keyboardHide", nullptr);
     }
 
     bool InputMethodAbility::InsertText(const std::string text)

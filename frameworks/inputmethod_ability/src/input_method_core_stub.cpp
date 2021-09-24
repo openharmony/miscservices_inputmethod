@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 #include <chrono>
-#include <stdint.h>
+#include <cstdint>
 #include "message_handler.h"
 #include "i_input_data_channel.h"
 #include "input_method_core_stub.h"
@@ -118,7 +118,7 @@ namespace MiscServices {
         sptr<IInputControlChannel>& inputControlChannel)
     {
         IMSA_HILOGI("InputMethodCoreStub::initializeInput");
-        if (msgHandler_==nullptr) {
+        if (msgHandler_ == nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
 
@@ -145,7 +145,7 @@ namespace MiscServices {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         MessageParcel *data = new MessageParcel();
-        if (inputDataChannel !=nullptr) {
+        if (inputDataChannel != nullptr) {
             IMSA_HILOGI("InputMethodCoreStub::startInput inputDataChannel is not nullptr");
             data->WriteRemoteObject(inputDataChannel->AsObject());
         }
@@ -171,7 +171,7 @@ namespace MiscServices {
     bool InputMethodCoreStub::showKeyboard(int32_t flags)
     {
         IMSA_HILOGI("InputMethodCoreStub::showKeyboard");
-        if (msgHandler_==nullptr) {
+        if (msgHandler_ == nullptr) {
             return false;
         }
         MessageParcel *data = new MessageParcel();
@@ -186,7 +186,7 @@ namespace MiscServices {
     bool InputMethodCoreStub::hideKeyboard(int32_t flags)
     {
         IMSA_HILOGI("InputMethodCoreStub::hideKeyboard");
-        if (msgHandler_==nullptr) {
+        if (msgHandler_ == nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         MessageParcel *data = new MessageParcel();
@@ -201,7 +201,7 @@ namespace MiscServices {
     int32_t InputMethodCoreStub::setKeyboardType(const KeyboardType& type)
     {
         IMSA_HILOGI("InputMethodCoreStub::setKeyboardType");
-        if (msgHandler_==nullptr) {
+        if (msgHandler_ == nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         MessageParcel *data = new MessageParcel();
@@ -215,7 +215,7 @@ namespace MiscServices {
     int32_t InputMethodCoreStub::getKeyboardWindowHeight(int32_t retHeight)
     {
         IMSA_HILOGI("InputMethodCoreStub::getKeyboardWindowHeight");
-        if (msgHandler_==nullptr) {
+        if (msgHandler_ == nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         MessageParcel *data = new MessageParcel();
@@ -227,7 +227,7 @@ namespace MiscServices {
 
     void InputMethodCoreStub::SetMessageHandler(MessageHandler *msgHandler)
     {
-        msgHandler_=msgHandler;
+        msgHandler_ = msgHandler;
     }
 }
 }

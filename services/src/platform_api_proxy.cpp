@@ -22,17 +22,16 @@
 #include "peer_holder.h"
 #include "utils.h"
 #include <string>
-#include <stdint.h>
+#include <cstdint>
 
 /*! \class PlatformApiProxy
   \brief The proxy implementation of IPlatformApi
 */
 namespace OHOS {
 namespace MiscServices {
-    class PlatformApiProxy : public IRemoteProxy < IPlatformApi > {
+    class PlatformApiProxy : public IRemoteProxy<IPlatformApi> {
     public:
-        PlatformApiProxy(const sptr<IRemoteObject>& impl)
-        : IRemoteProxy < IPlatformApi >(impl)
+        PlatformApiProxy(const sptr<IRemoteObject>& impl) : IRemoteProxy<IPlatformApi>(impl)
         {
         }
 
@@ -40,7 +39,7 @@ namespace MiscServices {
         {
         }
 
-        int32_t registerCallback(const sptr < IPlatformCallback >& cb)
+        int32_t registerCallback(const sptr<IPlatformCallback>& cb)
         {
             MessageParcel data, reply;
             MessageOption option;
@@ -62,7 +61,7 @@ namespace MiscServices {
             return Utils::to_utf16("20210814");
         }
 
-        sptr < IInputMethodCore > bindInputMethodService(const std::u16string& packageName,
+        sptr<IInputMethodCore> bindInputMethodService(const std::u16string& packageName,
             const std::u16string& intention, int userId)
         {
             MessageParcel data, reply;
@@ -104,7 +103,7 @@ namespace MiscServices {
             return ErrorCode::NO_ERROR;
         }
 
-        sptr < IRemoteObject > createWindowToken(int userId, int displayId, const std::u16string& packageName)
+        sptr<IRemoteObject> createWindowToken(int userId, int displayId, const std::u16string& packageName)
         {
             MessageParcel data, reply;
             MessageOption option;

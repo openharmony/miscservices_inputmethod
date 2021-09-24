@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_INPUTCONTROLCHANNEL_SK_H
-#define FM_IMMS_PROJECT_INPUTCONTROLCHANNEL_SK_H
+#ifndef FM_IMMS_PROJECT_INPUTCONTROLCHANNELSTUB_H
+#define FM_IMMS_PROJECT_INPUTCONTROLCHANNELSTUB_H
 
 #include "iremote_broker.h"
 #include "iremote_stub.h"
@@ -57,4 +57,4 @@ namespace OHOS {
     };
 }
 }
-#endif // FM_IMMS_PROJECT_INPUTCONTROLCHANNEL_SK_H
+#endif // FM_IMMS_PROJECT_INPUTCONTROLCHANNELSTUB_H

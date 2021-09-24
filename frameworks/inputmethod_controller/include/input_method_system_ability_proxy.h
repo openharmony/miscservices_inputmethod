@@ -47,7 +47,7 @@ class InputMethodSystemAbilityProxy : public IRemoteProxy<IInputMethodSystemAbil
         int32_t Start(sptr<InputClientStub> &client);
         int32_t Stop(sptr<InputClientStub> &client);
 
-        virtual int32_t getDisplayMode(int32_t *retMode) override;
+        virtual int32_t getDisplayMode(int32_t retMode) override;
         virtual int32_t getKeyboardWindowHeight(int32_t retHeight) override;
         virtual int32_t getCurrentKeyboardType(KeyboardType *retType) override;
         virtual int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) override;
