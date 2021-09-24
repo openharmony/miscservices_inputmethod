@@ -351,7 +351,7 @@ namespace MiscServices {
     \return ErrorCode::NO_ERROR no error
     \return ErrorCode::ERROR_CLIENT_NOT_FOUND client is not found
     */
-    int PerUserSession::RemoveClient(const sptr<IInputClient>& inputClient, int *remainClientNum)
+    int PerUserSession::RemoveClient(const sptr<IInputClient>& inputClient, int remainClientNum)
     {
         IMSA_HILOGE("PerUserSession::RemoveClient");
         sptr<IRemoteObject> b = inputClient->AsObject();
@@ -373,12 +373,10 @@ namespace MiscServices {
         delete clientInfo;
         mapClients.erase(it);
 
-        if(remainClientNum!=nullptr) {
-            *remainClientNum = 0;
-            for(it=mapClients.begin(); it!=mapClients.end(); ++it) {
-                if (it->second->attribute.GetSecurityFlag() == flag) {
-                    (*remainClientNum)++;
-                }
+        remainClientNum = 0;
+        for(it=mapClients.begin(); it!=mapClients.end(); ++it) {
+            if (it->second->attribute.GetSecurityFlag() == flag) {
+                remainClientNum++;
             }
         }
         return ErrorCode::NO_ERROR;
@@ -659,7 +657,7 @@ namespace MiscServices {
         if (currentClient != nullptr) {
             HideKeyboard(client);
         }
-        RemoveClient(client, &remainClientNum);
+        RemoveClient(client, remainClientNum);
     }
 
     /*! Handle the situation a input method service died\n
@@ -1345,7 +1343,7 @@ namespace MiscServices {
         if (currentClient == interface) {
             HideKeyboard(client);
         }
-        int ret = RemoveClient(client, &remainClientNum);
+        int ret = RemoveClient(client, remainClientNum);
         if (ret != ErrorCode::NO_ERROR) {
             IMSA_HILOGE("PerUserSession::OnReleaseInput Aborted! Failed to RemoveClient [%{public}d]\n", userId_);
         }

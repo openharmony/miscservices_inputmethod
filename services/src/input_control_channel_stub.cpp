@@ -14,7 +14,7 @@
  */
 
 #include <chrono>
-#include <stdint.h>
+#include <cstdint>
 #include "message_handler.h"
 #include "input_control_channel_stub.h"
 #include "i_input_control_channel.h"

@@ -26,8 +26,7 @@ namespace OHOS {
 namespace MiscServices {
     class PlatformCallbackProxy : public IRemoteProxy<IPlatformCallback> {
     public:
-        PlatformCallbackProxy(const sptr < IRemoteObject >& impl)
-        : IRemoteProxy < IPlatformCallback >(impl)
+        PlatformCallbackProxy(const sptr<IRemoteObject>& impl) : IRemoteProxy<IPlatformCallback>(impl)
         {
         }
 
@@ -35,7 +34,7 @@ namespace MiscServices {
         {
         }
 
-        void notifyEvent(int eventId, int userId, const std::vector < std::u16string >& eventContent)
+        void notifyEvent(int eventId, int userId, const std::vector<std::u16string>& eventContent)
         {
             (void)eventId;
             (void)userId;

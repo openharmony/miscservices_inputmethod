@@ -54,7 +54,7 @@ namespace MiscServices {
         virtual void stopInput(MessageParcel& data) = 0;
         virtual int32_t setInputMethodCore(sptr<IInputMethodCore> &core)=0;
 
-        virtual int32_t getDisplayMode(int32_t *retMode) = 0;
+        virtual int32_t getDisplayMode(int32_t retMode) = 0;
         virtual int32_t getKeyboardWindowHeight(int32_t retHeight) = 0;
         virtual int32_t getCurrentKeyboardType(KeyboardType *retType) = 0;
         virtual int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) = 0;
