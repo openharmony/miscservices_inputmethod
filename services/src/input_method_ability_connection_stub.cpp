@@ -17,43 +17,47 @@
 #include "message_parcel.h"
 #include "message.h"
 
-
 namespace OHOS {
-    namespace MiscServices {
-        InputMethodAbilityConnectionStub::InputMethodAbilityConnectionStub(const int index){
-            mIndex = index;
-        }
-
-        InputMethodAbilityConnectionStub::~InputMethodAbilityConnectionStub(){
-
-        }
-
-        void InputMethodAbilityConnectionStub::OnAbilityConnectDone(const AppExecFwk::ElementName &element, const sptr<IRemoteObject> &remoteObject, int resultCode){
-            IMSA_HILOGE("ConnectAbility: OnAbilityConnectDone.");
-            if(messageHandler != nullptr){
-                MessageParcel* data = new MessageParcel();
-                data->WriteParcelable(&element);
-                data->WriteRemoteObject(remoteObject);
-                data->WriteInt32(mIndex);
-                Message* msg = new Message(MessageID::MSG_ID_ABILITY_CONNECT_DONE, data);
-                messageHandler->SendMessage(msg);
-            }
-        }
-
-        void InputMethodAbilityConnectionStub::OnAbilityDisconnectDone(const AppExecFwk::ElementName &element, int resultCode) {
-            IMSA_HILOGE("ConnectAbility: OnAbilityDisconnectDone.");
-            if(messageHandler != nullptr){
-                MessageParcel* data = new MessageParcel();
-                data->WriteParcelable(&element);
-                data->WriteInt32(mIndex);
-                Message* msg = new Message(MessageID::MSG_ID_ABILITY_DISCONNECT_DONE, data);
-                messageHandler->SendMessage(msg);
-            }
-        }
-
-        void InputMethodAbilityConnectionStub::SetHandler(MessageHandler* handler){
-            messageHandler = handler;
-        }
-
+namespace MiscServices {
+    InputMethodAbilityConnectionStub::InputMethodAbilityConnectionStub(const int index)
+    {
+        mIndex = index;
     }
+
+    InputMethodAbilityConnectionStub::~InputMethodAbilityConnectionStub()
+    {
+    }
+
+    void InputMethodAbilityConnectionStub::OnAbilityConnectDone(const AppExecFwk::ElementName &element,
+                                                                const sptr<IRemoteObject> &remoteObject, int resultCode)
+    {
+        IMSA_HILOGE("ConnectAbility: OnAbilityConnectDone.");
+        if(messageHandler != nullptr){
+            MessageParcel *data = new MessageParcel();
+            data->WriteParcelable(&element);
+            data->WriteRemoteObject(remoteObject);
+            data->WriteInt32(mIndex);
+            Message *msg = new Message(MessageID::MSG_ID_ABILITY_CONNECT_DONE, data);
+            messageHandler->SendMessage(msg);
+        }
+    }
+
+    void InputMethodAbilityConnectionStub::OnAbilityDisconnectDone(const AppExecFwk::ElementName &element,
+                                                                   int resultCode)
+    {
+        IMSA_HILOGE("ConnectAbility: OnAbilityDisconnectDone.");
+        if(messageHandler != nullptr){
+            MessageParcel *data = new MessageParcel();
+            data->WriteParcelable(&element);
+            data->WriteInt32(mIndex);
+            Message *msg = new Message(MessageID::MSG_ID_ABILITY_DISCONNECT_DONE, data);
+            messageHandler->SendMessage(msg);
+        }
+    }
+
+    void InputMethodAbilityConnectionStub::SetHandler(MessageHandler *handler)
+    {
+        messageHandler = handler;
+    }
+}
 }

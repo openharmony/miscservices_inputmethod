@@ -3,6 +3,9 @@
 #### 介绍
 输入法框架，主要作用是拉通应用和输入法，保证应用可以通过输入法进行文本输入
 
+**图 1**  子系统架构图<a name="fig143011012341"></a>  
+![](figures/subsystem_architecture_zh.png "子系统架构图")
+
 #### 仓路径
 /base/miscservices/inputmethod
 
@@ -38,6 +41,19 @@
 1.在编辑属性的控件中进行点击操作，即可通过输入法框架调起默认输入法应用
 
 2.通过输入法应用可以进行打字，并上屏输入字符到应用客户端
+
+#### 本框架编译调试方法
+
+1.   编译命令
+
+./build.sh --product-name (填写具体的产品名，如：Hi3516DV300) --build-target inputmethod_native
+
+2.  推送so文件
+
+将工程目录下out\ohos-arm-release\miscservices\inputmethod_native下的libinputmethod_client.z.so libinputmethod_ability.z.so 
+libinputmethod_service.z.so三大so推送到system/lib，将libinputmethodability.z.so推送到system/lib/module下，并确保四个so至少为可读状态。
+
+3.  重启设备
 
 #### 参与贡献
 

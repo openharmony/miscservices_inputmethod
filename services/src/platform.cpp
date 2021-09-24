@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-
 #include "global.h"
 #include "platform.h"
 #include "platform_callback_stub.h"
@@ -41,9 +40,9 @@ namespace MiscServices {
 
     /*! Single instance exists in the service
     */
-    Platform* Platform::Instance()
+    Platform *Platform::Instance()
     {
-        static Platform* platform = nullptr;
+        static Platform *platform = nullptr;
         if (platform == nullptr) {
             platform = new Platform();
         }
@@ -56,8 +55,8 @@ namespace MiscServices {
       \param intention the intention to start the service
       \return the remote object handler of started input method service.
     */
-    sptr < IInputMethodCore > Platform::BindInputMethodService(int userId, const std::u16string& packageName,
-                                                               const std::u16string& intention)
+    sptr<IInputMethodCore> Platform::BindInputMethodService(int userId, const std::u16string& packageName,
+                                                            const std::u16string& intention)
     {
         if (platformApi == nullptr) {
             return nullptr;
@@ -110,7 +109,7 @@ namespace MiscServices {
       \param[out] inputMethodProperties the input method engine list installed in the system for the given user
       \return ErrorCode
     */
-    int Platform::ListInputMethod(int userId, std::vector < InputMethodProperty* > * inputMethodProperties)
+    int Platform::ListInputMethod(int userId, std::vector<InputMethodProperty*> *inputMethodProperties)
     {
         return 0;
     }
@@ -121,7 +120,8 @@ namespace MiscServices {
       \param[out] inputMethodProperty the input method engine information for the given package
       \return ErrorCode
     */
-    int Platform::GetInputMethodProperty(int userId, const std::u16string& packageName, InputMethodProperty * inputMethodProperty)
+    int Platform::GetInputMethodProperty(int userId, const std::u16string& packageName,
+                                         InputMethodProperty *inputMethodProperty)
     {
         if (platformApi == nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;
@@ -134,7 +134,8 @@ namespace MiscServices {
       \param[out] inputMethodSetting the input method setting data for the given user
       \return ErrorCode
     */
-    int Platform::GetInputMethodSetting(int userId, InputMethodSetting * inputMethodSetting)
+
+    int Platform::GetInputMethodSetting(int userId, InputMethodSetting *inputMethodSetting)
     {
         return 0;
     }

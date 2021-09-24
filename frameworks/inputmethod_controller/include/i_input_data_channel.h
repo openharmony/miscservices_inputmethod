@@ -25,7 +25,7 @@
  */
 namespace OHOS {
 namespace MiscServices {
-    class IInputDataChannel: public IRemoteBroker {
+    class IInputDataChannel : public IRemoteBroker {
     public:
         enum {
             INSERT_TEXT = 0,

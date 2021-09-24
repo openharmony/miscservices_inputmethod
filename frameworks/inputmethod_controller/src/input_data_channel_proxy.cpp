@@ -19,55 +19,54 @@
 
 namespace OHOS {
 namespace MiscServices {
-
-InputDataChannelProxy::InputDataChannelProxy(const sptr<IRemoteObject> &object) : IRemoteProxy<IInputDataChannel>(object)
-{
-
-}
-
-bool InputDataChannelProxy::InsertText(const std::u16string& text)
-{
-    IMSA_HILOGI("InputDataChannelProxy::InsertText");
-    MessageParcel data, reply;
-    MessageOption option;
-    data.WriteInterfaceToken(GetDescriptor());
-    data.WriteString16(text);
-
-    auto ret = Remote()->SendRequest(INSERT_TEXT, data, reply, option);
-    if (ret != NO_ERROR) {
-        return false;
+    InputDataChannelProxy::InputDataChannelProxy(const sptr<IRemoteObject> &object)
+        : IRemoteProxy<IInputDataChannel>(object)
+    {
     }
-    auto result = reply.ReadBool();
-    return result;
-}
 
-bool InputDataChannelProxy::DeleteBackward(int32_t length)
-{
-    IMSA_HILOGI("InputDataChannelProxy::DeleteBackward");
-    MessageParcel data, reply;
-    MessageOption option;
-    data.WriteInterfaceToken(GetDescriptor());
-    data.WriteInt32(length);
+    bool InputDataChannelProxy::InsertText(const std::u16string& text)
+    {
+        IMSA_HILOGI("InputDataChannelProxy::InsertText");
+        MessageParcel data, reply;
+        MessageOption option;
+        data.WriteInterfaceToken(GetDescriptor());
+        data.WriteString16(text);
 
-    auto ret = Remote()->SendRequest(DELETE_BACKWARD, data, reply, option);
-    if (ret != NO_ERROR) {
-        return false;
+        auto ret = Remote()->SendRequest(INSERT_TEXT, data, reply, option);
+        if (ret != NO_ERROR) {
+            return false;
+        }
+        auto result = reply.ReadBool();
+        return result;
     }
-    auto result = reply.ReadBool();
-    return result;
-}
 
-void InputDataChannelProxy::Close()
-{
-    IMSA_HILOGI("InputDataChannelProxy::Close");
-    MessageParcel data, reply;
-    MessageOption option;
-    data.WriteInterfaceToken(GetDescriptor());
+    bool InputDataChannelProxy::DeleteBackward(int32_t length)
+    {
+        IMSA_HILOGI("InputDataChannelProxy::DeleteBackward");
+        MessageParcel data, reply;
+        MessageOption option;
+        data.WriteInterfaceToken(GetDescriptor());
+        data.WriteInt32(length);
 
-    auto ret = Remote()->SendRequest(CLOSE, data, reply, option);
-    if (ret != NO_ERROR) {
-        
+        auto ret = Remote()->SendRequest(DELETE_BACKWARD, data, reply, option);
+        if (ret != NO_ERROR) {
+            return false;
+        }
+        auto result = reply.ReadBool();
+        return result;
     }
-}
+
+    void InputDataChannelProxy::Close()
+    {
+        IMSA_HILOGI("InputDataChannelProxy::Close");
+        MessageParcel data, reply;
+        MessageOption option;
+        data.WriteInterfaceToken(GetDescriptor());
+
+        auto ret = Remote()->SendRequest(CLOSE, data, reply, option);
+        if (ret != NO_ERROR) {
+
+        }
+    }
 }
 }

@@ -30,38 +30,37 @@
 
 namespace OHOS {
 namespace MiscServices {
-class IInputMethodSystemAbility : public IRemoteBroker {
-public:
-    enum {
-        PREPARE_INPUT = 0,
-        RELEASE_INPUT,
-        START_INPUT,
-        STOP_INPUT,
-        SET_INPUT_METHOD_CORE,
-        GET_DISPLAY_MODE,
-        GET_KEYBOARD_WINDOW_HEIGHT,
-        GET_CURRENT_KEYBOARD_TYPE,
-        LIST_INPUT_METHOD_ENABLED,
-        LIST_INPUT_METHOD,
-        LIST_KEYBOARD_TYPE,
+    class IInputMethodSystemAbility : public IRemoteBroker {
+    public:
+        enum {
+            PREPARE_INPUT = 0,
+            RELEASE_INPUT,
+            START_INPUT,
+            STOP_INPUT,
+            SET_INPUT_METHOD_CORE,
+            GET_DISPLAY_MODE,
+            GET_KEYBOARD_WINDOW_HEIGHT,
+            GET_CURRENT_KEYBOARD_TYPE,
+            LIST_INPUT_METHOD_ENABLED,
+            LIST_INPUT_METHOD,
+            LIST_KEYBOARD_TYPE,
+        };
+
+        DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.IInputMethodSystemAbility");
+
+        virtual void prepareInput(MessageParcel& data) = 0;
+        virtual void releaseInput(MessageParcel& data) = 0;
+        virtual void startInput(MessageParcel& data) = 0;
+        virtual void stopInput(MessageParcel& data) = 0;
+        virtual int32_t setInputMethodCore(sptr<IInputMethodCore> &core)=0;
+
+        virtual int32_t getDisplayMode(int32_t retMode) = 0;
+        virtual int32_t getKeyboardWindowHeight(int32_t retHeight) = 0;
+        virtual int32_t getCurrentKeyboardType(KeyboardType *retType) = 0;
+        virtual int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) = 0;
+        virtual int32_t listInputMethod(std::vector<InputMethodProperty*> *properties) = 0;
+        virtual int32_t listKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) = 0;
     };
-
-    DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.IInputMethodSystemAbility");
-
-    virtual void prepareInput(MessageParcel& data) = 0;
-    virtual void releaseInput(MessageParcel& data) = 0;
-    virtual void startInput(MessageParcel& data) = 0;
-    virtual void stopInput(MessageParcel& data) = 0;
-    virtual int32_t setInputMethodCore(sptr<IInputMethodCore> &core)=0;
-
-    virtual int32_t getDisplayMode(int32_t *retMode) = 0;
-    virtual int32_t getKeyboardWindowHeight(int32_t *retHeight) = 0;
-    virtual int32_t getCurrentKeyboardType(KeyboardType* retType) = 0;
-    virtual int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) = 0;
-    virtual int32_t listInputMethod(std::vector<InputMethodProperty*> *properties) = 0;
-    virtual int32_t listKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) = 0;
-};
 }
 }
-
 #endif // FM_IMMS_PROJECT_IINPUTMETHODSYSTEMABILITY_H

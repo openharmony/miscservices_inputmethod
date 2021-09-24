@@ -12,9 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
-
 #include "input_method_ability.h"
 #include "input_method_core_proxy.h"
 #include "input_method_core_stub.h"
@@ -32,18 +29,21 @@ namespace MiscServices {
     sptr<InputMethodAbility> InputMethodAbility::instance_;
     std::mutex InputMethodAbility::instanceLock_;
 
-    InputMethodAbility::InputMethodAbility() {
+    InputMethodAbility::InputMethodAbility()
+    {
         Initialize();
         OnConnect();
     }
 
-    InputMethodAbility::~InputMethodAbility() {
+    InputMethodAbility::~InputMethodAbility()
+    {
         if (msgHandler != nullptr) {
             delete msgHandler;
         }
     }
 
-    sptr<InputMethodAbility> InputMethodAbility::GetInstance() {
+    sptr<InputMethodAbility> InputMethodAbility::GetInstance()
+    {
         IMSA_HILOGI("InputMethodAbility::GetInstance");
         if (instance_ == nullptr) {
             std::lock_guard<std::mutex> autoLock(instanceLock_);
@@ -55,7 +55,8 @@ namespace MiscServices {
         return instance_;
     }
 
-    sptr<InputMethodSystemAbilityProxy> InputMethodAbility::GetImsaProxy() {
+    sptr<InputMethodSystemAbilityProxy> InputMethodAbility::GetImsaProxy()
+    {
         IMSA_HILOGI("InputMethodAbility::GetImsaProxy");
         sptr<ISystemAbilityManager> systemAbilityManager =
             SystemAbilityManagerClient::GetInstance().GetSystemAbilityManager();
@@ -74,12 +75,13 @@ namespace MiscServices {
         return iface;
     }
 
-    sptr<IInputMethodCore> InputMethodAbility::OnConnect() {
+    sptr<IInputMethodCore> InputMethodAbility::OnConnect()
+    {
         IMSA_HILOGI("InputMethodAbility::OnConnect");
         mImms = GetImsaProxy();
         sptr<InputMethodCoreStub> stub = new InputMethodCoreStub(0);
         stub->SetMessageHandler(msgHandler);
-        sptr<IInputMethodCore> stub2=stub;
+        sptr<IInputMethodCore> stub2 = stub;
         if (mImms != nullptr) {
             mImms->setInputMethodCore(stub2);
         }
@@ -87,11 +89,15 @@ namespace MiscServices {
         return nullptr;
     }
 
-    void InputMethodAbility::Initialize() {
+    void InputMethodAbility::Initialize()
+    {
         IMSA_HILOGI("InputMethodAbility::Initialize");
         InitialInputWindow();
         msgHandler = new MessageHandler();
-        workThreadHandler = std::thread([this]{WorkThread();});
+        workThreadHandler = std::thread([this]
+        {
+            WorkThread();
+        });
     }
 
     void InputMethodAbility::setEventTarget(sptr<EventTarget> &eventTarget) {
@@ -99,9 +105,11 @@ namespace MiscServices {
         eventTarget_ = eventTarget;
     }
 
-    void InputMethodAbility::WorkThread() {
-        while(1){
-            Message* msg = msgHandler->GetMessage();
+    void InputMethodAbility::WorkThread()
+    {
+        while(1)
+        {
+            Message *msg = msgHandler->GetMessage();
             switch(msg->msgId_) {
                 case MSG_ID_INITIALIZE_INPUT: {
                     OnInitialInput(msg);
@@ -128,7 +136,7 @@ namespace MiscServices {
                     break;
                 }
 
-                case MSG_ID_DISPATCH_KEY : {
+                case MSG_ID_DISPATCH_KEY: {
                     DispatchKey(msg);
                     break;
                 }
@@ -141,93 +149,108 @@ namespace MiscServices {
         }
     }
 
-    void InputMethodAbility::OnInitialInput(Message* msg) {
+    void InputMethodAbility::OnInitialInput(Message *msg)
+    {
         IMSA_HILOGI("InputMethodAbility::OnInitialInput");
-        MessageParcel* data = msg->msgContent_;
+        MessageParcel *data = msg->msgContent_;
         displyId = data->ReadInt32();
         sptr<IRemoteObject> channelObject = data->ReadRemoteObject();
         if (channelObject == nullptr) {
             IMSA_HILOGI("InputMethodAbility::OnInitialInput channelObject is nullptr");
             return;
         }
-        sptr<InputControlChannelProxy> channelProxy=new InputControlChannelProxy(channelObject);
+        sptr<InputControlChannelProxy> channelProxy = new InputControlChannelProxy(channelObject);
         inputControlChannel = channelProxy;
-        if(inputControlChannel == nullptr) {
+        if (inputControlChannel == nullptr)
+        {
             IMSA_HILOGI("InputMethodAbility::OnInitialInput inputControlChannel is nullptr");
             return;
         }
         InitialInputWindow();
     }
 
-    void InputMethodAbility::OnStartInput(Message* msg) {
+    void InputMethodAbility::OnStartInput(Message *msg)
+    {
         IMSA_HILOGI("InputMethodAbility::OnStartInput");
-        MessageParcel* data = msg->msgContent_;
+        MessageParcel *data = msg->msgContent_;
         sptr<InputDataChannelProxy> channalProxy = new InputDataChannelProxy(data->ReadRemoteObject());
         inputDataChannel = channalProxy;
-        if(inputDataChannel == nullptr) {
+        if (inputDataChannel == nullptr)
+        {
             IMSA_HILOGI("InputMethodAbility::OnStartInput inputDataChannel is nullptr");
         }
         editorAttribute = data->ReadParcelable<InputAttribute>();
-        if(editorAttribute == nullptr) {
+        if (editorAttribute == nullptr)
+        {
             IMSA_HILOGI("InputMethodAbility::OnStartInput editorAttribute is nullptr");
         }
         mSupportPhysicalKbd = data->ReadBool();
 
         CreateInputMethodAgent(mSupportPhysicalKbd);
-        if (inputControlChannel != nullptr) {
+        if (inputControlChannel != nullptr)
+        {
             IMSA_HILOGI("InputMethodAbility::OnStartInput inputControlChannel is not nullptr");
             inputControlChannel->onAgentCreated(inputMethodAgent, nullptr);
         }
     }
 
-    void InputMethodAbility::OnShowKeyboard(Message* msg) {
+    void InputMethodAbility::OnShowKeyboard(Message *msg)
+    {
         IMSA_HILOGI("InputMethodAbility::OnShowKeyboard");
         ShowInputWindow();
     }
 
-    void InputMethodAbility::OnHideKeyboard(Message* msg) {
+    void InputMethodAbility::OnHideKeyboard(Message *msg)
+    {
         IMSA_HILOGI("InputMethodAbility::OnHideKeyboard");
         DissmissInputWindow();
     }
 
-    void InputMethodAbility::OnStopInput(Message* msg) {
+    void InputMethodAbility::OnStopInput(Message *msg)
+    {
         IMSA_HILOGI("InputMethodAbility::OnStopInput");
         if (writeInputChannel != nullptr) {
             delete writeInputChannel;
         }
     }
 
-    bool InputMethodAbility::DispatchKey(Message* msg) {
+    bool InputMethodAbility::DispatchKey(Message *msg)
+    {
         IMSA_HILOGI("InputMethodAbility::DispatchKey");
-        MessageParcel* data = msg->msgContent_;
+        MessageParcel *data = msg->msgContent_;
         int32_t key = data->ReadInt32();
         int32_t status = data->ReadInt32();
         IMSA_HILOGI("InputMethodAbility::DispatchKey: key = %{public}d, status = %{public}d", key, status);
         return true;
     }
 
-    void InputMethodAbility::CreateInputMethodAgent(bool supportPhysicalKbd) {
+    void InputMethodAbility::CreateInputMethodAgent(bool supportPhysicalKbd)
+    {
         IMSA_HILOGI("InputMethodAbility::CreateInputMethodAgent");
         sptr<InputMethodAgentStub> inputMethodAgentStub(new InputMethodAgentStub());
         inputMethodAgentStub->SetMessageHandler(msgHandler);
         inputMethodAgent = sptr(new InputMethodAgentProxy(inputMethodAgentStub));
     }
 
-    void InputMethodAbility::InitialInputWindow() {
+    void InputMethodAbility::InitialInputWindow()
+    {
         IMSA_HILOGI("InputMethodAbility::InitialInputWindow");
     }
 
-    void InputMethodAbility::ShowInputWindow() {
+    void InputMethodAbility::ShowInputWindow()
+    {
         IMSA_HILOGI("InputMethodAbility::ShowInputWindow");
-        eventTarget_->Emit("keyboardShow",nullptr);
+        eventTarget_->Emit("keyboardShow", nullptr);
     }
 
-    void InputMethodAbility::DissmissInputWindow() {
+    void InputMethodAbility::DissmissInputWindow()
+    {
         IMSA_HILOGI("InputMethodAbility::DissmissInputWindow");
-        eventTarget_->Emit("keyboardHide",nullptr);
+        eventTarget_->Emit("keyboardHide", nullptr);
     }
 
-    bool InputMethodAbility::InsertText(const std::string text) {
+    bool InputMethodAbility::InsertText(const std::string text)
+    {
         IMSA_HILOGI("InputMethodAbility::InsertText");
         if (inputDataChannel == nullptr){
             IMSA_HILOGI("InputMethodAbility::InsertText inputDataChanel is nullptr");
@@ -237,7 +260,8 @@ namespace MiscServices {
         return inputDataChannel->InsertText(Utils::to_utf16(text));
     }
 
-    void InputMethodAbility::DeleteBackward(int32_t length) {
+    void InputMethodAbility::DeleteBackward(int32_t length)
+    {
         IMSA_HILOGI("InputMethodAbility::DeleteBackward");
         if (inputDataChannel == nullptr){
             IMSA_HILOGI("InputMethodAbility::DeleteBackward inputDataChanel is nullptr");
@@ -246,7 +270,8 @@ namespace MiscServices {
         inputDataChannel->DeleteBackward(length);
     }
 
-    void InputMethodAbility::HideKeyboardSelf() {
+    void InputMethodAbility::HideKeyboardSelf()
+    {
         IMSA_HILOGI("InputMethodAbility::HideKeyboardSelf");
         inputControlChannel->hideKeyboardSelf(1);
     }

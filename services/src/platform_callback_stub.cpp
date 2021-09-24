@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-
 #include "message_handler.h"
 #include "message.h"
 #include "message_parcel.h"
@@ -24,13 +23,17 @@
 namespace OHOS {
 namespace MiscServices {
     using namespace MessageID;
-    PlatformCallbackStub::PlatformCallbackStub() {
+    PlatformCallbackStub::PlatformCallbackStub()
+    {
     }
 
-    PlatformCallbackStub::~PlatformCallbackStub() {
+    PlatformCallbackStub::~PlatformCallbackStub()
+    {
     }
 
-    int PlatformCallbackStub::OnRemoteRequest(uint32_t code, MessageParcel & data, MessageParcel & reply, MessageOption & option) {
+    int PlatformCallbackStub::OnRemoteRequest(uint32_t code, MessageParcel& data, MessageParcel& reply,
+                                              MessageOption& option)
+    {
         switch (code) {
             case NOTIFY_EVENT: {
                 int eventId = data.ReadInt32();
@@ -50,7 +53,8 @@ namespace MiscServices {
         return NO_ERROR;
     }
 
-    void PlatformCallbackStub::notifyEvent(int eventId, int userId, const std::vector<std::u16string>& eventContent) {
+    void PlatformCallbackStub::notifyEvent(int eventId, int userId, const std::vector<std::u16string>& eventContent)
+    {
         int msgId = 0;
         switch (eventId) {
             case CommonEvent::COMMON_EVENT_USER_STARTED: {
@@ -86,14 +90,14 @@ namespace MiscServices {
             }
         }
 
-        MessageParcel* parcel = new MessageParcel();
+        MessageParcel *parcel = new MessageParcel();
         parcel->WriteInt32(userId);
         int size = eventContent.size();
         parcel->WriteInt32(size);
         for (int i = 0; i < size; i++) {
             parcel->WriteString16(eventContent[i]);
         }
-        Message* msg = new Message(msgId, parcel);
+        Message *msg = new Message(msgId, parcel);
         MessageHandler::Instance()->SendMessage(msg);
     }
 }

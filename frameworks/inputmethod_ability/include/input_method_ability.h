@@ -47,12 +47,12 @@ namespace MiscServices {
 
     private:
         std::thread workThreadHandler;
-        MessageHandler* msgHandler;
+        MessageHandler *msgHandler;
         bool mSupportPhysicalKbd = false;
-        InputAttribute* editorAttribute;
+        InputAttribute *editorAttribute;
         int32_t displyId = 0;
         sptr<IRemoteObject> startInputToken;
-        InputChannel* writeInputChannel;
+        InputChannel *writeInputChannel;
 
         // communicating with IMSA
         sptr<IInputControlChannel> inputControlChannel;
@@ -66,21 +66,20 @@ namespace MiscServices {
         sptr<InputMethodSystemAbilityProxy> mImms;
         sptr<InputMethodSystemAbilityProxy> GetImsaProxy();
 
-
         void Initialize();
         void WorkThread();
         void CreateInputMethodAgent(bool supportPhysicalKbd);
 
         // the message from IMSA
-        void OnInitialInput(Message* msg);
-        void OnStartInput(Message* msg);
-        void OnStopInput(Message* msg);
-        void OnSetKeyboardType(Message* msg);
-        void OnShowKeyboard(Message* msg);
-        void OnHideKeyboard(Message* msg);
+        void OnInitialInput(Message *msg);
+        void OnStartInput(Message *msg);
+        void OnStopInput(Message *msg);
+        void OnSetKeyboardType(Message *msg);
+        void OnShowKeyboard(Message *msg);
+        void OnHideKeyboard(Message *msg);
 
         // the message from IMC
-        bool DispatchKey(Message* msg);
+        bool DispatchKey(Message *msg);
 
         // control inputwindow
         void InitialInputWindow();

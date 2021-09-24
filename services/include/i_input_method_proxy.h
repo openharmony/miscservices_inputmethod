@@ -34,5 +34,4 @@ namespace OHOS {
         };
     }
 }
-
 #endif // FM_IMMS_PROJECT_IINPUTMETHODAGENT_H

@@ -43,10 +43,11 @@ namespace MiscServices {
         
         int32_t GetUserState(int32_t userId);
 
-        int32_t OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply, MessageOption &option) override;
-        virtual int32_t getDisplayMode(int32_t *retMode) override;
-        virtual int32_t getKeyboardWindowHeight(int32_t *retHeight) override;
-        virtual int32_t getCurrentKeyboardType(KeyboardType* retType) override;
+        int32_t OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply,
+                                MessageOption &option) override;
+        virtual int32_t getDisplayMode(int32_t retMode) override;
+        virtual int32_t getKeyboardWindowHeight(int32_t retHeight) override;
+        virtual int32_t getCurrentKeyboardType(KeyboardType *retType) override;
         virtual int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) override;
         virtual int32_t listInputMethod(std::vector<InputMethodProperty*> *properties) override;
         virtual int32_t listKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) override;
@@ -67,20 +68,20 @@ namespace MiscServices {
         std::map<int32_t, MessageHandler*> msgHandlers;
 
         void WorkThread();
-        PerUserSetting* GetUserSetting(int32_t userId);
-        PerUserSession* GetUserSession(int32_t userId);
-        int32_t OnUserStarted(const Message* msg);
-        int32_t OnUserStopped(const Message* msg);
-        int32_t OnUserUnlocked(const Message* msg);
-        int32_t OnUserLocked(const Message* msg);
-        int32_t OnPrepareInput(Message* msg);
-        int32_t OnHandleMessage(Message* msg);
-        int32_t OnRemotePeerDied(const Message* msg);
-        int32_t OnSettingChanged(const Message* msg);
-        int32_t OnPackageRemoved(const Message* msg);
-        int32_t OnPackageAdded(const Message* msg);
-        int32_t OnDisableIms(const Message* msg);
-        int32_t OnAdvanceToNext(const Message* msg);
+        PerUserSetting *GetUserSetting(int32_t userId);
+        PerUserSession *GetUserSession(int32_t userId);
+        int32_t OnUserStarted(const Message *msg);
+        int32_t OnUserStopped(const Message *msg);
+        int32_t OnUserUnlocked(const Message *msg);
+        int32_t OnUserLocked(const Message *msg);
+        int32_t OnPrepareInput(Message *msg);
+        int32_t OnHandleMessage(Message *msg);
+        int32_t OnRemotePeerDied(const Message *msg);
+        int32_t OnSettingChanged(const Message *msg);
+        int32_t OnPackageRemoved(const Message *msg);
+        int32_t OnPackageAdded(const Message *msg);
+        int32_t OnDisableIms(const Message *msg);
+        int32_t OnAdvanceToNext(const Message *msg);
 
         ServiceRunningState state_;
         sptr<InputMethodAbility> inputMethodAbility_;

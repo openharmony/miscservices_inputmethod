@@ -24,18 +24,18 @@
 
 namespace OHOS {
 namespace MiscServices {
-class InputMethodSystemAbilityStub : public IRemoteStub<IInputMethodSystemAbility> {
-public:
-    int32_t OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply, MessageOption &option) override;
+    class InputMethodSystemAbilityStub : public IRemoteStub<IInputMethodSystemAbility> {
+    public:
+        int32_t OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply, MessageOption &option) override;
 
-    virtual void prepareInput(MessageParcel& data) override;
-    virtual void releaseInput(MessageParcel& data) override;
-    virtual void startInput(MessageParcel& data) override;
-    virtual void stopInput(MessageParcel& data) override;
-    void setInputMethodCoreFromHap(MessageParcel& data);
-protected:
-    int32_t getUserId(int32_t uid);
-};
+        virtual void prepareInput(MessageParcel& data) override;
+        virtual void releaseInput(MessageParcel& data) override;
+        virtual void startInput(MessageParcel& data) override;
+        virtual void stopInput(MessageParcel& data) override;
+        void setInputMethodCoreFromHap(MessageParcel& data);
+    protected:
+        int32_t getUserId(int32_t uid);
+    };
 }
 }
 

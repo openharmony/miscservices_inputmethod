@@ -26,10 +26,11 @@ namespace MiscServices {
         char type[LISTENER_TYPTE_MAX_LENGTH] = { 0 };
         bool isOnce = false;
         napi_ref handlerRef = nullptr;
-        EventListener* back = nullptr;
-        EventListener* next = nullptr;
+        EventListener *back = nullptr;
+        EventListener *next = nullptr;
     };
-    EventTarget::EventTarget(napi_env env, napi_value thisVar) {
+    EventTarget::EventTarget(napi_env env, napi_value thisVar)
+    {
         IMSA_HILOGI("EventTarget::EventTarget");
         env_ = env;
         first_ = last_ = nullptr;
@@ -37,8 +38,9 @@ namespace MiscServices {
         napi_create_reference(env, thisVar, 1, &thisVarRef_);
     }
 
-    EventTarget::~EventTarget() {
-        EventListener* temp = nullptr;
+    EventTarget::~EventTarget()
+    {
+        EventListener *temp = nullptr;
         for (EventListener* i = first_; i != nullptr; i = temp) {
             temp = i->next;
             if (i == first_) {
@@ -99,7 +101,7 @@ namespace MiscServices {
         napi_create_reference(env_, handler, 1, &last_->handlerRef);
     }
 
-    void EventTarget::Off(const char* type, napi_value handler)
+    void EventTarget::Off(const char *type, napi_value handler)
     {
         IMSA_HILOGI("EventTarget::Off");
         napi_handle_scope scope = nullptr;
@@ -109,8 +111,8 @@ namespace MiscServices {
             return;
         }
 
-        EventListener* temp = nullptr;
-        for (EventListener* eventListener = first_; eventListener != nullptr; eventListener = temp) {
+        EventListener *temp = nullptr;
+        for (EventListener *eventListener = first_; eventListener != nullptr; eventListener = temp) {
             temp = eventListener->next;
             bool isEquals = false;
             napi_value handlerTemp = nullptr;
@@ -137,8 +139,8 @@ namespace MiscServices {
     void EventTarget::Off(const char* type)
     {
         IMSA_HILOGI("EventTarget::Off");
-        EventListener* temp = nullptr;
-        for (EventListener* eventListener = first_; eventListener != nullptr; eventListener = temp) {
+        EventListener *temp = nullptr;
+        for (EventListener *eventListener = first_; eventListener != nullptr; eventListener = temp) {
             temp = eventListener->next;
             if (strcmp(eventListener->type, type) == 0) {
                 if (eventListener == first_) {
@@ -156,7 +158,7 @@ namespace MiscServices {
         }
     }
 
-    void EventTarget::Emit(const char* type, Event* event)
+    void EventTarget::Emit(const char* type, Event *event)
     {
         IMSA_HILOGI("EventTarget::Emit");
         napi_handle_scope scope = nullptr;
@@ -164,7 +166,7 @@ namespace MiscServices {
 
         napi_value thisVar = nullptr;
         napi_get_reference_value(env_, thisVarRef_, &thisVar);
-        for (EventListener* eventListener = first_; eventListener != nullptr; eventListener = eventListener->next) {
+        for (EventListener *eventListener = first_; eventListener != nullptr; eventListener = eventListener->next) {
             if (strcmp(eventListener->type, type) == 0) {
                 napi_value jsEvent = event ? event->ToJsObject() : nullptr;
                 napi_value handler = nullptr;

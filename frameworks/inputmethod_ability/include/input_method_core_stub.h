@@ -22,7 +22,7 @@
 #include "input_channel.h"
 #include <mutex>
 #include <condition_variable>
-#include <stdint.h>
+#include <cstdint>
 #include "message_parcel.h"
 #include "input_attribute.h"
 #include "i_input_data_channel.h"
@@ -52,12 +52,12 @@ namespace MiscServices {
         virtual bool showKeyboard(int32_t flags) override;
         virtual bool hideKeyboard(int32_t flags)override;
         virtual int32_t setKeyboardType(const KeyboardType& type) override;
-        virtual int32_t getKeyboardWindowHeight(int32_t * retHeight) override;
-        void SetMessageHandler(MessageHandler* msgHandler);
+        virtual int32_t getKeyboardWindowHeight(int32_t retHeight) override;
+        void SetMessageHandler(MessageHandler *msgHandler);
 
     private:
         int userId_;
-        MessageHandler* msgHandler_;
+        MessageHandler *msgHandler_;
     };
 }
 }
