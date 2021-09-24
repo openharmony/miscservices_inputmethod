@@ -66,7 +66,6 @@ ohos_shared_library("inputmethod_ability") {
 
   public_configs = [
     ":inputmethod_ability_native_config",
-    "//utils/native/base:utils_config",
     ]
 
   subsystem_name = "miscservices"

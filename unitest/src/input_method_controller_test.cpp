@@ -83,11 +83,11 @@ void InputMethodControllerTest::TearDown(void)
 }
 
 /**
-* @tc.name: Imc001
+* @tc.name: testGetIMSAProxy
 * @tc.desc: Get Imsa Proxy.
 * @tc.type: FUNC
 */
-HWTEST_F(InputMethodControllerTest, Imc001, TestSize.Level0)
+HWTEST_F(InputMethodControllerTest, testGetIMSAProxy, TestSize.Level0)
 {
     auto systemAbilityManager = SystemAbilityManagerClient::GetInstance().GetSystemAbilityManager();
     ASSERT_TRUE(systemAbilityManager != nullptr);
@@ -96,11 +96,11 @@ HWTEST_F(InputMethodControllerTest, Imc001, TestSize.Level0)
 }
 
 /**
-* @tc.name: Imc002
+* @tc.name: testWriteReadIInputDataChannel
 * @tc.desc: Checkout IInputDataChannel.
 * @tc.type: FUNC
 */
-HWTEST_F(InputMethodControllerTest, Imc002, TestSize.Level0)
+HWTEST_F(InputMethodControllerTest, testWriteReadIInputDataChannel, TestSize.Level0)
 {
     sptr<InputDataChannelStub> mInputDataChannel = new InputDataChannelStub();
     MessageParcel data;
@@ -112,11 +112,11 @@ HWTEST_F(InputMethodControllerTest, Imc002, TestSize.Level0)
 }
 
 /**
-* @tc.name: Imc003
+* @tc.name: testIMCBindToIMSA
 * @tc.desc: Bind IMSA.
 * @tc.type: FUNC
 */
-HWTEST_F(InputMethodControllerTest, Imc003, TestSize.Level0)
+HWTEST_F(InputMethodControllerTest, testIMCBindToIMSA, TestSize.Level0)
 {
     sptr<InputClientStub> mClient = new InputClientStub();
     MessageParcel data;
@@ -128,11 +128,11 @@ HWTEST_F(InputMethodControllerTest, Imc003, TestSize.Level0)
 }
 
 /**
-* @tc.name: Imc004
+* @tc.name: testInputMethodSettingValue
 * @tc.desc: Checkout setting.
 * @tc.type: FUNC
 */
-HWTEST_F(InputMethodControllerTest, Imc004, TestSize.Level0)
+HWTEST_F(InputMethodControllerTest, testInputMethodSettingValue, TestSize.Level0)
 {
     InputMethodSetting setting;
     std::u16string key = InputMethodSetting::CURRENT_INPUT_METHOD_TAG;
@@ -146,11 +146,11 @@ HWTEST_F(InputMethodControllerTest, Imc004, TestSize.Level0)
 }
 
 /**
-* @tc.name: Imc005
+* @tc.name: testInputMethodSettingCurrentInputMethod
 * @tc.desc: Checkout setting.
 * @tc.type: FUNC
 */
-HWTEST_F(InputMethodControllerTest, Imc005, TestSize.Level0)
+HWTEST_F(InputMethodControllerTest, testInputMethodSettingCurrentInputMethod, TestSize.Level0)
 {
     InputMethodSetting setting;
     std::u16string curIme = setting.GetCurrentInputMethod();
@@ -163,11 +163,11 @@ HWTEST_F(InputMethodControllerTest, Imc005, TestSize.Level0)
 }
 
 /**
-* @tc.name: Imc006
+* @tc.name: testInputMethodSettingCurrentKeyboard
 * @tc.desc: Checkout setting.
 * @tc.type: FUNC
 */
-HWTEST_F(InputMethodControllerTest, Imc006, TestSize.Level0)
+HWTEST_F(InputMethodControllerTest, testInputMethodSettingCurrentKeyboard, TestSize.Level0)
 {
     InputMethodSetting setting;
     int32_t curType = setting.GetCurrentKeyboardType();
@@ -187,11 +187,11 @@ HWTEST_F(InputMethodControllerTest, Imc006, TestSize.Level0)
 }
 
 /**
-* @tc.name: Imc007
+* @tc.name: testInputMethodWholeProcess
 * @tc.desc: Bind IMSA.
 * @tc.type: FUNC
 */
-HWTEST_F(InputMethodControllerTest, Imc007, TestSize.Level0)
+HWTEST_F(InputMethodControllerTest, testInputMethodWholeProcess, TestSize.Level0)
 {
     IMSA_HILOGI("IMC TEST START");
     sptr<InputMethodController> imc = InputMethodController::GetInstance();

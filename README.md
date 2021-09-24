@@ -4,6 +4,9 @@
 
 Input Method Framework, is used to connect the application and input method. the application can input text through the input method
 
+**图 1**  子系统架构图<a name="fig143011012341"></a>  
+![](figures/subsystem_architecture.png "子系统架构图")
+
 #### Warehouse path
 
 /base/miscservices/inputmethod
