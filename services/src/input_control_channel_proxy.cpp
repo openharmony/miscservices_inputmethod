@@ -24,7 +24,6 @@
 #include "i_input_method_agent.h"
 #include "input_control_channel_proxy.h"
 
-
 /*! \class InputControlChannelProxy
   \brief The proxy implementation of IInputControlChannel
 
@@ -32,14 +31,16 @@
 */
 namespace OHOS {
 namespace MiscServices {
-    InputControlChannelProxy::InputControlChannelProxy(const sptr<IRemoteObject> &impl) : IRemoteProxy<IInputControlChannel>(impl) {
+    InputControlChannelProxy::InputControlChannelProxy(const sptr<IRemoteObject> &impl)
+        : IRemoteProxy<IInputControlChannel>(impl)
+    {
     }
 
     InputControlChannelProxy::~InputControlChannelProxy()
     {
     }
 
-    void InputControlChannelProxy::onAgentCreated(sptr<IInputMethodAgent> &agent, InputChannel* channel)
+    void InputControlChannelProxy::onAgentCreated(sptr<IInputMethodAgent> &agent, InputChannel *channel)
     {
         IMSA_HILOGI("InputControlChannelProxy::onAgentCreated start.");
         MessageParcel data, reply;
@@ -101,5 +102,3 @@ namespace MiscServices {
     }
 }
 }
-
-

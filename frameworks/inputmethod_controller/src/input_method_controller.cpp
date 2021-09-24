@@ -95,10 +95,10 @@ using namespace MessageID;
     void InputMethodController::WorkThread()
     {
         while(1) {
-            Message* msg = msgHandler->GetMessage();
+            Message *msg = msgHandler->GetMessage();
             switch(msg->msgId_) {
                 case MSG_ID_INSERT_CHAR:{
-                    MessageParcel* data = msg->msgContent_;
+                    MessageParcel *data = msg->msgContent_;
                     std::u16string text = data->ReadString16();
                     if(textListener != nullptr){
                         textListener->InsertText(text);
@@ -106,7 +106,7 @@ using namespace MessageID;
                     break;
                 }
                 case MSG_ID_DELETE_BACKWARD:{
-                    MessageParcel* data = msg->msgContent_;
+                    MessageParcel *data = msg->msgContent_;
                     int32_t length = data->ReadInt32();
                     if(textListener != nullptr){
                         textListener->DeleteBackward(length);
@@ -114,13 +114,13 @@ using namespace MessageID;
                     break;
                 }
                 case MSG_ID_SET_DISPLAY_MODE:{
-                    MessageParcel* data = msg->msgContent_;
+                    MessageParcel *data = msg->msgContent_;
                     int32_t ret = data->ReadInt32();
                     IMSA_HILOGI("MSG_ID_SET_DISPLAY_MODE : %{public}d", ret);
                     break;
                 }
                 case MSG_ID_ON_INPUT_READY:{
-                    MessageParcel* data = msg->msgContent_;
+                    MessageParcel *data = msg->msgContent_;
                     int32_t ret = data->ReadInt32();
                     if(ret != ErrorCode::NO_ERROR) {
                         if (textListener != nullptr){
@@ -137,7 +137,7 @@ using namespace MessageID;
                     break;
                 }
                 case MSG_ID_EXIT_SERVICE:{
-                    MessageParcel* data = msg->msgContent_;
+                    MessageParcel *data = msg->msgContent_;
                     int32_t ret = data->ReadInt32();
                     textListener = nullptr;
                     IMSA_HILOGI("MSG_ID_EXIT_SERVICE : %{public}d", ret);
@@ -174,7 +174,8 @@ using namespace MessageID;
         ReleaseInput(mClient);
     }
 
-    void InputMethodController::PrepareInput(int32_t displayId,sptr<InputClientStub> &client,sptr<InputDataChannelStub> &channel,InputAttribute &attribute)
+    void InputMethodController::PrepareInput(int32_t displayId, sptr<InputClientStub> &client,
+                                             sptr<InputDataChannelStub> &channel, InputAttribute &attribute)
     {
         IMSA_HILOGI("InputMethodController::PrepareInput");
         if(mImms == nullptr){
@@ -233,13 +234,13 @@ using namespace MessageID;
         mImms->stopInput(data);
     }
 
-    void InputMethodController::OnRemoteSaDied(const wptr<IRemoteObject> &remote) {
+    void InputMethodController::OnRemoteSaDied(const wptr<IRemoteObject> &remote)
+    {
         mImms = GetImsaProxy();
     }
 
     ImsaDeathRecipient::ImsaDeathRecipient()
     {
-
     }
 
     void ImsaDeathRecipient::OnRemoteDied(const wptr<IRemoteObject> &object)

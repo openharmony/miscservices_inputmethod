@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-
-
 #ifndef FM_IMC_PROJECT_INPUTDATACHANNELPROXY_H
 #define FM_IMC_PROJECT_INPUTDATACHANNELPROXY_H
 
@@ -23,21 +21,19 @@
 
 namespace OHOS {
 namespace MiscServices {
+    class InputDataChannelProxy : public IRemoteProxy<IInputDataChannel> {
+    public:
+        explicit InputDataChannelProxy(const sptr<IRemoteObject> &object);
+        ~InputDataChannelProxy() = default;
+        DISALLOW_COPY_AND_MOVE(InputDataChannelProxy);
 
-class InputDataChannelProxy : public IRemoteProxy<IInputDataChannel>
-{
-public:
-    explicit InputDataChannelProxy(const sptr<IRemoteObject> &object);
-    ~InputDataChannelProxy() = default;
-    DISALLOW_COPY_AND_MOVE(InputDataChannelProxy);
+        bool InsertText(const std::u16string& text) override;
+        bool DeleteBackward(int32_t length) override;
+        void Close() override;
 
-    bool InsertText(const std::u16string& text) override;
-    bool DeleteBackward(int32_t length) override;
-    void Close() override;
-
-private:
-    static inline BrokerDelegator<InputDataChannelProxy> delegator_;
-};
+    private:
+        static inline BrokerDelegator<InputDataChannelProxy> delegator_;
+    };
 }
 }
 #endif

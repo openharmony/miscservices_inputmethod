@@ -59,7 +59,6 @@ ohos_shared_library("inputmethod_client") {
 
   configs = [
     ":inputmethod_client_native_config",
-    "//utils/native/base:utils_config",
     ]
 
   public_configs = [ ":inputmethod_client_native_public_config" ]

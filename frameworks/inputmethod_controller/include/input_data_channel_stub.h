@@ -29,13 +29,13 @@ public:
     int32_t OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply, MessageOption &option) override;
     InputDataChannelStub();
     ~InputDataChannelStub();
-    void SetHandler(MessageHandler* handler);
+    void SetHandler(MessageHandler *handler);
 
     bool InsertText(const std::u16string& text) override;
     bool DeleteBackward(int32_t length) override;
     void Close() override;
 private:
-    MessageHandler* msgHandler;
+    MessageHandler *msgHandler;
 };
 }
 }

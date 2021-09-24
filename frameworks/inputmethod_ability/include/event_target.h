@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FOUNDATION_ACE_NAPI_TEST_NATIVE_MODULE_NETSERVER_EVENT_TARGET_H
-#define FOUNDATION_ACE_NAPI_TEST_NATIVE_MODULE_NETSERVER_EVENT_TARGET_H
+#ifndef INPUT_METHOD_NAPI_EVENT_TARGET_H
+#define INPUT_METHOD_NAPI_EVENT_TARGET_H
 
 #include "napi/native_api.h"
 #include "global.h"
@@ -22,30 +22,29 @@
 
 namespace OHOS {
 namespace MiscServices {
-struct EventListener;
+    struct EventListener;
+    class Event {
+    public:
+        virtual napi_value ToJsObject() = 0;
+    };
 
-class Event {
-public:
-    virtual napi_value ToJsObject() = 0;
-};
+    class EventTarget : public RefBase {
+    public:
+        EventTarget(napi_env env, napi_value thisVar);
+        virtual ~EventTarget();
 
-class EventTarget : public RefBase {
-public:
-    EventTarget(napi_env env, napi_value thisVar);
-    virtual ~EventTarget();
+        virtual void On(const char* type, napi_value handler);
+        virtual void Once(const char* type, napi_value handler);
+        virtual void Off(const char* type, napi_value handler);
+        virtual void Off(const char* type);
+        virtual void Emit(const char* type, Event* event);
 
-    virtual void On(const char* type, napi_value handler);
-    virtual void Once(const char* type, napi_value handler);
-    virtual void Off(const char* type, napi_value handler);
-    virtual void Off(const char* type);
-    virtual void Emit(const char* type, Event* event);
-
-protected:
-    napi_env env_;
-    napi_ref thisVarRef_;
-    EventListener* first_;
-    EventListener* last_;
-};
+    protected:
+        napi_env env_;
+        napi_ref thisVarRef_;
+        EventListener *first_;
+        EventListener *last_;
+    };
 }
 }
-#endif /* FOUNDATION_ACE_NAPI_TEST_NATIVE_MODULE_NETSERVER_EVENT_TARGET_H */
+#endif // INPUT_METHOD_NAPI_EVENT_TARGET_H

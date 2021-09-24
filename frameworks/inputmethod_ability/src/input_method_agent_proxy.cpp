@@ -18,10 +18,13 @@
 namespace OHOS {
 namespace MiscServices {
     using namespace ErrorCode;
-    InputMethodAgentProxy::InputMethodAgentProxy(const sptr<IRemoteObject> &object) : IRemoteProxy<IInputMethodAgent>(object) {
+    InputMethodAgentProxy::InputMethodAgentProxy(const sptr<IRemoteObject> &object)
+    : IRemoteProxy<IInputMethodAgent>(object)
+    {
     }
 
-    int32_t InputMethodAgentProxy::DispatchKey(int32_t key, int32_t status) {
+    int32_t InputMethodAgentProxy::DispatchKey(int32_t key, int32_t status)
+    {
         IMSA_HILOGI("InputMethodAgentProxy::DispatchKey key = %{public}d, status = %{public}d", key, status);
         MessageParcel data, reply;
         MessageOption option;

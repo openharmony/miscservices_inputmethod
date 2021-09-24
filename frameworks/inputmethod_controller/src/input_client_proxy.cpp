@@ -22,7 +22,8 @@ using namespace ErrorCode;
     {
     }
 
-    int32_t InputClientProxy::onInputReady(int32_t retValue, const sptr<IInputMethodAgent>& agent, const InputChannel* channel)
+    int32_t InputClientProxy::onInputReady(int32_t retValue, const sptr<IInputMethodAgent>& agent,
+                                           const InputChannel *channel)
     {
         IMSA_HILOGI("InputClientProxy::onInputReady");
         MessageParcel data, reply;

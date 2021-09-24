@@ -25,49 +25,49 @@
 
 namespace OHOS {
 namespace MiscServices {
-class PerUserSetting {
-public:
-    explicit PerUserSetting(int32_t userId);
+    class PerUserSetting {
+    public:
+        explicit PerUserSetting(int32_t userId);
 
-    ~PerUserSetting();
+        ~PerUserSetting();
 
-    void Initialize();
-    int32_t GetUserState();
-    InputMethodProperty* GetCurrentInputMethod();
-    InputMethodProperty* GetSecurityInputMethod();
-    InputMethodProperty* GetNextInputMethod();
-    InputMethodSetting* GetInputMethodSetting();
-    InputMethodProperty* GetInputMethodProperty(const std::u16string& imeId);
+        void Initialize();
+        int32_t GetUserState();
+        InputMethodProperty *GetCurrentInputMethod();
+        InputMethodProperty *GetSecurityInputMethod();
+        InputMethodProperty *GetNextInputMethod();
+        InputMethodSetting *GetInputMethodSetting();
+        InputMethodProperty *GetInputMethodProperty(const std::u16string& imeId);
 
-    int32_t OnPackageAdded(std::u16string& packageName, bool* isSecurityIme = nullptr);
-    int32_t OnPackageRemoved(std::u16string& packageName, bool* isSecurityIme = nullptr);
-    int32_t OnSettingChanged(const std::u16string& key, const std::u16string& value);
-    void OnAdvanceToNext();
-    void OnUserLocked();
-    void Dump(int32_t fd);
+        int32_t OnPackageAdded(std::u16string& packageName, bool isSecurityIme);
+        int32_t OnPackageRemoved(std::u16string& packageName, bool isSecurityIme);
+        int32_t OnSettingChanged(const std::u16string& key, const std::u16string& value);
+        void OnAdvanceToNext();
+        void OnUserLocked();
+        void Dump(int32_t fd);
 
-    int32_t ListInputMethodEnabled(std::vector<InputMethodProperty*> *properties);
-    int32_t ListInputMethod(std::vector<InputMethodProperty*> *properties);
-    int32_t ListKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types);
+        int32_t ListInputMethodEnabled(std::vector<InputMethodProperty*> *properties);
+        int32_t ListInputMethod(std::vector<InputMethodProperty*> *properties);
+        int32_t ListKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types);
 
-    static bool CheckIfSecurityIme(const InputMethodProperty& property);
+        static bool CheckIfSecurityIme(const InputMethodProperty& property);
 
-private:
-    int32_t userId_; //!< the id of the user to whom the object is linking
-    int32_t userState; //!< the state of the user to whom the object is linking
-    std::vector<InputMethodProperty*> inputMethodProperties; //!< a vector to save all IME installed for this user
-    std::u16string currentImeId; //!< the id of the default input method engine.
-    InputMethodSetting inputMethodSetting; //!< the object to manage the setting data for this user
+    private:
+        int32_t userId_; // the id of the user to whom the object is linking
+        int32_t userState; // the state of the user to whom the object is linking
+        std::vector<InputMethodProperty*> inputMethodProperties; // a vector to save all IME installed for this user
+        std::u16string currentImeId; // the id of the default input method engine.
+        InputMethodSetting inputMethodSetting; // the object to manage the setting data for this user
 
-    PerUserSetting(const PerUserSetting&);
-    PerUserSetting& operator= (const PerUserSetting&);
-    PerUserSetting(const PerUserSetting&&);
-    PerUserSetting& operator= (const PerUserSetting&&);
-    void InitInputMethodSetting();
-    void ResetCurrentInputMethod();
-    std::u16string GetKeyboardTypeLanguage(const InputMethodProperty* property, int32_t hashCode);
-    std::u16string GetImeId(const std::u16string& packageName);
-};
+        PerUserSetting(const PerUserSetting&);
+        PerUserSetting& operator= (const PerUserSetting&);
+        PerUserSetting(const PerUserSetting&&);
+        PerUserSetting& operator= (const PerUserSetting&&);
+        void InitInputMethodSetting();
+        void ResetCurrentInputMethod();
+        std::u16string GetKeyboardTypeLanguage(const InputMethodProperty *property, int32_t hashCode);
+        std::u16string GetImeId(const std::u16string& packageName);
+    };
 }
 }
 #endif // FM_IMMS_PROJECT_PERUSERSETTING_H

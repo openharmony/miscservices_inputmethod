@@ -32,13 +32,13 @@ namespace OHOS {
 
                 InputMethodAbilityConnectionStub(const int index);
                 ~InputMethodAbilityConnectionStub();
-                void OnAbilityConnectDone(const AppExecFwk::ElementName &element, const sptr<IRemoteObject> &remoteObject, int resultCode) override;
+                void OnAbilityConnectDone(const AppExecFwk::ElementName &element,
+                                          const sptr<IRemoteObject> &remoteObject, int resultCode) override;
                 void OnAbilityDisconnectDone(const AppExecFwk::ElementName &element, int resultCode) override;
-                void SetHandler(MessageHandler* handler);
-
+                void SetHandler(MessageHandler *handler);
 
             private:
-                MessageHandler* messageHandler;
+                MessageHandler *messageHandler;
                 int mIndex;
         };
     }

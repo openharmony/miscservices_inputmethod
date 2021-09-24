@@ -22,7 +22,7 @@
 
 namespace OHOS {
 namespace MiscServices {
-    class InputChannel : public Parcelable{
+    class InputChannel : public Parcelable {
     public:
         InputChannel();
         ~InputChannel();
@@ -33,7 +33,7 @@ namespace MiscServices {
         MessageParcel inputChannelParcel;
         InputChannel(const InputChannel& channel);
         InputChannel& operator=(const InputChannel& channel);
-  };
+    };
 }
 }
 #endif // INPUTMETHODSYSTEMSERVICE_INPUTCHANNEL_H

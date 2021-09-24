@@ -62,7 +62,8 @@ namespace MiscServices {
     \param[out] parcel the setting data is written to parcel returned to caller.
     \return ErrorCode::NO_ERROR
     */
-    bool InputMethodSetting::Marshalling(OHOS::Parcel &parcel) const {
+    bool InputMethodSetting::Marshalling(OHOS::Parcel &parcel) const
+    {
         int32_t size = setting.size();
         parcel.WriteInt32(size);
         std::map<std::u16string, std::u16string>::const_iterator it;
@@ -77,7 +78,8 @@ namespace MiscServices {
     \param parcel read the setting data from the given parcel
     \return ErrorCode::NO_ERROR
     */
-    InputMethodSetting* InputMethodSetting::Unmarshalling(OHOS::Parcel &parcel) {
+    InputMethodSetting *InputMethodSetting::Unmarshalling(OHOS::Parcel &parcel)
+    {
         auto ims = new InputMethodSetting();
         int32_t size = parcel.ReadInt32();
         for(int i = 0; i < size; i++) {

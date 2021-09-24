@@ -1,14 +1,17 @@
 # miscservices_inputmethod
 
-####Introduction
+#### Introduction
 
 Input Method Framework, is used to connect the application and input method. the application can input text through the input method
 
-####Warehouse path
+**图 1**  子系统架构图<a name="fig143011012341"></a>  
+![](figures/subsystem_architecture.png "子系统架构图")
+
+#### Warehouse path
 
 /base/miscservices/inputmethod
 
-####Introduction to framework code
+#### Introduction to framework code
 
 The input method framework currently has four modules, as follows:
 
@@ -36,11 +39,24 @@ Path: /base/miscservices/inputmethod/interfaces/kits/JS
 
 Function: the temporarily exposed JS interface is mainly reserved for calling input methods
 
-####Main functions supported by the framework
+#### Main functions supported by the framework
 
 1. Click in the edit attribute control to invoke the default input method application through the input method framework
 
 2. Typing can be carried out through the input method application, and characters can be input to the application client on the screen
+
+#### Debugging method
+
+1.   Compile command
+
+./build.sh --product-name (Fill in the specific product name, such as：Hi3516DV300) --build-target inputmethod_native
+
+2.  push so file
+
+in $root\out\ohos-arm-release\miscservices\inputmethod_native, push libinputmethod_client.z.so libinputmethod_ability.z.so 
+libinputmethod_service.z.so to system/lib，and push libinputmethodability.z.so to system/lib/module， and make sure the four so files is readable at least.
+
+3.  reboot
 
 ####Participation contribution
 
