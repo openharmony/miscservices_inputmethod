@@ -3,6 +3,9 @@
 #### 介绍
 输入法框架，主要作用是拉通应用和输入法，保证应用可以通过输入法进行文本输入
 
+**图 1**  子系统架构图<a name="fig143011012341"></a>  
+![](figures/subsystem_architecture_zh.png "子系统架构图")
+
 #### 仓路径
 /base/miscservices/inputmethod
 
