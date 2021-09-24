@@ -22,7 +22,7 @@
 #include "input_channel.h"
 #include <mutex>
 #include <condition_variable>
-#include <stdint.h>
+#include <cstdint>
 #include "message_parcel.h"
 #include "input_attribute.h"
 #include "i_input_data_channel.h"

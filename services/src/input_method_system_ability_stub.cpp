@@ -69,7 +69,7 @@ namespace MiscServices {
             }
             case GET_DISPLAY_MODE: {
                 int32_t mode = 0;
-                int32_t status = getDisplayMode(&mode);
+                int32_t status = getDisplayMode(mode);
                 if (status == ErrorCode::NO_ERROR) {
                     reply.WriteInt32(NO_ERROR);
                     reply.WriteInt32(mode);
