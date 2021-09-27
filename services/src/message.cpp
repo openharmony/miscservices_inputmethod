@@ -47,7 +47,7 @@ namespace MiscServices {
         }
     }
 
-    Message& Message::operator = (const Message& msg)
+    Message& Message::operator =(const Message& msg)
     {
         if (this == &msg) {
             return *this;

@@ -28,8 +28,7 @@ namespace MiscServices {
     */
     InputMethodProperty::~InputMethodProperty()
     {
-        for (int32_t i = 0; i < (int32_t)mTypes.size(); i++)
-        {
+        for (int32_t i = 0; i < (int32_t)mTypes.size(); i++) {
             delete mTypes[i];
         }
         mTypes.clear();
@@ -47,8 +46,7 @@ namespace MiscServices {
         isSystemIme = property.isSystemIme;
         mDefaultImeId = property.mDefaultImeId;
 
-        for (int i = 0; i < (int)mTypes.size(); i++)
-        {
+        for (int i = 0; i < (int)mTypes.size(); i++) {
             KeyboardType *type = new KeyboardType(*property.mTypes[i]);
             mTypes.push_back(type);
         }
@@ -58,7 +56,7 @@ namespace MiscServices {
     \param property the source property will be copied to this instance.
     \return return this
     */
-    InputMethodProperty& InputMethodProperty::operator = (const InputMethodProperty& property)
+    InputMethodProperty& InputMethodProperty::operator =(const InputMethodProperty& property)
     {
         if (this == &property) {
             return *this;
@@ -70,8 +68,7 @@ namespace MiscServices {
         isSystemIme = property.isSystemIme;
         mDefaultImeId = property.mDefaultImeId;
 
-        for (int i = 0; i < (int)mTypes.size(); i++)
-        {
+        for (int i = 0; i < (int)mTypes.size(); i++) {
             KeyboardType *type = new KeyboardType(*property.mTypes[i]);
             mTypes.push_back(type);
         }
@@ -94,12 +91,10 @@ namespace MiscServices {
             return false;
         int32_t size = (int32_t)mTypes.size();
         parcel.WriteInt32(size);
-        if (size == 0)
-        {
+        if (size == 0) {
             return true;
         }
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             parcel.WriteParcelable(mTypes[i]);
         }
         return true;

@@ -49,7 +49,7 @@ namespace MiscServices {
       \param type source instance
       \return return this
     */
-    KeyboardType& KeyboardType::operator = (const KeyboardType& type)
+    KeyboardType& KeyboardType::operator =(const KeyboardType& type)
     {
         if (this == &type) {
             return *this;

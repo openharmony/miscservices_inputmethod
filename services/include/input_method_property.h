@@ -35,7 +35,7 @@ namespace MiscServices {
         InputMethodProperty();
         ~InputMethodProperty();
         InputMethodProperty(const InputMethodProperty& property);
-        InputMethodProperty& operator = (const InputMethodProperty& property);
+        InputMethodProperty& operator =(const InputMethodProperty& property);
         virtual bool Marshalling(Parcel &parcel) const override;
         static InputMethodProperty *Unmarshalling(Parcel &parcel);
     };

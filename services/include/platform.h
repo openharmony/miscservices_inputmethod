@@ -56,9 +56,9 @@ namespace MiscServices {
         Platform();
         ~Platform();
         Platform(const Platform&);
-        Platform& operator = (const Platform&);
+        Platform& operator =(const Platform&);
         Platform(const Platform&&);
-        Platform& operator = (const Platform&&);
+        Platform& operator =(const Platform&&);
     };
 }
 }

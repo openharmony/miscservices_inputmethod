@@ -94,6 +94,7 @@ namespace MiscServices {
         DEFAULT_IME = 0,  // index for default input method service
         SECURITY_IME = 1, // index for security input method service
         MAX_IME = 2, // the maximum count of ims started for a user
+        MIN_IME = 2,
     };
 
     public:
@@ -148,9 +149,9 @@ namespace MiscServices {
         sptr<InputMethodAbility> inputMethodAbility_;
 
         PerUserSession(const PerUserSession&);
-        PerUserSession& operator = (const PerUserSession&);
+        PerUserSession& operator =(const PerUserSession&);
         PerUserSession(const PerUserSession&&);
-        PerUserSession& operator = (const PerUserSession&&);
+        PerUserSession& operator =(const PerUserSession&&);
         int IncreaseOrResetImeError(bool resetFlag, int imeIndex);
         KeyboardType *GetKeyboardType(int imeIndex, int typeIndex);
         void ResetCurrentKeyboardType(int imeIndex);

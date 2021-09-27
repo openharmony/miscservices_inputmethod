@@ -32,7 +32,7 @@ namespace MiscServices {
         std::u16string name;
         MessageParcel inputChannelParcel;
         InputChannel(const InputChannel& channel);
-        InputChannel& operator = (const InputChannel& channel);
+        InputChannel& operator =(const InputChannel& channel);
     };
 }
 }

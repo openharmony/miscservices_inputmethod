@@ -116,8 +116,7 @@ namespace MiscServices {
                     reply.WriteInt32(NO_ERROR);
                     int32_t size = properties.size();
                     reply.WriteInt32(size);
-                    for (int32_t i = 0; i < size; i++)
-                    {
+                    for (int32_t i = 0; i < size; i++) {
                         reply.WriteParcelable(properties[i]);
                     }
                     properties.clear();
@@ -135,8 +134,7 @@ namespace MiscServices {
                 reply.WriteInt32(NO_ERROR);
                 int32_t size = properties.size();
                 reply.WriteInt32(size);
-                for (int32_t i = 0; i < size; i++)
-                {
+                for (int32_t i = 0; i < size; i++) {
                     reply.WriteParcelable(properties[i]);
                 }
                 properties.clear();
@@ -154,8 +152,7 @@ namespace MiscServices {
                 reply.WriteInt32(NO_ERROR);
                 int32_t size = kbdTypes.size();
                 reply.WriteInt32(size);
-                for (int32_t i = 0; i < size; i++)
-                {
+                for (int32_t i = 0; i < size; i++) {
                     reply.WriteParcelable(kbdTypes[i]);
                 }
                 kbdTypes.clear();

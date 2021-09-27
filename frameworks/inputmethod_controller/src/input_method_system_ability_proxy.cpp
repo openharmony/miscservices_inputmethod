@@ -302,8 +302,7 @@ namespace MiscServices {
         }
 
         KeyboardType *keyType = reply.ReadParcelable<KeyboardType>();
-        if (keyType == nullptr)
-        {
+        if (keyType == nullptr) {
             return ERROR_STATUS_BAD_INDEX;
         }
         *retType = *keyType;

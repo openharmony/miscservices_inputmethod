@@ -58,8 +58,7 @@ namespace MiscServices {
         }
 
         std::map<int32_t, PerUserSession*>::const_iterator it;
-        for (it = userSessions.cbegin(); it != userSessions.cend();)
-        {
+        for (it = userSessions.cbegin(); it != userSessions.cend();) {
             PerUserSession *session = it->second;
             it = userSessions.erase(it);
             delete session;
@@ -67,8 +66,7 @@ namespace MiscServices {
         }
         userSessions.clear();
         std::map<int32_t, PerUserSetting*>::const_iterator it1;
-        for (it1 = userSettings.cbegin(); it1 != userSettings.cend();)
-        {
+        for (it1 = userSettings.cbegin(); it1 != userSettings.cend();) {
             PerUserSetting *setting = it1->second;
             it1 = userSettings.erase(it1);
             delete setting;
@@ -76,8 +74,7 @@ namespace MiscServices {
         }
         userSettings.clear();
         std::map<int32_t, MessageHandler*>::const_iterator it2;
-        for (it2 = msgHandlers.cbegin(); it2 != msgHandlers.cend();)
-        {
+        for (it2 = msgHandlers.cbegin(); it2 != msgHandlers.cend();) {
             MessageHandler *handler = it2->second;
             it2 = msgHandlers.erase(it2);
             delete handler;
@@ -260,8 +257,7 @@ namespace MiscServices {
         }
 
         PerUserSession *userSession = GetUserSession(userId);
-        if (userSession == nullptr)
-        {
+        if (userSession == nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         KeyboardType *type = userSession->GetCurrentKeyboardType();
@@ -290,8 +286,7 @@ namespace MiscServices {
         setting->ListInputMethodEnabled(properties);
 
         std::vector<InputMethodProperty*>::iterator it;
-        for (it = properties->begin(); it != properties->end();)
-        {
+        for (it = properties->begin(); it != properties->end();) {
             if (*it && (*it)->isSystemIme) {
                 it = properties->erase(it);
             } else {
@@ -318,8 +313,7 @@ namespace MiscServices {
         }
         setting->ListInputMethod(properties);
         std::vector<InputMethodProperty*>::iterator it;
-        for (it = properties->begin(); it != properties->end();)
-        {
+        for (it = properties->begin(); it != properties->end();) {
             if (*it && (*it)->isSystemIme) {
                 it = properties->erase(it);
             } else {
@@ -365,8 +359,7 @@ namespace MiscServices {
         std::map<int32_t, PerUserSetting*>::const_iterator it;
         int32_t index = 0;
         dprintf(fd, "* User count = %d\n", userSettings.size());
-        for (it = userSettings.cbegin(); it != userSettings.cend(); ++it)
-        {
+        for (it = userSettings.cbegin(); it != userSettings.cend(); ++it) {
             PerUserSetting *setting = it->second;
             int32_t userId = it->first;
             int32_t userState = setting->GetUserState();
@@ -475,14 +468,12 @@ namespace MiscServices {
                 }
                 case MSG_ID_EXIT_SERVICE: {
                     std::map<int32_t, MessageHandler*>::const_iterator it;
-                    for (it = msgHandlers.cbegin(); it != msgHandlers.cend();)
-                    {
+                    for (it = msgHandlers.cbegin(); it != msgHandlers.cend();) {
                         MessageHandler *handler = it->second;
                         Message *destMsg = new Message(MSG_ID_EXIT_SERVICE, nullptr);
                         handler->SendMessage(destMsg);
                         PerUserSession *userSession = GetUserSession(it->first);
-                        if (userSession == nullptr)
-                        {
+                        if (userSession == nullptr) {
                             IMSA_HILOGE("getUserSession fail.");
                             return;
                         }
@@ -661,8 +652,7 @@ namespace MiscServices {
         if (it == msgHandlers.end()) {
             PerUserSession *session = GetUserSession(userId);
             MessageHandler *handler = new MessageHandler();
-            if (session == nullptr)
-            {
+            if (session == nullptr) {
                 IMSA_HILOGE("InputMethodSystemAbility::OnPrepareInput session is nullptr");
             }
             session->CreateWorkThread(*handler);
