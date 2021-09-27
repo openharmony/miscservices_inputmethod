@@ -32,10 +32,10 @@ using namespace ErrorCode;
             return ERROR_EX_PARCELABLE;
         }
 
-        if (!data.WriteInt32(retValue)){
+        if (!data.WriteInt32(retValue)) {
             return ERROR_EX_PARCELABLE;
         }
-        if (agent ==nullptr) {
+        if (agent == nullptr) {
             data.WriteInt32(0);
         } else {
             data.WriteInt32(1);

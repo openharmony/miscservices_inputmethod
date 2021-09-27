@@ -49,7 +49,7 @@ namespace MiscServices {
     \param inputMethodSetting the source InputMethodSetting copied to this instance
     \return return this instance
     */
-    InputMethodSetting& InputMethodSetting::operator=(const InputMethodSetting& inputMethodSetting)
+    InputMethodSetting& InputMethodSetting::operator =(const InputMethodSetting& inputMethodSetting)
     {
         if (this == &inputMethodSetting) {
             return *this;
@@ -67,7 +67,7 @@ namespace MiscServices {
         int32_t size = setting.size();
         parcel.WriteInt32(size);
         std::map<std::u16string, std::u16string>::const_iterator it;
-        for(it = setting.cbegin(); it != setting.cend(); ++it) {
+        for (it = setting.cbegin(); it != setting.cend(); ++it) {
             parcel.WriteString16(it->first);
             parcel.WriteString16(it->second);
         }
@@ -82,7 +82,7 @@ namespace MiscServices {
     {
         auto ims = new InputMethodSetting();
         int32_t size = parcel.ReadInt32();
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             std::u16string key = parcel.ReadString16();
             std::u16string value = parcel.ReadString16();
             ims->setting.insert(std::pair<std::u16string, std::u16string>(key, value));
@@ -137,7 +137,7 @@ namespace MiscServices {
         std::u16string value = GetValue(ENABLED_INPUT_METHODS_TAG);
         std::vector<std::u16string> tmp1 = Split(value, DELIM_IME);
         std::vector<std::u16string> imeList;
-        for(int i = 0; i < (int)tmp1.size(); i++) {
+        for (int i = 0; i < (int)tmp1.size(); i++) {
             std::vector<std::u16string> tmp2 = Split(tmp1[i], DELIM_KBD_TYPE);
             imeList.push_back(tmp2[0]);
             tmp2.clear();
@@ -157,12 +157,12 @@ namespace MiscServices {
         std::vector<std::u16string> imeList = Split(str, DELIM_IME);
 
         std::u16string typeStr;
-        for(int i = 0; i < (int)types.size(); i++) {
+        for (int i = 0; i < (int)types.size(); i++) {
             typeStr = typeStr + u";" + Utils::to_utf16(std::to_string(types[i]));
         }
         std::u16string imeStr = imeId + typeStr;
         bool flag = false;
-        for(int i = 0; i < (int)imeList.size(); i++) {
+        for (int i = 0; i < (int)imeList.size(); i++) {
             if (imeList[i] == imeStr) {
                 return false;
             }
@@ -193,7 +193,7 @@ namespace MiscServices {
         std::vector<std::u16string> imeList = Split(str, DELIM_IME);
         bool flag = false;
         std::vector<std::u16string>::iterator it;
-        for(it = imeList.begin(); it < imeList.end(); ++it) {
+        for (it = imeList.begin(); it < imeList.end(); ++it) {
             if (it->find_first_of(imeId)) {
                 imeList.erase(it);
                 flag = true;
@@ -219,7 +219,7 @@ namespace MiscServices {
         std::vector<std::u16string> tmpVector = Split(value, DELIM_IME);
         bool flag = false;
         std::u16string imeStr;
-        for(int i = 0; i < (int)tmpVector.size(); i++) {
+        for (int i = 0; i < (int)tmpVector.size(); i++) {
             if (tmpVector[i].find_first_of(imeId) != std::u16string::npos) {
                 flag = true;
                 imeStr = tmpVector[i];
@@ -232,7 +232,7 @@ namespace MiscServices {
         }
 
         std::vector<std::u16string> tmp2 = Split(imeStr, DELIM_KBD_TYPE);
-        for(int i = 1; i < (int)tmp2.size(); i++) {
+        for (int i = 1; i < (int)tmp2.size(); i++) {
             std::u16string str = tmp2[i];
             retValue.push_back(std::atoi(Utils::to_utf8(str).c_str()));
         }
@@ -306,18 +306,18 @@ namespace MiscServices {
     std::vector<std::u16string> InputMethodSetting::Split(const std::u16string& str, char16_t delim)
     {
         std::vector<std::u16string> retValue;
-        std::u16string::size_type left,right;
+        std::u16string::size_type left, right;
         left = 0;
         right = str.find(delim, 0);
-        while(right != std::u16string::npos){
-            if(right-left){
-                retValue.emplace_back(str.substr(left,right-left));
+        while(right != std::u16string::npos) {
+            if (right - left) {
+                retValue.emplace_back(str.substr(left, right-left));
             }
             left = right + 1;
             right = str.find(delim,left);
         }
 
-        if(left != str.size()){
+        if (left != str.size()) {
             retValue.emplace_back(str.substr(left));
         }
         return retValue;
@@ -332,9 +332,9 @@ namespace MiscServices {
     {
         std::u16string retValue = u"";
         char16_t delimStr[] = {delim, 0};
-        for(int i = 0; i < (int)vector.size(); i++) {
+        for (int i = 0; i < (int)vector.size(); i++) {
             retValue += vector[i];
-            if (i<(int)vector.size()-1) {
+            if (i < (int)vector.size()-1) {
                 retValue += std::u16string(delimStr);
             }
         }

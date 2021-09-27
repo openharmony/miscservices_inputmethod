@@ -24,14 +24,16 @@ napi_value JS_Constructor(napi_env env, napi_callback_info cbInfo)
 {
     IMSA_HILOGI("JS_Constructor() is called!");
     napi_value thisVar = nullptr;
-    void* data = nullptr;
+    void *data = nullptr;
     napi_get_cb_info(env, cbInfo, nullptr, nullptr, &thisVar, &data);
 
-    OHOS::MiscServices::EventTarget *eventTarget = new OHOS::MiscServices::EventTarget(env,thisVar);
+    OHOS::MiscServices::EventTarget *eventTarget = new OHOS::MiscServices::EventTarget(env, thisVar);
     napi_wrap(env, thisVar, eventTarget,
-        [](napi_env env, void* data, void* hint){
+        [](napi_env env, void *data, void *hint)
+        {
             EventTarget *eventTarget = (EventTarget*)data;
             delete eventTarget;
+            eventTarget = nullptr;
         },
         nullptr, nullptr);
     OHOS::sptr<EventTarget> eventTarget_ = eventTarget;
@@ -45,7 +47,7 @@ napi_value JS_InsertText(napi_env env, napi_callback_info cbInfo)
     size_t argc = 1;
     napi_value argv[2] = { 0 };
     napi_value thisVar = nullptr;
-    void* data = nullptr;
+    void *data = nullptr;
     napi_get_cb_info(env, cbInfo, &argc, argv, &thisVar, &data);
 
     EventTarget *eventTarget = nullptr;
@@ -54,7 +56,7 @@ napi_value JS_InsertText(napi_env env, napi_callback_info cbInfo)
     char type[64] = { 0 };
     size_t typeLen = 0;
     napi_get_value_string_utf8(env, argv[0], type, sizeof(type), &typeLen);
-    std::string text=type;
+    std::string text = type;
     InputMethodAbility::GetInstance()->InsertText(text);
 
     napi_value result = nullptr;
@@ -69,7 +71,7 @@ napi_value JS_DeleteBackward(napi_env env, napi_callback_info cbInfo)
     size_t argc = 1;
     napi_value argv[2] = { 0 };
     napi_value thisVar = nullptr;
-    void* data = nullptr;
+    void *data = nullptr;
     napi_get_cb_info(env, cbInfo, &argc, argv, &thisVar, &data);
 
     EventTarget *eventTarget = nullptr;
@@ -90,7 +92,7 @@ napi_value JS_HideKeyboardSelf(napi_env env, napi_callback_info cbInfo)
     size_t argc = 1;
     napi_value argv[2] = { 0 };
     napi_value thisVar = nullptr;
-    void* data = nullptr;
+    void *data = nullptr;
     napi_get_cb_info(env, cbInfo, &argc, argv, &thisVar, &data);
 
     EventTarget *eventTarget = nullptr;
@@ -110,7 +112,7 @@ napi_value JS_On(napi_env env, napi_callback_info cbInfo)
     size_t argc = 2;
     napi_value argv[2] = { 0 };
     napi_value thisVar = 0;
-    void* data = nullptr;
+    void *data = nullptr;
     napi_get_cb_info(env, cbInfo, &argc, argv, &thisVar, &data);
 
     EventTarget *eventTarget = nullptr;
@@ -145,7 +147,7 @@ napi_value JS_Off(napi_env env, napi_callback_info cbInfo)
     size_t argc = 2;
     napi_value argv[2] = { 0 };
     napi_value thisVar = 0;
-    void* data = nullptr;
+    void *data = nullptr;
     napi_get_cb_info(env, cbInfo, &argc, argv, &thisVar, &data);
 
     EventTarget *eventTarget = nullptr;
@@ -157,7 +159,7 @@ napi_value JS_Off(napi_env env, napi_callback_info cbInfo)
     napi_typeof(env, argv[0], &eventValueType);
     NAPI_ASSERT(env, eventValueType == napi_string, "type mismatch for parameter 1");
 
-    char* type = nullptr;
+    char *type = nullptr;
     size_t typeLen = 0;
     napi_get_value_string_utf8(env, argv[0], nullptr, 0, &typeLen);
     type = new char[typeLen + 1];
@@ -172,14 +174,15 @@ napi_value JS_Off(napi_env env, napi_callback_info cbInfo)
 
     delete type;
     delete type;
+    type = nullptr;
     napi_value result = nullptr;
     napi_get_undefined(env, &result);
     return result;
 }
 
-napi_value InputMethodAbilityInit(napi_env env, napi_value exports)
+napi_value InputMethodEngineInit(napi_env env, napi_value exports)
 {
-    IMSA_HILOGI("InputMethodAbilityInit() is called!");
+    IMSA_HILOGI("InputMethodEngineInit() is called!");
     const char className[] = "EventTarget";
     napi_value constructor = nullptr;
     napi_property_descriptor desc[] = {
@@ -189,23 +192,23 @@ napi_value InputMethodAbilityInit(napi_env env, napi_value exports)
         DECLARE_NAPI_FUNCTION("on", JS_On),
         DECLARE_NAPI_FUNCTION("off", JS_Off),
     };
-    napi_define_class(env, className, sizeof(className),JS_Constructor, nullptr,
+    napi_define_class(env, className, sizeof(className), JS_Constructor, nullptr,
                       sizeof(desc) / sizeof(desc[0]), desc, &constructor);
-    napi_set_named_property(env, exports, "InputMethodAbility", constructor);
+    napi_set_named_property(env, exports, "InputMethodEngine", constructor);
     return exports;
 }
 
 /*
  * module define
  */
-static napi_module inputMethodAbilityModule = {
-.nm_version = 1,
-.nm_flags = 0,
-.nm_filename = nullptr,
-.nm_register_func = InputMethodAbilityInit,
-.nm_modname = "inputMethodAbility",
-.nm_priv = ((void*)0),
-.reserved = { 0 },
+static napi_module inputMethodEngineModule = {
+    .nm_version = 1,
+    .nm_flags = 0,
+    .nm_filename = nullptr,
+    .nm_register_func = InputMethodEngineInit,
+    .nm_modname = "inputMethodEngine",
+    .nm_priv = ((void*)0),
+    .reserved = {0},
 };
 /*
  * module register
@@ -213,5 +216,5 @@ static napi_module inputMethodAbilityModule = {
 extern "C" __attribute__((constructor)) void RegisterModule()
 {
 IMSA_HILOGI("RegisterModule() is called!");
-napi_module_register(&inputMethodAbilityModule);
+napi_module_register(&inputMethodEngineModule);
 }

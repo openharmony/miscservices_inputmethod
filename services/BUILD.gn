@@ -26,70 +26,63 @@ config("inputmethod_services_native_config") {
 
 ohos_shared_library("inputmethod_service") {
   sources = [
-    "../services/src/input_attribute.cpp",
-    "../services/src/global.cpp",
-    "../services/src/input_channel.cpp",
-    "../services/src/keyboard_type.cpp",
-    "../services/src/input_method_property.cpp",
-    "../services/src/message.cpp",
-    "../services/src/message_handler.cpp",
-    "../services/src/input_method_system_ability_stub.cpp",
-    "../services/src/input_method_setting.cpp",
-    "../services/src/peruser_setting.cpp",
-    "../services/src/peruser_session.cpp",
-    "../services/src/input_method_system_ability.cpp",
-    "../services/src/input_control_channel_proxy.cpp",
-    "../services/src/input_control_channel_stub.cpp",
-
-    "../services/src/platform.cpp",
-    "../services/src/platform_callback_stub.cpp",
-    "../services/src/platform_callback_proxy.cpp",
-    "../services/src/platform_api_proxy.cpp",
-    "../services/src/input_method_ability_connection_stub.cpp",
-
-
+    "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_ability.cpp",
     "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_agent_proxy.cpp",
+    "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_agent_stub.cpp",
     "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_core_proxy.cpp",
     "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_core_stub.cpp",
-    "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_ability.cpp",
-    "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_agent_stub.cpp",
     "${inputmethod_path}/frameworks/inputmethod_controller/src/input_client_proxy.cpp",
     "${inputmethod_path}/frameworks/inputmethod_controller/src/input_data_channel_proxy.cpp",
     "${inputmethod_path}/frameworks/inputmethod_controller/src/input_method_system_ability_proxy.cpp",
+    "../services/src/global.cpp",
+    "../services/src/input_attribute.cpp",
+    "../services/src/input_channel.cpp",
+    "../services/src/input_control_channel_proxy.cpp",
+    "../services/src/input_control_channel_stub.cpp",
+    "../services/src/input_method_ability_connection_stub.cpp",
+    "../services/src/input_method_property.cpp",
+    "../services/src/input_method_setting.cpp",
+    "../services/src/input_method_system_ability.cpp",
+    "../services/src/input_method_system_ability_stub.cpp",
+    "../services/src/keyboard_type.cpp",
+    "../services/src/message.cpp",
+    "../services/src/message_handler.cpp",
+    "../services/src/peruser_session.cpp",
+    "../services/src/peruser_setting.cpp",
+    "../services/src/platform.cpp",
+    "../services/src/platform_api_proxy.cpp",
+    "../services/src/platform_callback_proxy.cpp",
+    "../services/src/platform_callback_stub.cpp",
   ]
 
   configs = [ ":inputmethod_services_native_config" ]
 
-  public_configs = [
-      ":inputmethod_services_native_config",
-    ]
+  public_configs = [ ":inputmethod_services_native_config" ]
 
   deps = [
-    "//utils/native/base:utils",
     "//base/global/resmgr_standard/frameworks/resmgr:global_resmgr",
     "//foundation/aafwk/standard/frameworks/kits/ability/native:abilitykit_native",
     "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
-    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
     "//foundation/aafwk/standard/interfaces/innerkits/base:base",
     "//foundation/aafwk/standard/interfaces/innerkits/intent:intent",
+    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
+    "//foundation/aafwk/standard/services/abilitymgr:abilityms",
     "//foundation/ace/napi/:ace_napi",
-    "//foundation/multimodalinput/input/interfaces/native/innerkits/event:mmi_event",
+    "//foundation/ace/napi/:ace_napi",
     "//foundation/appexecfwk/standard/interfaces/innerkits/appexecfwk_base:appexecfwk_base",
     "//foundation/appexecfwk/standard/interfaces/innerkits/appexecfwk_core:appexecfwk_core",
     "//foundation/appexecfwk/standard/interfaces/innerkits/libeventhandler:libeventhandler",
-    "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_single:ipc_single",
-    "//foundation/multimodalinput/input/interfaces/native/innerkits/event:mmi_event",
     "//foundation/distributedschedule/dmsfwk/interfaces/innerkits/uri:zuri",
     "//foundation/distributedschedule/safwk/interfaces/innerkits/safwk:system_ability_fwk",
-    "//foundation/aafwk/standard/services/abilitymgr:abilityms",
-    "//foundation/ace/napi/:ace_napi",
+    "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
+    "//foundation/multimodalinput/input/interfaces/native/innerkits/event:mmi_event",
+    "//foundation/multimodalinput/input/interfaces/native/innerkits/event:mmi_event",
+    "//utils/native/base:utils",
   ]
 
-  external_deps = [
-    "hiviewdfx_hilog_native:libhilog",
-  ]
+  external_deps = [ "hiviewdfx_hilog_native:libhilog" ]
 
   subsystem_name = "miscservices"
   part_name = "inputmethod_native"

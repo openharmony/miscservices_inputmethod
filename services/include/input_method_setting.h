@@ -17,9 +17,9 @@
 #define FM_IMMS_PROJECT_INPUTMETHODSETTING_H
 #include <map>
 #include <vector>
+#include "string.h"
 #include "global.h"
 #include "parcel.h"
-#include "string.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -36,7 +36,7 @@ namespace MiscServices {
         InputMethodSetting();
         ~InputMethodSetting();
         InputMethodSetting(const InputMethodSetting& inputMethodSetting);
-        InputMethodSetting& operator=(const InputMethodSetting& inputMethodSetting);
+        InputMethodSetting& operator =(const InputMethodSetting& inputMethodSetting);
 
         void SetValue(const std::u16string& key, const std::u16string& value);
         std::u16string GetValue(const std::u16string& key) const;

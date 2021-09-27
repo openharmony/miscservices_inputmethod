@@ -42,7 +42,7 @@ namespace OHOS {
         virtual void onKeyboardShowed() override;
 
         void ResetFlag();
-        bool GetAgentAndChannel(sptr<IInputMethodAgent>* retAgent, InputChannel** retChannel);
+        bool GetAgentAndChannel(sptr<IInputMethodAgent> *retAgent, InputChannel **retChannel);
         bool WaitKeyboardReady();
     private:
         int userId_;

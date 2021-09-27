@@ -60,9 +60,9 @@ namespace MiscServices {
         InputMethodSetting inputMethodSetting; // the object to manage the setting data for this user
 
         PerUserSetting(const PerUserSetting&);
-        PerUserSetting& operator= (const PerUserSetting&);
+        PerUserSetting& operator =(const PerUserSetting&);
         PerUserSetting(const PerUserSetting&&);
-        PerUserSetting& operator= (const PerUserSetting&&);
+        PerUserSetting& operator =(const PerUserSetting&&);
         void InitInputMethodSetting();
         void ResetCurrentInputMethod();
         std::u16string GetKeyboardTypeLanguage(const InputMethodProperty *property, int32_t hashCode);

@@ -21,7 +21,7 @@ import { AsyncCallback } from './basic';
  * @since 7
  * @devices phone, tablet, tv, wearable
  */
-declare namespace inputMethodAbility {
+declare namespace inputMethodEngine {
   function on(type: 'keyboardShow', callback: () => void): void;
   function off(type: 'keyboardShow', callback: () => void): void;
 
@@ -38,4 +38,4 @@ declare namespace inputMethodAbility {
   function HideKeyboardSelf(): Promise<void>;
 }
 
-export default inputMethodAbility;
+export default inputMethodEngine;

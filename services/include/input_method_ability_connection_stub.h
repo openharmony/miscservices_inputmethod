@@ -22,25 +22,25 @@
 #include "global.h"
 
 namespace OHOS {
-    namespace MiscServices {
-        class InputMethodAbilityConnectionStub : public AAFwk::AbilityConnectionStub {
-            public:
-                enum MessageID {
-                        MSG_ID_ABILITY_CONNECT_DONE = 1,
-                        MSG_ID_ABILITY_DISCONNECT_DONE,
-                };
-
-                InputMethodAbilityConnectionStub(const int index);
-                ~InputMethodAbilityConnectionStub();
-                void OnAbilityConnectDone(const AppExecFwk::ElementName &element,
-                                          const sptr<IRemoteObject> &remoteObject, int resultCode) override;
-                void OnAbilityDisconnectDone(const AppExecFwk::ElementName &element, int resultCode) override;
-                void SetHandler(MessageHandler *handler);
-
-            private:
-                MessageHandler *messageHandler;
-                int mIndex;
+namespace MiscServices {
+    class InputMethodAbilityConnectionStub : public AAFwk::AbilityConnectionStub {
+    public:
+        enum MessageID {
+            MSG_ID_ABILITY_CONNECT_DONE = 1,
+            MSG_ID_ABILITY_DISCONNECT_DONE,
         };
-    }
+
+        InputMethodAbilityConnectionStub(const int index);
+        ~InputMethodAbilityConnectionStub();
+        void OnAbilityConnectDone(const AppExecFwk::ElementName &element,
+                                  const sptr<IRemoteObject> &remoteObject, int resultCode) override;
+        void OnAbilityDisconnectDone(const AppExecFwk::ElementName &element, int resultCode) override;
+        void SetHandler(MessageHandler *handler);
+
+    private:
+        MessageHandler *messageHandler;
+        int mIndex;
+    };
+}
 }
 #endif // SERVICES_INPUTMETHODABILITYCONNECTIONSTUB_H

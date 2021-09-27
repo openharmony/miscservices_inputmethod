@@ -41,7 +41,7 @@ namespace MiscServices {
     EventTarget::~EventTarget()
     {
         EventListener *temp = nullptr;
-        for (EventListener* i = first_; i != nullptr; i = temp) {
+        for (EventListener *i = first_; i != nullptr; i = temp) {
             temp = i->next;
             if (i == first_) {
                 first_ = first_->next;
@@ -53,11 +53,12 @@ namespace MiscServices {
             }
             napi_delete_reference(env_, i->handlerRef);
             delete i;
+            i = nullptr;
         }
         napi_delete_reference(env_, thisVarRef_);
     }
 
-    void EventTarget::On(const char* type, napi_value handler)
+    void EventTarget::On(const char *type, napi_value handler)
     {
         IMSA_HILOGI("EventTarget::On");
         auto tmp = new EventListener();
@@ -79,7 +80,7 @@ namespace MiscServices {
         napi_create_reference(env_, handler, 1, &last_->handlerRef);
     }
 
-    void EventTarget::Once(const char* type, napi_value handler)
+    void EventTarget::Once(const char *type, napi_value handler)
     {
         IMSA_HILOGI("EventTarget::Once");
         auto tmp = new EventListener();
@@ -136,7 +137,7 @@ namespace MiscServices {
         napi_close_handle_scope(env_, scope);
     }
 
-    void EventTarget::Off(const char* type)
+    void EventTarget::Off(const char *type)
     {
         IMSA_HILOGI("EventTarget::Off");
         EventListener *temp = nullptr;
@@ -158,7 +159,7 @@ namespace MiscServices {
         }
     }
 
-    void EventTarget::Emit(const char* type, Event *event)
+    void EventTarget::Emit(const char *type, Event *event)
     {
         IMSA_HILOGI("EventTarget::Emit");
         napi_handle_scope scope = nullptr;
