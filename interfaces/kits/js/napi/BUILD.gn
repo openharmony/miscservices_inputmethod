@@ -13,7 +13,7 @@
 
 import("//build/ohos.gni")
 
-config("inputmethodability_native_config") {
+config("inputmethodengine_native_config") {
   visibility = [ ":*" ]
     include_dirs = [
       "include",
@@ -21,12 +21,12 @@ config("inputmethodability_native_config") {
 
 }
 
-config("inputmethodability_native_public_config") {
+config("inputmethodengine_native_public_config") {
   visibility = []
   include_dirs = [ "include" ]
 }
 
-ohos_shared_library("inputmethodability") {
+ohos_shared_library("inputmethodengine") {
   include_dirs = [
     "//third_party/node/src",
     "//foundation/ace/napi/interfaces/kits",
@@ -39,7 +39,7 @@ ohos_shared_library("inputmethodability") {
 
   sources = [ "js_input_method_engine.cpp" ]
 
-  configs = [ ":inputmethodability_native_config" ]
+  configs = [ ":inputmethodengine_native_config" ]
 
   deps = [
     "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",

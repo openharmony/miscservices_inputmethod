@@ -23,7 +23,7 @@ group("inputmethod_native_packages") {
       "frameworks/inputmethod_controller:inputmethod_client",
       "frameworks/inputmethod_ability:inputmethod_ability",
       "interfaces/kits/js/declaration:inputmethod",
-      "interfaces/kits/js/napi:inputmethodability",
+      "interfaces/kits/js/napi:inputmethodengine",
       "profile:miscservices_inputmethod_sa_profiles",
     ]
   }

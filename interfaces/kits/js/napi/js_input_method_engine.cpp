@@ -180,9 +180,9 @@ napi_value JS_Off(napi_env env, napi_callback_info cbInfo)
     return result;
 }
 
-napi_value InputMethodAbilityInit(napi_env env, napi_value exports)
+napi_value InputMethodEngineInit(napi_env env, napi_value exports)
 {
-    IMSA_HILOGI("InputMethodAbilityInit() is called!");
+    IMSA_HILOGI("InputMethodEngineInit() is called!");
     const char className[] = "EventTarget";
     napi_value constructor = nullptr;
     napi_property_descriptor desc[] = {
@@ -194,18 +194,18 @@ napi_value InputMethodAbilityInit(napi_env env, napi_value exports)
     };
     napi_define_class(env, className, sizeof(className), JS_Constructor, nullptr,
                       sizeof(desc) / sizeof(desc[0]), desc, &constructor);
-    napi_set_named_property(env, exports, "InputMethodAbility", constructor);
+    napi_set_named_property(env, exports, "InputMethodEngine", constructor);
     return exports;
 }
 
 /*
  * module define
  */
-static napi_module inputMethodAbilityModule = {
+static napi_module inputMethodEngineModule = {
     .nm_version = 1,
     .nm_flags = 0,
     .nm_filename = nullptr,
-    .nm_register_func = InputMethodAbilityInit,
+    .nm_register_func = InputMethodEngineInit,
     .nm_modname = "inputMethodEngine",
     .nm_priv = ((void*)0),
     .reserved = {0},
@@ -216,5 +216,5 @@ static napi_module inputMethodAbilityModule = {
 extern "C" __attribute__((constructor)) void RegisterModule()
 {
 IMSA_HILOGI("RegisterModule() is called!");
-napi_module_register(&inputMethodAbilityModule);
+napi_module_register(&inputMethodEngineModule);
 }
