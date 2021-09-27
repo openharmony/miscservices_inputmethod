@@ -49,7 +49,7 @@ namespace MiscServices {
       \param type source instance
       \return return this
     */
-    KeyboardType& KeyboardType::operator=(const KeyboardType& type)
+    KeyboardType& KeyboardType::operator = (const KeyboardType& type)
     {
         if (this == &type) {
             return *this;
@@ -72,13 +72,13 @@ namespace MiscServices {
     bool KeyboardType::Marshalling(Parcel &parcel) const
     {
         if (!(parcel.WriteInt32(mId)
-                && parcel.WriteInt32(mHashCode)
-                && parcel.WriteInt32(mLabelId)
-                && parcel.WriteInt32(mIconId)
-                && parcel.WriteBool(mIsAsciiCapable)
-                && parcel.WriteString16(mLanguage)
-                && parcel.WriteString16(mInputSource)
-                && parcel.WriteString16(mCustomizedValue)))
+            && parcel.WriteInt32(mHashCode)
+            && parcel.WriteInt32(mLabelId)
+            && parcel.WriteInt32(mIconId)
+            && parcel.WriteBool(mIsAsciiCapable)
+            && parcel.WriteString16(mLanguage)
+            && parcel.WriteString16(mInputSource)
+            && parcel.WriteString16(mCustomizedValue)))
             return false;
         return true;
     }
@@ -115,47 +115,47 @@ namespace MiscServices {
 
     void KeyboardType::setLabelId(int32_t labelId)
     {
-      mLabelId = labelId;
+        mLabelId = labelId;
     }
 
     void KeyboardType::setIconId(int32_t iconId)
     {
-      mIconId = iconId;
+        mIconId = iconId;
     }
 
     void KeyboardType::setAsciiCapability(bool isAsciiCapable)
     {
-      mIsAsciiCapable = isAsciiCapable;
+        mIsAsciiCapable = isAsciiCapable;
     }
 
     void KeyboardType::setLanguage(u16string language)
     {
-      mLanguage = language;
+        mLanguage = language;
     }
 
     void KeyboardType::setInputSource(u16string inputSource)
     {
-      mInputSource = inputSource;
+        mInputSource = inputSource;
     }
 
     void KeyboardType::setCustomizedValue(u16string keyBoardTypeCustomizedValue)
     {
-      mCustomizedValue = keyBoardTypeCustomizedValue;
+        mCustomizedValue = keyBoardTypeCustomizedValue;
     }
 
     int32_t KeyboardType::getId() const
     {
-      return mId;
+        return mId;
     }
 
     int32_t KeyboardType::getLabelId() const
     {
-      return mLabelId;
+        return mLabelId;
     }
 
     int32_t KeyboardType::getIconId() const
     {
-      return mIconId;
+        return mIconId;
     }
 
     /*! Get hash code of the object
@@ -163,7 +163,7 @@ namespace MiscServices {
     */
     int KeyboardType::getHashCode() const
     {
-      return mHashCode;
+        return mHashCode;
     }
 
     /*! Get language of the object
@@ -171,17 +171,17 @@ namespace MiscServices {
     */
     u16string KeyboardType::getLanguage() const
     {
-      return mLanguage;
+        return mLanguage;
     }
 
     u16string KeyboardType::getInputSource() const
     {
-      return mInputSource;
+        return mInputSource;
     }
 
     u16string KeyboardType::getCustomizedValue() const
     {
-      return mCustomizedValue;
+        return mCustomizedValue;
     }
 }
 }

@@ -52,7 +52,7 @@ namespace MiscServices {
         virtual void releaseInput(MessageParcel& data) = 0;
         virtual void startInput(MessageParcel& data) = 0;
         virtual void stopInput(MessageParcel& data) = 0;
-        virtual int32_t setInputMethodCore(sptr<IInputMethodCore> &core)=0;
+        virtual int32_t setInputMethodCore(sptr<IInputMethodCore> &core) = 0;
 
         virtual int32_t getDisplayMode(int32_t retMode) = 0;
         virtual int32_t getKeyboardWindowHeight(int32_t retHeight) = 0;

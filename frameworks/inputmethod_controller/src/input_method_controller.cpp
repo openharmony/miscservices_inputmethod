@@ -32,17 +32,21 @@ using namespace MessageID;
 
     InputMethodController::~InputMethodController()
     {
-        if (msgHandler != nullptr) {
+        if (msgHandler != nullptr)
+        {
             delete msgHandler;
+            msgHandler = nullptr;
         }
     }
 
     sptr<InputMethodController> InputMethodController::GetInstance()
     {
         IMSA_HILOGI("InputMethodController::GetInstance");
-        if (instance_ == nullptr) {
+        if (instance_ == nullptr)
+        {
             std::lock_guard<std::mutex> autoLock(instanceLock_);
-            if (instance_ == nullptr) {
+            if (instance_ == nullptr)
+            {
                 IMSA_HILOGI("InputMethodController::GetInstance instance_ is nullptr");
                 instance_ = new InputMethodController();
             }
@@ -64,6 +68,8 @@ using namespace MessageID;
 
         workThreadHandler = std::thread([this]{WorkThread();});
         mAttribute.SetInputPattern(InputAttribute::PATTERN_TEXT);
+
+        textListener = nullptr;
         return true;
     }
 
@@ -72,18 +78,21 @@ using namespace MessageID;
         IMSA_HILOGI("InputMethodController::GetImsaProxy");
         sptr<ISystemAbilityManager> systemAbilityManager =
             SystemAbilityManagerClient::GetInstance().GetSystemAbilityManager();
-        if (systemAbilityManager == nullptr) {
+        if (systemAbilityManager == nullptr)
+        {
             IMSA_HILOGI("InputMethodController::GetImsaProxy systemAbilityManager is nullptr");
             return nullptr;
         }
 
         auto systemAbility = systemAbilityManager->GetSystemAbility(INPUT_METHOD_SYSTEM_ABILITY_ID, "");
-        if (systemAbility == nullptr) {
+        if (systemAbility == nullptr)
+        {
             IMSA_HILOGI("InputMethodController::GetImsaProxy systemAbility is nullptr");
             return nullptr;
         }
 
-        if (deathRecipient_ == nullptr) {
+        if (deathRecipient_ == nullptr)
+        {
             deathRecipient_ = new ImsaDeathRecipient();
         }
         systemAbility->AddDeathRecipient(deathRecipient_);
@@ -96,70 +105,76 @@ using namespace MessageID;
     {
         while(1) {
             Message *msg = msgHandler->GetMessage();
-            switch(msg->msgId_) {
-                case MSG_ID_INSERT_CHAR:{
+            switch (msg->msgId_) {
+                case MSG_ID_INSERT_CHAR: {
                     MessageParcel *data = msg->msgContent_;
                     std::u16string text = data->ReadString16();
-                    if(textListener != nullptr){
+                    if (textListener != nullptr)
+                    {
                         textListener->InsertText(text);
                     }
                     break;
                 }
-                case MSG_ID_DELETE_BACKWARD:{
+                case MSG_ID_DELETE_BACKWARD: {
                     MessageParcel *data = msg->msgContent_;
                     int32_t length = data->ReadInt32();
-                    if(textListener != nullptr){
+                    if (textListener != nullptr)
+                    {
                         textListener->DeleteBackward(length);
                     }
                     break;
                 }
-                case MSG_ID_SET_DISPLAY_MODE:{
+                case MSG_ID_SET_DISPLAY_MODE: {
                     MessageParcel *data = msg->msgContent_;
                     int32_t ret = data->ReadInt32();
                     IMSA_HILOGI("MSG_ID_SET_DISPLAY_MODE : %{public}d", ret);
                     break;
                 }
-                case MSG_ID_ON_INPUT_READY:{
+                case MSG_ID_ON_INPUT_READY: {
                     MessageParcel *data = msg->msgContent_;
                     int32_t ret = data->ReadInt32();
-                    if(ret != ErrorCode::NO_ERROR) {
-                        if (textListener != nullptr){
+                    if (ret != ErrorCode::NO_ERROR)
+                    {
+                        if (textListener != nullptr)
+                        {
                             textListener->SetKeyboardStatus(false);
                         }
-                        mAgent=nullptr;
+                        mAgent = nullptr;
                         break;
                     }
                     sptr<IRemoteObject> object = data->ReadRemoteObject();
                     mAgent = new InputMethodAgentProxy(object);
-                    if (textListener != nullptr){
+                    if (textListener != nullptr)
+                    {
                         textListener->SetKeyboardStatus(true);
                     }
                     break;
                 }
-                case MSG_ID_EXIT_SERVICE:{
+                case MSG_ID_EXIT_SERVICE: {
                     MessageParcel *data = msg->msgContent_;
                     int32_t ret = data->ReadInt32();
                     textListener = nullptr;
                     IMSA_HILOGI("MSG_ID_EXIT_SERVICE : %{public}d", ret);
                     break;
                 }
-                default:{
+                default: {
                     break;
                 }
             }
             delete msg;
+            msg = nullptr;
         }
     }
 
     void InputMethodController::Attach()
     {
-        PrepareInput(0,mClient,mInputDataChannel,mAttribute);
+        PrepareInput(0, mClient, mInputDataChannel, mAttribute);
     }
 
     void InputMethodController::ShowTextInput(sptr<OnTextChangedListener> &listener)
     {
         IMSA_HILOGI("InputMethodController::ShowTextInput");
-        textListener=listener;
+        textListener = listener;
         StartInput(mClient);
     }
 
@@ -178,15 +193,17 @@ using namespace MessageID;
                                              sptr<InputDataChannelStub> &channel, InputAttribute &attribute)
     {
         IMSA_HILOGI("InputMethodController::PrepareInput");
-        if(mImms == nullptr){
+        if (mImms == nullptr)
+        {
             return;
         }
         MessageParcel data;
-        if(!(data.WriteInterfaceToken(mImms->GetDescriptor())
-               &&data.WriteInt32(displayId)
-               &&data.WriteRemoteObject(client->AsObject())
-               &&data.WriteRemoteObject(channel->AsObject())
-               &&data.WriteParcelable(&attribute))){
+        if (!(data.WriteInterfaceToken(mImms->GetDescriptor())
+            && data.WriteInt32(displayId)
+            && data.WriteRemoteObject(client->AsObject())
+            && data.WriteRemoteObject(channel->AsObject())
+            && data.WriteParcelable(&attribute)))
+        {
             return;
         }
         mImms->prepareInput(data);
@@ -195,12 +212,14 @@ using namespace MessageID;
     void InputMethodController::StartInput(sptr<InputClientStub> &client)
     {
         IMSA_HILOGI("InputMethodController::StartInput");
-        if(mImms == nullptr){
+        if (mImms == nullptr)
+        {
             return;
         }
         MessageParcel data;
-        if(!(data.WriteInterfaceToken(mImms->GetDescriptor())
-               &&data.WriteRemoteObject(client->AsObject()))){
+        if (!(data.WriteInterfaceToken(mImms->GetDescriptor())
+            && data.WriteRemoteObject(client->AsObject())))
+        {
             return;
         }
         mImms->startInput(data);
@@ -209,12 +228,14 @@ using namespace MessageID;
     void InputMethodController::ReleaseInput(sptr<InputClientStub> &client)
     {
         IMSA_HILOGI("InputMethodController::ReleaseInput");
-        if(mImms == nullptr){
+        if (mImms == nullptr)
+        {
             return;
         }
         MessageParcel data;
-        if(!(data.WriteInterfaceToken(mImms->GetDescriptor())
-               &&data.WriteRemoteObject(client->AsObject().GetRefPtr()))) {
+        if (!(data.WriteInterfaceToken(mImms->GetDescriptor())
+            && data.WriteRemoteObject(client->AsObject().GetRefPtr())))
+        {
             return;
         }
         mImms->releaseInput(data);
@@ -223,12 +244,14 @@ using namespace MessageID;
     void InputMethodController::StopInput(sptr<InputClientStub> &client)
     {
         IMSA_HILOGI("InputMethodController::StopInput");
-        if(mImms == nullptr){
+        if (mImms == nullptr)
+        {
             return;
         }
         MessageParcel data;
-        if(!(data.WriteInterfaceToken(mImms->GetDescriptor())
-               &&data.WriteRemoteObject(client->AsObject().GetRefPtr()))) {
+        if (!(data.WriteInterfaceToken(mImms->GetDescriptor())
+            && data.WriteRemoteObject(client->AsObject().GetRefPtr())))
+        {
             return;
         }
         mImms->stopInput(data);

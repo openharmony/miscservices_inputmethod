@@ -33,7 +33,8 @@ namespace MiscServices {
         data.WriteString16(text);
 
         auto ret = Remote()->SendRequest(INSERT_TEXT, data, reply, option);
-        if (ret != NO_ERROR) {
+        if (ret != NO_ERROR)
+        {
             return false;
         }
         auto result = reply.ReadBool();
@@ -49,7 +50,8 @@ namespace MiscServices {
         data.WriteInt32(length);
 
         auto ret = Remote()->SendRequest(DELETE_BACKWARD, data, reply, option);
-        if (ret != NO_ERROR) {
+        if (ret != NO_ERROR)
+        {
             return false;
         }
         auto result = reply.ReadBool();
@@ -64,8 +66,8 @@ namespace MiscServices {
         data.WriteInterfaceToken(GetDescriptor());
 
         auto ret = Remote()->SendRequest(CLOSE, data, reply, option);
-        if (ret != NO_ERROR) {
-
+        if (ret != NO_ERROR)
+        {
         }
     }
 }

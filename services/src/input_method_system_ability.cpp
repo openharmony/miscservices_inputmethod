@@ -58,24 +58,30 @@ namespace MiscServices {
         }
 
         std::map<int32_t, PerUserSession*>::const_iterator it;
-        for(it=userSessions.cbegin(); it!=userSessions.cend();) {
+        for (it = userSessions.cbegin(); it != userSessions.cend();)
+        {
             PerUserSession *session = it->second;
             it = userSessions.erase(it);
             delete session;
+            session = nullptr;
         }
         userSessions.clear();
         std::map<int32_t, PerUserSetting*>::const_iterator it1;
-        for(it1=userSettings.cbegin(); it1!=userSettings.cend();) {
+        for (it1 = userSettings.cbegin(); it1 != userSettings.cend();)
+        {
             PerUserSetting *setting = it1->second;
             it1 = userSettings.erase(it1);
             delete setting;
+            setting = nullptr;
         }
         userSettings.clear();
         std::map<int32_t, MessageHandler*>::const_iterator it2;
-        for(it2=msgHandlers.cbegin(); it2!=msgHandlers.cend();) {
+        for (it2 = msgHandlers.cbegin(); it2 != msgHandlers.cend();)
+        {
             MessageHandler *handler = it2->second;
             it2 = msgHandlers.erase(it2);
             delete handler;
+            handler = nullptr;
         }
         msgHandlers.clear();
     }
@@ -158,10 +164,10 @@ namespace MiscServices {
         workThreadHandler = std::thread([this] {
             WorkThread();
         });
-        PerUserSetting *setting=new PerUserSetting(0);
-        PerUserSession *session=new PerUserSession(0);
-        userSettings.insert(std::pair<int32_t,PerUserSetting*>(0,setting));
-        userSessions.insert(std::pair<int32_t,PerUserSession*>(0,session));
+        PerUserSetting *setting = new PerUserSetting(0);
+        PerUserSession *session = new PerUserSession(0);
+        userSettings.insert(std::pair<int32_t, PerUserSetting*>(0, setting));
+        userSessions.insert(std::pair<int32_t, PerUserSession*>(0, session));
 
         setting->Initialize();
     }
@@ -253,7 +259,12 @@ namespace MiscServices {
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
 
-        KeyboardType *type = GetUserSession(userId)->GetCurrentKeyboardType();
+        PerUserSession *userSession = GetUserSession(userId);
+        if (userSession == nullptr)
+        {
+            return ErrorCode::ERROR_NULL_POINTER;
+        }
+        KeyboardType *type = userSession->GetCurrentKeyboardType();
         if (type == nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
@@ -279,7 +290,8 @@ namespace MiscServices {
         setting->ListInputMethodEnabled(properties);
 
         std::vector<InputMethodProperty*>::iterator it;
-        for(it=properties->begin(); it!=properties->end();) {
+        for (it = properties->begin(); it != properties->end();)
+        {
             if (*it && (*it)->isSystemIme) {
                 it = properties->erase(it);
             } else {
@@ -306,7 +318,8 @@ namespace MiscServices {
         }
         setting->ListInputMethod(properties);
         std::vector<InputMethodProperty*>::iterator it;
-        for(it=properties->begin(); it!=properties->end();) {
+        for (it = properties->begin(); it != properties->end();)
+        {
             if (*it && (*it)->isSystemIme) {
                 it = properties->erase(it);
             } else {
@@ -352,7 +365,8 @@ namespace MiscServices {
         std::map<int32_t, PerUserSetting*>::const_iterator it;
         int32_t index = 0;
         dprintf(fd, "* User count = %d\n", userSettings.size());
-        for(it=userSettings.cbegin(); it!=userSettings.cend(); ++it) {
+        for (it = userSettings.cbegin(); it != userSettings.cend(); ++it)
+        {
             PerUserSetting *setting = it->second;
             int32_t userId = it->first;
             int32_t userState = setting->GetUserState();
@@ -404,9 +418,9 @@ namespace MiscServices {
     */
     void InputMethodSystemAbility::WorkThread()
     {
-        while(1){
+        while(1) {
             Message *msg = MessageHandler::Instance()->GetMessage();
-            switch(msg->msgId_) {
+            switch (msg->msgId_) {
                 case MSG_ID_USER_START : {
                     OnUserStarted(msg);
                     break;
@@ -461,15 +475,24 @@ namespace MiscServices {
                 }
                 case MSG_ID_EXIT_SERVICE: {
                     std::map<int32_t, MessageHandler*>::const_iterator it;
-                    for(it=msgHandlers.cbegin(); it!=msgHandlers.cend();) {
+                    for (it = msgHandlers.cbegin(); it != msgHandlers.cend();)
+                    {
                         MessageHandler *handler = it->second;
                         Message *destMsg = new Message(MSG_ID_EXIT_SERVICE, nullptr);
                         handler->SendMessage(destMsg);
-                        GetUserSession(it->first)->JoinWorkThread();
+                        PerUserSession *userSession = GetUserSession(it->first);
+                        if (userSession == nullptr)
+                        {
+                            IMSA_HILOGE("getUserSession fail.");
+                            return;
+                        }
+                        userSession->JoinWorkThread();
                         it = msgHandlers.erase(it);
                         delete handler;
+                        handler = nullptr;
                     }
                     delete msg;
+                    msg = nullptr;
                     return;
                 }
                 default: {
@@ -533,10 +556,12 @@ namespace MiscServices {
         std::map<int32_t, PerUserSession*>::iterator itSession = userSessions.find(userId);
         userSessions.erase(itSession);
         delete session;
+        session = nullptr;
 
         std::map<int32_t, PerUserSetting*>::iterator itSetting = userSettings.find(userId);
         userSettings.erase(itSetting);
         delete setting;
+        setting = nullptr;
         IMSA_HILOGI("End...[%d]\n", userId);
         return ErrorCode::NO_ERROR;
     }
@@ -600,13 +625,14 @@ namespace MiscServices {
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
         std::map<int32_t, MessageHandler*>::iterator it = msgHandlers.find(userId);
-        if (it!=msgHandlers.end()) {
+        if (it != msgHandlers.end()) {
             MessageHandler *handler = it->second;
             Message *destMsg = new Message(MSG_ID_USER_LOCK , nullptr);
             handler->SendMessage(destMsg);
             GetUserSession(userId)->JoinWorkThread();
             msgHandlers.erase(it);
             delete handler;
+            handler = nullptr;
         }
         setting->OnUserLocked();
         IMSA_HILOGI("End...[%d]\n", userId);
@@ -632,15 +658,19 @@ namespace MiscServices {
         }
 
         std::map<int32_t, MessageHandler*>::const_iterator it = msgHandlers.find(userId);
-        if(it==msgHandlers.end()) {
+        if (it == msgHandlers.end()) {
             PerUserSession *session = GetUserSession(userId);
             MessageHandler *handler = new MessageHandler();
+            if (session == nullptr)
+            {
+                IMSA_HILOGE("InputMethodSystemAbility::OnPrepareInput session is nullptr");
+            }
             session->CreateWorkThread(*handler);
             msgHandlers.insert(std::pair<int32_t, MessageHandler*>(userId, handler));
             it = msgHandlers.find(userId);
         }
 
-        if (it!=msgHandlers.end()) {
+        if (it != msgHandlers.end()) {
             MessageHandler *handler = it->second;
             handler->SendMessage(msg);
         }
@@ -664,7 +694,7 @@ namespace MiscServices {
         }
 
         std::map<int32_t, MessageHandler*>::const_iterator it = msgHandlers.find(userId);
-        if (it!=msgHandlers.end()) {
+        if (it != msgHandlers.end()) {
             MessageHandler *handler = it->second;
             handler->SendMessage(msg);
         }
@@ -846,7 +876,7 @@ namespace MiscServices {
         }
         if (isCurrentIme) {
             std::map<int32_t, MessageHandler*>::const_iterator it = msgHandlers.find(userId);
-            if (it!=msgHandlers.end()) {
+            if (it != msgHandlers.end()) {
                 Message *destMsg = new Message(msg->msgId_, nullptr);
                 it->second->SendMessage(destMsg);
             }

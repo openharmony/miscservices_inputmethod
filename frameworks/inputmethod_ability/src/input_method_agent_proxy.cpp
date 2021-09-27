@@ -28,7 +28,8 @@ namespace MiscServices {
         IMSA_HILOGI("InputMethodAgentProxy::DispatchKey key = %{public}d, status = %{public}d", key, status);
         MessageParcel data, reply;
         MessageOption option;
-        if (!data.WriteInterfaceToken(GetDescriptor())) {
+        if (!data.WriteInterfaceToken(GetDescriptor()))
+        {
             IMSA_HILOGI("InputMethodAgentProxy::DispatchKey descriptor is not match");
             return ERROR_EX_PARCELABLE;
         }

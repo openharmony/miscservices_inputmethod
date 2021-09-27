@@ -37,7 +37,7 @@ ohos_shared_library("inputmethodability") {
     "-g3",
   ]
 
-  sources = [ "js_input_method_ability.cpp" ]
+  sources = [ "js_input_method_engine.cpp" ]
 
   configs = [ ":inputmethodability_native_config" ]
 

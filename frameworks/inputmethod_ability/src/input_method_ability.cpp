@@ -37,17 +37,21 @@ namespace MiscServices {
 
     InputMethodAbility::~InputMethodAbility()
     {
-        if (msgHandler != nullptr) {
+        if (msgHandler != nullptr)
+        {
             delete msgHandler;
+            msgHandler = nullptr;
         }
     }
 
     sptr<InputMethodAbility> InputMethodAbility::GetInstance()
     {
         IMSA_HILOGI("InputMethodAbility::GetInstance");
-        if (instance_ == nullptr) {
+        if (instance_ == nullptr)
+        {
             std::lock_guard<std::mutex> autoLock(instanceLock_);
-            if (instance_ == nullptr) {
+            if (instance_ == nullptr)
+            {
                 IMSA_HILOGI("InputMethodAbility::GetInstance need new IMA");
                 instance_ = new InputMethodAbility();
             }
@@ -60,13 +64,15 @@ namespace MiscServices {
         IMSA_HILOGI("InputMethodAbility::GetImsaProxy");
         sptr<ISystemAbilityManager> systemAbilityManager =
             SystemAbilityManagerClient::GetInstance().GetSystemAbilityManager();
-        if (systemAbilityManager == nullptr) {
+        if (systemAbilityManager == nullptr)
+        {
             IMSA_HILOGI("InputMethodAbility::GetImsaProxy systemAbilityManager is nullptr");
             return nullptr;
         }
 
         auto systemAbility = systemAbilityManager->GetSystemAbility(INPUT_METHOD_SYSTEM_ABILITY_ID, "");
-        if (systemAbility == nullptr) {
+        if (systemAbility == nullptr)
+        {
             IMSA_HILOGI("InputMethodAbility::GetImsaProxy systemAbility is nullptr");
             return nullptr;
         }
@@ -82,7 +88,8 @@ namespace MiscServices {
         sptr<InputMethodCoreStub> stub = new InputMethodCoreStub(0);
         stub->SetMessageHandler(msgHandler);
         sptr<IInputMethodCore> stub2 = stub;
-        if (mImms != nullptr) {
+        if (mImms != nullptr)
+        {
             mImms->setInputMethodCore(stub2);
         }
         IMSA_HILOGI("InputMethodAbility::OnConnect() mImms is nullptr");
@@ -100,7 +107,8 @@ namespace MiscServices {
         });
     }
 
-    void InputMethodAbility::setEventTarget(sptr<EventTarget> &eventTarget) {
+    void InputMethodAbility::setEventTarget(sptr<EventTarget> &eventTarget)
+    {
         IMSA_HILOGI("InputMethodAbility::setEventTarget");
         eventTarget_ = eventTarget;
     }
@@ -110,7 +118,7 @@ namespace MiscServices {
         while(1)
         {
             Message *msg = msgHandler->GetMessage();
-            switch(msg->msgId_) {
+            switch (msg->msgId_) {
                 case MSG_ID_INITIALIZE_INPUT: {
                     OnInitialInput(msg);
                     break;
@@ -141,11 +149,12 @@ namespace MiscServices {
                     break;
                 }
 
-                default:{
+                default: {
                     break;
                 }
             }
             delete msg;
+            msg = nullptr;
         }
     }
 
@@ -155,7 +164,8 @@ namespace MiscServices {
         MessageParcel *data = msg->msgContent_;
         displyId = data->ReadInt32();
         sptr<IRemoteObject> channelObject = data->ReadRemoteObject();
-        if (channelObject == nullptr) {
+        if (channelObject == nullptr)
+        {
             IMSA_HILOGI("InputMethodAbility::OnInitialInput channelObject is nullptr");
             return;
         }
@@ -209,8 +219,10 @@ namespace MiscServices {
     void InputMethodAbility::OnStopInput(Message *msg)
     {
         IMSA_HILOGI("InputMethodAbility::OnStopInput");
-        if (writeInputChannel != nullptr) {
+        if (writeInputChannel != nullptr)
+        {
             delete writeInputChannel;
+            writeInputChannel = nullptr;
         }
     }
 
@@ -252,7 +264,8 @@ namespace MiscServices {
     bool InputMethodAbility::InsertText(const std::string text)
     {
         IMSA_HILOGI("InputMethodAbility::InsertText");
-        if (inputDataChannel == nullptr){
+        if (inputDataChannel == nullptr)
+        {
             IMSA_HILOGI("InputMethodAbility::InsertText inputDataChanel is nullptr");
             return false;
         }
@@ -263,7 +276,8 @@ namespace MiscServices {
     void InputMethodAbility::DeleteBackward(int32_t length)
     {
         IMSA_HILOGI("InputMethodAbility::DeleteBackward");
-        if (inputDataChannel == nullptr){
+        if (inputDataChannel == nullptr)
+        {
             IMSA_HILOGI("InputMethodAbility::DeleteBackward inputDataChanel is nullptr");
             return;
         }

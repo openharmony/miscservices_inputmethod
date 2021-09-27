@@ -32,7 +32,8 @@ namespace MiscServices {
                                                                 const sptr<IRemoteObject> &remoteObject, int resultCode)
     {
         IMSA_HILOGE("ConnectAbility: OnAbilityConnectDone.");
-        if(messageHandler != nullptr){
+        if (messageHandler != nullptr)
+        {
             MessageParcel *data = new MessageParcel();
             data->WriteParcelable(&element);
             data->WriteRemoteObject(remoteObject);
@@ -46,7 +47,8 @@ namespace MiscServices {
                                                                    int resultCode)
     {
         IMSA_HILOGE("ConnectAbility: OnAbilityDisconnectDone.");
-        if(messageHandler != nullptr){
+        if (messageHandler != nullptr)
+        {
             MessageParcel *data = new MessageParcel();
             data->WriteParcelable(&element);
             data->WriteInt32(mIndex);

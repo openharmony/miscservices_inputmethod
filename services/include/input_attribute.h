@@ -23,7 +23,7 @@ namespace MiscServices {
     public:
         InputAttribute();
         InputAttribute(const InputAttribute& attribute);
-        InputAttribute& operator=(const InputAttribute& attribute);
+        InputAttribute& operator = (const InputAttribute& attribute);
         ~InputAttribute();
         virtual bool Marshalling(Parcel &parcel) const override;
         static InputAttribute *Unmarshalling(Parcel &parcel);

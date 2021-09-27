@@ -125,14 +125,15 @@ namespace MiscServices {
         if (msgHandler == nullptr) {
             return ;
         }
-        while(1){
+        while(1) {
             Message *msg = msgHandler->GetMessage();
             std::unique_lock<std::mutex> lock(mtx);
-            switch(msg->msgId_) {
+            switch (msg->msgId_) {
                 case MSG_ID_USER_LOCK:
                 case MSG_ID_EXIT_SERVICE: {
                     OnUserLocked();
                     delete msg;
+                    msg = nullptr;
                     return;
                 }
                 case MSG_ID_PREPARE_INPUT: {
@@ -151,7 +152,7 @@ namespace MiscServices {
                     OnStopInput(msg);
                     break;
                 }
-                case MSG_ID_SET_INPUT_METHOD_CORE:{
+                case MSG_ID_SET_INPUT_METHOD_CORE: {
                     onSetInputMethodCore(msg);
                     break;
                 }
@@ -190,6 +191,7 @@ namespace MiscServices {
                 }
             }
             delete msg;
+            msg = nullptr;
         }
     }
 
@@ -237,17 +239,22 @@ namespace MiscServices {
         IMSA_HILOGI("PerUserSession::ResetIme");
         std::unique_lock<std::mutex> lock(mtx);
         InputMethodProperty *ime[] = {defaultIme, securityIme};
-        for(int i=0; i<2; i++) {
-            if (currentIme[i] == ime[i] && ime[i] != nullptr) {
+        for (int i = 0; i < 2; i++)
+        {
+            if (currentIme[i] == ime[i] && ime[i] != nullptr)
+            {
                 continue;
             }
-            if (imsCore[i]) {
+            if (imsCore[i])
+            {
                 StopInputMethod(i);
             }
             IncreaseOrResetImeError(true, i);
             currentIme[i] = ime[i];
-            if (currentIme[i]==nullptr) {
-                if (needReshowClient && GetImeIndex(needReshowClient)==i) {
+            if (currentIme[i] == nullptr)
+            {
+                if (needReshowClient && GetImeIndex(needReshowClient) == i)
+                {
                     needReshowClient = nullptr;
                 }
                 continue;
@@ -255,17 +262,22 @@ namespace MiscServices {
 
             std::map<sptr<IRemoteObject>, ClientInfo*>::const_iterator it;
             bool flag = false;
-            for(it=mapClients.cbegin(); it!=mapClients.cend(); ++it) {
+            for (it = mapClients.cbegin(); it != mapClients.cend(); ++it)
+            {
                 if ((i == DEFAULT_IME && it->second->attribute.GetSecurityFlag() == false) ||
-                        (i == SECURITY_IME && it->second->attribute.GetSecurityFlag() == true)) {
+                        (i == SECURITY_IME && it->second->attribute.GetSecurityFlag() == true))
+                {
                     flag = true;
                     break;
                 }
             }
-            if (flag) {
+            if (flag)
+            {
                 int ret = StartInputMethod(i);
-                if (needReshowClient && GetImeIndex(needReshowClient)==i) {
-                    if (ret==ErrorCode::NO_ERROR) {
+                if (needReshowClient && GetImeIndex(needReshowClient) == i)
+                {
+                    if (ret == ErrorCode::NO_ERROR)
+                    {
                         ShowKeyboard(needReshowClient);
                     }
                     needReshowClient = nullptr;
@@ -283,18 +295,22 @@ namespace MiscServices {
         InputMethodSetting tmpSetting;
         bool flag = false;
         std::unique_lock<std::mutex> lock(mtx);
-        for(int i=0; i<MAX_IME; i++) {
-            if (currentIme[i] && currentIme[i]->mPackageName == packageName) {
-                if (currentClient && GetImeIndex(currentClient)==i) {
+        for (int i = 0; i < MAX_IME; i++)
+        {
+            if (currentIme[i] && currentIme[i]->mPackageName == packageName)
+            {
+                if (currentClient && GetImeIndex(currentClient) == i)
+                {
                     needReshowClient = currentClient;
                     HideKeyboard(currentClient);
                 }
                 StopInputMethod(i);
                 currentIme[i] = nullptr;
-                if (i==DEFAULT_IME) {
+                if (i == DEFAULT_IME)
+                {
                     tmpSetting.SetCurrentKeyboardType(-1);
                     inputMethodSetting->SetCurrentKeyboardType(-1);
-                } else if (i==SECURITY_IME) {
+                } else if (i == SECURITY_IME) {
                     tmpSetting.SetCurrentSysKeyboardType(-1);
                     inputMethodSetting->SetCurrentSysKeyboardType(-1);
                 }
@@ -302,7 +318,8 @@ namespace MiscServices {
                 flag = true;
             }
         }
-        if (flag) {
+        if (flag)
+        {
             Platform::Instance()->SetInputMethodSetting(userId_, tmpSetting);
         }
     }
@@ -371,11 +388,14 @@ namespace MiscServices {
             IMSA_HILOGE("PerUserSession::RemoveClient onInputReleased fail %{public}s", ErrorCode::ToString(ret));
         }
         delete clientInfo;
+        clientInfo = nullptr;
         mapClients.erase(it);
 
         remainClientNum = 0;
-        for(it=mapClients.begin(); it!=mapClients.end(); ++it) {
-            if (it->second->attribute.GetSecurityFlag() == flag) {
+        for (it = mapClients.begin(); it != mapClients.end(); ++it)
+        {
+            if (it->second->attribute.GetSecurityFlag() == flag)
+            {
                 remainClientNum++;
             }
         }
@@ -393,7 +413,7 @@ namespace MiscServices {
     */
     int PerUserSession::StartInputMethod(int index)
     {
-        IMSA_HILOGI("PerUserSession::StartInputMethod index=%{public}d [%{public}d]\n", index, userId_);
+        IMSA_HILOGI("PerUserSession::StartInputMethod index = %{public}d [%{public}d]\n", index, userId_);
 
         if (imsCore[index] == nullptr) {
             IMSA_HILOGI("PerUserSession::StartInputMethod imscore is null");
@@ -433,7 +453,7 @@ namespace MiscServices {
             IMSA_HILOGE("Aborted! %{public}s", ErrorCode::ToString(ErrorCode::ERROR_IME_NOT_STARTED));
             return ErrorCode::ERROR_IME_NOT_STARTED;
         }
-        if (currentIme[index] == currentIme[1-index] && imsCore[1-index] != nullptr) {
+        if (currentIme[index] == currentIme[1 - index] && imsCore[1 - index] != nullptr) {
             imsCore[index] = nullptr;
             inputControlChannel[index] = nullptr;
             localControlChannel[index] = nullptr;
@@ -488,7 +508,7 @@ namespace MiscServices {
         localControlChannel[index]->ResetFlag();
         bool ret = imsCore[index]->startInput(clientInfo->channel, clientInfo->attribute, supportPhysicalKbd);
         if (!ret ||
-            localControlChannel[index]->GetAgentAndChannel(&imsAgent, &imsChannel)==false) {
+            localControlChannel[index]->GetAgentAndChannel(&imsAgent, &imsChannel) == false) {
             IMSA_HILOGE("PerUserSession::ShowKeyboard Aborted! client is not ready");
             int result = clientInfo->client->onInputReady(1, nullptr, nullptr);
             if (result != ErrorCode::NO_ERROR) {
@@ -508,7 +528,8 @@ namespace MiscServices {
             return ErrorCode::ERROR_KBD_SHOW_FAILED;
         }
 
-        if(clientInfo->client == nullptr){
+        if (clientInfo->client == nullptr)
+        {
             IMSA_HILOGI("PerUserSession::ShowKeyboard clientInfo->client is nullptr");
         }
 
@@ -539,7 +560,8 @@ namespace MiscServices {
             return ErrorCode::ERROR_CLIENT_NOT_FOUND;
         }
         ClientInfo *clientInfo = GetClientInfo(inputClient);
-        if(clientInfo == nullptr){
+        if (clientInfo == nullptr)
+        {
             IMSA_HILOGE("PerUserSession::HideKeyboard GetClientInfo pointer nullptr");
         }
         if (imsCore[index] == nullptr) {
@@ -554,9 +576,10 @@ namespace MiscServices {
             return ErrorCode::ERROR_KBD_IS_NOT_SHOWING;
         }
         bool ret = imsCore[index]->hideKeyboard(1);
-        if(!ret) {
+        if (!ret)
+        {
             IMSA_HILOGE("PerUserSession::HideKeyboard [imsCore->hideKeyboard] failed");
-            ret=ErrorCode::ERROR_KBD_HIDE_FAILED;
+            ret = ErrorCode::ERROR_KBD_HIDE_FAILED;
         }
 
         int ret_client_stop = clientInfo->client->onInputReady(1, nullptr, nullptr);
@@ -623,8 +646,10 @@ namespace MiscServices {
             hashCode = hashCodeList[0];
         }
 
-        for(int i=0; i<(int)currentIme[DEFAULT_IME]->mTypes.size(); i++) {
-            if (currentIme[DEFAULT_IME]->mTypes[i]->getHashCode() == hashCode) {
+        for (int i = 0; i < (int)currentIme[DEFAULT_IME]->mTypes.size(); i++)
+        {
+            if (currentIme[DEFAULT_IME]->mTypes[i]->getHashCode() == hashCode)
+            {
                 return currentIme[DEFAULT_IME]->mTypes[i];
             }
         }
@@ -641,7 +666,7 @@ namespace MiscServices {
         bool flag = false;
         std::map<sptr<IRemoteObject>, ClientInfo*>::iterator it;
 
-        for (it=mapClients.begin(); it!=mapClients.end(); ++it) {
+        for (it = mapClients.begin(); it != mapClients.end(); ++it) {
             if (it->first == who) {
                 flag = true;
                 break;
@@ -669,27 +694,33 @@ namespace MiscServices {
         (void) who; // temporary void it, as we will add support for security IME.
         IMSA_HILOGI("Start...[%{public}d]\n", userId_);
         int index = 0;
-        for(int i=0; i<MAX_IME; i++) {
-            if(imsCore[i] == nullptr) {
+        for (int i = 0; i < MAX_IME; i++)
+        {
+            if (imsCore[i] == nullptr)
+            {
                 continue;
             }
             sptr<IRemoteObject> b = imsCore[i]->AsObject();
-            if (b == who) {
+            if (b == who)
+            {
                 index = i;
                 break;
             }
         }
-        if (currentClient && (GetImeIndex(currentClient)==index ||
-            currentIme[index] == currentIme[1-index])) {
+        if (currentClient && (GetImeIndex(currentClient) == index ||
+            currentIme[index] == currentIme[1 - index]))
+        {
             needReshowClient = currentClient;
             HideKeyboard(currentClient);
         }
         StopInputMethod(index);
-        if (currentIme[index] == currentIme[1-index]) {
-            StopInputMethod(1-index);
+        if (currentIme[index] == currentIme[1 - index])
+        {
+            StopInputMethod(1 - index);
         }
 
-        if (IncreaseOrResetImeError(false, index) == 3) {
+        if (IncreaseOrResetImeError(false, index) == 3)
+        {
             // call to disable the current input method.
             MessageParcel *parcel = new MessageParcel();
             parcel->WriteInt32(userId_);
@@ -743,7 +774,7 @@ namespace MiscServices {
                 value == currentIme[DEFAULT_IME]->mImeId) {
                 return ErrorCode::NO_ERROR;
             }
-            if (currentClient != nullptr && GetImeIndex(currentClient)==DEFAULT_IME) {
+            if (currentClient != nullptr && GetImeIndex(currentClient) == DEFAULT_IME) {
                 needReshowClient = currentClient;
                 HideKeyboard(currentClient);
             }
@@ -752,9 +783,9 @@ namespace MiscServices {
             currentKbdIndex[DEFAULT_IME] = 0;
             inputMethodSetting->SetCurrentKeyboardType(-1);
         } else if (key == InputMethodSetting::ENABLED_INPUT_METHODS_TAG) {
-            if (currentIme[DEFAULT_IME] && currentIme[DEFAULT_IME]!=currentIme[SECURITY_IME] &&
-                value.find(currentIme[DEFAULT_IME]->mImeId) == std::string::npos) {
-                if (currentClient != nullptr && GetImeIndex(currentClient)==DEFAULT_IME) {
+            if (currentIme[DEFAULT_IME] && currentIme[DEFAULT_IME] != currentIme[SECURITY_IME]
+                && value.find(currentIme[DEFAULT_IME]->mImeId) == std::string::npos) {
+                if (currentClient != nullptr && GetImeIndex(currentClient) == DEFAULT_IME) {
                     needReshowClient = currentClient;
                     HideKeyboard(currentClient);
                 }
@@ -787,8 +818,10 @@ namespace MiscServices {
             if (currentIme[index]->mTypes[num]->getHashCode() == hashCode) {
                 return ErrorCode::ERROR_SETTING_SAME_VALUE;
             }
-            for(int i=0; i<(int)currentIme[index]->mTypes.size(); i++) {
-                if (currentIme[index]->mTypes[i]->getHashCode() == hashCode) {
+            for (int i = 0; i < (int)currentIme[index]->mTypes.size(); i++)
+            {
+                if (currentIme[index]->mTypes[i]->getHashCode() == hashCode)
+                {
                     currentKbdIndex[index] = i;
                     break;
                 }
@@ -800,8 +833,10 @@ namespace MiscServices {
             if (currentKbdTypes[num] == hashCode) {
                 return ErrorCode::ERROR_SETTING_SAME_VALUE;
             }
-            for(int i=0; i<(int)currentKbdTypes.size(); i++) {
-                if (currentKbdTypes[i] == hashCode) {
+            for (int i = 0; i < (int)currentKbdTypes.size(); i++)
+            {
+                if (currentKbdTypes[i] == hashCode)
+                {
                     currentKbdIndex[index] = i;
                     break;
                 }
@@ -815,10 +850,10 @@ namespace MiscServices {
                     IMSA_HILOGE("setKeyboardType return : %{public}s [%{public}d]\n", ErrorCode::ToString(ret), userId_);
                 }
             }
-            if (imsCore[index] == imsCore[1-index]) {
+            if (imsCore[index] == imsCore[1 - index]) {
                 inputMethodSetting->SetCurrentKeyboardType(type->getHashCode());
                 inputMethodSetting->SetCurrentSysKeyboardType(type->getHashCode());
-                currentKbdIndex[1-index] = currentKbdIndex[index];
+                currentKbdIndex[1 - index] = currentKbdIndex[index];
             } else if (index == DEFAULT_IME) {
                 inputMethodSetting->SetCurrentKeyboardType(type->getHashCode());
             } else {
@@ -848,7 +883,7 @@ namespace MiscServices {
             return ;
         }
         int size = 0;
-        if (index==SECURITY_IME || currentIme[DEFAULT_IME] == currentIme[SECURITY_IME] ) {
+        if (index == SECURITY_IME || currentIme[DEFAULT_IME] == currentIme[SECURITY_IME] ) {
             size = currentIme[index]->mTypes.size();
         } else {
             std::u16string imeId = currentIme[index]->mImeId;
@@ -868,7 +903,7 @@ namespace MiscServices {
             return;
         }
         InputMethodSetting tmpSetting;
-        if (imsCore[index] == imsCore[1-index]) {
+        if (imsCore[index] == imsCore[1 - index]) {
             tmpSetting.SetCurrentKeyboardType(type->getHashCode());
             tmpSetting.SetCurrentSysKeyboardType(type->getHashCode());
         }
@@ -904,13 +939,13 @@ namespace MiscServices {
     */
     void PerUserSession::OnRestartIms(int index, const std::u16string& imeId)
     {
-        if (index<0 || index>=MAX_IME) {
+        if (index < 0 || index >= MAX_IME) {
             return ;
         }
         IMSA_HILOGI("Start...[%{public}d]\n", userId_);
         if (currentIme[index] && currentIme[index]->mImeId == imeId) {
             int ret = StartInputMethod(index);
-            if (needReshowClient && GetImeIndex(needReshowClient)==index) {
+            if (needReshowClient && GetImeIndex(needReshowClient) == index) {
                 if (ret == ErrorCode::NO_ERROR) {
                     ShowKeyboard(needReshowClient);
                 }
@@ -931,25 +966,31 @@ namespace MiscServices {
         }
         userState = UserState::USER_STATE_STARTED;
         // hide current keyboard
-        if (currentClient != nullptr) {
+        if (currentClient != nullptr)
+        {
             HideKeyboard(currentClient);
         }
-        for(int i=0; i<2; i++) {
+        for (int i = 0; i < 2; i++)
+        {
             StopInputMethod(i);
             currentIme[i] = nullptr;
         }
         // disconnect all clients.
         std::map<sptr<IRemoteObject>, ClientInfo*>::iterator it;
-        for(it=mapClients.begin(); it!=mapClients.end();) {
+        for (it = mapClients.begin(); it != mapClients.end();)
+        {
             sptr<IRemoteObject> b = it->first;
             b->RemoveDeathRecipient(clientDeathRecipient);
             ClientInfo *clientInfo = it->second;
-            if (clientInfo != nullptr) {
+            if (clientInfo != nullptr)
+            {
                 int ret = clientInfo->client->onInputReleased(0);
-                if (ret != ErrorCode::NO_ERROR) {
+                if (ret != ErrorCode::NO_ERROR)
+                {
                     IMSA_HILOGE("2-onInputReleased return : %{public}s", ErrorCode::ToString(ret));
                 }
                 delete clientInfo;
+                clientInfo = nullptr;
             }
             IMSA_HILOGD("erase client..\n");
             it = mapClients.erase(it);
@@ -976,9 +1017,11 @@ namespace MiscServices {
         dprintf(fd, "\n - User Session State :\n");
         dprintf(fd, " * Client count = %d\n", mapClients.size());
         int index = 0;
-        for(it=mapClients.cbegin(); it!=mapClients.cend(); ++it) {
+        for (it = mapClients.cbegin(); it != mapClients.cend(); ++it)
+        {
             if (currentClient != nullptr &&
-                Platform::RemoteBrokerToObject(currentClient) == it->first) {
+                Platform::RemoteBrokerToObject(currentClient) == it->first)
+            {
                 dprintf(fd, "  *[%d] Client Information: (current client)\n", index++);
             } else {
                 dprintf(fd, "  [%d] Client Information:\n", index++);
@@ -986,18 +1029,21 @@ namespace MiscServices {
             DumpClientInfo(fd, *(it->second));
         }
         std::string header[2] = {"Current", "Security"};
-        for(int i=0; i<2; i++) {
-            if (currentIme[i] != nullptr) {
+        for (int i = 0; i < 2; i++)
+        {
+            if (currentIme[i] != nullptr)
+            {
                 dprintf(fd, "\n * %s IME mImeId = %s\n", header[i].c_str(), Utils::to_utf8(currentIme[i]->mImeId).c_str());
                 KeyboardType *type = currentIme[i]->mTypes.at(currentKbdIndex[i]);
                 dprintf(fd, "   %s KeyboardType mHashCode = %d, mLanguage = %s\n", header[i].c_str(),
                     type->getHashCode(), Utils::to_utf8(type->getLanguage()).c_str());
 
-                if (imsCore[i] != nullptr) {
+                if (imsCore[i] != nullptr)
+                {
                     sptr<IRemoteObject> b = imsCore[i]->AsObject();
                     dprintf(fd, "   %s IME Service = %s#%p\n", header[i].c_str(),
                         Utils::to_utf8(b->GetObjectDescriptor()).c_str(), b.GetRefPtr());
-                    b=inputControlChannel[i]->AsObject();
+                    b = inputControlChannel[i]->AsObject();
                     dprintf(fd, "   %s InputControlChannel = %s#%p\n",
                         header[i].c_str(), Utils::to_utf8(b->GetObjectDescriptor()).c_str(), b.GetRefPtr());
                     dprintf(fd, "   %s inputMethodWindowToken = %p\n", header[i].c_str(), inputMethodToken[i].GetRefPtr());
@@ -1023,6 +1069,10 @@ namespace MiscServices {
         sptr<IRemoteObject> b = Platform::RemoteBrokerToObject(currentClient);
         std::map<sptr<IRemoteObject>, ClientInfo*>::iterator it = mapClients.find(b);
         int index = GetImeIndex(currentClient);
+        if (index < 0 || index > MAX_IME)
+        {
+            dprintf(fd, "\n * PerUserSession::DumpCurrentSession: invalid index\n");
+        }
         dprintf(fd, "\n * Current Session State :\n");
         dprintf(fd, "   current client [= %s#%p] information :\n",
                Utils::to_utf8(b->GetObjectDescriptor()).c_str(), b.GetRefPtr());
@@ -1068,7 +1118,7 @@ namespace MiscServices {
     \param resetFlag the flag to increase or reset number.
             \n resetFlag=true, reset error number to 0;
             \n resetFlag=false, increase error number.
-    \param imeIndex index=0 default ime; index=1 security ime
+    \param imeIndex index = 0 default ime; index=1 security ime
     \return return the error count value. It is less or equal 3.
     */
     int PerUserSession::IncreaseOrResetImeError(bool resetFlag, int imeIndex)
@@ -1102,7 +1152,7 @@ namespace MiscServices {
     */
     KeyboardType *PerUserSession::GetKeyboardType(int imeIndex, int typeIndex)
     {
-        if(typeIndex < 0) {
+        if (typeIndex < 0) {
             return nullptr;
         }
         if (imeIndex == SECURITY_IME || currentIme[DEFAULT_IME] == currentIme[SECURITY_IME]) {
@@ -1118,8 +1168,10 @@ namespace MiscServices {
                 return nullptr;
             }
             int hashCode = currentKbdTypes[typeIndex];
-            for(int i=0; i<(int)currentIme[imeIndex]->mTypes.size(); i++) {
-                if (currentIme[imeIndex]->mTypes[i]->getHashCode() == hashCode) {
+            for (int i = 0; i < (int)currentIme[imeIndex]->mTypes.size(); i++)
+            {
+                if (currentIme[imeIndex]->mTypes[i]->getHashCode() == hashCode)
+                {
                     return currentIme[imeIndex]->mTypes[i];
                 }
             }
@@ -1145,8 +1197,10 @@ namespace MiscServices {
         } else {
             bool flag = false;
             if (imeIndex == SECURITY_IME || currentIme[DEFAULT_IME] == currentIme[SECURITY_IME]) {
-                for(int i=0; i<(int)currentIme[imeIndex]->mTypes.size(); i++) {
-                    if (currentIme[imeIndex]->mTypes[i]->getHashCode()==hashCode) {
+                for (int i = 0; i < (int)currentIme[imeIndex]->mTypes.size(); i++)
+                {
+                    if (currentIme[imeIndex]->mTypes[i]->getHashCode() == hashCode)
+                    {
                         currentKbdIndex[imeIndex] = i;
                         flag = true;
                         break;
@@ -1154,8 +1208,10 @@ namespace MiscServices {
                 }
             } else {
                 std::vector<int> hashCodeList = inputMethodSetting->GetEnabledKeyboardTypes(currentIme[imeIndex]->mImeId);
-                for(int i=0; i<(int)hashCodeList.size(); i++) {
-                    if (hashCode == hashCodeList[i]) {
+                for (int i = 0; i < (int)hashCodeList.size(); i++)
+                {
+                    if (hashCode == hashCodeList[i])
+                    {
                         currentKbdIndex[imeIndex] = i;
                         flag = true;
                         break;
@@ -1165,16 +1221,16 @@ namespace MiscServices {
             if (flag == false) {
                 IMSA_HILOGW("The current keyboard type is not found in the current IME. Reset it!");
                 type = GetKeyboardType(imeIndex, currentKbdIndex[imeIndex]);
-            } else if (imsCore[imeIndex] == imsCore[1-imeIndex]) {
-                currentKbdIndex[1-imeIndex] = currentKbdIndex[imeIndex];
+            } else if (imsCore[imeIndex] == imsCore[1 - imeIndex]) {
+                currentKbdIndex[1 - imeIndex] = currentKbdIndex[imeIndex];
             }
         }
         if (type != nullptr) {
             InputMethodSetting tmpSetting;
-            if (imsCore[imeIndex] == imsCore[1-imeIndex]) {
+            if (imsCore[imeIndex] == imsCore[1 - imeIndex]) {
                 inputMethodSetting->SetCurrentKeyboardType(type->getHashCode());
                 inputMethodSetting->SetCurrentSysKeyboardType(type->getHashCode());
-                currentKbdIndex[1-imeIndex] = currentKbdIndex[imeIndex];
+                currentKbdIndex[1 - imeIndex] = currentKbdIndex[imeIndex];
                 tmpSetting.SetCurrentKeyboardType(type->getHashCode());
                 tmpSetting.SetCurrentSysKeyboardType(type->getHashCode());
             } else if (imeIndex == DEFAULT_IME) {
@@ -1219,16 +1275,16 @@ namespace MiscServices {
     */
     void PerUserSession::CopyInputMethodService(int imeIndex)
     {
-        imsCore[imeIndex] = imsCore[1-imeIndex];
-        localControlChannel[imeIndex] = localControlChannel[1-imeIndex];
-        inputControlChannel[imeIndex] = inputControlChannel[1-imeIndex];
-        inputMethodToken[imeIndex] = inputMethodToken[1-imeIndex];
-        currentKbdIndex[imeIndex] = currentKbdIndex[1-imeIndex];
+        imsCore[imeIndex] = imsCore[1 - imeIndex];
+        localControlChannel[imeIndex] = localControlChannel[1 - imeIndex];
+        inputControlChannel[imeIndex] = inputControlChannel[1 - imeIndex];
+        inputMethodToken[imeIndex] = inputMethodToken[1 - imeIndex];
+        currentKbdIndex[imeIndex] = currentKbdIndex[1 - imeIndex];
         int hashCode[2];
         hashCode[0] = inputMethodSetting->GetCurrentKeyboardType();
         hashCode[1] = inputMethodSetting->GetCurrentSysKeyboardType();
-        if (hashCode[imeIndex] != hashCode[1-imeIndex]) {
-            hashCode[imeIndex] = hashCode[1-imeIndex];
+        if (hashCode[imeIndex] != hashCode[1 - imeIndex]) {
+            hashCode[imeIndex] = hashCode[1 - imeIndex];
             inputMethodSetting->SetCurrentKeyboardType(hashCode[0]);
             inputMethodSetting->SetCurrentSysKeyboardType(hashCode[1]);
 
@@ -1266,7 +1322,7 @@ namespace MiscServices {
         IMSA_HILOGE("PerUserSession::BindInputAbility");
         AAFwk::Want want;
         want.SetAction("action.system.inputmethod");
-        want.SetElementName("com.example.kikakeyboard","com.example.kikakeyboard.MainAbility");
+        want.SetElementName("com.example.kikakeyboard", "com.example.kikakeyboard.MainAbility");
         sptr<InputMethodAbilityConnectionStub> stub(new (std::nothrow) InputMethodAbilityConnectionStub(0));
         sptr<AAFwk::AbilityConnectionProxy> connCallback = new (std::nothrow) AAFwk::AbilityConnectionProxy(stub);
         GetAbilityManagerService()->StartAbility(want);
@@ -1308,7 +1364,7 @@ namespace MiscServices {
         }
         sptr<InputDataChannelProxy> channel = new InputDataChannelProxy(channelObject);
         InputAttribute *attribute = data->ReadParcelable<InputAttribute>();
-        if (attribute ==nullptr) {
+        if (attribute == nullptr) {
             IMSA_HILOGI("PerUserSession::OnPrepareInput attribute is nullptr");
         }
 
@@ -1319,7 +1375,7 @@ namespace MiscServices {
         }
         SetDisplayId(displayId);
         int index = GetImeIndex(client);
-        IMSA_HILOGI("PerUserSession::OnPrepareInput index = %{public}d",index);
+        IMSA_HILOGI("PerUserSession::OnPrepareInput index = %{public}d", index);
         currentIndex = index;
         IMSA_HILOGI("PerUserSession::OnPrepareInput BindInputAbility start");
         BindInputAbility();
@@ -1386,7 +1442,7 @@ namespace MiscServices {
             IMSA_HILOGI("PerUserSession::onSetInputMethodCore End... Input Method Service has already been started ! ");
             return;
         }
-        imsCore[index]=core;
+        imsCore[index] = core;
         int ret = StartInputMethod(index);
         if (ret != ErrorCode::NO_ERROR) {
             IMSA_HILOGE("PerUserSession::onSetInputMethodCore Aborted! %{public}s", ErrorCode::ToString(ret));

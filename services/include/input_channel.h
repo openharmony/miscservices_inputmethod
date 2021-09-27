@@ -15,10 +15,10 @@
 
 #ifndef FM_IMMS_PROJECT__INPUTCHANNEL_H
 #define FM_IMMS_PROJECT__INPUTCHANNEL_H
+#include <string>
 #include "parcel.h"
 #include "global.h"
 #include "message_parcel.h"
-#include <string>
 
 namespace OHOS {
 namespace MiscServices {
@@ -32,7 +32,7 @@ namespace MiscServices {
         std::u16string name;
         MessageParcel inputChannelParcel;
         InputChannel(const InputChannel& channel);
-        InputChannel& operator=(const InputChannel& channel);
+        InputChannel& operator = (const InputChannel& channel);
     };
 }
 }

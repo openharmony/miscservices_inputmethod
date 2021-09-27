@@ -36,15 +36,18 @@ namespace MiscServices {
         }
         switch (code) {
             case ON_INPUT_READY: {
-                if (msgHandler == nullptr) {
+                if (msgHandler == nullptr)
+                {
                     break;
                 }
                 MessageParcel *parcel = new MessageParcel();
                 parcel->WriteInt32(data.ReadInt32());
-                if (data.ReadInt32() > 0) {
+                if (data.ReadInt32() > 0)
+                {
                     parcel->WriteRemoteObject(data.ReadRemoteObject());
                 }
-                if (data.ReadInt32() > 0) {
+                if (data.ReadInt32() > 0)
+                {
                     parcel->WriteParcelable(data.ReadParcelable<InputChannel>());
                 }
 
@@ -53,7 +56,8 @@ namespace MiscServices {
                 break;
             }
             case ON_INPUT_RELEASED: {
-                if (msgHandler == nullptr) {
+                if (msgHandler == nullptr)
+                {
                     break;
                 }
                 MessageParcel *parcel = new MessageParcel();
@@ -63,7 +67,8 @@ namespace MiscServices {
                 break;
             }
             case SET_DISPLAY_MODE: {
-                if (msgHandler == nullptr) {
+                if (msgHandler == nullptr)
+                {
                     break;
                 }
                 MessageParcel *parcel = new MessageParcel();

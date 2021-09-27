@@ -90,9 +90,9 @@ class MessageHandler {
         std::queue<Message*> mQueue ; // Message queue, guarded by mMutex;
 
         MessageHandler(const MessageHandler&);
-        MessageHandler& operator= (const MessageHandler&);
+        MessageHandler& operator = (const MessageHandler&);
         MessageHandler(const MessageHandler&&);
-        MessageHandler& operator= (const MessageHandler&&);
+        MessageHandler& operator = (const MessageHandler&&);
     };
 }
 }

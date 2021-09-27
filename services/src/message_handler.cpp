@@ -32,6 +32,7 @@ namespace MiscServices {
             Message *msg = mQueue.front();
             mQueue.pop();
             delete msg;
+            msg = nullptr;
         }
     }
 

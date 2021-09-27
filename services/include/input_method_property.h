@@ -16,8 +16,8 @@
 #ifndef FM_IMMS_PROJECT_INPUTMETHODPROPERTY_H
 #define FM_IMMS_PROJECT_INPUTMETHODPROPERTY_H
 #include <vector>
-#include "parcel.h"
 #include <string>
+#include "parcel.h"
 #include "keyboard_type.h"
 
 namespace OHOS {
@@ -35,7 +35,7 @@ namespace MiscServices {
         InputMethodProperty();
         ~InputMethodProperty();
         InputMethodProperty(const InputMethodProperty& property);
-        InputMethodProperty& operator=(const InputMethodProperty& property);
+        InputMethodProperty& operator = (const InputMethodProperty& property);
         virtual bool Marshalling(Parcel &parcel) const override;
         static InputMethodProperty *Unmarshalling(Parcel &parcel);
     };

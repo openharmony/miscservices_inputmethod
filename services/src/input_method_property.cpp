@@ -28,7 +28,8 @@ namespace MiscServices {
     */
     InputMethodProperty::~InputMethodProperty()
     {
-        for(int32_t i=0; i<(int32_t)mTypes.size(); i++) {
+        for (int32_t i = 0; i < (int32_t)mTypes.size(); i++)
+        {
             delete mTypes[i];
         }
         mTypes.clear();
@@ -46,7 +47,8 @@ namespace MiscServices {
         isSystemIme = property.isSystemIme;
         mDefaultImeId = property.mDefaultImeId;
 
-        for(int i = 0; i < (int)mTypes.size(); i++) {
+        for (int i = 0; i < (int)mTypes.size(); i++)
+        {
             KeyboardType *type = new KeyboardType(*property.mTypes[i]);
             mTypes.push_back(type);
         }
@@ -56,7 +58,7 @@ namespace MiscServices {
     \param property the source property will be copied to this instance.
     \return return this
     */
-    InputMethodProperty& InputMethodProperty::operator=(const InputMethodProperty& property)
+    InputMethodProperty& InputMethodProperty::operator = (const InputMethodProperty& property)
     {
         if (this == &property) {
             return *this;
@@ -68,7 +70,8 @@ namespace MiscServices {
         isSystemIme = property.isSystemIme;
         mDefaultImeId = property.mDefaultImeId;
 
-        for(int i = 0; i < (int)mTypes.size(); i++) {
+        for (int i = 0; i < (int)mTypes.size(); i++)
+        {
             KeyboardType *type = new KeyboardType(*property.mTypes[i]);
             mTypes.push_back(type);
         }
@@ -83,17 +86,20 @@ namespace MiscServices {
     bool InputMethodProperty::Marshalling(Parcel &parcel) const
     {
         if (!(parcel.WriteString16(mImeId)
-                &&parcel.WriteString16(mPackageName)
-                &&parcel.WriteString16(mAbilityName)
-                &&parcel.WriteString16(mConfigurationPage)
-                &&parcel.WriteBool(isSystemIme)
-                &&parcel.WriteInt32(mDefaultImeId)))
+            && parcel.WriteString16(mPackageName)
+            && parcel.WriteString16(mAbilityName)
+            && parcel.WriteString16(mConfigurationPage)
+            && parcel.WriteBool(isSystemIme)
+            && parcel.WriteInt32(mDefaultImeId)))
             return false;
         int32_t size = (int32_t)mTypes.size();
         parcel.WriteInt32(size);
         if (size == 0)
+        {
             return true;
-        for(int i=0; i<size; i++){
+        }
+        for (int i = 0; i < size; i++)
+        {
             parcel.WriteParcelable(mTypes[i]);
         }
         return true;
@@ -117,7 +123,7 @@ namespace MiscServices {
         int32_t size = parcel.ReadInt32();
         if (size == 0)
             return info;
-        for (int i =0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             info->mTypes.push_back(parcel.ReadParcelable<KeyboardType>());
         }
         return info;
