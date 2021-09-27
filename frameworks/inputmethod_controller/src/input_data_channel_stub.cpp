@@ -23,8 +23,7 @@ namespace MiscServices {
 
     InputDataChannelStub::~InputDataChannelStub()
     {
-        if (msgHandler != nullptr)
-        {
+        if (msgHandler != nullptr) {
             delete msgHandler;
             msgHandler = nullptr;
         }
@@ -35,8 +34,7 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputDataChannelStub::OnRemoteRequest code = %{public}d", code);
         auto descriptorToken = data.ReadInterfaceToken();
-        if (descriptorToken != GetDescriptor())
-        {
+        if (descriptorToken != GetDescriptor()) {
             return ErrorCode::ERROR_STATUS_UNKNOWN_TRANSACTION;
         }
         switch (code) {
@@ -63,8 +61,7 @@ namespace MiscServices {
     bool InputDataChannelStub::InsertText(const std::u16string& text)
     {
         IMSA_HILOGI("InputDataChannelStub::InsertText");
-        if (msgHandler != nullptr)
-        {
+        if (msgHandler != nullptr) {
             MessageParcel *parcel = new MessageParcel;
             parcel->WriteString16(text);
             Message *msg = new Message(MessageID::MSG_ID_INSERT_CHAR, parcel);
@@ -78,8 +75,7 @@ namespace MiscServices {
     bool InputDataChannelStub::DeleteBackward(int32_t length)
     {
         IMSA_HILOGI("InputDataChannelStub::DeleteBackward");
-        if (msgHandler != nullptr)
-        {
+        if (msgHandler != nullptr) {
             MessageParcel *parcel = new MessageParcel;
             parcel->WriteInt32(length);
             Message *msg = new Message(MessageID::MSG_ID_DELETE_BACKWARD, parcel);
@@ -91,7 +87,6 @@ namespace MiscServices {
 
     void InputDataChannelStub::Close()
     {
-
     }
 
     void InputDataChannelStub::SetHandler(MessageHandler *handler)

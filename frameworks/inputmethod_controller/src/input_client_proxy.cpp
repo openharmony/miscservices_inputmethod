@@ -28,25 +28,21 @@ using namespace ErrorCode;
         IMSA_HILOGI("InputClientProxy::onInputReady");
         MessageParcel data, reply;
         MessageOption option;
-        if (!data.WriteInterfaceToken(GetDescriptor()))
-        {
+        if (!data.WriteInterfaceToken(GetDescriptor())) {
             return ERROR_EX_PARCELABLE;
         }
 
-        if (!data.WriteInt32(retValue))
-        {
+        if (!data.WriteInt32(retValue)) {
             return ERROR_EX_PARCELABLE;
         }
-        if (agent == nullptr)
-        {
+        if (agent == nullptr) {
             data.WriteInt32(0);
         } else {
             data.WriteInt32(1);
             data.WriteRemoteObject(agent->AsObject().GetRefPtr());
         }
     
-        if (channel == nullptr)
-        {
+        if (channel == nullptr) {
             data.WriteInt32(0);
         } else {
             data.WriteInt32(1);
@@ -54,8 +50,7 @@ using namespace ErrorCode;
         }
 
         auto ret = Remote()->SendRequest(ON_INPUT_READY, data, reply, option);
-        if (ret != NO_ERROR)
-        {
+        if (ret != NO_ERROR) {
             IMSA_HILOGI("InputClientProxy::onInputReady SendRequest failed");
             return ERROR_STATUS_FAILED_TRANSACTION;
         }

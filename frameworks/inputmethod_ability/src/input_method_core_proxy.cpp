@@ -31,13 +31,11 @@ namespace MiscServices {
                                                   sptr<IInputControlChannel> &inputControlChannel)
     {
         IMSA_HILOGI("InputMethodCoreProxy::initializeInput");
-        if (startInputToken == nullptr)
-        {
+        if (startInputToken == nullptr) {
             IMSA_HILOGI("InputMethodCoreProxy::initializeInput startInputToken is nullptr");
         }
 
-        if (inputControlChannel == nullptr)
-        {
+        if (inputControlChannel == nullptr) {
             IMSA_HILOGI("InputMethodCoreProxy::initializeInput inputControlChannel is nullptr");
         }
         IMSA_HILOGI("InputMethodCoreProxy::initializeInput displayId = %{public}d", displayId);
@@ -45,13 +43,11 @@ namespace MiscServices {
         data.WriteInterfaceToken(GetDescriptor());
         data.WriteInt32(displayId);
         sptr<IRemoteObject> channelObject = inputControlChannel->AsObject();
-        if (channelObject == nullptr)
-        {
+        if (channelObject == nullptr) {
             IMSA_HILOGI("InputMethodCoreProxy::initializeInput channelObject is nullptr");
         }
         bool wor = data.WriteRemoteObject(channelObject);
-        if (wor)
-        {
+        if (wor) {
             IMSA_HILOGI("InputMethodCoreProxy::initializeInput Success to write inputControlChannel");
         } else {
             IMSA_HILOGI("InputMethodCoreProxy::initializeInput Failed to write inputControlChannel");
@@ -60,8 +56,7 @@ namespace MiscServices {
             MessageOption::TF_SYNC
         };
         int32_t status = Remote()->SendRequest(INITIALIZE_INPUT, data, reply, option);
-        if (status != ErrorCode::NO_ERROR)
-        {
+        if (status != ErrorCode::NO_ERROR) {
             IMSA_HILOGI("InputMethodCoreProxy::initializeInput status = %{public}d", status);
             return status;
         }
@@ -73,8 +68,7 @@ namespace MiscServices {
                                           const InputAttribute& editorAttribute, bool supportPhysicalKbd)
     {
         IMSA_HILOGI("InputMethodCoreProxy::startInput");
-        if (inputDataChannel == nullptr)
-        {
+        if (inputDataChannel == nullptr) {
             IMSA_HILOGI("InputMethodCoreProxy::startInput inputDataChannel is nullptr");
         }
 
@@ -82,8 +76,7 @@ namespace MiscServices {
         if (!(data.WriteInterfaceToken(GetDescriptor())
             && data.WriteRemoteObject(inputDataChannel->AsObject())
             && data.WriteParcelable(&editorAttribute)
-            && data.WriteBool(supportPhysicalKbd)))
-        {
+            && data.WriteBool(supportPhysicalKbd))) {
             IMSA_HILOGI("InputMethodCoreProxy::startInput write error");
             return false;
         }
@@ -93,8 +86,7 @@ namespace MiscServices {
         };
 
         int32_t status = Remote()->SendRequest(START_INPUT, data, reply, option);
-        if (status != ErrorCode::NO_ERROR)
-        {
+        if (status != ErrorCode::NO_ERROR) {
             IMSA_HILOGI("InputMethodCoreProxy::startInput status = %{public}d", status);
             return false;
         }
@@ -112,14 +104,12 @@ namespace MiscServices {
             MessageOption::TF_SYNC
         };
         int32_t status = Remote()->SendRequest(STOP_INPUT, data, reply, option);
-        if (status != ErrorCode::NO_ERROR)
-        {
+        if (status != ErrorCode::NO_ERROR) {
             IMSA_HILOGI("InputMethodCoreProxy::stopInput status = %{public}d", status);
             return status;
         }
         int code = reply.ReadException();
-        if (code != ErrorCode::NO_ERROR)
-        {
+        if (code != ErrorCode::NO_ERROR) {
             IMSA_HILOGI("InputMethodCoreProxy::stopInput code = %{public}d", code);
             return code;
         }
@@ -130,15 +120,13 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodCoreProxy::showKeyboard");
         auto remote = Remote();
-        if (remote == nullptr)
-        {
+        if (remote == nullptr) {
             IMSA_HILOGI("InputMethodCoreProxy::showKeyboard remote is nullptr");
             return false;
         }
 
         MessageParcel data;
-        if (!(data.WriteInterfaceToken(GetDescriptor()) && data.WriteInt32(flags)))
-        {
+        if (!(data.WriteInterfaceToken(GetDescriptor()) && data.WriteInt32(flags))) {
             return false;
         }
         MessageParcel reply;
@@ -147,8 +135,7 @@ namespace MiscServices {
         };
 
         int32_t res = remote->SendRequest(SHOW_KEYBOARD, data, reply, option);
-        if (res != ErrorCode::NO_ERROR)
-        {
+        if (res != ErrorCode::NO_ERROR) {
             return false;
         }
         return true;
@@ -158,14 +145,12 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodCoreProxy::hideKeyboard");
         auto remote = Remote();
-        if (remote == nullptr)
-        {
+        if (remote == nullptr) {
             return false;
         }
 
         MessageParcel data;
-        if (!(data.WriteInterfaceToken(GetDescriptor()) && data.WriteInt32(flags)))
-        {
+        if (!(data.WriteInterfaceToken(GetDescriptor()) && data.WriteInt32(flags))) {
             return false;
         }
         MessageParcel reply;
@@ -174,8 +159,7 @@ namespace MiscServices {
         };
 
         int32_t res = remote->SendRequest(HIDE_KEYBOARD, data, reply, option);
-        if (res != ErrorCode::NO_ERROR)
-        {
+        if (res != ErrorCode::NO_ERROR) {
             return false;
         }
         return true;
@@ -191,8 +175,7 @@ namespace MiscServices {
             MessageOption::TF_SYNC
         };
         int32_t status = Remote()->SendRequest(SET_KEYBOARD_TYPE, data, reply, option);
-        if (status != ErrorCode::NO_ERROR)
-        {
+        if (status != ErrorCode::NO_ERROR) {
             return status;
         }
         int32_t code = reply.ReadException();
@@ -208,13 +191,11 @@ namespace MiscServices {
             MessageOption::TF_SYNC
         };
         int32_t status = Remote()->SendRequest(GET_KEYBOARD_WINDOW_HEIGHT, data, reply, option);
-        if (status != ErrorCode::NO_ERROR)
-        {
+        if (status != ErrorCode::NO_ERROR) {
             return status;
         }
         int32_t code = reply.ReadException();
-        if (code != 0)
-        {
+        if (code != 0) {
             return code;
         }
         retHeight = reply.ReadInt32();

@@ -29,15 +29,13 @@ namespace MiscServices {
         MessageOption option;
 
         auto ret = Remote()->SendRequest(PREPARE_INPUT, data, reply, option);
-        if (ret != NO_ERROR)
-        {
+        if (ret != NO_ERROR) {
             IMSA_HILOGI("InputMethodSystemAbilityProxy::prepareInput SendRequest failed");
             return;
         }
 
         ret = reply.ReadInt32();
-        if (ret != NO_ERROR)
-        {
+        if (ret != NO_ERROR) {
             IMSA_HILOGI("InputMethodSystemAbilityProxy::prepareInput reply failed");
             return;
         }
@@ -49,15 +47,13 @@ namespace MiscServices {
         MessageOption option;
 
         auto ret = Remote()->SendRequest(RELEASE_INPUT, data, reply, option);
-        if (ret != NO_ERROR)
-        {
+        if (ret != NO_ERROR) {
             IMSA_HILOGI("InputMethodSystemAbilityProxy::releaseInput SendRequest failed");
             return;
         }
 
         ret = reply.ReadInt32();
-        if (ret != NO_ERROR)
-        {
+        if (ret != NO_ERROR) {
             IMSA_HILOGI("InputMethodSystemAbilityProxy::releaseInput reply failed");
             return;
         }
@@ -70,15 +66,13 @@ namespace MiscServices {
         MessageOption option;
 
         auto ret = Remote()->SendRequest(START_INPUT, data, reply, option);
-        if (ret != NO_ERROR)
-        {
+        if (ret != NO_ERROR) {
             IMSA_HILOGI("InputMethodSystemAbilityProxy::startInput SendRequest failed");
             return;
         }
 
         ret = reply.ReadInt32();
-        if (ret != NO_ERROR)
-        {
+        if (ret != NO_ERROR) {
             IMSA_HILOGI("InputMethodSystemAbilityProxy::startInput reply failed");
             return;
         }
@@ -91,15 +85,13 @@ namespace MiscServices {
         MessageOption option;
 
         auto ret = Remote()->SendRequest(STOP_INPUT, data, reply, option);
-        if (ret != NO_ERROR)
-        {
+        if (ret != NO_ERROR) {
             IMSA_HILOGI("InputMethodSystemAbilityProxy::stopInput SendRequest failed");
             return;
         }
 
         ret = reply.ReadInt32();
-        if (ret != NO_ERROR)
-        {
+        if (ret != NO_ERROR) {
             IMSA_HILOGI("InputMethodSystemAbilityProxy::stopInput reply failed");
             return;
         }

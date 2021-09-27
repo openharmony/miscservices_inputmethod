@@ -35,8 +35,7 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodAgentStub::OnRemoteRequest code = %{public}d", code);
         auto descriptorToken = data.ReadInterfaceToken();
-        if (descriptorToken != GetDescriptor())
-        {
+        if (descriptorToken != GetDescriptor()) {
             return ErrorCode::ERROR_STATUS_UNKNOWN_TRANSACTION;
         }
 
@@ -45,8 +44,7 @@ namespace MiscServices {
                 int32_t key = data.ReadInt32();
                 int32_t status = data.ReadInt32();
                 int32_t result = DispatchKey(key, status);
-                if (result == ErrorCode::NO_ERROR)
-                {
+                if (result == ErrorCode::NO_ERROR) {
                     reply.WriteNoException();
                 } else {
                     reply.WriteInt32(result);
@@ -63,8 +61,7 @@ namespace MiscServices {
     int32_t InputMethodAgentStub::DispatchKey(int32_t key, int32_t status)
     {
         IMSA_HILOGI("InputMethodAgentStub::DispatchKey key = %{public}d, status = %{public}d", key, status);
-        if (msgHandler_ == nullptr)
-        {
+        if (msgHandler_ == nullptr) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         MessageParcel *data = new MessageParcel();
