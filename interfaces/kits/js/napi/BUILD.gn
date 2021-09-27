@@ -15,10 +15,7 @@ import("//build/ohos.gni")
 
 config("inputmethodengine_native_config") {
   visibility = [ ":*" ]
-    include_dirs = [
-      "include",
-    ]
-
+  include_dirs = [ "include" ]
 }
 
 config("inputmethodengine_native_public_config") {
@@ -42,26 +39,26 @@ ohos_shared_library("inputmethodengine") {
   configs = [ ":inputmethodengine_native_config" ]
 
   deps = [
-    "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
-    "//foundation/ace/napi/:ace_napi",
-    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
-    "//utils/native/base:utils",
     "//base/global/resmgr_standard/frameworks/resmgr:global_resmgr",
+    "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
+    "//base/miscservices/inputmethod/services:inputmethod_service",
     "//foundation/aafwk/standard/frameworks/kits/ability/native:abilitykit_native",
     "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
-    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
     "//foundation/aafwk/standard/interfaces/innerkits/base:base",
     "//foundation/aafwk/standard/interfaces/innerkits/intent:intent",
-    "//foundation/multimodalinput/input/interfaces/native/innerkits/event:mmi_event",
+    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
+    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
+    "//foundation/ace/napi/:ace_napi",
     "//foundation/appexecfwk/standard/interfaces/innerkits/appexecfwk_base:appexecfwk_base",
     "//foundation/appexecfwk/standard/interfaces/innerkits/appexecfwk_core:appexecfwk_core",
     "//foundation/appexecfwk/standard/interfaces/innerkits/libeventhandler:libeventhandler",
-    "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_single:ipc_single",
-    "//foundation/multimodalinput/input/interfaces/native/innerkits/event:mmi_event",
     "//foundation/distributedschedule/dmsfwk/interfaces/innerkits/uri:zuri",
-    "//base/miscservices/inputmethod/services:inputmethod_service",
+    "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
+    "//foundation/multimodalinput/input/interfaces/native/innerkits/event:mmi_event",
+    "//foundation/multimodalinput/input/interfaces/native/innerkits/event:mmi_event",
+    "//utils/native/base:utils",
   ]
 
   external_deps = [
