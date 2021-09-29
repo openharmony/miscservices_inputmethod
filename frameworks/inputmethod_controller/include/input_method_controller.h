@@ -47,8 +47,8 @@ namespace MiscServices {
     class InputMethodController : public RefBase {
     public:
         static sptr<InputMethodController> GetInstance();
-        void Attach();
-        void ShowTextInput(sptr<OnTextChangedListener> &listener);
+        void Attach(sptr<OnTextChangedListener> &listener);
+        void ShowTextInput();
         void HideTextInput();
         void Close();
         void OnRemoteSaDied(const wptr<IRemoteObject> &object);
