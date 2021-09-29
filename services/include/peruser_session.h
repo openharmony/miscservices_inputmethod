@@ -146,6 +146,7 @@ namespace MiscServices {
         std::mutex mtx; // mutex to lock the operations among multi work threads
         sptr<AAFwk::AbilityConnectionProxy> connCallback;
         sptr<InputMethodAbility> inputMethodAbility_;
+        int SLEEP_TIME = 300000;
 
         PerUserSession(const PerUserSession&);
         PerUserSession& operator =(const PerUserSession&);
