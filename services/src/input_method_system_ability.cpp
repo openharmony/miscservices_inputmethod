@@ -583,11 +583,16 @@ namespace MiscServices {
         if (it != msgHandlers.end()) {
             MessageHandler *handler = it->second;
             Message *destMsg = new Message(MSG_ID_USER_LOCK , nullptr);
-            handler->SendMessage(destMsg);
-            GetUserSession(userId)->JoinWorkThread();
-            msgHandlers.erase(it);
-            delete handler;
-            handler = nullptr;
+            if (destMsg != nullptr) {
+                handler->SendMessage(destMsg);
+                PerUserSession *userSession = GetUserSession(userId);
+                if (userSession != nullptr) {
+                    userSession->JoinWorkThread();
+                }
+                msgHandlers.erase(it);
+                delete handler;
+                handler = nullptr;
+            }
         }
         setting->OnUserLocked();
         IMSA_HILOGI("End...[%d]\n", userId);
@@ -705,6 +710,10 @@ namespace MiscServices {
     {
         IMSA_HILOGI("Start...\n");
         MessageParcel *data = msg->msgContent_;
+        if (data == nullptr) {
+            IMSA_HILOGI("InputMethodSystemAbility::OnPackageRemoved data is nullptr");
+            return ErrorCode::ERROR_NULL_POINTER;
+        }
         int32_t userId = data->ReadInt32();
         int32_t size = data->ReadInt32();
 
@@ -719,6 +728,10 @@ namespace MiscServices {
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
         PerUserSession *session = GetUserSession(userId);
+        if (session == nullptr) {
+            IMSA_HILOGI("InputMethodSystemAbility::OnPackageRemoved session is nullptr");
+            return ErrorCode::ERROR_NULL_POINTER;
+        }
         session->OnPackageRemoved(packageName);
         bool securityImeFlag = false;
         int32_t ret = setting->OnPackageRemoved(packageName, securityImeFlag);

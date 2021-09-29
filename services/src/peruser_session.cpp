@@ -977,8 +977,8 @@ namespace MiscServices {
     */
     int PerUserSession::IncreaseOrResetImeError(bool resetFlag, int imeIndex)
     {
-        static int errorNum[MIN_IME] = {0, 0};
-        static time_t past[MIN_IME] = {time(0), time(0)};
+        static int errorNum[2] = {0, 0};
+        static time_t past[2] = {time(0), time(0)};
         if (resetFlag == true) {
             errorNum[imeIndex] = 0;
             past[imeIndex] = 0;

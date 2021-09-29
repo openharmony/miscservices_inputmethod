@@ -172,7 +172,6 @@ namespace MiscServices {
         }
 
         delete type;
-        delete type;
         type = nullptr;
         napi_value result = nullptr;
         napi_get_undefined(env, &result);
