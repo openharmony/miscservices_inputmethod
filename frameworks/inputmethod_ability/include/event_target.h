@@ -33,11 +33,11 @@ namespace MiscServices {
         EventTarget(napi_env env, napi_value thisVar);
         virtual ~EventTarget();
 
-        virtual void On(const char* type, napi_value handler);
-        virtual void Once(const char* type, napi_value handler);
-        virtual void Off(const char* type, napi_value handler);
-        virtual void Off(const char* type);
-        virtual void Emit(const char* type, Event* event);
+        virtual void On(const char *type, napi_value handler);
+        virtual void Once(const char *type, napi_value handler);
+        virtual void Off(const char *type, napi_value handler);
+        virtual void Off(const char *type);
+        virtual void Emit(const char *type, Event *event);
 
     protected:
         napi_env env_;

@@ -77,6 +77,7 @@ namespace MiscServices {
         static sptr<InputMethodController> instance_;
         std::thread workThreadHandler;
         MessageHandler *msgHandler;
+        bool stop_;
     };
 }
 }

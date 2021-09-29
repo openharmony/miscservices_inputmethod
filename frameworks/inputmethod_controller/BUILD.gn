@@ -35,31 +35,27 @@ config("inputmethod_client_native_public_config") {
 
 ohos_shared_library("inputmethod_client") {
   sources = [
-    "src/input_data_channel_stub.cpp",
-    "src/input_data_channel_proxy.cpp",
     "src/input_client_proxy.cpp",
     "src/input_client_stub.cpp",
-    "src/input_method_system_ability_proxy.cpp",
+    "src/input_data_channel_proxy.cpp",
+    "src/input_data_channel_stub.cpp",
     "src/input_method_controller.cpp",
+    "src/input_method_system_ability_proxy.cpp",
   ]
 
   deps = [
-    "//utils/native/base:utils",
+    "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
+    "//base/miscservices/inputmethod/services:inputmethod_service",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_single:ipc_single",
     "//foundation/distributedschedule/safwk/interfaces/innerkits/safwk:system_ability_fwk",
     "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
-    "//base/miscservices/inputmethod/services:inputmethod_service",
-    "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
+    "//utils/native/base:utils",
   ]
 
-  external_deps = [
-    "hiviewdfx_hilog_native:libhilog",
-  ]
+  external_deps = [ "hiviewdfx_hilog_native:libhilog" ]
 
-  configs = [
-    ":inputmethod_client_native_config",
-    ]
+  configs = [ ":inputmethod_client_native_config" ]
 
   public_configs = [ ":inputmethod_client_native_public_config" ]
 

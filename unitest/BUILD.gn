@@ -16,9 +16,7 @@ import("//build/test.gni")
 config("module_private_config") {
   visibility = [ ":*" ]
 
-  include_dirs = [
-    "include",
-    ]
+  include_dirs = [ "include" ]
 }
 
 module_output_path = "inputmethod_native/inputmethod_service"
@@ -26,67 +24,57 @@ module_output_path = "inputmethod_native/inputmethod_service"
 ohos_unittest("InputMethodControllerTest") {
   module_out_path = module_output_path
 
-  sources = [
-    "src/input_method_controller_test.cpp"]
+  sources = [ "src/input_method_controller_test.cpp" ]
 
-  configs = [
-    ":module_private_config",
-  ]
+  configs = [ ":module_private_config" ]
 
   deps = [
-    "//base/miscservices/inputmethod/frameworks/inputmethod_controller:inputmethod_client",
     "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
+    "//base/miscservices/inputmethod/frameworks/inputmethod_controller:inputmethod_client",
     "//base/miscservices/inputmethod/services:inputmethod_service",
-    "//utils/native/base:utils",
+    "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
+    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
+    "//foundation/aafwk/standard/services/abilitymgr:abilityms",
+    "//foundation/ace/napi/:ace_napi",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_single:ipc_single",
-    "//third_party/googletest:gtest_main",
-    "//utils/native/base:utils",
-    "//foundation/aafwk/standard/services/abilitymgr:abilityms",
-    "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
     "//foundation/distributedschedule/dmsfwk/interfaces/innerkits/uri:zuri",
-    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
     "//foundation/distributedschedule/safwk/interfaces/innerkits/safwk:system_ability_fwk",
     "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
-    "//foundation/ace/napi/:ace_napi",
+    "//third_party/googletest:gtest_main",
+    "//utils/native/base:utils",
+    "//utils/native/base:utils",
   ]
 
-  external_deps = [
-    "hiviewdfx_hilog_native:libhilog",
-  ]
+  external_deps = [ "hiviewdfx_hilog_native:libhilog" ]
 }
 
 ohos_unittest("InputMethodAbilityTest") {
   module_out_path = module_output_path
 
-  sources = [
-    "src/input_method_ability_test.cpp"]
+  sources = [ "src/input_method_ability_test.cpp" ]
 
-  configs = [
-    ":module_private_config",
-  ]
+  configs = [ ":module_private_config" ]
 
   deps = [
-    "//base/miscservices/inputmethod/frameworks/inputmethod_controller:inputmethod_client",
     "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
+    "//base/miscservices/inputmethod/frameworks/inputmethod_controller:inputmethod_client",
     "//base/miscservices/inputmethod/services:inputmethod_service",
-    "//utils/native/base:utils",
+    "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
+    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
+    "//foundation/aafwk/standard/services/abilitymgr:abilityms",
+    "//foundation/ace/napi/:ace_napi",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_single:ipc_single",
-    "//third_party/googletest:gtest_main",
-    "//utils/native/base:utils",
-    "//foundation/aafwk/standard/services/abilitymgr:abilityms",
-    "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
     "//foundation/distributedschedule/dmsfwk/interfaces/innerkits/uri:zuri",
-    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
     "//foundation/distributedschedule/safwk/interfaces/innerkits/safwk:system_ability_fwk",
     "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
-    "//foundation/ace/napi/:ace_napi",
+    "//third_party/googletest:gtest_main",
+    "//utils/native/base:utils",
+    "//utils/native/base:utils",
   ]
 
-  external_deps = [
-    "hiviewdfx_hilog_native:libhilog",
-  ]
+  external_deps = [ "hiviewdfx_hilog_native:libhilog" ]
 }
 
 group("unittest") {
@@ -94,5 +82,8 @@ group("unittest") {
 
   deps = []
 
-  deps += [ ":InputMethodControllerTest", ":InputMethodAbilityTest" ]
+  deps += [
+    ":InputMethodAbilityTest",
+    ":InputMethodControllerTest",
+  ]
 }

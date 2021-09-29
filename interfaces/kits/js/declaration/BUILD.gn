@@ -16,15 +16,11 @@ import("//build/ohos/ace/ace.gni")
 
 js_declaration("inputmethod") {
   part_name = "inputmethod_native"
-  sources = [
-    "./api",
-  ]
+  sources = [ "./api" ]
 }
 
 ohos_copy("inputmethod_declaration") {
-  sources = [
-    "./api"
-  ]
+  sources = [ "./api" ]
   outputs = [ target_out_dir + "/$target_name/" ]
   module_source_dir = target_out_dir + "/$target_name"
   module_install_name = ""

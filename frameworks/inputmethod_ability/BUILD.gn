@@ -15,11 +15,10 @@ import("//build/ohos.gni")
 
 config("inputmethod_ability_native_config") {
   visibility = [ ":*" ]
-    include_dirs = [
-      "include",
+  include_dirs = [
+    "include",
     "${inputmethod_path}/frameworks/inputmethod_controller/include",
-    ]
-
+  ]
 }
 config("inputmethod_ability_native_public_config") {
   visibility = []
@@ -28,45 +27,41 @@ config("inputmethod_ability_native_public_config") {
 
 ohos_shared_library("inputmethod_ability") {
   sources = [
+    "../inputmethod_controller/src/input_method_system_ability_proxy.cpp",
+    "src/event_target.cpp",
     "src/input_method_ability.cpp",
     "src/input_method_agent_proxy.cpp",
     "src/input_method_agent_stub.cpp",
-    "src/input_method_core_stub.cpp",
     "src/input_method_core_proxy.cpp",
-    "src/event_target.cpp",
-    "../inputmethod_controller/src/input_method_system_ability_proxy.cpp",
+    "src/input_method_core_stub.cpp",
   ]
 
   configs = [ ":inputmethod_ability_native_config" ]
 
   deps = [
-    "//utils/native/base:utils",
     "//base/global/resmgr_standard/frameworks/resmgr:global_resmgr",
+    "//base/miscservices/inputmethod/services:inputmethod_service",
     "//foundation/aafwk/standard/frameworks/kits/ability/native:abilitykit_native",
     "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
-    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
     "//foundation/aafwk/standard/interfaces/innerkits/base:base",
     "//foundation/aafwk/standard/interfaces/innerkits/intent:intent",
+    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
     "//foundation/ace/napi/:ace_napi",
-    "//foundation/multimodalinput/input/interfaces/native/innerkits/event:mmi_event",
     "//foundation/appexecfwk/standard/interfaces/innerkits/appexecfwk_base:appexecfwk_base",
     "//foundation/appexecfwk/standard/interfaces/innerkits/appexecfwk_core:appexecfwk_core",
     "//foundation/appexecfwk/standard/interfaces/innerkits/libeventhandler:libeventhandler",
-    "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_single:ipc_single",
-    "//foundation/multimodalinput/input/interfaces/native/innerkits/event:mmi_event",
     "//foundation/distributedschedule/dmsfwk/interfaces/innerkits/uri:zuri",
-    "//base/miscservices/inputmethod/services:inputmethod_service",
+    "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
+    "//foundation/multimodalinput/input/interfaces/native/innerkits/event:mmi_event",
+    "//foundation/multimodalinput/input/interfaces/native/innerkits/event:mmi_event",
+    "//utils/native/base:utils",
   ]
 
-  external_deps = [
-    "hiviewdfx_hilog_native:libhilog",
-  ]
+  external_deps = [ "hiviewdfx_hilog_native:libhilog" ]
 
-  public_configs = [
-    ":inputmethod_ability_native_config",
-    ]
+  public_configs = [ ":inputmethod_ability_native_config" ]
 
   subsystem_name = "miscservices"
   part_name = "inputmethod_native"

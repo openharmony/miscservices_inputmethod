@@ -51,7 +51,6 @@ namespace MiscServices {
         virtual int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) override;
         virtual int32_t listInputMethod(std::vector<InputMethodProperty*> *properties) override;
         virtual int32_t listKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) override;
-        int32_t dump(int32_t fd, const std::vector<std::u16string>& args);
         virtual  int32_t setInputMethodCore(sptr<IInputMethodCore> &core) override;
     protected:
         void OnStart() override;

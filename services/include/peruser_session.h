@@ -43,27 +43,27 @@
 namespace OHOS {
 namespace MiscServices {
     class RemoteObjectDeathRecipient : public IRemoteObject::DeathRecipient {
-        public:
-            RemoteObjectDeathRecipient(int userId, int msgId);
-            ~RemoteObjectDeathRecipient();
-            void OnRemoteDied(const wptr<IRemoteObject>& who) override;
-        private:
-            int userId_; // the id of the user to whom the object is linking
-            int msgId_; // the message id can be  MessageID::MSG_ID_CLIENT_DIED and MessageID::MSG_ID_IMS_DIED
-        };
+    public:
+        RemoteObjectDeathRecipient(int userId, int msgId);
+        ~RemoteObjectDeathRecipient();
+        void OnRemoteDied(const wptr<IRemoteObject>& who) override;
+    private:
+        int userId_; // the id of the user to whom the object is linking
+        int msgId_; // the message id can be  MessageID::MSG_ID_CLIENT_DIED and MessageID::MSG_ID_IMS_DIED
+    };
 
     /*! \class ClientInfo
     \brief The class defines the details of an input client.
     */
     class ClientInfo {
-        public:
-            int pid; // the process id of the process in which the input client is running
-            int uid; // the uid of the process in which the input client is running
-            int userId; // the user if of the user under which the input client is running
-            int displayId; // the display id on which the input client is showing
-            sptr<IInputClient> client; // the remote object handler for the service to callback to the input client
-            sptr<IInputDataChannel> channel; // the remote object handler for IMSA callback to input client
-            InputAttribute attribute; // the input attribute of the input client
+    public:
+        int pid; // the process id of the process in which the input client is running
+        int uid; // the uid of the process in which the input client is running
+        int userId; // the user if of the user under which the input client is running
+        int displayId; // the display id on which the input client is showing
+        sptr<IInputClient> client; // the remote object handler for the service to callback to the input client
+        sptr<IInputDataChannel> channel; // the remote object handler for IMSA callback to input client
+        InputAttribute attribute; // the input attribute of the input client
 
         ClientInfo(int pid, int uid, int userId, int displayId, const sptr<IInputClient>& client,
                    const sptr<IInputDataChannel>& channel, const InputAttribute& attribute)
@@ -90,11 +90,11 @@ namespace MiscServices {
         This class manages the sessions between input clients and input method engines for each unlocked user.
     */
     class PerUserSession {
-        enum {
-            DEFAULT_IME = 0,  // index for default input method service
-            SECURITY_IME = 1, // index for security input method service
-            MAX_IME = 2, // the maximum count of ims started for a user
-        };
+    enum {
+        DEFAULT_IME = 0,  // index for default input method service
+        SECURITY_IME = 1, // index for security input method service
+        MAX_IME = 2, // the maximum count of ims started for a user
+    };
 
         public:
             explicit PerUserSession(int userId);
