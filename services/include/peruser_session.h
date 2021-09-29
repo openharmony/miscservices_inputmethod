@@ -96,92 +96,91 @@ namespace MiscServices {
         MAX_IME = 2, // the maximum count of ims started for a user
     };
 
-        public:
-            explicit PerUserSession(int userId);
-            ~PerUserSession();
+    public:
+        explicit PerUserSession(int userId);
+        ~PerUserSession();
 
-            void SetCurrentIme(InputMethodProperty *ime);
-            void SetSecurityIme(InputMethodProperty *ime);
-            void SetInputMethodSetting(InputMethodSetting *setting);
-            void ResetIme(InputMethodProperty *defaultIme, InputMethodProperty *securityIme);
-            void OnPackageRemoved(const std::u16string& packageName);
+        void SetCurrentIme(InputMethodProperty *ime);
+        void SetSecurityIme(InputMethodProperty *ime);
+        void SetInputMethodSetting(InputMethodSetting *setting);
+        void ResetIme(InputMethodProperty *defaultIme, InputMethodProperty *securityIme);
+        void OnPackageRemoved(const std::u16string& packageName);
 
-            int GetDisplayMode();
-            int GetKeyboardWindowHeight(int retHeight);
-            KeyboardType *GetCurrentKeyboardType();
+        int GetDisplayMode();
+        int GetKeyboardWindowHeight(int retHeight);
+        KeyboardType *GetCurrentKeyboardType();
 
-            int OnSettingChanged(const std::u16string& key, const std::u16string& value);
-            void CreateWorkThread(MessageHandler& handler);
-            void JoinWorkThread();
-            void SetInputMethodAbility(sptr<InputMethodAbility> &inputMethodAbility);
-            static void BindInputAbility();
-        private:
-            int userId_; // the id of the user to whom the object is linking
-            int userState; // the state of the user to whom the object is linking
-            int displayId; // the id of the display screen on which the user is
-            int currentIndex;
-            std::map<sptr<IRemoteObject>, ClientInfo*> mapClients;
-	    int MIN_IME = 2;
+        int OnSettingChanged(const std::u16string& key, const std::u16string& value);
+        void CreateWorkThread(MessageHandler& handler);
+        void JoinWorkThread();
+        void SetInputMethodAbility(sptr<InputMethodAbility> &inputMethodAbility);
+        static void BindInputAbility();
+    private:
+        int userId_; // the id of the user to whom the object is linking
+        int userState; // the state of the user to whom the object is linking
+        int displayId; // the id of the display screen on which the user is
+        int currentIndex;
+        std::map<sptr<IRemoteObject>, ClientInfo*> mapClients;
+        int MIN_IME = 2;
 
-            InputMethodProperty *currentIme[MAX_IME]; // 0 - the default ime. 1 - security ime
+        InputMethodProperty *currentIme[MAX_IME]; // 0 - the default ime. 1 - security ime
 
-            InputControlChannelStub *localControlChannel[MAX_IME];
-            sptr<IInputControlChannel> inputControlChannel[MAX_IME];
-            sptr<IInputMethodCore> imsCore[MAX_IME]; // the remote handlers of input method service
-            sptr<IRemoteObject> inputMethodToken[MAX_IME]; // the window token of keyboard
-            int currentKbdIndex[MAX_IME]; // current keyboard index
-            int lastImeIndex; // The last ime which showed keyboard
-            InputMethodSetting *inputMethodSetting; // The pointer referred to the object in PerUserSetting
-            int currentDisplayMode; // the display mode of the current keyboard
+        InputControlChannelStub *localControlChannel[MAX_IME];
+        sptr<IInputControlChannel> inputControlChannel[MAX_IME];
+        sptr<IInputMethodCore> imsCore[MAX_IME]; // the remote handlers of input method service
+        sptr<IRemoteObject> inputMethodToken[MAX_IME]; // the window token of keyboard
+        int currentKbdIndex[MAX_IME]; // current keyboard index
+        int lastImeIndex; // The last ime which showed keyboard
+        InputMethodSetting *inputMethodSetting; // The pointer referred to the object in PerUserSetting
+        int currentDisplayMode; // the display mode of the current keyboard
 
-            sptr<IInputMethodAgent> imsAgent;
-            InputChannel *imsChannel; // the write channel created by input method service
-            sptr<IInputClient> currentClient; // the current input client
-            sptr<IInputClient> needReshowClient; // the input client for which keyboard need to re-show
+        sptr<IInputMethodAgent> imsAgent;
+        InputChannel *imsChannel; // the write channel created by input method service
+        sptr<IInputClient> currentClient; // the current input client
+        sptr<IInputClient> needReshowClient; // the input client for which keyboard need to re-show
 
-            sptr<RemoteObjectDeathRecipient> clientDeathRecipient; // remote object death monitor for input client
-            sptr<RemoteObjectDeathRecipient> imsDeathRecipient;
-            MessageHandler *msgHandler = nullptr; // message handler working with Work Thread
-            std::thread workThreadHandler; // work thread handler
-            std::mutex mtx; // mutex to lock the operations among multi work threads
-            sptr<AAFwk::AbilityConnectionProxy> connCallback;
-            sptr<InputMethodAbility> inputMethodAbility_;
-            int SLEEP_TIME = 300000;
+        sptr<RemoteObjectDeathRecipient> clientDeathRecipient; // remote object death monitor for input client
+        sptr<RemoteObjectDeathRecipient> imsDeathRecipient;
+        MessageHandler *msgHandler = nullptr; // message handler working with Work Thread
+        std::thread workThreadHandler; // work thread handler
+        std::mutex mtx; // mutex to lock the operations among multi work threads
+        sptr<AAFwk::AbilityConnectionProxy> connCallback;
+        sptr<InputMethodAbility> inputMethodAbility_;
 
-            PerUserSession(const PerUserSession&);
-            PerUserSession& operator= (const PerUserSession&);
-            PerUserSession(const PerUserSession&&);
-            PerUserSession& operator= (const PerUserSession&&);
-            int IncreaseOrResetImeError(bool resetFlag, int imeIndex);
-            KeyboardType *GetKeyboardType(int imeIndex, int typeIndex);
-            void ResetCurrentKeyboardType(int imeIndex);
-            int OnCurrentKeyboardTypeChanged(int index, const std::u16string& value);
-            void CopyInputMethodService(int imeIndex);
-            ClientInfo *GetClientInfo(const sptr<IInputClient>& inputClient);
-            void WorkThread();
-            void OnPrepareInput(Message *msg);
-            void OnReleaseInput(Message *msg);
-            void OnStartInput(Message *msg);
-            void OnStopInput(Message *msg);
-            void OnClientDied(const wptr<IRemoteObject>& who);
-            void OnImsDied(const wptr<IRemoteObject>& who);
-            void OnHideKeyboardSelf(int flags);
-            void OnAdvanceToNext();
-            void OnSetDisplayMode(int mode);
-            void OnRestartIms(int index, const std::u16string& imeId);
-            void OnUserLocked();
-            int AddClient(int pid, int uid, int displayId, const sptr<IInputClient>& inputClient,
-                      const sptr<IInputDataChannel>& channel,
-                      const InputAttribute& attribute);
-            int RemoveClient(const sptr<IInputClient>& inputClient, int retClientNum);
-            int StartInputMethod(int index);
-            int StopInputMethod(int index);
-            int ShowKeyboard(const sptr<IInputClient>& inputClient);
-            int HideKeyboard(const sptr<IInputClient>& inputClient);
-            void SetDisplayId(int displayId);
-            int GetImeIndex(const sptr<IInputClient>& inputClient);
-            static sptr<AAFwk::IAbilityManager> GetAbilityManagerService();
-            void onSetInputMethodCore(Message *msg);
+        PerUserSession(const PerUserSession&);
+        PerUserSession& operator =(const PerUserSession&);
+        PerUserSession(const PerUserSession&&);
+        PerUserSession& operator =(const PerUserSession&&);
+        int IncreaseOrResetImeError(bool resetFlag, int imeIndex);
+        KeyboardType *GetKeyboardType(int imeIndex, int typeIndex);
+        void ResetCurrentKeyboardType(int imeIndex);
+        int OnCurrentKeyboardTypeChanged(int index, const std::u16string& value);
+        void CopyInputMethodService(int imeIndex);
+        ClientInfo *GetClientInfo(const sptr<IInputClient>& inputClient);
+        void WorkThread();
+        void OnPrepareInput(Message *msg);
+        void OnReleaseInput(Message *msg);
+        void OnStartInput(Message *msg);
+        void OnStopInput(Message *msg);
+        void OnClientDied(const wptr<IRemoteObject>& who);
+        void OnImsDied(const wptr<IRemoteObject>& who);
+        void OnHideKeyboardSelf(int flags);
+        void OnAdvanceToNext();
+        void OnSetDisplayMode(int mode);
+        void OnRestartIms(int index, const std::u16string& imeId);
+        void OnUserLocked();
+        int AddClient(int pid, int uid, int displayId, const sptr<IInputClient>& inputClient,
+                  const sptr<IInputDataChannel>& channel,
+                  const InputAttribute& attribute);
+        int RemoveClient(const sptr<IInputClient>& inputClient, int retClientNum);
+        int StartInputMethod(int index);
+        int StopInputMethod(int index);
+        int ShowKeyboard(const sptr<IInputClient>& inputClient);
+        int HideKeyboard(const sptr<IInputClient>& inputClient);
+        void SetDisplayId(int displayId);
+        int GetImeIndex(const sptr<IInputClient>& inputClient);
+        static sptr<AAFwk::IAbilityManager> GetAbilityManagerService();
+        void onSetInputMethodCore(Message *msg);
     };
 }
 }
