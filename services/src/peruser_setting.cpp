@@ -62,7 +62,7 @@ namespace MiscServices {
             IMSA_HILOGE("Failed to getInputMethodSetting [%d]\n", userId_);
         } else {
             if (size > 0) {
-            InitInputMethodSetting();
+                InitInputMethodSetting();
             }
         }
     }
@@ -90,6 +90,7 @@ namespace MiscServices {
         int ret = Platform::Instance()->GetInputMethodProperty(userId_, packageName, property);
         if (ret != ErrorCode::NO_ERROR) {
             delete property;
+            property = nullptr;
             IMSA_HILOGI("%s [%d]\n", ErrorCode::ToString(ErrorCode::ERROR_NOT_IME_PACKAGE), userId_);
             return ErrorCode::ERROR_NOT_IME_PACKAGE;
         }
@@ -102,7 +103,7 @@ namespace MiscServices {
         }
 
         std::vector<int> types;
-        for(int i=0; i<(int)property->mTypes.size(); i++) {
+        for (int i = 0; i < (int)property->mTypes.size(); i++) {
             types.push_back(property->mTypes[i]->getHashCode());
         }
 
@@ -134,14 +135,15 @@ namespace MiscServices {
         }
         bool securityFlag = false;
         std::vector<InputMethodProperty*>::iterator it;
-        for(it=inputMethodProperties.begin(); it<inputMethodProperties.end(); ++it) {
-            InputMethodProperty *node = (InputMethodProperty*) *it;
+        for (it = inputMethodProperties.begin(); it < inputMethodProperties.end(); ++it) {
+            InputMethodProperty *node = (InputMethodProperty*)*it;
             if (node->mImeId == imeId) {
-                if (CheckIfSecurityIme(*node)==true) {
+                if (CheckIfSecurityIme(*node) == true) {
                     securityFlag = true;
                 }
                 inputMethodProperties.erase(it);
                 delete node;
+                node = nullptr;
                 break;
             }
         }
@@ -163,7 +165,8 @@ namespace MiscServices {
         }
         Platform::Instance()->SetInputMethodSetting(userId_, imSetting);
         // wait for some time so that the setting change will not be overrided by the followed transact
-        usleep(100*1000);
+        int32_t sleepTime = 100000;
+        usleep(sleepTime);
         return ErrorCode::NO_ERROR;
     }
 
@@ -187,8 +190,8 @@ namespace MiscServices {
         if (key == InputMethodSetting::CURRENT_INPUT_METHOD_TAG) {
             currentImeId = inputMethodSetting.GetCurrentInputMethod();
         } else if (key == InputMethodSetting::ENABLED_INPUT_METHODS_TAG) {
-            if ((currentImeId.size()>0 && value.find(currentImeId) == std::string::npos) ||
-                    currentImeId.size()==0 ){
+            if ((currentImeId.size() > 0 && value.find(currentImeId) == std::string::npos) ||
+                currentImeId.size() == 0) {
                 ResetCurrentInputMethod();
                 InputMethodSetting tmpSetting;
                 tmpSetting.ClearData();
@@ -209,7 +212,7 @@ namespace MiscServices {
         std::u16string imeId;
         std::u16string nextImeId = Utils::to_utf16("");
         InputMethodProperty *firstEnabledProperty = nullptr;
-        for(int i=0; i<(int)inputMethodProperties.size(); i++) {
+        for (int i = 0; i < (int)inputMethodProperties.size(); i++) {
             imeId = inputMethodProperties[i]->mImeId;
             if (imeId == currentImeId) {
                 flag = true;
@@ -230,7 +233,7 @@ namespace MiscServices {
         // next enabled ime is not available.
         if (nextImeId.size() == 0) {
             IMSA_HILOGW("No next IME is available. [%d]\n", userId_);
-            return ;
+            return;
         }
 
         InputMethodSetting tmpSetting;
@@ -254,11 +257,12 @@ namespace MiscServices {
 
         // release input method properties
         std::vector<InputMethodProperty*>::iterator it;
-        for(it=inputMethodProperties.begin(); it<inputMethodProperties.end();) {
-            InputMethodProperty *node = (InputMethodProperty*) *it;
+        for (it = inputMethodProperties.begin(); it < inputMethodProperties.end();) {
+            InputMethodProperty *node = (InputMethodProperty*)*it;
             if (node != nullptr) {
                 it = inputMethodProperties.erase(it);
                 delete node;
+                node = nullptr;
             }
         }
         inputMethodProperties.clear();
@@ -280,14 +284,14 @@ namespace MiscServices {
         dprintf(fd, " * Installed IME count = %d\n", size);
         std::vector<std::u16string> imeList = inputMethodSetting.GetEnabledInputMethodList();
         size = imeList.size();
-        dprintf(fd, "\n * Enabled IME count : %d\n",size);
-        for(int i=0; i<size; i++) {
+        dprintf(fd, "\n * Enabled IME count : %d\n", size);
+        for (int i = 0; i < size; i++) {
             dprintf(fd, "  [%d] ImeId = %s\n", i, Utils::to_utf8(imeList[i]).c_str());
             std::vector<int> hashCodeList = inputMethodSetting.GetEnabledKeyboardTypes(imeList[i]);
             dprintf(fd, "      Enabled keyboard count = %d, hashcode list : ", hashCodeList.size());
-            for(int j=0; j<(int)hashCodeList.size(); j++) {
+            for (int j = 0; j < (int)hashCodeList.size(); j++) {
                 dprintf(fd, "%d", hashCodeList[j]);
-                if (j<(int)hashCodeList.size()-1) {
+                if (j < (int)hashCodeList.size()-1) {
                     dprintf(fd, ", ");
                 }
             }
@@ -313,7 +317,7 @@ namespace MiscServices {
     */
     InputMethodProperty *PerUserSetting::GetCurrentInputMethod()
     {
-        for(int i=0; i<(int)inputMethodProperties.size(); i++) {
+        for (int i = 0; i < (int)inputMethodProperties.size(); i++) {
             if (currentImeId == inputMethodProperties[i]->mImeId) {
                 return inputMethodProperties[i];
             }
@@ -331,22 +335,23 @@ namespace MiscServices {
     {
         InputMethodProperty *ime = nullptr;
         std::u16string systemLocales = inputMethodSetting.GetValue(InputMethodSetting::SYSTEM_LOCALE_TAG);
-        for(int i=0; i<(int)inputMethodProperties.size(); i++) {
-            if (CheckIfSecurityIme(*inputMethodProperties[i])==false) {
+        for (int i = 0; i < (int)inputMethodProperties.size(); i++) {
+            InputMethodProperty *imp = inputMethodProperties[i];
+            if (CheckIfSecurityIme(*imp) == false) {
                 continue;
             }
             // if systemLocales is not setting, return the first security ime
-            if (systemLocales.size()==0) {
-                return inputMethodProperties[i];
+            if (systemLocales.size() == 0) {
+                return imp;
             }
-            if (ime==nullptr) {
-                ime = inputMethodProperties[i];
+            if (ime == nullptr) {
+                ime = imp;
             }
-            for(int j=0; j<(int)inputMethodProperties[i]->mTypes.size(); j++) {
+            for (int j = 0; j < (int)inputMethodProperties[i]->mTypes.size(); j++) {
                 std::u16string language = inputMethodProperties[i]->mTypes[j]->getLanguage();
                 // if the keyboard language is in the list of system locales, return the ime
                 if (systemLocales.find(language) != std::string::npos) {
-                    return inputMethodProperties[i];
+                    return imp;
                 }
             }
         }
@@ -364,7 +369,7 @@ namespace MiscServices {
         std::u16string enabledInputMethods = inputMethodSetting.GetValue(InputMethodSetting::ENABLED_INPUT_METHODS_TAG);
         std::u16string imeId;
         InputMethodProperty *firstEnabledProperty = nullptr;
-        for(int i=0; i<(int)inputMethodProperties.size(); i++) {
+        for (int i = 0; i < (int)inputMethodProperties.size(); i++) {
             imeId = inputMethodProperties[i]->mImeId;
             if (imeId == currentImeId) {
                 flag = true;
@@ -395,8 +400,7 @@ namespace MiscServices {
     int32_t PerUserSetting::ListInputMethodEnabled(std::vector<InputMethodProperty*> *properties)
     {
         std::u16string enabledInputMethods = inputMethodSetting.GetValue(InputMethodSetting::ENABLED_INPUT_METHODS_TAG);
-        for(int i=0; i<(int)inputMethodProperties.size(); i++) {
-
+        for (int i = 0; i < (int)inputMethodProperties.size(); i++) {
             if (enabledInputMethods.find(inputMethodProperties[i]->mImeId) != std::string::npos) {
                 properties->push_back(inputMethodProperties[i]);
             }
@@ -410,7 +414,7 @@ namespace MiscServices {
     */
     int32_t PerUserSetting::ListInputMethod(std::vector<InputMethodProperty*> *properties)
     {
-        for(int i=0; i<(int)inputMethodProperties.size(); i++) {
+        for (int i = 0; i < (int)inputMethodProperties.size(); i++) {
             properties->push_back(inputMethodProperties[i]);
         }
         return ErrorCode::NO_ERROR;
@@ -423,9 +427,9 @@ namespace MiscServices {
     */
     int32_t PerUserSetting::ListKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types)
     {
-        for(int i=0; i<(int)inputMethodProperties.size(); i++) {
+        for (int i = 0; i < (int)inputMethodProperties.size(); i++) {
             if (imeId == inputMethodProperties[i]->mImeId) {
-                for(int j=0; j<(int)inputMethodProperties[i]->mTypes.size(); j++) {
+                for (int j = 0; j < (int)inputMethodProperties[i]->mTypes.size(); j++) {
                     types->push_back(inputMethodProperties[i]->mTypes[j]);
                 }
                 break;
@@ -442,7 +446,7 @@ namespace MiscServices {
     */
     InputMethodProperty *PerUserSetting::GetInputMethodProperty(const std::u16string& imeId)
     {
-        for(int i=0; i<(int)inputMethodProperties.size(); i++) {
+        for (int i = 0; i < (int)inputMethodProperties.size(); i++) {
             if (inputMethodProperties[i]->mImeId == imeId) {
                 return inputMethodProperties[i];
             }
@@ -458,7 +462,7 @@ namespace MiscServices {
     */
     std::u16string PerUserSetting::GetKeyboardTypeLanguage(const InputMethodProperty *property, int hashCode)
     {
-        for(int i=0; i<(int)property->mTypes.size(); i++) {
+        for (int i = 0; i < (int)property->mTypes.size(); i++) {
             if (property->mTypes[i]->getHashCode() == hashCode) {
                 return property->mTypes[i]->getLanguage();
             }
@@ -472,12 +476,12 @@ namespace MiscServices {
     {
         bool flag = inputMethodSetting.FindKey(InputMethodSetting::ENABLED_INPUT_METHODS_TAG);
         if (flag == false) {
-            for(int i=0; i<(int)inputMethodProperties.size(); i++) {
-                if (CheckIfSecurityIme(*inputMethodProperties[i])==true) {
+            for (int i = 0; i < (int)inputMethodProperties.size(); i++) {
+                if (CheckIfSecurityIme(*inputMethodProperties[i]) == true) {
                     continue;
                 }
                 std::vector<int> types;
-                for(int j=0; j<(int)inputMethodProperties[i]->mTypes.size(); j++) {
+                for (int j = 0; j < (int)inputMethodProperties[i]->mTypes.size(); j++) {
                     types.push_back(inputMethodProperties[i]->mTypes[j]->getHashCode());
                 }
                 inputMethodSetting.AddEnabledInputMethod(inputMethodProperties[i]->mImeId, types);
@@ -493,7 +497,7 @@ namespace MiscServices {
             currentImeId = imeId;
         }
         flag = inputMethodSetting.FindKey(InputMethodSetting::CURRENT_SYS_KEYBOARD_TYPE_TAG);
-        if (flag==false) {
+        if (flag == false) {
             inputMethodSetting.SetCurrentSysKeyboardType(-1);
         }
         Platform::Instance()->SetInputMethodSetting(userId_, inputMethodSetting);
@@ -513,7 +517,7 @@ namespace MiscServices {
         InputMethodProperty *firstEnabledIme = nullptr;
         bool flag = false;
 
-        for(int i=0; i<(int)inputMethodProperties.size(); i++) {
+        for (int i = 0; i < (int)inputMethodProperties.size(); i++) {
             imeId = inputMethodProperties[i]->mImeId;
             if (enabledInputMethods.find(imeId) == std::string::npos) {
                 continue;
@@ -523,7 +527,7 @@ namespace MiscServices {
             }
 
             std::vector<int> hashCodeList = inputMethodSetting.GetEnabledKeyboardTypes(imeId);
-            for(int j=0; j<(int)hashCodeList.size(); j++) {
+            for (int j = 0; j < (int)hashCodeList.size(); j++) {
                 std::u16string language = GetKeyboardTypeLanguage(inputMethodProperties[i], hashCodeList[j]);
                 if (systemLocales.find(language) != std::string::npos) {
                     currentImeId = imeId;
@@ -555,7 +559,7 @@ namespace MiscServices {
     */
     std::u16string PerUserSetting::GetImeId(const std::u16string& packageName)
     {
-        for(int i=0; i<(int)inputMethodProperties.size(); i++) {
+        for (int i = 0; i < (int)inputMethodProperties.size(); i++) {
             if (inputMethodProperties[i]->mPackageName == packageName) {
                 return inputMethodProperties[i]->mImeId;
             }

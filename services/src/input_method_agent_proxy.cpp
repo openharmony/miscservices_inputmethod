@@ -33,7 +33,7 @@ namespace MiscServices {
         }
 
         ~InputMethodAgentProxy()
-    {
+        {
         }
 
         int32_t dispatchKey(int key, int status)

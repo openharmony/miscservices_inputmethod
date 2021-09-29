@@ -87,12 +87,12 @@ class MessageHandler {
     private:
         std::mutex mMutex; // a mutex to guard message queue
         std::condition_variable mCV; // condition variable to work with mMutex
-        std::queue<Message*> mQueue ; // Message queue, guarded by mMutex;
+        std::queue<Message*> mQueue; // Message queue, guarded by mMutex;
 
         MessageHandler(const MessageHandler&);
-        MessageHandler& operator= (const MessageHandler&);
+        MessageHandler& operator =(const MessageHandler&);
         MessageHandler(const MessageHandler&&);
-        MessageHandler& operator= (const MessageHandler&&);
+        MessageHandler& operator =(const MessageHandler&&);
     };
 }
 }

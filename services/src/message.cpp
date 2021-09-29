@@ -38,6 +38,7 @@ namespace MiscServices {
         msgId_ = msg.msgId_;
         if (msgContent_ != nullptr) {
             delete msgContent_;
+            msgContent_ = nullptr;
         }
         MessageParcel *src = msg.msgContent_;
         if (src) {
@@ -46,7 +47,7 @@ namespace MiscServices {
         }
     }
 
-    Message& Message::operator=(const Message& msg)
+    Message& Message::operator =(const Message& msg)
     {
         if (this == &msg) {
             return *this;
@@ -54,6 +55,7 @@ namespace MiscServices {
         msgId_ = msg.msgId_;
         if (msgContent_ != nullptr) {
             delete msgContent_;
+            msgContent_ = nullptr;
         }
         if (msg.msgContent_) {
             msgContent_ = new MessageParcel();
@@ -67,6 +69,7 @@ namespace MiscServices {
     {
         if (msgContent_) {
             delete msgContent_;
+            msgContent_ = nullptr;
         }
     }
 }

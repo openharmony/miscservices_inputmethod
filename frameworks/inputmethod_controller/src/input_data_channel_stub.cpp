@@ -25,6 +25,7 @@ namespace MiscServices {
     {
         if (msgHandler != nullptr) {
             delete msgHandler;
+            msgHandler = nullptr;
         }
     }
 
@@ -86,7 +87,6 @@ namespace MiscServices {
 
     void InputDataChannelStub::Close()
     {
-
     }
 
     void InputDataChannelStub::SetHandler(MessageHandler *handler)
