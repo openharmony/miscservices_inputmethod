@@ -121,7 +121,7 @@ namespace MiscServices {
         int displayId; // the id of the display screen on which the user is
         int currentIndex;
         std::map<sptr<IRemoteObject>, ClientInfo*> mapClients;
-        int MIN_IME = 2,
+        int MIN_IME = 2;
 
         InputMethodProperty *currentIme[MAX_IME]; // 0 - the default ime. 1 - security ime
 
