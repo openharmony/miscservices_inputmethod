@@ -198,12 +198,12 @@ namespace MiscServices {
         sptr<OnTextChangedListener> textListener = new TextListener();
 
         IMSA_HILOGI("IMC Attach START");
-        imc->Attach();
+        imc->Attach(textListener);
         int waitForStatusOk = 2;
         sleep(waitForStatusOk);
 
         IMSA_HILOGI("IMC ShowTextInput START");
-        imc->ShowTextInput(textListener);
+        imc->ShowTextInput();
         sleep(10);
 
         IMSA_HILOGI("IMC HideTextInput START");
