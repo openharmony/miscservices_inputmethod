@@ -65,7 +65,7 @@ namespace MiscServices {
         MessageParcel reply;
         MessageOption option;
 
-        auto ret = Remote()->SendRequest(START_INPUT,data,reply,option);
+        auto ret = Remote()->SendRequest(START_INPUT, data, reply, option);
         if (ret != NO_ERROR) {
             IMSA_HILOGI("InputMethodSystemAbilityProxy::startInput SendRequest failed");
             return;
@@ -84,7 +84,7 @@ namespace MiscServices {
         MessageParcel reply;
         MessageOption option;
 
-        auto ret = Remote()->SendRequest(STOP_INPUT,data,reply,option);
+        auto ret = Remote()->SendRequest(STOP_INPUT, data, reply, option);
         if (ret != NO_ERROR) {
             IMSA_HILOGI("InputMethodSystemAbilityProxy::stopInput SendRequest failed");
             return;
@@ -110,11 +110,13 @@ namespace MiscServices {
         }
         MessageParcel data;
         if (!(data.WriteInterfaceToken(GetDescriptor())
-        && data.WriteRemoteObject(core->AsObject()))) {
+            && data.WriteRemoteObject(core->AsObject()))) {
             return -1;
         }
         MessageParcel reply;
-        MessageOption option { MessageOption::TF_SYNC };
+        MessageOption option {
+            MessageOption::TF_SYNC
+        };
 
         int32_t status = Remote()->SendRequest(SET_INPUT_METHOD_CORE, data, reply, option);
 
@@ -131,9 +133,9 @@ namespace MiscServices {
         }
 
         if (!(data.WriteInt32(displayId)
-                && data.WriteRemoteObject(client->AsObject())
-                && data.WriteRemoteObject(channel->AsObject())
-                && data.WriteParcelable(&attribute))) {
+            && data.WriteRemoteObject(client->AsObject())
+            && data.WriteRemoteObject(channel->AsObject())
+            && data.WriteParcelable(&attribute))) {
                     return ERROR_EX_PARCELABLE;
                 }
 
@@ -300,8 +302,12 @@ namespace MiscServices {
         }
 
         KeyboardType *keyType = reply.ReadParcelable<KeyboardType>();
+        if (keyType == nullptr) {
+            return ERROR_NULL_POINTER;
+        }
         *retType = *keyType;
         delete keyType;
+        keyType = nullptr;
         return NO_ERROR;
     }
 

@@ -52,8 +52,7 @@ namespace MiscServices {
         } else {
             IMSA_HILOGI("InputMethodCoreProxy::initializeInput Failed to write inputControlChannel");
         }
-        MessageOption option
-        {
+        MessageOption option {
             MessageOption::TF_SYNC
         };
         int32_t status = Remote()->SendRequest(INITIALIZE_INPUT, data, reply, option);
@@ -82,8 +81,7 @@ namespace MiscServices {
             return false;
         }
         MessageParcel reply;
-        MessageOption option
-        {
+        MessageOption option {
             MessageOption::TF_SYNC
         };
 
@@ -102,8 +100,7 @@ namespace MiscServices {
         IMSA_HILOGI("InputMethodCoreProxy::stopInput");
         MessageParcel data, reply;
         data.WriteInterfaceToken(GetDescriptor());
-        MessageOption option
-        {
+        MessageOption option {
             MessageOption::TF_SYNC
         };
         int32_t status = Remote()->SendRequest(STOP_INPUT, data, reply, option);
@@ -133,8 +130,7 @@ namespace MiscServices {
             return false;
         }
         MessageParcel reply;
-        MessageOption option
-        {
+        MessageOption option {
             MessageOption::TF_SYNC
         };
 
@@ -158,8 +154,7 @@ namespace MiscServices {
             return false;
         }
         MessageParcel reply;
-        MessageOption option
-        {
+        MessageOption option {
             MessageOption::TF_SYNC
         };
 
@@ -176,8 +171,7 @@ namespace MiscServices {
         MessageParcel data, reply;
         data.WriteInterfaceToken(GetDescriptor());
         data.WriteParcelable(&type);
-        MessageOption option
-        {
+        MessageOption option {
             MessageOption::TF_SYNC
         };
         int32_t status = Remote()->SendRequest(SET_KEYBOARD_TYPE, data, reply, option);
@@ -193,8 +187,7 @@ namespace MiscServices {
         IMSA_HILOGI("InputMethodCoreProxy::getKeyboardWindowHeight");
         MessageParcel data, reply;
         data.WriteInterfaceToken(GetDescriptor());
-        MessageOption option
-        {
+        MessageOption option {
             MessageOption::TF_SYNC
         };
         int32_t status = Remote()->SendRequest(GET_KEYBOARD_WINDOW_HEIGHT, data, reply, option);

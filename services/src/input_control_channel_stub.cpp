@@ -106,7 +106,7 @@ namespace MiscServices {
     \param channel channel for sending physical keyboard event from input client to input method service
     */
     void InputControlChannelStub::onAgentCreated(sptr < IInputMethodAgent >& agent, InputChannel *channel)
-{
+    {
         IMSA_HILOGI("InputControlChannelStub::onAgentCreated");
         {
             std::unique_lock<std::mutex> lck(mtx);

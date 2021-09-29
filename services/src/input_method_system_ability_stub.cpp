@@ -37,7 +37,7 @@ namespace MiscServices {
             return ErrorCode::ERROR_STATUS_UNKNOWN_TRANSACTION;
         }
 
-        switch(code) {
+        switch (code) {
             case PREPARE_INPUT: {
                 prepareInput(data);
                 reply.WriteInt32(NO_ERROR);
@@ -61,7 +61,7 @@ namespace MiscServices {
                 reply.WriteInt32(NO_ERROR);
                 break;
             }
-            case SET_INPUT_METHOD_CORE:{
+            case SET_INPUT_METHOD_CORE: {
                 MessageParcel *msgParcel = (MessageParcel*) &data;
                 setInputMethodCoreFromHap(*msgParcel);
                 reply.WriteInt32(NO_ERROR);
@@ -116,7 +116,7 @@ namespace MiscServices {
                     reply.WriteInt32(NO_ERROR);
                     int32_t size = properties.size();
                     reply.WriteInt32(size);
-                    for(int32_t i=0; i<size; i++) {
+                    for (int32_t i = 0; i < size; i++) {
                         reply.WriteParcelable(properties[i]);
                     }
                     properties.clear();
@@ -134,7 +134,7 @@ namespace MiscServices {
                 reply.WriteInt32(NO_ERROR);
                 int32_t size = properties.size();
                 reply.WriteInt32(size);
-                for(int32_t i=0; i<size; i++) {
+                for (int32_t i = 0; i < size; i++) {
                     reply.WriteParcelable(properties[i]);
                 }
                 properties.clear();
@@ -152,7 +152,7 @@ namespace MiscServices {
                 reply.WriteInt32(NO_ERROR);
                 int32_t size = kbdTypes.size();
                 reply.WriteInt32(size);
-                for(int32_t i=0; i<size; i++) {
+                for (int32_t i = 0; i < size; i++) {
                     reply.WriteParcelable(kbdTypes[i]);
                 }
                 kbdTypes.clear();

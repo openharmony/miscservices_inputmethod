@@ -53,6 +53,7 @@ namespace MiscServices {
         int32_t displyId = 0;
         sptr<IRemoteObject> startInputToken;
         InputChannel *writeInputChannel;
+        bool stop_;
 
         // communicating with IMSA
         sptr<IInputControlChannel> inputControlChannel;

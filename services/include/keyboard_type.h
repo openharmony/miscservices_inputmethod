@@ -17,8 +17,8 @@
 #define FM_IMMS_PROJECT_KEYBOARDTYPE_H
 
 #include <vector>
-#include "parcel.h"
 #include <string>
+#include "parcel.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -27,7 +27,7 @@ namespace MiscServices {
         KeyboardType();
         KeyboardType(const KeyboardType& type);
         ~KeyboardType();
-        KeyboardType& operator=(const KeyboardType& type);
+        KeyboardType& operator =(const KeyboardType& type);
         virtual bool Marshalling(Parcel &parcel) const override;
         static KeyboardType *Unmarshalling(Parcel &parcel);
         void setId(int32_t typeId);

@@ -65,7 +65,6 @@ namespace MiscServices {
 
         auto ret = Remote()->SendRequest(CLOSE, data, reply, option);
         if (ret != NO_ERROR) {
-
         }
     }
 }

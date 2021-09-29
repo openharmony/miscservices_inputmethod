@@ -43,7 +43,7 @@ namespace MiscServices {
       \param attribute the source attribute copied to this instance
       \return return this
     */
-    InputAttribute& InputAttribute::operator=(const InputAttribute& attribute)
+    InputAttribute& InputAttribute::operator =(const InputAttribute& attribute)
     {
         if (this == &attribute) {
             return *this;
@@ -62,8 +62,8 @@ namespace MiscServices {
     bool InputAttribute::Marshalling(OHOS::Parcel &parcel) const
     {
         if (!(parcel.WriteInt32(inputPattern)
-                  && parcel.WriteInt32(enterKeyType)
-                  && parcel.WriteInt32(inputOption)))
+            && parcel.WriteInt32(enterKeyType)
+            && parcel.WriteInt32(inputOption)))
             return false;
         return true;
     }
