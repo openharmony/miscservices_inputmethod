@@ -24,7 +24,7 @@ using namespace MessageID;
     sptr<InputMethodController> InputMethodController::instance_;
     std::mutex InputMethodController::instanceLock_;
 
-    InputMethodController::InputMethodController()
+    InputMethodController::InputMethodController() : stop_(false)
     {
         IMSA_HILOGI("InputMethodController structure");
         Initialize();
@@ -35,6 +35,7 @@ using namespace MessageID;
         if (msgHandler != nullptr) {
             delete msgHandler;
             msgHandler = nullptr;
+            stop_ = false;
         }
     }
 
@@ -97,7 +98,7 @@ using namespace MessageID;
 
     void InputMethodController::WorkThread()
     {
-        while(1) {
+        while (!stop_) {
             Message *msg = msgHandler->GetMessage();
             switch (msg->msgId_) {
                 case MSG_ID_INSERT_CHAR: {

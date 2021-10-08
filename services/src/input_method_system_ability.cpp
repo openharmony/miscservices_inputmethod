@@ -342,42 +342,6 @@ namespace MiscServices {
         return setting->ListKeyboardType(imeId, types);
     }
 
-    /* Print service information for the input method management service.
-     * Run in binder thread
-     * The information includes :
-     * The user information in the service
-     * The input method engine information
-     * The input method setting data
-     * The session information in the service.
-     * param fd the raw file descriptor that the dump is being sent to
-     * param args the parameters for dump command. This parameter is ignored here.
-     */
-    int32_t InputMethodSystemAbility::dump(int32_t fd, const std::vector<std::u16string>& args)
-    {
-        (void) args;
-        dprintf(fd, "\nInputMethodSystemAbility State:\n");
-        std::map<int32_t, PerUserSetting*>::const_iterator it;
-        int32_t index = 0;
-        dprintf(fd, "* User count = %d\n", userSettings.size());
-        for (it = userSettings.cbegin(); it != userSettings.cend(); ++it) {
-            PerUserSetting *setting = it->second;
-            int32_t userId = it->first;
-            int32_t userState = setting->GetUserState();
-            if (userState == UserState::USER_STATE_STARTED) {
-                dprintf(fd, "[%d] User information: UserId = %d, UserState = USER_STATE_STARTED\n", index++, userId);
-            } else if (userState == UserState::USER_STATE_UNLOCKED) {
-                dprintf(fd, "[%d] User information: UserId = %d, UserState = USER_STATE_UNLOCKED\n", index++, userId);
-                setting->Dump(fd);
-                PerUserSession *session = GetUserSession(userId);
-                session->Dump(fd);
-            }
-            dprintf(fd, "\n");
-        }
-        dprintf(fd, "\n");
-
-        return ErrorCode::NO_ERROR;
-    }
-
     /*! Get the instance of PerUserSetting for the given user
     \param userId the user id of the given user
     \return a pointer of the instance if the user is found
@@ -411,7 +375,7 @@ namespace MiscServices {
     */
     void InputMethodSystemAbility::WorkThread()
     {
-        while(1) {
+        while (1) {
             Message *msg = MessageHandler::Instance()->GetMessage();
             switch (msg->msgId_) {
                 case MSG_ID_USER_START : {
@@ -619,11 +583,16 @@ namespace MiscServices {
         if (it != msgHandlers.end()) {
             MessageHandler *handler = it->second;
             Message *destMsg = new Message(MSG_ID_USER_LOCK , nullptr);
-            handler->SendMessage(destMsg);
-            GetUserSession(userId)->JoinWorkThread();
-            msgHandlers.erase(it);
-            delete handler;
-            handler = nullptr;
+            if (destMsg != nullptr) {
+                handler->SendMessage(destMsg);
+                PerUserSession *userSession = GetUserSession(userId);
+                if (userSession != nullptr) {
+                    userSession->JoinWorkThread();
+                }
+                msgHandlers.erase(it);
+                delete handler;
+                handler = nullptr;
+            }
         }
         setting->OnUserLocked();
         IMSA_HILOGI("End...[%d]\n", userId);
@@ -741,6 +710,10 @@ namespace MiscServices {
     {
         IMSA_HILOGI("Start...\n");
         MessageParcel *data = msg->msgContent_;
+        if (data == nullptr) {
+            IMSA_HILOGI("InputMethodSystemAbility::OnPackageRemoved data is nullptr");
+            return ErrorCode::ERROR_NULL_POINTER;
+        }
         int32_t userId = data->ReadInt32();
         int32_t size = data->ReadInt32();
 
@@ -755,6 +728,10 @@ namespace MiscServices {
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
         PerUserSession *session = GetUserSession(userId);
+        if (session == nullptr) {
+            IMSA_HILOGI("InputMethodSystemAbility::OnPackageRemoved session is nullptr");
+            return ErrorCode::ERROR_NULL_POINTER;
+        }
         session->OnPackageRemoved(packageName);
         bool securityImeFlag = false;
         int32_t ret = setting->OnPackageRemoved(packageName, securityImeFlag);

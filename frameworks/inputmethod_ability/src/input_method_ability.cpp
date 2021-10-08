@@ -29,8 +29,9 @@ namespace MiscServices {
     sptr<InputMethodAbility> InputMethodAbility::instance_;
     std::mutex InputMethodAbility::instanceLock_;
 
-    InputMethodAbility::InputMethodAbility()
+    InputMethodAbility::InputMethodAbility() : stop_(false)
     {
+        writeInputChannel = nullptr;
         Initialize();
         OnConnect();
     }
@@ -41,6 +42,7 @@ namespace MiscServices {
             delete msgHandler;
             msgHandler = nullptr;
         }
+        stop_ = true;
     }
 
     sptr<InputMethodAbility> InputMethodAbility::GetInstance()
@@ -109,7 +111,7 @@ namespace MiscServices {
 
     void InputMethodAbility::WorkThread()
     {
-        while(1) {
+        while (!stop_) {
             Message *msg = msgHandler->GetMessage();
             switch (msg->msgId_) {
                 case MSG_ID_INITIALIZE_INPUT: {
