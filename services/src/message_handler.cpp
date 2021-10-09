@@ -1,4 +1,4 @@
-/*
+    /*
  * Copyright (C) 2021 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,10 +42,10 @@ namespace MiscServices {
     */
     void MessageHandler::SendMessage(Message *msg)
     {
-      {
-        std::unique_lock<std::mutex> lock(mMutex);
-        mQueue.push(msg);
-      }
+        {
+            std::unique_lock<std::mutex> lock(mMutex);
+            mQueue.push(msg);
+        }
       mCV.notify_one();
     }
 

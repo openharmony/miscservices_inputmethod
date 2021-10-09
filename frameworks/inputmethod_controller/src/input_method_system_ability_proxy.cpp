@@ -303,7 +303,7 @@ namespace MiscServices {
 
         KeyboardType *keyType = reply.ReadParcelable<KeyboardType>();
         if (keyType == nullptr) {
-            return ERROR_STATUS_BAD_INDEX;
+            return ERROR_NULL_POINTER;
         }
         *retType = *keyType;
         delete keyType;

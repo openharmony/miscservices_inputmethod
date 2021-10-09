@@ -33,6 +33,7 @@ namespace MiscServices {
     InputMethodCoreStub::InputMethodCoreStub(int userId)
     {
         userId_ = userId;
+        msgHandler_ = nullptr;
     }
 
     InputMethodCoreStub::~InputMethodCoreStub()

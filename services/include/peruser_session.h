@@ -94,7 +94,6 @@ namespace MiscServices {
         DEFAULT_IME = 0,  // index for default input method service
         SECURITY_IME = 1, // index for security input method service
         MAX_IME = 2, // the maximum count of ims started for a user
-        MIN_IME = 2,
     };
 
     public:
@@ -112,7 +111,6 @@ namespace MiscServices {
         KeyboardType *GetCurrentKeyboardType();
 
         int OnSettingChanged(const std::u16string& key, const std::u16string& value);
-        void Dump(int fd);
         void CreateWorkThread(MessageHandler& handler);
         void JoinWorkThread();
         void SetInputMethodAbility(sptr<InputMethodAbility> &inputMethodAbility);
@@ -123,6 +121,8 @@ namespace MiscServices {
         int displayId; // the id of the display screen on which the user is
         int currentIndex;
         std::map<sptr<IRemoteObject>, ClientInfo*> mapClients;
+        int MIN_IME = 2;
+        int COMMON_COUNT_THREE_HUNDRED = 300;
 
         InputMethodProperty *currentIme[MAX_IME]; // 0 - the default ime. 1 - security ime
 
@@ -156,8 +156,6 @@ namespace MiscServices {
         KeyboardType *GetKeyboardType(int imeIndex, int typeIndex);
         void ResetCurrentKeyboardType(int imeIndex);
         int OnCurrentKeyboardTypeChanged(int index, const std::u16string& value);
-        void DumpClientInfo(int fd, const ClientInfo& clientInfo);
-        void DumpCurrentSession(int fd);
         void CopyInputMethodService(int imeIndex);
         ClientInfo *GetClientInfo(const sptr<IInputClient>& inputClient);
         void WorkThread();

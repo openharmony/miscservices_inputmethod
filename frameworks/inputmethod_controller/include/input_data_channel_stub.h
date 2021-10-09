@@ -26,7 +26,8 @@ namespace MiscServices {
     class InputDataChannelStub : public IRemoteStub<IInputDataChannel> {
     public:
         DISALLOW_COPY_AND_MOVE(InputDataChannelStub);
-        int32_t OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply, MessageOption &option) override;
+        int32_t OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply,
+                                MessageOption &option) override;
         InputDataChannelStub();
         ~InputDataChannelStub();
         void SetHandler(MessageHandler *handler);

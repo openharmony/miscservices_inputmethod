@@ -125,7 +125,7 @@ namespace MiscServices {
         if (msgHandler == nullptr) {
             return;
         }
-        while(1) {
+        while (1) {
             Message *msg = msgHandler->GetMessage();
             std::unique_lock<std::mutex> lock(mtx);
             switch (msg->msgId_) {
@@ -669,7 +669,7 @@ namespace MiscServices {
     */
     void PerUserSession::OnImsDied(const wptr<IRemoteObject>& who)
     {
-        (void) who; // temporary void it, as we will add support for security IME.
+        (void)who; // temporary void it, as we will add support for security IME.
         IMSA_HILOGI("Start...[%{public}d]\n", userId_);
         int index = 0;
         for (int i = 0; i < MAX_IME; i++) {
@@ -864,7 +864,9 @@ namespace MiscServices {
         }
 
         int num = currentKbdIndex[index]+1;
-        num %= size;
+        if (size != 0) {
+            num %= size;
+        }
         KeyboardType *type = GetKeyboardType(index, num);
         if (type == nullptr) {
             IMSA_HILOGW("No next keyboard is available. [%{public}d]\n", userId_);
@@ -966,111 +968,6 @@ namespace MiscServices {
         needReshowClient = nullptr;
     }
 
-    /* Print the session information of this user into the given stream
-     * The information includes:
-     * the information of all the input clients connected to the input method management system.
-     * current input method engine information
-     * security input method engine information
-     * current session information
-     * param fd the raw file descriptor that the dump is being sent to
-     */
-    void PerUserSession::Dump(int fd)
-    {
-        std::map<sptr<IRemoteObject>, ClientInfo*>::const_iterator it;
-        dprintf(fd, "\n - User Session State :\n");
-        dprintf(fd, " * Client count = %d\n", mapClients.size());
-        int index = 0;
-        for (it = mapClients.cbegin(); it != mapClients.cend(); ++it) {
-            if (currentClient != nullptr &&
-                Platform::RemoteBrokerToObject(currentClient) == it->first) {
-                dprintf(fd, "  *[%d] Client Information: (current client)\n", index++);
-            } else {
-                dprintf(fd, "  [%d] Client Information:\n", index++);
-            }
-            DumpClientInfo(fd, *(it->second));
-        }
-        std::string header[2] = {"Current", "Security"};
-        for (int i = 0; i < 2; i++) {
-            if (currentIme[i] != nullptr) {
-                dprintf(fd, "\n * %s IME mImeId = %s\n", header[i].c_str(), Utils::to_utf8(currentIme[i]->mImeId).c_str());
-                KeyboardType *type = currentIme[i]->mTypes.at(currentKbdIndex[i]);
-                dprintf(fd, "   %s KeyboardType mHashCode = %d, mLanguage = %s\n", header[i].c_str(),
-                    type->getHashCode(), Utils::to_utf8(type->getLanguage()).c_str());
-
-                if (imsCore[i] != nullptr) {
-                    sptr<IRemoteObject> b = imsCore[i]->AsObject();
-                    dprintf(fd, "   %s IME Service = %s#%p\n", header[i].c_str(),
-                        Utils::to_utf8(b->GetObjectDescriptor()).c_str(), b.GetRefPtr());
-                    b = inputControlChannel[i]->AsObject();
-                    dprintf(fd, "   %s InputControlChannel = %s#%p\n",
-                        header[i].c_str(), Utils::to_utf8(b->GetObjectDescriptor()).c_str(), b.GetRefPtr());
-                    dprintf(fd, "   %s inputMethodWindowToken = %p\n", header[i].c_str(), inputMethodToken[i].GetRefPtr());
-                } else {
-                    dprintf(fd, "   %s IME Service = null (not started)\n", header[i].c_str());
-                }
-            } else {
-                dprintf(fd, "\n * %s IME  = null\n", header[i].c_str());
-            }
-        }
-        DumpCurrentSession(fd);
-    }
-
-    /*! dump current session
-    \param fd the file descriptor to output the information
-    */
-    void PerUserSession::DumpCurrentSession(int fd)
-    {
-        if (currentClient == nullptr) {
-            dprintf(fd, "\n * Current Session = null (keyboard is not showing by any client)\n");
-            return;
-        }
-        sptr<IRemoteObject> b = Platform::RemoteBrokerToObject(currentClient);
-        std::map<sptr<IRemoteObject>, ClientInfo*>::iterator it = mapClients.find(b);
-        int index = GetImeIndex(currentClient);
-        if (index < 0 || index > MAX_IME) {
-            dprintf(fd, "\n * PerUserSession::DumpCurrentSession: invalid index\n");
-        }
-        dprintf(fd, "\n * Current Session State :\n");
-        dprintf(fd, "   current client [= %s#%p] information :\n",
-               Utils::to_utf8(b->GetObjectDescriptor()).c_str(), b.GetRefPtr());
-        DumpClientInfo(fd, *(it->second));
-
-        dprintf(fd, "   current IME mImeID = %s\n", Utils::to_utf8(currentIme[index]->mImeId).c_str());
-        b = Platform::RemoteBrokerToObject(imsCore[index]);
-        dprintf(fd, "   IME service = %s#%p\n", Utils::to_utf8(b->GetObjectDescriptor()).c_str(), b.GetRefPtr());
-        b = Platform::RemoteBrokerToObject(imsAgent);
-        dprintf(fd, "   inputAgent = %s#%p\n", Utils::to_utf8(b->GetObjectDescriptor()).c_str(), b.GetRefPtr());
-        b = Platform::RemoteBrokerToObject(inputControlChannel[index]);
-        dprintf(fd, "   inputControlChannel = %s#%p\n", Utils::to_utf8(b->GetObjectDescriptor()).c_str(), b.GetRefPtr());
-        dprintf(fd, "   inputMethodWindowToken = #%p\n", inputMethodToken[index].GetRefPtr());
-        dprintf(fd, "   displayId = %d\n", displayId);
-        if (currentDisplayMode == 0) {
-            dprintf(fd, "   displayMode = %d [ part sceen ]\n", currentDisplayMode);
-        } else {
-            dprintf(fd, "   displayMode = %d [ full sceen ]\n", currentDisplayMode);
-        }
-        int height = 0;
-        GetKeyboardWindowHeight(height);
-        dprintf(fd, "   keyboard window height = %d\n", height);
-    }
-
-    /*! dump a client information
-    \param fd the file descriptor to output the information
-    \param clientInfo client information of a remote input client
-    */
-    void PerUserSession::DumpClientInfo(int fd, const ClientInfo& clientInfo)
-    {
-        dprintf(fd, "     pid = %d\n", clientInfo.pid);
-        dprintf(fd, "     uid = %d\n", clientInfo.uid);
-        dprintf(fd, "     userId = %d\n", clientInfo.userId);
-        dprintf(fd, "     displayId = %d\n", clientInfo.displayId);
-
-        sptr<IRemoteObject> b = Platform::RemoteBrokerToObject(clientInfo.client);
-        dprintf(fd, "     inputClient = %s#%p\n", Utils::to_utf8(b->GetObjectDescriptor()).c_str(), b.GetRefPtr());
-        b = Platform::RemoteBrokerToObject(clientInfo.channel);
-        dprintf(fd, "     inputDataChannel = %s#%p\n", Utils::to_utf8(b->GetObjectDescriptor()).c_str(), b.GetRefPtr());
-    }
-
     /*! Increase or reset ime error number
     \param resetFlag the flag to increase or reset number.
             \n resetFlag=true, reset error number to 0;
@@ -1080,8 +977,8 @@ namespace MiscServices {
     */
     int PerUserSession::IncreaseOrResetImeError(bool resetFlag, int imeIndex)
     {
-        static int errorNum[MIN_IME] = {0, 0};
-        static time_t past[MIN_IME] = {time(0), time(0)};
+        static int errorNum[2] = {0, 0};
+        static time_t past[2] = {time(0), time(0)};
         if (resetFlag == true) {
             errorNum[imeIndex] = 0;
             past[imeIndex] = 0;
@@ -1093,7 +990,7 @@ namespace MiscServices {
         double diffSeconds = difftime(now, past[imeIndex]);
 
         //time difference is more than 5 minutes, reset time and error num;
-        if (diffSeconds > 300) {
+        if (diffSeconds > COMMON_COUNT_THREE_HUNDRED) {
             past[imeIndex] = now;
             errorNum[imeIndex] = 1;
         }
@@ -1139,6 +1036,9 @@ namespace MiscServices {
     */
     void PerUserSession::ResetCurrentKeyboardType(int imeIndex)
     {
+        if (imeIndex < 0 || imeIndex > 1) {
+            return;
+        }
         currentKbdIndex[imeIndex] = 0;
         int hashCode = 0;
         if (imeIndex == DEFAULT_IME) {
@@ -1331,6 +1231,7 @@ namespace MiscServices {
         IMSA_HILOGI("PerUserSession::OnPrepareInput BindInputAbility start");
         BindInputAbility();
         IMSA_HILOGI("PerUserSession::OnPrepareInput BindInputAbility end");
+        currentClient = client;
     }
 
     /*! Release input. Called by an input client.
@@ -1347,9 +1248,7 @@ namespace MiscServices {
         sptr<InputClientProxy> client = new InputClientProxy(clientObject);
         sptr<IInputClient> interface = client;
         int remainClientNum = 0;
-        if (currentClient == interface) {
-            HideKeyboard(client);
-        }
+        HideKeyboard(client);
         int ret = RemoveClient(client, remainClientNum);
         if (ret != ErrorCode::NO_ERROR) {
             IMSA_HILOGE("PerUserSession::OnReleaseInput Aborted! Failed to RemoveClient [%{public}d]\n", userId_);

@@ -165,8 +165,7 @@ namespace MiscServices {
         }
         Platform::Instance()->SetInputMethodSetting(userId_, imSetting);
         // wait for some time so that the setting change will not be overrided by the followed transact
-        int32_t sleepTime = 100000;
-        usleep(sleepTime);
+        usleep(COMMON_COUNT_ONE_HUNDRED_THOUSAND);
         return ErrorCode::NO_ERROR;
     }
 
@@ -336,21 +335,22 @@ namespace MiscServices {
         InputMethodProperty *ime = nullptr;
         std::u16string systemLocales = inputMethodSetting.GetValue(InputMethodSetting::SYSTEM_LOCALE_TAG);
         for (int i = 0; i < (int)inputMethodProperties.size(); i++) {
-            if (CheckIfSecurityIme(*inputMethodProperties[i]) == false) {
+            InputMethodProperty *imp = inputMethodProperties[i];
+            if (CheckIfSecurityIme(*imp) == false) {
                 continue;
             }
             // if systemLocales is not setting, return the first security ime
             if (systemLocales.size() == 0) {
-                return inputMethodProperties[i];
+                return imp;
             }
             if (ime == nullptr) {
-                ime = inputMethodProperties[i];
+                ime = imp;
             }
             for (int j = 0; j < (int)inputMethodProperties[i]->mTypes.size(); j++) {
                 std::u16string language = inputMethodProperties[i]->mTypes[j]->getLanguage();
                 // if the keyboard language is in the list of system locales, return the ime
                 if (systemLocales.find(language) != std::string::npos) {
-                    return inputMethodProperties[i];
+                    return imp;
                 }
             }
         }

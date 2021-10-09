@@ -309,12 +309,12 @@ namespace MiscServices {
         std::u16string::size_type left, right;
         left = 0;
         right = str.find(delim, 0);
-        while(right != std::u16string::npos) {
+        while (right != std::u16string::npos) {
             if (right - left) {
-                retValue.emplace_back(str.substr(left, right-left));
+                retValue.emplace_back(str.substr(left, right - left));
             }
             left = right + 1;
-            right = str.find(delim,left);
+            right = str.find(delim, left);
         }
 
         if (left != str.size()) {
