@@ -76,7 +76,7 @@ namespace MessageID {
     };
 }
 
-class MessageHandler {
+    class MessageHandler {
     public:
         MessageHandler();
         ~MessageHandler();

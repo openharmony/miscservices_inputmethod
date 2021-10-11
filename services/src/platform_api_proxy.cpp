@@ -167,7 +167,6 @@ namespace MiscServices {
             return ErrorCode::NO_ERROR;
         }
 
-
         virtual int32_t getInputMethodProperty(int userId, const std::u16string& packageName,
             InputMethodProperty *inputMethodProperty)
         {

@@ -582,7 +582,7 @@ namespace MiscServices {
         std::map<int32_t, MessageHandler*>::iterator it = msgHandlers.find(userId);
         if (it != msgHandlers.end()) {
             MessageHandler *handler = it->second;
-            Message *destMsg = new Message(MSG_ID_USER_LOCK , nullptr);
+            Message *destMsg = new Message(MSG_ID_USER_LOCK, nullptr);
             if (destMsg != nullptr) {
                 handler->SendMessage(destMsg);
                 PerUserSession *userSession = GetUserSession(userId);

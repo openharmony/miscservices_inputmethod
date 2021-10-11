@@ -13,7 +13,7 @@
  * limitations under the License.
  */
  
-#include "unistd.h"   //usleep
+#include "unistd.h"
 #include "peruser_setting.h"
 #include "platform.h"
 #include "utils.h"
@@ -67,14 +67,15 @@ namespace MiscServices {
         }
     }
 
-    /*! Add an input method engine.
-    \n It's called when a package is installed in the system.
-    \param packageName the package name of installed package.
-    \param[out] isSecurityIme check if the added ime is a security ime.
-    \return ErrorCode::NO_ERROR The installed package is an IME package, and is added in the input method management system
-    \return ErrorCode::ERROR_NOT_IME_PACKAGE The installed package is not an IME package.
-    \return ErrorCode::ERROR_IME_PACKAGE_DUPLICATED The installed package is duplicated.
-    */
+    /**
+     * Add an input method engine.It's called when a package is installed in the system.
+     * @param packageName the package name of installed package.
+     * @param isSecurityIme check if the added ime is a security ime.
+     * @return ErrorCode::NO_ERROR The installed package is an IME package,
+      * and is added in the input method management system
+      * ErrorCode::ERROR_NOT_IME_PACKAGE The installed package is not an IME package.
+      * ErrorCode::ERROR_IME_PACKAGE_DUPLICATED The installed package is duplicated.
+     */
     int PerUserSetting::OnPackageAdded(std::u16string& packageName, bool isSecurityIme)
     {
         if (isSecurityIme) {

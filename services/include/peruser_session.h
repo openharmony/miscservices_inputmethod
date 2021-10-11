@@ -122,6 +122,7 @@ namespace MiscServices {
         int currentIndex;
         std::map<sptr<IRemoteObject>, ClientInfo*> mapClients;
         int MIN_IME = 2;
+        int IME_ERROR_CODE = 3;
         int COMMON_COUNT_THREE_HUNDRED = 300;
 
         InputMethodProperty *currentIme[MAX_IME]; // 0 - the default ime. 1 - security ime
