@@ -1305,6 +1305,15 @@ namespace MiscServices {
         } else {
             IMSA_HILOGI("PerUserSession::onSetInputMethodCore End...[%{public}d]\n", userId_);
         }
+        if (currentClient != nullptr) {
+            usleep(SLEEP_TIME);
+            ret = ShowKeyboard(currentClient);
+            if (ret != ErrorCode::NO_ERROR) {
+                IMSA_HILOGE("PerUserSession::OnStartInput Aborted! %{public}s", ErrorCode::ToString(ret));
+            } else {
+                IMSA_HILOGI("PerUserSession::OnStartInput End...[%{public}d]\n", userId_);
+            }
+        }
     }
 
     /*! Stop input. Called by an input client.
