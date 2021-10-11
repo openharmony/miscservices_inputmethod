@@ -1228,6 +1228,7 @@ namespace MiscServices {
         IMSA_HILOGI("PerUserSession::OnPrepareInput BindInputAbility start");
         BindInputAbility();
         IMSA_HILOGI("PerUserSession::OnPrepareInput BindInputAbility end");
+        currentClient = client;
     }
 
     /*! Release input. Called by an input client.
@@ -1296,6 +1297,15 @@ namespace MiscServices {
             IMSA_HILOGE("PerUserSession::onSetInputMethodCore Aborted! %{public}s", ErrorCode::ToString(ret));
         } else {
             IMSA_HILOGI("PerUserSession::onSetInputMethodCore End...[%{public}d]\n", userId_);
+        }
+        if (currentClient != nullptr) {
+            usleep(SLEEP_TIME);
+            ret = ShowKeyboard(currentClient);
+            if (ret != ErrorCode::NO_ERROR) {
+                IMSA_HILOGE("PerUserSession::OnStartInput Aborted! %{public}s", ErrorCode::ToString(ret));
+            } else {
+                IMSA_HILOGI("PerUserSession::OnStartInput End...[%{public}d]\n", userId_);
+            }
         }
     }
 

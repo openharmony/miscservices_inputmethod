@@ -156,15 +156,15 @@ using namespace MessageID;
         }
     }
 
-    void InputMethodController::Attach()
+    void InputMethodController::Attach(sptr<OnTextChangedListener> &listener)
     {
         PrepareInput(0, mClient, mInputDataChannel, mAttribute);
+        textListener = listener;
     }
 
-    void InputMethodController::ShowTextInput(sptr<OnTextChangedListener> &listener)
+    void InputMethodController::ShowTextInput()
     {
         IMSA_HILOGI("InputMethodController::ShowTextInput");
-        textListener = listener;
         StartInput(mClient);
     }
 
