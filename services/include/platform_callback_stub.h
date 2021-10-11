@@ -23,17 +23,16 @@
 #include "i_platform_callback.h"
 
 namespace OHOS {
-    namespace MiscServices {
-        class PlatformCallbackStub : public IRemoteStub<IPlatformCallback> {
-        public:
-            PlatformCallbackStub();
-            ~PlatformCallbackStub();
+namespace MiscServices {
+    class PlatformCallbackStub : public IRemoteStub<IPlatformCallback> {
+    public:
+        PlatformCallbackStub();
+        ~PlatformCallbackStub();
 
-            virtual int  OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply,
-                                         MessageOption &option) override;
-            virtual void notifyEvent(int eventId, int userId, const std::vector<std::u16string>& eventContent) override;
-        };
-
-    }
+        virtual int  OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply,
+                                     MessageOption &option) override;
+        virtual void notifyEvent(int eventId, int userId, const std::vector<std::u16string>& eventContent) override;
+    };
+}
 }
 #endif // FM_IMMS_PROJECT_PLATFORMCALLBACK_SK_H

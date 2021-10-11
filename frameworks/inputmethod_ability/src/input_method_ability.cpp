@@ -97,8 +97,7 @@ namespace MiscServices {
         IMSA_HILOGI("InputMethodAbility::Initialize");
         InitialInputWindow();
         msgHandler = new MessageHandler();
-        workThreadHandler = std::thread([this]
-        {
+        workThreadHandler = std::thread([this] {
             WorkThread();
         });
     }

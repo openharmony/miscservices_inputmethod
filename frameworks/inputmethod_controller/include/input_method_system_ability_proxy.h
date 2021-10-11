@@ -29,7 +29,7 @@
 
 namespace OHOS {
 namespace MiscServices {
-class InputMethodSystemAbilityProxy : public IRemoteProxy<IInputMethodSystemAbility> {
+    class InputMethodSystemAbilityProxy : public IRemoteProxy<IInputMethodSystemAbility> {
     public:
         explicit InputMethodSystemAbilityProxy(const sptr<IRemoteObject> &object);
         ~InputMethodSystemAbilityProxy() = default;

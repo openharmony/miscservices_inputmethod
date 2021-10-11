@@ -35,6 +35,7 @@ namespace MiscServices {
         void setInputMethodCoreFromHap(MessageParcel& data);
     protected:
         int32_t getUserId(int32_t uid);
+        int USER_ID_CHANGE_VALUE = 1000000;
     };
 }
 }
