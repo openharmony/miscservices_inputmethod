@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+#include "unistd.h"
 #include "platform.h"
 #include "parcel.h"
 #include "message_parcel.h"
