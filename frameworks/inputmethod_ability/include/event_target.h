@@ -45,6 +45,14 @@ namespace MiscServices {
         EventListener *first_;
         EventListener *last_;
     };
+
+    class UvWorkMsg{
+    public:
+        UvWorkMsg(const char *type, Event *event);
+        ~UvWorkMsg(){};
+        char *type_;
+        Event *event_;
+    };
 }
 }
 #endif // INPUT_METHOD_NAPI_EVENT_TARGET_H
