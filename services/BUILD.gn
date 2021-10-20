@@ -77,8 +77,7 @@ ohos_shared_library("inputmethod_service") {
     "//foundation/distributedschedule/dmsfwk/interfaces/innerkits/uri:zuri",
     "//foundation/distributedschedule/safwk/interfaces/innerkits/safwk:system_ability_fwk",
     "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
-    "//foundation/multimodalinput/input/interfaces/native/innerkits/event:mmi_event",
-    "//foundation/multimodalinput/input/interfaces/native/innerkits/event:mmi_event",
+    "//foundation/multimodalinput/input/frameworks/proxy:libmmi-client",
     "//utils/native/base:utils",
   ]
 
