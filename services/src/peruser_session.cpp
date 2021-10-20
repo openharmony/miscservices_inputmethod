@@ -327,8 +327,8 @@ namespace MiscServices {
         IMSA_HILOGI("PerUserSession::AddClient");
         ClientInfo *clientInfo = GetClientInfo(inputClient);
         if (clientInfo != nullptr) {
-            IMSA_HILOGE("PerUserSession::AddClient clientInfo is not nullptr");
-            return ErrorCode::ERROR_CLIENT_DUPLICATED;
+            IMSA_HILOGE("PerUserSession::AddClient clientInfo is exist, not need add.");
+            return ErrorCode::NO_ERROR;
         }
 
         sptr<IRemoteObject> obj = inputClient->AsObject();
@@ -1245,9 +1245,7 @@ namespace MiscServices {
         sptr<InputClientProxy> client = new InputClientProxy(clientObject);
         sptr<IInputClient> interface = client;
         int remainClientNum = 0;
-        if (currentClient == interface) {
-            HideKeyboard(client);
-        }
+        HideKeyboard(client);
         int ret = RemoveClient(client, remainClientNum);
         if (ret != ErrorCode::NO_ERROR) {
             IMSA_HILOGE("PerUserSession::OnReleaseInput Aborted! Failed to RemoveClient [%{public}d]\n", userId_);
@@ -1289,7 +1287,6 @@ namespace MiscServices {
         }
         if (imsCore[index] != nullptr) {
             IMSA_HILOGI("PerUserSession::onSetInputMethodCore End... Input Method Service has already been started ! ");
-            return;
         }
         imsCore[index] = core;
         int ret = StartInputMethod(index);
@@ -1307,6 +1304,7 @@ namespace MiscServices {
                 IMSA_HILOGI("PerUserSession::OnStartInput End...[%{public}d]\n", userId_);
             }
         }
+        IMSA_HILOGI("PerUserSession::OnStartInput End. currentClient is nullptr");
     }
 
     /*! Stop input. Called by an input client.
