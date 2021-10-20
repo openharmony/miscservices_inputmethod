@@ -38,6 +38,8 @@ namespace MiscServices {
 
     InputMethodAbility::~InputMethodAbility()
     {
+        IMSA_HILOGI("InputMethodAbility::~InputMethodAbility");
+        instance_ = nullptr;
         if (msgHandler != nullptr) {
             delete msgHandler;
             msgHandler = nullptr;
@@ -240,13 +242,13 @@ namespace MiscServices {
     void InputMethodAbility::ShowInputWindow()
     {
         IMSA_HILOGI("InputMethodAbility::ShowInputWindow");
-        eventTarget_->Emit("keyboardShow", nullptr);
+        eventTarget_->Emit(eventTarget_, "keyboardShow", nullptr);
     }
 
     void InputMethodAbility::DissmissInputWindow()
     {
         IMSA_HILOGI("InputMethodAbility::DissmissInputWindow");
-        eventTarget_->Emit("keyboardHide", nullptr);
+        eventTarget_->Emit(eventTarget_, "keyboardHide", nullptr);
     }
 
     bool InputMethodAbility::InsertText(const std::string text)
