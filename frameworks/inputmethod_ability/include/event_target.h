@@ -17,6 +17,7 @@
 #define INPUT_METHOD_NAPI_EVENT_TARGET_H
 
 #include "napi/native_api.h"
+#include "napi/native_node_api.h"
 #include "global.h"
 #include "input_method_ability.h"
 
@@ -37,21 +38,13 @@ namespace MiscServices {
         virtual void Once(const char *type, napi_value handler);
         virtual void Off(const char *type, napi_value handler);
         virtual void Off(const char *type);
-        virtual void Emit(const char *type, Event *event);
+        virtual void Emit(sptr<EventTarget> &eventTarget, const char *type, Event *event);
 
     protected:
         napi_env env_;
         napi_ref thisVarRef_;
         EventListener *first_;
         EventListener *last_;
-    };
-
-    class UvWorkMsg{
-    public:
-        UvWorkMsg(const char *type, Event *event);
-        ~UvWorkMsg(){};
-        char *type_;
-        Event *event_;
     };
 }
 }
