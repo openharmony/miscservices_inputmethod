@@ -117,13 +117,15 @@ namespace MiscServices {
         return ErrorCode::NO_ERROR;
     }
 
-    /*! Remove an input method engine.
-    \n It's called when a package is removed from the system.
-    \param packageName the package name of installed package.
-    \param[out] isSecurityIme check if the removed ime is a security ime.
-    \return ErrorCode::NO_ERROR The removed package is an IME package, and is removed from the input method management system
-    \return ErrorCode::ERROR_NOT_IME_PACKAGE The removed package is not an IME package.
-    */
+    /**
+     * Remove an input method engine.
+     * It's called when a package is removed from the system.
+     * @param packageName the package name of installed package.
+     * @param isSecurityIme check if the removed ime is a security ime.
+     * @return ErrorCode::NO_ERROR The removed package is an IME package,
+     * and is removed from the input method management system
+     * ErrorCode::ERROR_NOT_IME_PACKAGE The removed package is not an IME package.
+     */
     int PerUserSetting::OnPackageRemoved(std::u16string& packageName, bool isSecurityIme)
     {
         if (isSecurityIme) {

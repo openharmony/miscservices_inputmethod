@@ -38,6 +38,8 @@ namespace MiscServices {
 
     InputMethodAbility::~InputMethodAbility()
     {
+        IMSA_HILOGI("InputMethodAbility::~InputMethodAbility");
+        instance_ = nullptr;
         if (msgHandler != nullptr) {
             delete msgHandler;
             msgHandler = nullptr;
