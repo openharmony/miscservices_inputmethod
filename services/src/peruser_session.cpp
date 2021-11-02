@@ -1182,7 +1182,9 @@ namespace MiscServices {
         want.SetElementName("com.example.kikakeyboard", "com.example.kikakeyboard.MainAbility");
         sptr<InputMethodAbilityConnectionStub> stub(new (std::nothrow) InputMethodAbilityConnectionStub(0));
         sptr<AAFwk::AbilityConnectionProxy> connCallback = new (std::nothrow) AAFwk::AbilityConnectionProxy(stub);
-        GetAbilityManagerService()->StartAbility(want);
+        std::shared_ptr<AAFwk::AbilityStartSetting> setting = AAFwk::AbilityStartSetting::GetEmptySetting();
+        setting->AddProperty(AAFwk::AbilityStartSetting::WINDOW_MODE_KEY, std::to_string(AAFwk::AbilityWindowConfiguration::MULTI_WINDOW_DISPLAY_FLOATING));
+        GetAbilityManagerService()->StartAbility(want, *setting, nullptr, -1);
     }
 
     sptr<AAFwk::IAbilityManager> PerUserSession::GetAbilityManagerService()

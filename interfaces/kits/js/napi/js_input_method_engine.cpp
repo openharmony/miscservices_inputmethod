@@ -213,8 +213,8 @@ namespace MiscServices {
      */
     extern "C" __attribute__((constructor)) void RegisterModule()
     {
-    IMSA_HILOGI("RegisterModule() is called!");
-    napi_module_register(&inputMethodEngineModule);
+        IMSA_HILOGI("RegisterModule() is called!");
+        napi_module_register(&inputMethodEngineModule);
     }
 }
 }
