@@ -41,7 +41,7 @@ ohos_shared_library("inputmethod_client") {
     "src/input_data_channel_stub.cpp",
     "src/input_method_controller.cpp",
     "src/input_method_system_ability_proxy.cpp",
-    "src/input_method_utils.cpp"
+    "src/input_method_utils.cpp",
   ]
 
   deps = [
