@@ -252,5 +252,23 @@ using namespace MessageID;
     {
         InputMethodController::GetInstance()->OnRemoteSaDied(object);
     }
+
+    void InputMethodController::onCursorUpdate(CursorInfo cursorInfo)
+    {
+        IMSA_HILOGI("InputMethodController::onCursorUpdate");
+    }
+
+    void InputMethodController::OnSelectionChange(std::u16string text, int start, int end)
+    {
+        IMSA_HILOGI("InputMethodController::OnSelectionChange");
+        mTextString = text;
+        mSelectStart = start;
+        mSelectEnd = end;
+    }
+
+    void InputMethodController::onConfigurationChange(Configuration info)
+    {
+        IMSA_HILOGI("InputMethodController::onConfigurationChange");
+    }
 }
 }

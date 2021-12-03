@@ -26,13 +26,17 @@
 #include "i_input_method_agent.h"
 #include "message_handler.h"
 #include "iremote_object.h"
+#include "input_method_utils.h"
 
 namespace OHOS {
 namespace MiscServices {
     class OnTextChangedListener : public virtual RefBase {
     public:
         virtual void InsertText(const std::u16string& text) = 0;
+        virtual void DeleteForward(int32_t length) = 0;
         virtual void DeleteBackward(int32_t length) = 0;
+        virtual void sendKeyEventFromInputMethod(KeyEvent event) = 0;
+        virtual void sendKeyboardStatus(KeyboardStatus status) = 0;
         virtual void SetKeyboardStatus(bool status) = 0;
     };
 
@@ -52,6 +56,9 @@ namespace MiscServices {
         void HideTextInput();
         void Close();
         void OnRemoteSaDied(const wptr<IRemoteObject> &object);
+        void onCursorUpdate(CursorInfo cursorInfo);
+        void OnSelectionChange(std::u16string text, int start, int end);
+        void onConfigurationChange(Configuration info);
     private:
         InputMethodController();
         ~InputMethodController();
@@ -72,6 +79,9 @@ namespace MiscServices {
         sptr<InputMethodAgentProxy> mAgent;
         OnTextChangedListener *textListener;
         InputAttribute mAttribute;
+        std::u16string mTextString;
+        int mSelectStart;
+        int mSelectEnd;
 
         static std::mutex instanceLock_;
         static sptr<InputMethodController> instance_;
