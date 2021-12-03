@@ -1183,7 +1183,8 @@ namespace MiscServices {
         sptr<InputMethodAbilityConnectionStub> stub(new (std::nothrow) InputMethodAbilityConnectionStub(0));
         sptr<AAFwk::AbilityConnectionProxy> connCallback = new (std::nothrow) AAFwk::AbilityConnectionProxy(stub);
         std::shared_ptr<AAFwk::AbilityStartSetting> setting = AAFwk::AbilityStartSetting::GetEmptySetting();
-        setting->AddProperty(AAFwk::AbilityStartSetting::WINDOW_MODE_KEY, std::to_string(AAFwk::AbilityWindowConfiguration::MULTI_WINDOW_DISPLAY_FLOATING));
+        setting->AddProperty(AAFwk::AbilityStartSetting::WINDOW_MODE_KEY,
+            std::to_string(AAFwk::AbilityWindowConfiguration::MULTI_WINDOW_DISPLAY_FLOATING));
         GetAbilityManagerService()->StartAbility(want, *setting, nullptr, -1);
     }
 
