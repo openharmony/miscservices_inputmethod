@@ -222,6 +222,9 @@ namespace MiscServices {
                 delete eventTargetCB;
             }
         });
+        if (ret != 0) {
+            IMSA_HILOGI("EventTarget::Emit failed to execute libuv work queue");
+        }
         delete work;
     }
 }
