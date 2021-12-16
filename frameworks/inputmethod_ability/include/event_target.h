@@ -47,7 +47,7 @@ namespace MiscServices {
         EventListener *last_;
 
     private:
-        int LISTENER_TYPTE_MAX_LENGTH = 64;
+        static const int LISTENER_TYPTE_MAX_LENGTH = 64;
     };
 }
 }
