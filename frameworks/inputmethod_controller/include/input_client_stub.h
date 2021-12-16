@@ -33,7 +33,7 @@ namespace MiscServices {
         void SetHandler(MessageHandler *handler);
 
         int32_t onInputReady(int32_t retValue, const sptr<IInputMethodAgent>& agent,
-        const InputChannel *channel) override;
+                             const InputChannel *channel) override;
         int32_t onInputReleased(int32_t retValue) override;
         int32_t setDisplayMode(int32_t mode) override;
     private:

@@ -23,17 +23,17 @@
 #include "global.h"
 
 namespace OHOS {
-    namespace MiscServices {
-        class IPlatformCallback : public IRemoteBroker {
-            public:
-                enum {
-                    NOTIFY_EVENT = OHOS::FIRST_CALL_TRANSACTION,
-                };
-
-                DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.IPlatformCallback");
-
-                virtual void notifyEvent(int eventId, int userId, const std::vector<std::u16string>& eventContent) = 0;
+namespace MiscServices {
+    class IPlatformCallback : public IRemoteBroker {
+    public:
+        enum {
+            NOTIFY_EVENT = OHOS::FIRST_CALL_TRANSACTION,
         };
-    }
+
+        DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.IPlatformCallback");
+
+        virtual void notifyEvent(int eventId, int userId, const std::vector<std::u16string>& eventContent) = 0;
+    };
+}
 }
 #endif // FM_IMMS_PROJECT_IPLATFORMCALLBACK_H

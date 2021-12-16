@@ -46,7 +46,7 @@ namespace MiscServices {
             std::unique_lock<std::mutex> lock(mMutex);
             mQueue.push(msg);
         }
-      mCV.notify_one();
+        mCV.notify_one();
     }
 
     /*! Get a message
@@ -56,7 +56,7 @@ namespace MiscServices {
     Message *MessageHandler::GetMessage()
     {
         std::unique_lock<std::mutex> lock(mMutex);
-        mCV.wait(lock, [this]{
+        mCV.wait(lock, [this] {
             return !this->mQueue.empty();
         });
 

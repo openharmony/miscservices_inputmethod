@@ -13,7 +13,6 @@
  * limitations under the License.
  */
  
-#include "unistd.h"   //usleep
 #include "peruser_setting.h"
 #include "platform.h"
 #include "utils.h"
@@ -67,14 +66,15 @@ namespace MiscServices {
         }
     }
 
-    /*! Add an input method engine.
-    \n It's called when a package is installed in the system.
-    \param packageName the package name of installed package.
-    \param[out] isSecurityIme check if the added ime is a security ime.
-    \return ErrorCode::NO_ERROR The installed package is an IME package, and is added in the input method management system
-    \return ErrorCode::ERROR_NOT_IME_PACKAGE The installed package is not an IME package.
-    \return ErrorCode::ERROR_IME_PACKAGE_DUPLICATED The installed package is duplicated.
-    */
+    /**
+     * Add an input method engine.It's called when a package is installed in the system.
+     * @param packageName the package name of installed package.
+     * @param isSecurityIme check if the added ime is a security ime.
+     * @return ErrorCode::NO_ERROR The installed package is an IME package,
+      * and is added in the input method management system
+      * ErrorCode::ERROR_NOT_IME_PACKAGE The installed package is not an IME package.
+      * ErrorCode::ERROR_IME_PACKAGE_DUPLICATED The installed package is duplicated.
+     */
     int PerUserSetting::OnPackageAdded(std::u16string& packageName, bool isSecurityIme)
     {
         if (isSecurityIme) {
@@ -116,13 +116,15 @@ namespace MiscServices {
         return ErrorCode::NO_ERROR;
     }
 
-    /*! Remove an input method engine.
-    \n It's called when a package is removed from the system.
-    \param packageName the package name of installed package.
-    \param[out] isSecurityIme check if the removed ime is a security ime.
-    \return ErrorCode::NO_ERROR The removed package is an IME package, and is removed from the input method management system
-    \return ErrorCode::ERROR_NOT_IME_PACKAGE The removed package is not an IME package.
-    */
+    /**
+     * Remove an input method engine.
+     * It's called when a package is removed from the system.
+     * @param packageName the package name of installed package.
+     * @param isSecurityIme check if the removed ime is a security ime.
+     * @return ErrorCode::NO_ERROR The removed package is an IME package,
+     * and is removed from the input method management system
+     * ErrorCode::ERROR_NOT_IME_PACKAGE The removed package is not an IME package.
+     */
     int PerUserSetting::OnPackageRemoved(std::u16string& packageName, bool isSecurityIme)
     {
         if (isSecurityIme) {
@@ -165,8 +167,7 @@ namespace MiscServices {
         }
         Platform::Instance()->SetInputMethodSetting(userId_, imSetting);
         // wait for some time so that the setting change will not be overrided by the followed transact
-        int32_t sleepTime = 100000;
-        usleep(sleepTime);
+        usleep(COMMON_COUNT_ONE_HUNDRED_THOUSAND);
         return ErrorCode::NO_ERROR;
     }
 

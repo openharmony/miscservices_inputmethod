@@ -122,6 +122,10 @@ namespace MiscServices {
         int currentIndex;
         std::map<sptr<IRemoteObject>, ClientInfo*> mapClients;
         int MIN_IME = 2;
+        int IME_ERROR_CODE = 3;
+        int COMMON_COUNT_THREE_HUNDRED = 300;
+        int SLEEP_TIME = 300000;
+        int SLEEP_TIME_MORE = 1600000;
 
         InputMethodProperty *currentIme[MAX_IME]; // 0 - the default ime. 1 - security ime
 
@@ -146,7 +150,6 @@ namespace MiscServices {
         std::mutex mtx; // mutex to lock the operations among multi work threads
         sptr<AAFwk::AbilityConnectionProxy> connCallback;
         sptr<InputMethodAbility> inputMethodAbility_;
-        int SLEEP_TIME = 300000;
 
         PerUserSession(const PerUserSession&);
         PerUserSession& operator =(const PerUserSession&);

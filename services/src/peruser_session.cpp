@@ -13,15 +13,13 @@
  * limitations under the License.
  */
 
-#include <vector>
-#include "unistd.h"   //usleep
-#include "peruser_session.h"
 #include "platform.h"
 #include "parcel.h"
 #include "message_parcel.h"
 #include "utils.h"
 #include "want.h"
 #include "input_method_ability_connection_stub.h"
+#include "peruser_session.h"
 #include "ability_connect_callback_proxy.h"
 #include "ability_manager_interface.h"
 #include "sa_mgr_client.h"
@@ -45,6 +43,7 @@ namespace MiscServices {
     {
         userId_ = userId;
         msgId_ = msgId;
+        imsChannel = nullptr;
     }
 
     RemoteObjectDeathRecipient::~RemoteObjectDeathRecipient()
@@ -101,7 +100,7 @@ namespace MiscServices {
     void PerUserSession::CreateWorkThread(MessageHandler& handler)
     {
         msgHandler = &handler;
-        workThreadHandler = std::thread([this]{WorkThread();});
+        workThreadHandler = std::thread([this] {WorkThread();});
     }
 
     /*! Wait till work thread exits
@@ -266,10 +265,12 @@ namespace MiscServices {
             }
             if (flag) {
                 int ret = StartInputMethod(i);
+                if (ret != ErrorCode::NO_ERROR) {
+                    needReshowClient = nullptr;
+                    break;
+                }
                 if (needReshowClient && GetImeIndex(needReshowClient) == i) {
-                    if (ret == ErrorCode::NO_ERROR) {
-                        ShowKeyboard(needReshowClient);
-                    }
+                    ShowKeyboard(needReshowClient);
                     needReshowClient = nullptr;
                 }
             }
@@ -502,11 +503,13 @@ namespace MiscServices {
 
         ret = imsCore[index]->showKeyboard(1);
         if (!ret) {
-            IMSA_HILOGE("PerUserSession::ShowKeyboard Aborted! showKeyboard has error : %{public}s", ErrorCode::ToString(ret));
+            IMSA_HILOGE("PerUserSession::ShowKeyboard Aborted! showKeyboard has error : %{public}s",
+                ErrorCode::ToString(ret));
 
             int ret_client = clientInfo->client->onInputReady(1, nullptr, nullptr);
             if (ret_client != ErrorCode::NO_ERROR) {
-                IMSA_HILOGE("PerUserSession::ShowKeyboard onInputReady has error : %{public}s", ErrorCode::ToString(ret_client));
+                IMSA_HILOGE("PerUserSession::ShowKeyboard onInputReady has error : %{public}s",
+                    ErrorCode::ToString(ret_client));
             }
             return ErrorCode::ERROR_KBD_SHOW_FAILED;
         }
@@ -517,7 +520,8 @@ namespace MiscServices {
 
         int result = clientInfo->client->onInputReady(0, imsAgent, imsChannel);
         if (result != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::ShowKeyboard Aborted! onInputReady return : %{public}s", ErrorCode::ToString(ret));
+            IMSA_HILOGE("PerUserSession::ShowKeyboard Aborted! onInputReady return : %{public}s",
+                ErrorCode::ToString(ret));
             return result;
         }
         currentClient = inputClient;
@@ -564,7 +568,8 @@ namespace MiscServices {
 
         int ret_client_stop = clientInfo->client->onInputReady(1, nullptr, nullptr);
         if (ret_client_stop != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::HideKeyboard onInputReady return : %{public}s", ErrorCode::ToString(ret_client_stop));
+            IMSA_HILOGE("PerUserSession::HideKeyboard onInputReady return : %{public}s",
+                ErrorCode::ToString(ret_client_stop));
         }
         currentClient = nullptr;
         imsAgent = nullptr;
@@ -692,7 +697,7 @@ namespace MiscServices {
             StopInputMethod(1 - index);
         }
 
-        if (IncreaseOrResetImeError(false, index) == 3) {
+        if (IncreaseOrResetImeError(false, index) == IME_ERROR_CODE) {
             // call to disable the current input method.
             MessageParcel *parcel = new MessageParcel();
             parcel->WriteInt32(userId_);
@@ -707,7 +712,7 @@ namespace MiscServices {
             parcel->WriteInt32(index);
             parcel->WriteString16(currentIme[index]->mImeId);
             Message *msg = new Message(MSG_ID_RESTART_IMS, parcel);
-            usleep(1600*1000); // wait that PACKAGE_REMOVED message is received if this ime has been removed
+            usleep(SLEEP_TIME_MORE); // wait that PACKAGE_REMOVED message is received if this ime has been removed
             MessageHandler::Instance()->SendMessage(msg);
         }
         IMSA_HILOGI("End...[%{public}d]\n", userId_);
@@ -851,7 +856,7 @@ namespace MiscServices {
             return;
         }
         int size = 0;
-        if (index == SECURITY_IME || currentIme[DEFAULT_IME] == currentIme[SECURITY_IME] ) {
+        if (index == SECURITY_IME || currentIme[DEFAULT_IME] == currentIme[SECURITY_IME]) {
             size = currentIme[index]->mTypes.size();
         } else {
             std::u16string imeId = currentIme[index]->mImeId;
@@ -989,8 +994,8 @@ namespace MiscServices {
         time_t now = time(0);
         double diffSeconds = difftime(now, past[imeIndex]);
 
-        //time difference is more than 5 minutes, reset time and error num;
-        if (diffSeconds > 300) {
+        // time difference is more than 5 minutes, reset time and error num;
+        if (diffSeconds > COMMON_COUNT_THREE_HUNDRED) {
             past[imeIndex] = now;
             errorNum[imeIndex] = 1;
         }
@@ -1036,6 +1041,9 @@ namespace MiscServices {
     */
     void PerUserSession::ResetCurrentKeyboardType(int imeIndex)
     {
+        if (imeIndex < 0 || imeIndex > 1) {
+            return;
+        }
         currentKbdIndex[imeIndex] = 0;
         int hashCode = 0;
         if (imeIndex == DEFAULT_IME) {

@@ -34,7 +34,7 @@ declare namespace inputMethodEngine {
   function DeleteBackward(length: number, callback: () => void): void;
   function DeleteBackward(length: number): Promise<void>;
 
-  function HideKeyboardSelf(callback: callback: () => void): void;
+  function HideKeyboardSelf(callback: () => void): void;
   function HideKeyboardSelf(): Promise<void>;
 }
 
