@@ -43,7 +43,6 @@ namespace MiscServices {
     {
         userId_ = userId;
         msgId_ = msgId;
-        imsChannel = nullptr;
     }
 
     RemoteObjectDeathRecipient::~RemoteObjectDeathRecipient()
