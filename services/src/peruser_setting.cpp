@@ -13,7 +13,6 @@
  * limitations under the License.
  */
  
-#include "unistd.h"
 #include "peruser_setting.h"
 #include "platform.h"
 #include "utils.h"

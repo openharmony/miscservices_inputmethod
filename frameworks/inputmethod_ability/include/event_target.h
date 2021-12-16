@@ -45,6 +45,9 @@ namespace MiscServices {
         napi_ref thisVarRef_;
         EventListener *first_;
         EventListener *last_;
+
+    private:
+        int LISTENER_TYPTE_MAX_LENGTH = 64;
     };
 }
 }

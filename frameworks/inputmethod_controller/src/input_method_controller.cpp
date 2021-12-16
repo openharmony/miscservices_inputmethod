@@ -159,7 +159,7 @@ using namespace MessageID;
     void InputMethodController::Attach(sptr<OnTextChangedListener> &listener)
     {
         PrepareInput(0, mClient, mInputDataChannel, mAttribute);
-        textListener=listener;
+        textListener = listener;
     }
 
     void InputMethodController::ShowTextInput()
