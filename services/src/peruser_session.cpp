@@ -12,15 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-#include "unistd.h"
+#include "unistd.h" // usleep
 #include "platform.h"
 #include "parcel.h"
 #include "message_parcel.h"
 #include "utils.h"
 #include "want.h"
 #include "input_method_ability_connection_stub.h"
-#include <vector>
 #include "peruser_session.h"
 #include "ability_connect_callback_proxy.h"
 #include "ability_manager_interface.h"
@@ -713,7 +711,7 @@ namespace MiscServices {
             parcel->WriteInt32(index);
             parcel->WriteString16(currentIme[index]->mImeId);
             Message *msg = new Message(MSG_ID_RESTART_IMS, parcel);
-            usleep(1600*1000); // wait that PACKAGE_REMOVED message is received if this ime has been removed
+            usleep(SLEEP_TIME_MORE); // wait that PACKAGE_REMOVED message is received if this ime has been removed
             MessageHandler::Instance()->SendMessage(msg);
         }
         IMSA_HILOGI("End...[%{public}d]\n", userId_);
@@ -995,7 +993,7 @@ namespace MiscServices {
         time_t now = time(0);
         double diffSeconds = difftime(now, past[imeIndex]);
 
-        //time difference is more than 5 minutes, reset time and error num;
+        // time difference is more than 5 minutes, reset time and error num;
         if (diffSeconds > COMMON_COUNT_THREE_HUNDRED) {
             past[imeIndex] = now;
             errorNum[imeIndex] = 1;

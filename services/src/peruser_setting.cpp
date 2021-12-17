@@ -12,8 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-#include "unistd.h"
+
+#include "unistd.h" // usleep
 #include "peruser_setting.h"
 #include "platform.h"
 #include "utils.h"

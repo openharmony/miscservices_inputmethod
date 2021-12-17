@@ -19,7 +19,6 @@
 #define FM_IMMS_PROJECT_UTILS_H
 
 #include <string>
-#include <codecvt>
 #include <locale>
 #include <iostream>
 
@@ -27,10 +26,12 @@ namespace OHOS {
 namespace MiscServices {
     class Utils {
     public:
-        static std::string to_utf8(std::u16string str16) {
+        static std::string to_utf8(std::u16string str16)
+        {
             return std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> {}.to_bytes(str16);
         }
-        static std::u16string to_utf16(std::string str) {
+        static std::u16string to_utf16(std::string str)
+        {
             return std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> {}.from_bytes(str);
         }
     };

@@ -58,7 +58,7 @@ namespace MessageID {
         MSG_ID_SHELL_COMMAND, // shell command
         MSG_ID_EXIT_SERVICE, // exit service
 
-        //the request from IMSA to IMC
+        // the request from IMSA to IMC
         MSG_ID_INSERT_CHAR,
         MSG_ID_DELETE_BACKWARD,
         MSG_ID_CLOSE,

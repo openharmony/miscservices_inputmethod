@@ -21,7 +21,7 @@
 namespace OHOS {
 namespace MiscServices {
     InputMethodCoreProxy::InputMethodCoreProxy(const OHOS::sptr<OHOS::IRemoteObject> &impl)
-    : IRemoteProxy<IInputMethodCore>(impl)
+        : IRemoteProxy<IInputMethodCore>(impl)
     {
     }
 

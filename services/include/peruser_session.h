@@ -125,6 +125,7 @@ namespace MiscServices {
         int IME_ERROR_CODE = 3;
         int COMMON_COUNT_THREE_HUNDRED = 300;
         int SLEEP_TIME = 300000;
+        int SLEEP_TIME_MORE = 1600000;
 
         InputMethodProperty *currentIme[MAX_IME]; // 0 - the default ime. 1 - security ime
 

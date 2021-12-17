@@ -76,7 +76,7 @@ namespace MiscServices {
                 return nullptr;
             }
             int code = reply.ReadException();
-            if (code != 0) {// code = 0, means no exception.
+            if (code != 0) { // code = 0, means no exception.
                 LOG_DEBUG("exception code : %d\n", code);
                 return nullptr;
             }
