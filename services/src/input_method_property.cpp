@@ -22,6 +22,7 @@ namespace MiscServices {
     */
     InputMethodProperty::InputMethodProperty()
     {
+        mDefaultImeId = 0;
     }
 
     /*! Destructor

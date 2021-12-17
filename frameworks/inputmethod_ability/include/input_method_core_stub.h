@@ -16,13 +16,13 @@
 #ifndef FM_IMMS_PROJECT_INPUTCONTROLCHANNEL_SK_H
 #define FM_IMMS_PROJECT_INPUTCONTROLCHANNEL_SK_H
 
+#include <mutex>
+#include <condition_variable>
+#include <cstdint>
 #include "iremote_broker.h"
 #include "iremote_stub.h"
 #include "i_input_method_agent.h"
 #include "input_channel.h"
-#include <mutex>
-#include <condition_variable>
-#include <cstdint>
 #include "message_parcel.h"
 #include "input_attribute.h"
 #include "i_input_data_channel.h"

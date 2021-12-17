@@ -207,7 +207,6 @@ namespace MiscServices {
 
         Message *msg = new Message(MSG_ID_RELEASE_INPUT, parcel);
         MessageHandler::Instance()->SendMessage(msg);
-
     }
 
     /*! Start input
@@ -271,7 +270,7 @@ namespace MiscServices {
     */
     int32_t InputMethodSystemAbilityStub::getUserId(int32_t uid)
     {
-        return uid/1000000;
+        return uid/USER_ID_CHANGE_VALUE;
     }
 }
 }

@@ -22,6 +22,7 @@ namespace MiscServices {
     InputMethodAbilityConnectionStub::InputMethodAbilityConnectionStub(const int index)
     {
         mIndex = index;
+        messageHandler = nullptr;
     }
 
     InputMethodAbilityConnectionStub::~InputMethodAbilityConnectionStub()
