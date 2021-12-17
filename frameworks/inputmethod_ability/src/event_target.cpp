@@ -22,7 +22,7 @@
 namespace OHOS {
 namespace MiscServices {
     struct EventListener {
-        int LISTENER_TYPTE_MAX_LENGTH = 64;
+        static const int LISTENER_TYPTE_MAX_LENGTH = 64;
         char type[LISTENER_TYPTE_MAX_LENGTH] = { 0 };
         bool isOnce = false;
         napi_ref handlerRef = nullptr;
