@@ -113,7 +113,7 @@ using namespace MessageID;
                     MessageParcel *data = msg->msgContent_;
                     int32_t length = data->ReadInt32();
                     if (textListener != nullptr) {
-                        textListener->DeleteBackward(length);
+                        textListener->DeleteForward(length);
                     }
                     break;
                 }
@@ -253,9 +253,9 @@ using namespace MessageID;
         InputMethodController::GetInstance()->OnRemoteSaDied(object);
     }
 
-    void InputMethodController::onCursorUpdate(CursorInfo cursorInfo)
+    void InputMethodController::OnCursorUpdate(CursorInfo cursorInfo)
     {
-        IMSA_HILOGI("InputMethodController::onCursorUpdate");
+        IMSA_HILOGI("InputMethodController::OnCursorUpdate");
     }
 
     void InputMethodController::OnSelectionChange(std::u16string text, int start, int end)
@@ -266,9 +266,9 @@ using namespace MessageID;
         mSelectEnd = end;
     }
 
-    void InputMethodController::onConfigurationChange(Configuration info)
+    void InputMethodController::OnConfigurationChange(Configuration info)
     {
-        IMSA_HILOGI("InputMethodController::onConfigurationChange");
+        IMSA_HILOGI("InputMethodController::OnConfigurationChange");
     }
 }
 }

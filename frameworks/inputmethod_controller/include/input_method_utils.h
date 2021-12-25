@@ -16,34 +16,102 @@
 #ifndef FM_IMC_PROJECT_INPUT_METHOD_UTILS_H
 #define FM_IMC_PROJECT_INPUT_METHOD_UTILS_H
 
+#include <stdint.h>
+
 namespace OHOS {
-    namespace MiscServices {
-        class Configuration {
-        public:
-            enum {
-                TEXT_FIELD_ACTION_UNSPECIFIED = 0,
-                TEXT_FIELD_ACTION_NONE,
-                TEXT_FIELD_ACTION_GO,
-                TEXT_FIELD_ACTION_SEARCH,
-                TEXT_FIELD_ACTION_SEND,
-                TEXT_FIELD_ACTION_NEXT,
-                TEXT_FIELD_ACTION_DONE,
-                TEXT_FIELD_ACTION_PREVIOUS
-            };
-            int mTextFieldAction;
-        };
-        class CursorInfo {
-        };
-        class KeyEvent {
-        };
-        class KeyboardStatus {
-        public:
-            enum {
-                KEYBOARD_STATUS_HIDE = 0,
-                KEYBOARD_STATUS_SHOW
-            };
-            int mKeyboardStatus;
-        };
-    }
+namespace MiscServices {
+    enum class EnterKeyType {
+        UNSPECIFIED = 0,
+        NONE,
+        GO,
+        SEARCH,
+        SEND,
+        NEXT,
+        DONE,
+        PREVIOUS
+    };
+
+    enum class TextInputType {
+        TEXT = 0,
+        MULTILINE,
+        NUMBER,
+        PHONE,
+        DATETIME,
+        EMAIL_ADDRESS,
+        URL,
+        VISIBLE_PASSWORD,
+    };
+    class Configuration {
+    public:
+        EnterKeyType GetEnterKeyType() const
+        {
+            return enterKeyType;
+        }
+
+        void SetEnterKeyType(EnterKeyType keyType)
+        {
+            enterKeyType = keyType;
+        }
+        TextInputType GetTextInputType() const
+        {
+            return textInputType;
+        }
+
+        void SetTextInputType(TextInputType textType)
+        {
+            textInputType = textType;
+        }
+
+    private:
+        EnterKeyType enterKeyType = EnterKeyType::UNSPECIFIED;
+        TextInputType textInputType = TextInputType::TEXT;
+    };
+
+    struct CursorInfo {
+        double left = 0.0;
+        double top = 0.0;
+        double width = 0.0;
+        double height = 0.0;
+    };
+
+    class KeyEvent {
+    };
+
+    enum class KeyboardStatus {
+        NONE = 0,
+        HIDE,
+        SHOW
+    };
+    enum class FunctionKey {
+        NONE = 0,
+        CONFIRM,
+    };
+    class KeyboardInfo {
+    public:
+        KeyboardStatus GetKeyboardStatus() const
+        {
+            return keyboardStatus;
+        }
+
+        void SetKeyboardStatus(int32_t status)
+        {
+            keyboardStatus = static_cast<KeyboardStatus>(status);
+        }
+
+        FunctionKey GetFunctionKey() const
+        {
+            return functionKey;
+        }
+
+        void SetFunctionKey(int32_t key)
+        {
+            functionKey = static_cast<FunctionKey>(key);
+        }
+
+    private:
+        KeyboardStatus keyboardStatus = KeyboardStatus::NONE;
+        FunctionKey functionKey = FunctionKey::NONE;
+    };
+}
 }
 #endif // FM_IMC_PROJECT_INPUT_METHOD_UTILS_H

@@ -30,13 +30,15 @@
 
 namespace OHOS {
 namespace MiscServices {
+    class InputDataChannelStub;
+    class InputMethodSystemAbilityProxy;
     class OnTextChangedListener : public virtual RefBase {
     public:
         virtual void InsertText(const std::u16string& text) = 0;
         virtual void DeleteForward(int32_t length) = 0;
         virtual void DeleteBackward(int32_t length) = 0;
-        virtual void sendKeyEventFromInputMethod(KeyEvent event) = 0;
-        virtual void sendKeyboardStatus(KeyboardStatus status) = 0;
+        virtual void SendKeyEventFromInputMethod(const KeyEvent& event) = 0;
+        virtual void SendKeyboardInfo(const KeyboardInfo& info) = 0;
         virtual void SetKeyboardStatus(bool status) = 0;
     };
 
@@ -56,9 +58,9 @@ namespace MiscServices {
         void HideTextInput();
         void Close();
         void OnRemoteSaDied(const wptr<IRemoteObject> &object);
-        void onCursorUpdate(CursorInfo cursorInfo);
+        void OnCursorUpdate(CursorInfo cursorInfo);
         void OnSelectionChange(std::u16string text, int start, int end);
-        void onConfigurationChange(Configuration info);
+        void OnConfigurationChange(Configuration info);
     private:
         InputMethodController();
         ~InputMethodController();

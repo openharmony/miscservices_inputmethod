@@ -12,4 +12,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "input_method_utils.h"
+namespace OHOS {
+namespace MiscServices {
+}
+}
 
