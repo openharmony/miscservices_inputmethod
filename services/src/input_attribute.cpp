@@ -21,7 +21,6 @@ namespace MiscServices {
     */
     InputAttribute::InputAttribute() : enterKeyType(0), inputOption(0)
     {
-        inputPattern = PATTERN_TEXT;
     }
 
     /*! Constructor
