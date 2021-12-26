@@ -110,6 +110,7 @@ namespace MiscServices {
         } else {
             mHashCode = ID_NONE;
         }
+
     }
 
     void KeyboardType::setLabelId(int32_t labelId)

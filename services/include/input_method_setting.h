@@ -32,6 +32,7 @@ namespace MiscServices {
         const static std::u16string CURRENT_SYS_KEYBOARD_TYPE_TAG; // default keyboard type for security IME
         const static std::u16string SYSTEM_LOCALE_TAG;  // locale list supported in the system
 
+
         InputMethodSetting();
         ~InputMethodSetting();
         InputMethodSetting(const InputMethodSetting& inputMethodSetting);

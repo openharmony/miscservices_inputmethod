@@ -19,10 +19,10 @@
 
 #include "utils/log.h"
 #include "input_method_ability.h"
+#define LISTENER_TYPTE_MAX_LENGTH 64
 namespace OHOS {
 namespace MiscServices {
     struct EventListener {
-        static const int LISTENER_TYPTE_MAX_LENGTH = 64;
         char type[LISTENER_TYPTE_MAX_LENGTH] = { 0 };
         bool isOnce = false;
         napi_ref handlerRef = nullptr;
@@ -181,7 +181,6 @@ namespace MiscServices {
         uv_work_t *work = new (std::nothrow) uv_work_t;
         if (work == nullptr) {
             IMSA_HILOGI("EventTarget::Emit No memory work == nullptr");
-            delete work;
             return;
         }
 
@@ -191,7 +190,7 @@ namespace MiscServices {
         work->data = (void *)eventTargetCB;
 
         int ret = uv_queue_work(loop, work, [](uv_work_t *work) {}, [](uv_work_t *work, int status) {
-            // Js Thread
+            //Js Thread
             if (work == nullptr) {
                 IMSA_HILOGI("EventTarget::Emit work == nullptr");
                 return;
@@ -203,15 +202,13 @@ namespace MiscServices {
 
                 napi_value thisVar = nullptr;
                 napi_get_reference_value(eventTargetCB->env, eventTargetCB->thisVarRef, &thisVar);
-                for (EventListener *eventListener = eventTargetCB->first; eventListener != nullptr;
-                    eventListener = eventListener->next) {
+                for (EventListener *eventListener = eventTargetCB->first; eventListener != nullptr; eventListener = eventListener->next) {
                     if (strcmp(eventListener->type, eventTargetCB->type) == 0) {
                         napi_value jsEvent = eventTargetCB->event ? eventTargetCB->event->ToJsObject() : nullptr;
                         napi_value handler = nullptr;
                         napi_value result = nullptr;
                         napi_get_reference_value(eventTargetCB->env, eventListener->handlerRef, &handler);
-                        napi_call_function(eventTargetCB->env, thisVar, handler,
-                                jsEvent ? 1 : 0, jsEvent ? &jsEvent : nullptr, &result);
+                        napi_call_function(eventTargetCB->env, thisVar, handler, jsEvent ? 1 : 0, jsEvent ? &jsEvent : nullptr, &result);
                         if (eventListener->isOnce) {
                             eventTargetCB->eventTarget->Off(eventTargetCB->type, handler);
                         }
@@ -222,11 +219,12 @@ namespace MiscServices {
             if (eventTargetCB) {
                 delete eventTargetCB;
             }
+            delete work;
         });
         if (ret != 0) {
             IMSA_HILOGI("EventTarget::Emit failed to execute libuv work queue");
+            delete work;
         }
-        delete work;
     }
 }
 }

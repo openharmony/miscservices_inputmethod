@@ -22,14 +22,13 @@
 
 namespace OHOS {
 namespace MiscServices {
-    class InputClientProxy : public IRemoteProxy<IInputClient> {
+class InputClientProxy : public IRemoteProxy<IInputClient> {
     public:
         explicit InputClientProxy(const sptr<IRemoteObject> &object);
         ~InputClientProxy() = default;
         DISALLOW_COPY_AND_MOVE(InputClientProxy);
 
-        int32_t onInputReady(int32_t retValue, const sptr<IInputMethodAgent>& agent,
-            const InputChannel *channel) override;
+        int32_t onInputReady(int32_t retValue, const sptr<IInputMethodAgent>& agent, const InputChannel *channel) override;
         int32_t onInputReleased(int32_t retValue) override;
         int32_t setDisplayMode(int32_t mode) override;
 
