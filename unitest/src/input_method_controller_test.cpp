@@ -56,13 +56,13 @@ namespace MiscServices {
         {
             IMSA_HILOGI("IMC TEST TextListener DeleteForward length: %{public}d", length);
         }
-        void sendKeyEventFromInputMethod(KeyEvent event)
+        void SendKeyEventFromInputMethod(const KeyEvent& event)
         {
             IMSA_HILOGI("IMC TEST TextListener sendKeyEventFromInputMethod");
         }
-        void sendKeyboardStatus(KeyboardStatus status)
+        void SendKeyboardInfo(const KeyboardInfo& info)
         {
-            IMSA_HILOGI("IMC TEST TextListener sendKeyboardStatus");
+            IMSA_HILOGI("IMC TEST TextListener SendKeyboardInfo");
         }
     };
     class InputMethodControllerTest : public testing::Test {
