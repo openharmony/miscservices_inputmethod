@@ -64,7 +64,7 @@ using namespace MessageID;
         mInputDataChannel = new InputDataChannelStub();
         mInputDataChannel->SetHandler(msgHandler);
 
-        workThreadHandler = std::thread([this] {WorkThread();});
+        workThreadHandler = std::thread([this]{WorkThread();});
         mAttribute.SetInputPattern(InputAttribute::PATTERN_TEXT);
 
         textListener = nullptr;

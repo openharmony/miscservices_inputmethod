@@ -32,7 +32,6 @@ namespace MiscServices {
     InputMethodAbility::InputMethodAbility() : stop_(false)
     {
         writeInputChannel = nullptr;
-        editorAttribute = nullptr;
         Initialize();
         OnConnect();
     }
@@ -90,9 +89,8 @@ namespace MiscServices {
         sptr<IInputMethodCore> stub2 = stub;
         if (mImms != nullptr) {
             mImms->setInputMethodCore(stub2);
-        } else {
-            IMSA_HILOGI("InputMethodAbility::OnConnect() mImms is nullptr");
         }
+        IMSA_HILOGI("InputMethodAbility::OnConnect() mImms is nullptr");
         return nullptr;
     }
 

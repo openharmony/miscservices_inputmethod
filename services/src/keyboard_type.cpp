@@ -106,10 +106,11 @@ namespace MiscServices {
     {
         mId = typeId;
         if (typeId != ID_NONE) {
-            mHashCode = typeId;
+          mHashCode = typeId;
         } else {
-            mHashCode = ID_NONE;
+          mHashCode = ID_NONE;
         }
+
     }
 
     void KeyboardType::setLabelId(int32_t labelId)

@@ -58,7 +58,6 @@ namespace MiscServices {
         std::vector<InputMethodProperty*> inputMethodProperties; // a vector to save all IME installed for this user
         std::u16string currentImeId; // the id of the default input method engine.
         InputMethodSetting inputMethodSetting; // the object to manage the setting data for this user
-        int COMMON_COUNT_ONE_HUNDRED_THOUSAND = 100000;
 
         PerUserSetting(const PerUserSetting&);
         PerUserSetting& operator =(const PerUserSetting&);
