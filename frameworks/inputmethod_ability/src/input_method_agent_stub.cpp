@@ -24,7 +24,6 @@ namespace MiscServices {
 
     InputMethodAgentStub::InputMethodAgentStub()
     {
-        msgHandler_ = nullptr;
     }
 
     InputMethodAgentStub::~InputMethodAgentStub()

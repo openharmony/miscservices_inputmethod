@@ -58,7 +58,7 @@ namespace MiscServices {
         }
 
         std::map<int32_t, PerUserSession*>::const_iterator it;
-        for (it = userSessions.cbegin(); it != userSessions.cend(); ) {
+        for (it = userSessions.cbegin(); it != userSessions.cend();) {
             PerUserSession *session = it->second;
             it = userSessions.erase(it);
             delete session;
@@ -66,7 +66,7 @@ namespace MiscServices {
         }
         userSessions.clear();
         std::map<int32_t, PerUserSetting*>::const_iterator it1;
-        for (it1 = userSettings.cbegin(); it1 != userSettings.cend(); ) {
+        for (it1 = userSettings.cbegin(); it1 != userSettings.cend();) {
             PerUserSetting *setting = it1->second;
             it1 = userSettings.erase(it1);
             delete setting;
@@ -74,7 +74,7 @@ namespace MiscServices {
         }
         userSettings.clear();
         std::map<int32_t, MessageHandler*>::const_iterator it2;
-        for (it2 = msgHandlers.cbegin(); it2 != msgHandlers.cend(); ) {
+        for (it2 = msgHandlers.cbegin(); it2 != msgHandlers.cend();) {
             MessageHandler *handler = it2->second;
             it2 = msgHandlers.erase(it2);
             delete handler;
@@ -582,7 +582,7 @@ namespace MiscServices {
         std::map<int32_t, MessageHandler*>::iterator it = msgHandlers.find(userId);
         if (it != msgHandlers.end()) {
             MessageHandler *handler = it->second;
-            Message *destMsg = new Message(MSG_ID_USER_LOCK, nullptr);
+            Message *destMsg = new Message(MSG_ID_USER_LOCK , nullptr);
             if (destMsg != nullptr) {
                 handler->SendMessage(destMsg);
                 PerUserSession *userSession = GetUserSession(userId);
