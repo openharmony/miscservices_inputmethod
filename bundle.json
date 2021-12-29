@@ -1,0 +1,59 @@
+{
+    "name": "@ohos/miscservices_inputmethod",
+    "version": "",
+    "description": "管理系统已安装的输入法，支持控件拉起或隐藏输入法，支持三方输入法应用开发。",
+    "homePage": "https://gitee.com/openharmony",
+    "license": "Apache V2",
+    "repository": "https://gitee.com/openharmony/miscservices_inputmethod",
+    "domain": "os",
+    "language": "",
+    "publishAs": "code-segment",
+    "private": false,
+    "scripts": {},
+    "tags": [
+        "base"
+    ],
+    "keywords": [
+        "miscservices",
+        "inputmethod"
+    ],
+    "envs": [],
+    "dirs": [],
+    "author": {
+        "name": "",
+        "email": "",
+        "url": ""
+    },
+    "contributors": [
+        {
+            "name": "",
+            "email": "",
+            "url": ""
+        }
+    ],
+    "segment": {
+        "destPath": "base/miscservices/inputmethod"
+    },
+    "component": {
+        "name": "miscservices_inputmethod",
+        "subsystem": "miscservices",
+        "syscap": [
+            "SystemCapability.MiscServices.InputMethod"
+        ],
+        "features": [],
+        "adapted_system_type": [
+            "standard"
+        ],
+        "rom": "",
+        "ram": "",
+        "deps": {
+            "components": [],
+            "third_party": []
+        },
+        "build": {
+            "sub_component": [],
+            "inner_kits": [],
+            "test": []
+        }
+    }
+}
