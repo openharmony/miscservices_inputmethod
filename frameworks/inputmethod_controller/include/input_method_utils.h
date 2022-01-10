@@ -41,6 +41,15 @@ namespace MiscServices {
         URL,
         VISIBLE_PASSWORD,
     };
+
+    enum class Direction {
+        NONE = 0,
+        UP = 1,
+        DOWN,
+        LEFT,
+        RIGHT,
+    };
+
     class Configuration {
     public:
         EnterKeyType GetEnterKeyType() const

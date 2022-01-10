@@ -64,6 +64,10 @@ namespace MiscServices {
         {
             IMSA_HILOGI("IMC TEST TextListener SendKeyboardInfo");
         }
+        void MoveCursor(const Direction direction)
+        {
+            IMSA_HILOGI("IMC TEST TextListener Direction");
+        }
     };
     class InputMethodControllerTest : public testing::Test {
     public:
