@@ -40,6 +40,7 @@ namespace MiscServices {
         virtual void SendKeyEventFromInputMethod(const KeyEvent& event) = 0;
         virtual void SendKeyboardInfo(const KeyboardInfo& info) = 0;
         virtual void SetKeyboardStatus(bool status) = 0;
+        virtual void MoveCursor(const Direction direction) = 0;
     };
 
     class ImsaDeathRecipient : public IRemoteObject::DeathRecipient {
