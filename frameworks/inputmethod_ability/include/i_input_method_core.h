@@ -38,6 +38,8 @@ namespace MiscServices {
             STOP_INPUT,
             SHOW_KEYBOARD,
             HIDE_KEYBOARD,
+            ON_CURSOR_UPDATE,
+            ON_SELECT_TEXT_CHANGE,
             SET_KEYBOARD_TYPE,
             GET_KEYBOARD_WINDOW_HEIGHT,
         };

@@ -12,13 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <uv.h>
 #include "event_target.h"
 
-#include "securec.h"
-
+#include <uv.h>
 #include "utils/log.h"
 #include "input_method_ability.h"
+#include "securec.h"
+#include "string_ex.h"
 #define LISTENER_TYPTE_MAX_LENGTH 64
 namespace OHOS {
 namespace MiscServices {
@@ -38,6 +38,203 @@ namespace MiscServices {
         const char *type;
         Event *event;
     };
+
+    NapiKeyEvent::NapiKeyEvent(napi_env env, int32_t key, int32_t status)
+    {
+        keyEev = env;
+        key_ = key;
+        status_ = status;
+    }
+
+    NapiKeyEvent::~NapiKeyEvent()
+    {
+    }
+
+    napi_value NapiKeyEvent::ToJsObject()
+    {
+        napi_value object = nullptr;
+        napi_status status = napi_generic_failure;
+
+        status = napi_create_object(keyEev, &object);
+        if (status != napi_ok) {
+            napi_throw_type_error(keyEev, nullptr,
+                "NapiKeyEvent Throw Error:ToJsObject create object failed");
+            return nullptr;
+        }
+
+        napi_value intVal;
+
+        napi_create_int32(keyEev, key_, &intVal);
+        status = napi_set_named_property(keyEev, object, "keyCode", intVal);
+        if (status != napi_ok) {
+            napi_throw_type_error(keyEev, nullptr,
+                "NapiKeyEvent Throw Error:ToJsObject set named property failed");
+            return nullptr;
+        }
+
+        napi_create_int32(keyEev, status_, &intVal);
+        status = napi_set_named_property(keyEev, object, "keyAction", intVal);
+        if (status != napi_ok) {
+            napi_throw_type_error(keyEev, nullptr,
+                "NapiKeyEvent Throw Error:ToJsObject set named property failed");
+            return nullptr;
+        }
+
+        return object;
+    }
+
+    NapiCursorChange::NapiCursorChange(napi_env env, int32_t px, int32_t py, int32_t height)
+    {
+        env_ = env;
+        px_ = px;
+        py_ = py;
+        height_ = height;
+    }
+
+    NapiCursorChange::~NapiCursorChange()
+    {
+    }
+
+    napi_value NapiCursorChange::ToJsObject()
+    {
+        napi_value object = nullptr;
+        napi_status status = napi_generic_failure;
+
+        status = napi_create_object(env_, &object);
+        if (status != napi_ok) {
+            napi_throw_type_error(env_, nullptr,
+                "NapiCursorChange Throw Error:ToJsObject create object failed");
+            return nullptr;
+        }
+
+        napi_value intVal;
+
+        napi_create_int32(env_, px_, &intVal);
+        status = napi_set_named_property(env_, object, "x", intVal);
+        if (status != napi_ok) {
+            napi_throw_type_error(env_, nullptr,
+                "NapiCursorChange Throw Error:ToJsObject set named property failed");
+            return nullptr;
+        }
+
+        napi_create_int32(env_, py_, &intVal);
+        status = napi_set_named_property(env_, object, "y", intVal);
+        if (status != napi_ok) {
+            napi_throw_type_error(env_, nullptr,
+                "NapiCursorChange Throw Error:ToJsObject set named property failed");
+            return nullptr;
+        }
+
+        napi_create_int32(env_, height_, &intVal);
+        status = napi_set_named_property(env_, object, "height", intVal);
+        if (status != napi_ok) {
+            napi_throw_type_error(env_, nullptr,
+                "NapiCursorChange Throw Error:ToJsObject set named property failed");
+            return nullptr;
+        }
+
+        return object;
+    }
+
+    NapiSelectionChange::NapiSelectionChange(napi_env env, int32_t oldBegin, int32_t oldEnd,
+                                             int32_t newBegin, int32_t newEnd)
+    {
+        env_ = env;
+        oldBegin_ = oldBegin;
+        oldEnd_ = oldEnd;
+        newBegin_ = newBegin;
+        newEnd_ = newEnd;
+    }
+
+    NapiSelectionChange::~NapiSelectionChange()
+    {
+    }
+
+    napi_value NapiSelectionChange::ToJsObject()
+    {
+        napi_value object = nullptr;
+        napi_status status = napi_generic_failure;
+
+        status = napi_create_object(env_, &object);
+        if (status != napi_ok) {
+            napi_throw_type_error(env_, nullptr,
+                "NapiSelectionChange Throw Error:ToJsObject create object failed");
+            return nullptr;
+        }
+
+        napi_value intVal;
+
+        napi_create_int32(env_, oldBegin_, &intVal);
+        status = napi_set_named_property(env_, object, "oldBegin", intVal);
+        if (status != napi_ok) {
+            napi_throw_type_error(env_, nullptr,
+                "NapiSelectionChange Throw Error:ToJsObject set named property failed");
+            return nullptr;
+        }
+
+        napi_create_int32(env_, oldEnd_, &intVal);
+        status = napi_set_named_property(env_, object, "oldEnd", intVal);
+        if (status != napi_ok) {
+            napi_throw_type_error(env_, nullptr,
+                "NapiSelectionChange Throw Error:ToJsObject set named property failed");
+            return nullptr;
+        }
+
+        napi_create_int32(env_, newBegin_, &intVal);
+        status = napi_set_named_property(env_, object, "newBegin", intVal);
+        if (status != napi_ok) {
+            napi_throw_type_error(env_, nullptr,
+                "NapiCursorChange Throw Error:ToJsObject set named property failed");
+            return nullptr;
+        }
+
+        napi_create_int32(env_, newEnd_, &intVal);
+        status = napi_set_named_property(env_, object, "newEnd", intVal);
+        if (status != napi_ok) {
+            napi_throw_type_error(env_, nullptr,
+                "NapiCursorChange Throw Error:ToJsObject set named property failed");
+            return nullptr;
+        }
+
+        return object;
+    }
+
+    NapiTextChange::NapiTextChange(napi_env env, std::u16string text)
+    {
+        env_ = env;
+        text_ = text;
+    }
+
+    NapiTextChange::~NapiTextChange()
+    {
+    }
+
+    napi_value NapiTextChange::ToJsObject()
+    {
+        napi_value object = nullptr;
+        napi_status status = napi_generic_failure;
+
+        status = napi_create_object(env_, &object);
+        if (status != napi_ok) {
+            napi_throw_type_error(env_, nullptr,
+                "NapiTextChange Throw Error:ToJsObject create object failed");
+            return nullptr;
+        }
+
+        napi_value intVal;
+
+        std::string outString = Str16ToStr8(text_.c_str());
+        napi_create_string_utf8(env_, outString.c_str(), NAPI_AUTO_LENGTH, &intVal);
+        status = napi_set_named_property(env_, object, "text", intVal);
+        if (status != napi_ok) {
+            napi_throw_type_error(env_, nullptr,
+                "NapiTextChange Throw Error:ToJsObject set named property failed");
+            return nullptr;
+        }
+
+        return object;
+    }
+
     EventTarget::EventTarget(napi_env env, napi_value thisVar)
     {
         IMSA_HILOGI("EventTarget::EventTarget");
@@ -202,13 +399,15 @@ namespace MiscServices {
 
                 napi_value thisVar = nullptr;
                 napi_get_reference_value(eventTargetCB->env, eventTargetCB->thisVarRef, &thisVar);
-                for (EventListener *eventListener = eventTargetCB->first; eventListener != nullptr; eventListener = eventListener->next) {
+                for (EventListener *eventListener = eventTargetCB->first; eventListener != nullptr;
+                    eventListener = eventListener->next) {
                     if (strcmp(eventListener->type, eventTargetCB->type) == 0) {
                         napi_value jsEvent = eventTargetCB->event ? eventTargetCB->event->ToJsObject() : nullptr;
                         napi_value handler = nullptr;
                         napi_value result = nullptr;
                         napi_get_reference_value(eventTargetCB->env, eventListener->handlerRef, &handler);
-                        napi_call_function(eventTargetCB->env, thisVar, handler, jsEvent ? 1 : 0, jsEvent ? &jsEvent : nullptr, &result);
+                        napi_call_function(eventTargetCB->env, thisVar, handler,
+                                jsEvent ? 1 : 0, jsEvent ? &jsEvent : nullptr, &result);
                         if (eventListener->isOnce) {
                             eventTargetCB->eventTarget->Off(eventTargetCB->type, handler);
                         }
@@ -225,6 +424,11 @@ namespace MiscServices {
             IMSA_HILOGI("EventTarget::Emit failed to execute libuv work queue");
             delete work;
         }
+    }
+
+    napi_env EventTarget::GetEnv()
+    {
+        return env_;
     }
 }
 }

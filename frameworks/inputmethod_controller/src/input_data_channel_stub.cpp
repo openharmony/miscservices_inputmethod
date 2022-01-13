@@ -14,6 +14,7 @@
  */
 
 #include "input_data_channel_stub.h"
+#include "string_ex.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -43,6 +44,11 @@ namespace MiscServices {
                 InsertText(text);
                 break;
             }
+            case DELETE_FORWARD: {
+                auto length = data.ReadInt32();
+                DeleteForward(length);
+                break;
+            }
             case DELETE_BACKWARD: {
                 auto length = data.ReadInt32();
                 DeleteBackward(length);
@@ -51,6 +57,28 @@ namespace MiscServices {
             case CLOSE: {
                 Close();
                 break;
+            }
+            case GET_TEXT_BEFORE_CURSOR: {
+                reply.WriteString16(GetTextBeforeCursor());
+                break;
+            }
+            case GET_TEXT_AFTER_CURSOR: {
+                reply.WriteString16(GetTextAfterCursor());
+                break;
+            }
+            case SEND_KEYBOARD_STATUS: {
+                auto status = data.ReadInt32();
+                SendKeyboardStatus(status);
+                break;
+            }
+            case SEND_FUNCTION_KEY: {
+                auto funcKey = data.ReadInt32();
+                SendFunctionKey(funcKey);
+                break;
+            }
+            case MOVE_CURSOR: {
+                auto keyCode = data.ReadInt32();
+                MoveCursor(keyCode);
             }
             default:
                 return IPCObjectStub::OnRemoteRequest(code, data, reply, option);
@@ -72,6 +100,20 @@ namespace MiscServices {
         return false;
     }
 
+    bool InputDataChannelStub::DeleteForward(int32_t length)
+    {
+        IMSA_HILOGI("InputDataChannelStub::DeleteForward");
+        if (msgHandler == nullptr) {
+            return false;
+        }
+        MessageParcel *parcel = new MessageParcel;
+        parcel->WriteInt32(length);
+        Message *msg = new Message(MessageID::MSG_ID_DELETE_FORWARD, parcel);
+        msgHandler->SendMessage(msg);
+
+        return true;
+    }
+
     bool InputDataChannelStub::DeleteBackward(int32_t length)
     {
         IMSA_HILOGI("InputDataChannelStub::DeleteBackward");
@@ -87,6 +129,51 @@ namespace MiscServices {
 
     void InputDataChannelStub::Close()
     {
+    }
+
+    std::u16string InputDataChannelStub::GetTextBeforeCursor()
+    {
+        IMSA_HILOGI("InputDataChannelStub::GetTextBeforeCursor");
+        return InputMethodController::GetInstance()->GetTextBeforeCursor();
+    }
+
+    std::u16string InputDataChannelStub::GetTextAfterCursor()
+    {
+        IMSA_HILOGI("InputDataChannelStub::GetTextAfterCursor");
+        return InputMethodController::GetInstance()->GetTextAfterCursor();
+    }
+
+    void InputDataChannelStub::SendKeyboardStatus(int32_t status)
+    {
+        IMSA_HILOGI("InputDataChannelStub::SendKeyboardStatus");
+        if (msgHandler != nullptr) {
+            MessageParcel *parcel = new MessageParcel;
+            parcel->WriteInt32(status);
+            Message *msg = new Message(MessageID::MSG_ID_SEND_KEYBOARD_STATUS, parcel);
+            msgHandler->SendMessage(msg);
+        }
+    }
+
+    void InputDataChannelStub::SendFunctionKey(int32_t funcKey)
+    {
+        IMSA_HILOGI("InputDataChannelStub::SendFunctionKey");
+        if (msgHandler != nullptr) {
+            MessageParcel *parcel = new MessageParcel;
+            parcel->WriteInt32(funcKey);
+            Message *msg = new Message(MessageID::MSG_ID_SEND_FUNCTION_KEY, parcel);
+            msgHandler->SendMessage(msg);
+        }
+    }
+
+    void InputDataChannelStub::MoveCursor(int32_t keyCode)
+    {
+        IMSA_HILOGI("InputDataChannelStub::MoveCursor");
+        if (msgHandler != nullptr) {
+            MessageParcel *parcel = new MessageParcel;
+            parcel->WriteInt32(keyCode);
+            Message *msg = new Message(MessageID::MSG_ID_MOVE_CURSOR, parcel);
+            msgHandler->SendMessage(msg);
+        }
     }
 
     void InputDataChannelStub::SetHandler(MessageHandler *handler)

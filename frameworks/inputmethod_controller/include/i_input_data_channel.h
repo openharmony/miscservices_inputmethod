@@ -18,6 +18,7 @@
 #include <errors.h>
 #include "iremote_broker.h"
 #include "global.h"
+#include "input_method_utils.h"
 
 /**
  * brief Definition of interface IInputDataChannel
@@ -29,15 +30,27 @@ namespace MiscServices {
     public:
         enum {
             INSERT_TEXT = 0,
+            DELETE_FORWARD,
             DELETE_BACKWARD,
             CLOSE,
+            GET_TEXT_BEFORE_CURSOR,
+            GET_TEXT_AFTER_CURSOR,
+            SEND_KEYBOARD_STATUS,
+            SEND_FUNCTION_KEY,
+            MOVE_CURSOR,
         };
 
         DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.IInputDataChannel");
 
         virtual bool InsertText(const std::u16string& text) = 0;
+        virtual bool DeleteForward(int32_t length) = 0;
         virtual bool DeleteBackward(int32_t length) = 0;
         virtual void Close() = 0;
+        virtual std::u16string GetTextBeforeCursor() = 0;
+        virtual std::u16string GetTextAfterCursor() = 0;
+        virtual void SendKeyboardStatus(int32_t status) = 0;
+        virtual void SendFunctionKey(int32_t funcKey) = 0;
+        virtual void MoveCursor(int32_t keyCode) = 0;
     };
 }
 }

@@ -39,5 +39,42 @@ namespace MiscServices {
         auto ret = Remote()->SendRequest(DISPATCH_KEY, data, reply, option);
         return ret;
     }
+
+    void InputMethodAgentProxy::OnCursorUpdate(int32_t positionX, int32_t positionY, int32_t height)
+    {
+        IMSA_HILOGI("InputMethodAgentProxy::OnCursorUpdate");
+        MessageParcel data, reply;
+        MessageOption option;
+        if (!data.WriteInterfaceToken(GetDescriptor())) {
+            IMSA_HILOGI("InputMethodAgentProxy::OnCursorUpdate descriptor is not match");
+            return;
+        }
+
+        data.WriteInt32(positionX);
+        data.WriteInt32(positionY);
+        data.WriteInt32(height);
+
+        Remote()->SendRequest(ON_CURSOR_UPDATE, data, reply, option);
+    }
+
+    void InputMethodAgentProxy::OnSelectionChange(std::u16string text, int32_t oldBegin, int32_t oldEnd,
+                                                  int32_t newBegin, int32_t newEnd)
+    {
+        IMSA_HILOGI("InputMethodAgentProxy::OnSelectionChange");
+        MessageParcel data, reply;
+        MessageOption option;
+        if (!data.WriteInterfaceToken(GetDescriptor())) {
+            IMSA_HILOGI("InputMethodAgentProxy::OnSelectionChange descriptor is not match");
+            return;
+        }
+
+        data.WriteString16(text);
+        data.WriteInt32(oldBegin);
+        data.WriteInt32(oldEnd);
+        data.WriteInt32(newBegin);
+        data.WriteInt32(newEnd);
+
+        Remote()->SendRequest(ON_SELECTION_CHANGE, data, reply, option);
+    }
 }
 }

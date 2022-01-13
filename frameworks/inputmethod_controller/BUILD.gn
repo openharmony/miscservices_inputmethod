@@ -26,9 +26,10 @@ config("inputmethod_client_native_public_config") {
   include_dirs = [
     "//base/miscservices/inputmethod/frameworks/inputmethod_controller/include",
     "//base/miscservices/inputmethod/frameworks/inputmethod_ability/include",
-    "//foundation/communication/ipc/interfaces/innerkits/ipc_core/include",
-    "//base/hiviewdfx/hilog/interfaces/native/innerkits/include",
     "//base/miscservices/inputmethod/services/include",
+    "//base/hiviewdfx/hilog/interfaces/native/innerkits/include",
+    "//foundation/communication/ipc/interfaces/innerkits/ipc_core/include",
+    "//foundation/multimodalinput/input/interfaces/native/innerkits/event/include",
     "//utils/native/base/include",
   ]
 }
@@ -42,15 +43,24 @@ ohos_shared_library("inputmethod_client") {
     "src/input_method_controller.cpp",
     "src/input_method_system_ability_proxy.cpp",
     "src/input_method_utils.cpp",
+
+    "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_agent_proxy.cpp",
+
+    "${inputmethod_path}/services/src/input_channel.cpp",
+    "${inputmethod_path}/services/src/global.cpp",
+    "${inputmethod_path}/services/src/message_handler.cpp",
+    "${inputmethod_path}/services/src/keyboard_type.cpp",
+    "${inputmethod_path}/services/src/input_method_property.cpp",
+    "${inputmethod_path}/services/src/message.cpp",
+    "${inputmethod_path}/services/src/input_attribute.cpp",
   ]
 
   deps = [
-    "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
-    "//base/miscservices/inputmethod/services:inputmethod_service",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_single:ipc_single",
     "//foundation/distributedschedule/safwk/interfaces/innerkits/safwk:system_ability_fwk",
     "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
+    "//foundation/multimodalinput/input/frameworks/proxy:libmmi-common",
     "//utils/native/base:utils",
   ]
 
