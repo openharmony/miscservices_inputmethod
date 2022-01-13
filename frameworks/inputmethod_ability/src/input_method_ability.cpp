@@ -13,15 +13,17 @@
  * limitations under the License.
  */
 #include "input_method_ability.h"
-#include "input_method_core_proxy.h"
-#include "input_method_core_stub.h"
+#include "string_ex.h"
 #include "input_method_agent_proxy.h"
 #include "input_method_agent_stub.h"
 #include "message_parcel.h"
 #include "event_target.h"
-#include "iservice_registry.h"
 #include "system_ability_definition.h"
 #include "input_data_channel_proxy.h"
+#include "input_method_utils.h"
+#include "iservice_registry.h"
+#include "input_method_core_proxy.h"
+#include "input_method_core_stub.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -89,8 +91,9 @@ namespace MiscServices {
         sptr<IInputMethodCore> stub2 = stub;
         if (mImms != nullptr) {
             mImms->setInputMethodCore(stub2);
+        } else {
+            IMSA_HILOGI("InputMethodAbility::OnConnect() mImms is nullptr");
         }
-        IMSA_HILOGI("InputMethodAbility::OnConnect() mImms is nullptr");
         return nullptr;
     }
 
@@ -144,7 +147,14 @@ namespace MiscServices {
                     DispatchKey(msg);
                     break;
                 }
-
+                case MSG_ID_ON_CURSOR_UPDATE: {
+                    OnCursorUpdate(msg);
+                    break;
+                }
+                case MSG_ID_ON_SELECTION_CHANGE: {
+                    OnSelectionChange(msg);
+                    break;
+                }
                 default: {
                     break;
                 }
@@ -223,7 +233,45 @@ namespace MiscServices {
         int32_t key = data->ReadInt32();
         int32_t status = data->ReadInt32();
         IMSA_HILOGI("InputMethodAbility::DispatchKey: key = %{public}d, status = %{public}d", key, status);
+
+        napi_env env = eventTarget_->GetEnv();
+        MiscServices::NapiKeyEvent *napiKeyEvent = new MiscServices::NapiKeyEvent(env, key, status);
+        eventTarget_->Emit(eventTarget_, "keyDown", napiKeyEvent);
         return true;
+    }
+ 
+    void InputMethodAbility::OnCursorUpdate(Message *msg)
+    {
+        IMSA_HILOGI("InputMethodAbility::OnCursorUpdate");
+        MessageParcel *data = msg->msgContent_;
+        int32_t positionX = data->ReadInt32();
+        int32_t positionY = data->ReadInt32();
+        int32_t height = data->ReadInt32();
+
+        napi_env env = eventTarget_->GetEnv();
+        MiscServices::NapiCursorChange *napiCursorChange = new MiscServices::NapiCursorChange(env, positionX,
+            positionY, height);
+        eventTarget_->Emit(eventTarget_, "cursorContextChange", napiCursorChange);
+    }
+
+    void InputMethodAbility::OnSelectionChange(Message *msg)
+    {
+        IMSA_HILOGI("InputMethodAbility::OnSelectionChange");
+        MessageParcel *data = msg->msgContent_;
+        const std::u16string text = data->ReadString16();
+        int32_t oldBegin = data->ReadInt32();
+        int32_t oldEnd = data->ReadInt32();
+        int32_t newBegin = data->ReadInt32();
+        int32_t newEnd = data->ReadInt32();
+
+        napi_env env = eventTarget_->GetEnv();
+
+        MiscServices::NapiTextChange *napiTextChange = new MiscServices::NapiTextChange(env, text);
+        eventTarget_->Emit(eventTarget_, "textChange", napiTextChange);
+
+        MiscServices::NapiSelectionChange *napiSelectionChange = new MiscServices::NapiSelectionChange(env, oldBegin,
+            oldEnd, newBegin, newEnd);
+        eventTarget_->Emit(eventTarget_, "selectionChange", napiSelectionChange);
     }
 
     void InputMethodAbility::CreateInputMethodAgent(bool supportPhysicalKbd)
@@ -243,12 +291,18 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodAbility::ShowInputWindow");
         eventTarget_->Emit(eventTarget_, "keyboardShow", nullptr);
+        if (inputDataChannel != nullptr) {
+            inputDataChannel->SendKeyboardStatus(KEYBOARD_SHOW);
+        }
     }
 
     void InputMethodAbility::DissmissInputWindow()
     {
         IMSA_HILOGI("InputMethodAbility::DissmissInputWindow");
         eventTarget_->Emit(eventTarget_, "keyboardHide", nullptr);
+        if (inputDataChannel != nullptr) {
+            inputDataChannel->SendKeyboardStatus(KEYBOARD_HIDE);
+        }
     }
 
     bool InputMethodAbility::InsertText(const std::string text)
@@ -262,6 +316,16 @@ namespace MiscServices {
         return inputDataChannel->InsertText(Utils::to_utf16(text));
     }
 
+    void InputMethodAbility::DeleteForward(int32_t length)
+    {
+        IMSA_HILOGI("InputMethodAbility::DeleteForward");
+        if (inputDataChannel == nullptr) {
+            IMSA_HILOGI("InputMethodAbility::DeleteForward inputDataChanel is nullptr");
+            return;
+        }
+        inputDataChannel->DeleteForward(length);
+    }
+
     void InputMethodAbility::DeleteBackward(int32_t length)
     {
         IMSA_HILOGI("InputMethodAbility::DeleteBackward");
@@ -272,10 +336,45 @@ namespace MiscServices {
         inputDataChannel->DeleteBackward(length);
     }
 
+    void InputMethodAbility::SendFunctionKey(int32_t funcKey)
+    {
+        IMSA_HILOGI("InputMethodAbility::SendFunctionKey");
+        if (inputDataChannel == nullptr) {
+            IMSA_HILOGI("InputMethodAbility::SendFunctionKey inputDataChanel is nullptr");
+            return;
+        }
+        inputDataChannel->SendFunctionKey(funcKey);
+    }
+
     void InputMethodAbility::HideKeyboardSelf()
     {
         IMSA_HILOGI("InputMethodAbility::HideKeyboardSelf");
         inputControlChannel->hideKeyboardSelf(1);
+    }
+
+    std::u16string InputMethodAbility::GetTextBeforeCursor()
+    {
+        IMSA_HILOGI("InputMethodAbility::GetTextBeforeCursor");
+        return inputDataChannel->GetTextBeforeCursor();
+    }
+
+    std::u16string InputMethodAbility::GetTextAfterCursor()
+    {
+        IMSA_HILOGI("InputMethodAbility::GetTextAfterCursor");
+        return inputDataChannel->GetTextAfterCursor();
+    }
+
+    void InputMethodAbility::MoveCursor(int32_t keyCode)
+    {
+        IMSA_HILOGI("InputMethodAbility::MoveCursor");
+
+        if (inputDataChannel == nullptr) {
+            IMSA_HILOGI("InputMethodAbility::MoveCursor inputDataChanel is nullptr");
+            return;
+        }
+
+        inputDataChannel->MoveCursor(keyCode);
+        return;
     }
 }
 }

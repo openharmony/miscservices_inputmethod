@@ -12,13 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "input_method_core_stub.h"
+
 #include <chrono>
 #include <cstdint>
 #include "message_handler.h"
 #include "i_input_data_channel.h"
-#include "input_method_core_stub.h"
 #include "input_channel.h"
-#include "i_input_method_proxy.h"
 #include "platform.h"
 #include "message_parcel.h"
 #include "input_control_channel_proxy.h"

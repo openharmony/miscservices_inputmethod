@@ -29,11 +29,16 @@ namespace MiscServices {
     public:
         enum {
             DISPATCH_KEY = FIRST_CALL_TRANSACTION,
+            ON_CURSOR_UPDATE,
+            ON_SELECTION_CHANGE,
         };
 
         DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.IInputMethodAgent");
 
         virtual int32_t DispatchKey(int32_t key, int32_t status) = 0;
+        virtual void OnCursorUpdate(int32_t positionX, int32_t positionY, int height) = 0;
+        virtual void OnSelectionChange(std::u16string text, int32_t oldBegin, int32_t oldEnd,
+                                       int32_t newBegin, int32_t newEnd) = 0;
     };
 }
 }

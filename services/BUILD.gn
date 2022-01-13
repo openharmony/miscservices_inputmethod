@@ -29,6 +29,7 @@ ohos_shared_library("inputmethod_service") {
     "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_ability.cpp",
     "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_agent_proxy.cpp",
     "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_agent_stub.cpp",
+    "${inputmethod_path}/frameworks/inputmethod_ability/src/event_target.cpp",
     "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_core_proxy.cpp",
     "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_core_stub.cpp",
     "${inputmethod_path}/frameworks/inputmethod_controller/src/input_client_proxy.cpp",

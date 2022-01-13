@@ -60,13 +60,13 @@ namespace MiscServices {
         {
             IMSA_HILOGI("IMC TEST TextListener sendKeyEventFromInputMethod");
         }
-        void SendKeyboardInfo(const KeyboardInfo& info)
+        void SendKeyboardInfo(const KeyboardInfo& status)
         {
             IMSA_HILOGI("IMC TEST TextListener SendKeyboardInfo");
         }
         void MoveCursor(const Direction direction)
         {
-            IMSA_HILOGI("IMC TEST TextListener Direction");
+            IMSA_HILOGI("IMC TEST TextListener MoveCursor");
         }
     };
     class InputMethodControllerTest : public testing::Test {

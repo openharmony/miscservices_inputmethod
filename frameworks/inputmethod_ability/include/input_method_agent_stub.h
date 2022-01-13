@@ -33,6 +33,9 @@ namespace MiscServices {
                                         MessageParcel &reply,
                                         MessageOption &option) override;
         virtual int32_t DispatchKey(int32_t key, int32_t status) override;
+        virtual void OnCursorUpdate(int32_t positionX, int32_t positionY, int height) override;
+        virtual void OnSelectionChange(std::u16string text, int32_t oldBegin, int32_t oldEnd,
+                                       int32_t newBegin, int32_t newEnd) override;
         void SetMessageHandler(MessageHandler *msgHandler);
     private:
         MessageHandler *msgHandler_;
