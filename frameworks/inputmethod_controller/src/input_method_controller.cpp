@@ -354,7 +354,8 @@ using namespace MessageID;
             IMSA_HILOGI("InputMethodController::dispatchKeyEvent mAgent is nullptr");
             return false;
         }
-        IMSA_HILOGI("InputMethodController::dispatchKeyEvent (%{public}d, %{public}d)", keyEvent->GetKeyCode(), keyEvent->GetKeyAction());
+        IMSA_HILOGI("InputMethodController::dispatchKeyEvent (%{public}d, %{public}d)",
+            keyEvent->GetKeyCode(), keyEvent->GetKeyAction());
         mAgent->DispatchKey(keyEvent->GetKeyCode(), keyEvent->GetKeyAction());
         return true;
     }
