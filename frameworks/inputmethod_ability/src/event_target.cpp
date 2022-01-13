@@ -387,7 +387,7 @@ namespace MiscServices {
         work->data = (void *)eventTargetCB;
 
         int ret = uv_queue_work(loop, work, [](uv_work_t *work) {}, [](uv_work_t *work, int status) {
-            //Js Thread
+            // Js Thread
             if (work == nullptr) {
                 IMSA_HILOGI("EventTarget::Emit work == nullptr");
                 return;
@@ -407,7 +407,7 @@ namespace MiscServices {
                         napi_value result = nullptr;
                         napi_get_reference_value(eventTargetCB->env, eventListener->handlerRef, &handler);
                         napi_call_function(eventTargetCB->env, thisVar, handler,
-                                jsEvent ? 1 : 0, jsEvent ? &jsEvent : nullptr, &result);
+                            jsEvent ? 1 : 0, jsEvent ? &jsEvent : nullptr, &result);
                         if (eventListener->isOnce) {
                             eventTargetCB->eventTarget->Off(eventTargetCB->type, handler);
                         }
