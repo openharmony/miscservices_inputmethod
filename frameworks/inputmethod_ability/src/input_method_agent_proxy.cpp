@@ -19,7 +19,7 @@ namespace OHOS {
 namespace MiscServices {
     using namespace ErrorCode;
     InputMethodAgentProxy::InputMethodAgentProxy(const sptr<IRemoteObject> &object)
-    : IRemoteProxy<IInputMethodAgent>(object)
+        : IRemoteProxy<IInputMethodAgent>(object)
     {
     }
 
