@@ -161,7 +161,7 @@ namespace MiscServices {
         std::u16string key = InputMethodSetting::ENABLED_INPUT_METHODS_TAG;
         imSetting.SetValue(key, inputMethodSetting.GetValue(key));
 
-        int flag = imSetting.RemoveEnabledInputMethod(imeId);
+        bool flag = imSetting.RemoveEnabledInputMethod(imeId);
         if (flag == false) {
             IMSA_HILOGI("The package removed is not an enabled IME. [%d]\n", userId_);
             return ErrorCode::NO_ERROR;
