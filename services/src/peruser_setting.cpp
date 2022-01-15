@@ -161,7 +161,7 @@ namespace MiscServices {
         std::u16string key = InputMethodSetting::ENABLED_INPUT_METHODS_TAG;
         imSetting.SetValue(key, inputMethodSetting.GetValue(key));
 
-        int flag = imSetting.RemoveEnabledInputMethod(imeId);
+        bool flag = imSetting.RemoveEnabledInputMethod(imeId);
         if (flag == false) {
             IMSA_HILOGI("The package removed is not an enabled IME. [%d]\n", userId_);
             return ErrorCode::NO_ERROR;
@@ -290,7 +290,6 @@ namespace MiscServices {
         for (int i = 0; i < size; i++) {
             dprintf(fd, "  [%d] ImeId = %s\n", i, Utils::to_utf8(imeList[i]).c_str());
             std::vector<int> hashCodeList = inputMethodSetting.GetEnabledKeyboardTypes(imeList[i]);
-            dprintf(fd, "      Enabled keyboard count = %d, hashcode list : ", hashCodeList.size());
             for (int j = 0; j < (int)hashCodeList.size(); j++) {
                 dprintf(fd, "%d", hashCodeList[j]);
                 if (j < (int)hashCodeList.size()-1) {

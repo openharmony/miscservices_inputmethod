@@ -29,6 +29,52 @@ namespace MiscServices {
         virtual napi_value ToJsObject() = 0;
     };
 
+    class NapiKeyEvent : public Event {
+    public:
+        NapiKeyEvent(napi_env env, int32_t key, int32_t status);
+        ~NapiKeyEvent();
+        napi_value ToJsObject() override;
+    private:
+        napi_env keyEev;
+        int32_t key_;
+        int32_t status_;
+    };
+
+    class NapiCursorChange : public Event {
+    public:
+        NapiCursorChange(napi_env env, int32_t px, int32_t py, int32_t height);
+        ~NapiCursorChange();
+        napi_value ToJsObject() override;
+    private:
+        napi_env env_;
+        int32_t px_;
+        int32_t py_;
+        int32_t height_;
+    };
+
+    class NapiSelectionChange : public Event {
+    public:
+        NapiSelectionChange(napi_env env, int32_t oldBegin, int32_t oldEnd, int32_t newBegin, int32_t newEnd);
+        ~NapiSelectionChange();
+        napi_value ToJsObject() override;
+    private:
+        napi_env env_;
+        int32_t oldBegin_;
+        int32_t oldEnd_;
+        int32_t newBegin_;
+        int32_t newEnd_;
+    };
+
+    class NapiTextChange : public Event {
+    public:
+        NapiTextChange(napi_env env, std::u16string text);
+        ~NapiTextChange();
+        napi_value ToJsObject() override;
+    private:
+        napi_env env_;
+        std::u16string text_;
+    };
+
     class EventTarget : public RefBase {
     public:
         EventTarget(napi_env env, napi_value thisVar);
@@ -39,8 +85,9 @@ namespace MiscServices {
         virtual void Off(const char *type, napi_value handler);
         virtual void Off(const char *type);
         virtual void Emit(sptr<EventTarget> &eventTarget, const char *type, Event *event);
+        virtual napi_env GetEnv();
 
-    protected:
+    private:
         napi_env env_;
         napi_ref thisVarRef_;
         EventListener *first_;

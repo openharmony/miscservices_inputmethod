@@ -28,14 +28,28 @@ declare namespace inputMethodEngine {
   function on(type: 'keyboardHide', callback: () => void): void;
   function off(type: 'keyboardHide', callback: () => void): void;
 
-  function insertText(text: string, callback: AsyncCallback<boolean>): void;
-  function insertText(text: string): Promise<boolean>;
+  function InsertText(text: string, callback: AsyncCallback<boolean>): void;
+  function InsertText(text: string): Promise<boolean>;
+  
+  function DeleteForward(length: number, callback: () => void): void;
+  function DeleteForward(length: number): Promise<void>;
 
   function DeleteBackward(length: number, callback: () => void): void;
   function DeleteBackward(length: number): Promise<void>;
 
-  function HideKeyboardSelf(callback: callback: () => void): void;
+  function HideKeyboardSelf(callback: () => void): void;
   function HideKeyboardSelf(): Promise<void>;
+
+  function GetTextBeforeCursor(callback: () => string): void;
+  function GetTextBeforeCursor(): Promise<string>;
+
+  function GetTextAfterCursor(callback: () => string): void;
+  function GetTextAfterCursor(): Promise<string>;
+
+  function SendFunctionKey(callback: () => void): void;
+  function SendFunctionKey(): Promise<void>;
+
+  const FUNCTION_KEY_CONFIRM: number;
 }
 
 export default inputMethodEngine;

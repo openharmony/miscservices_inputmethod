@@ -27,6 +27,7 @@
 #include "message_handler.h"
 #include "iremote_object.h"
 #include "input_method_utils.h"
+#include "key_event.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -55,6 +56,8 @@ namespace MiscServices {
     public:
         static sptr<InputMethodController> GetInstance();
         void Attach(sptr<OnTextChangedListener> &listener);
+        std::u16string GetTextBeforeCursor();
+        std::u16string GetTextAfterCursor();
         void ShowTextInput();
         void HideTextInput();
         void Close();
@@ -62,6 +65,7 @@ namespace MiscServices {
         void OnCursorUpdate(CursorInfo cursorInfo);
         void OnSelectionChange(std::u16string text, int start, int end);
         void OnConfigurationChange(Configuration info);
+        bool dispatchKeyEvent(std::shared_ptr<MMI::KeyEvent> keyEvent);
     private:
         InputMethodController();
         ~InputMethodController();
@@ -83,8 +87,10 @@ namespace MiscServices {
         OnTextChangedListener *textListener;
         InputAttribute mAttribute;
         std::u16string mTextString;
-        int mSelectStart;
-        int mSelectEnd;
+        int mSelectOldBegin = 0;
+        int mSelectOldEnd = 0;
+        int mSelectNewBegin = 0;
+        int mSelectNewEnd = 0;
 
         static std::mutex instanceLock_;
         static sptr<InputMethodController> instance_;
