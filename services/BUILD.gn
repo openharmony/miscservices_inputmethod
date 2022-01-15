@@ -26,6 +26,7 @@ config("inputmethod_services_native_config") {
 
 ohos_shared_library("inputmethod_service") {
   sources = [
+    "${inputmethod_path}/frameworks/inputmethod_ability/src/event_target.cpp",
     "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_ability.cpp",
     "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_agent_proxy.cpp",
     "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_agent_stub.cpp",

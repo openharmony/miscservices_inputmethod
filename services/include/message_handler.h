@@ -58,11 +58,15 @@ namespace MessageID {
         MSG_ID_SHELL_COMMAND, // shell command
         MSG_ID_EXIT_SERVICE, // exit service
 
-        //the request from IMSA to IMC
+        // the request from IMSA to IMC
         MSG_ID_INSERT_CHAR,
+        MSG_ID_DELETE_FORWARD,
         MSG_ID_DELETE_BACKWARD,
         MSG_ID_CLOSE,
         MSG_ID_ON_INPUT_READY,
+        MSG_ID_SEND_KEYBOARD_STATUS,
+        MSG_ID_SEND_FUNCTION_KEY,
+        MSG_ID_MOVE_CURSOR,
 
         // the request from IMSA to IMA
         MSG_ID_SHOW_KEYBOARD,
@@ -73,6 +77,8 @@ namespace MessageID {
 
         // the request from IMC to IMA
         MSG_ID_DISPATCH_KEY, // dispatch key from PhysicalKbd
+        MSG_ID_ON_CURSOR_UPDATE,
+        MSG_ID_ON_SELECTION_CHANGE,
     };
 }
 

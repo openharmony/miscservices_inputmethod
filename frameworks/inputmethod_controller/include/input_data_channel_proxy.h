@@ -18,6 +18,7 @@
 
 #include "iremote_proxy.h"
 #include "i_input_data_channel.h"
+#include "input_method_utils.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -28,8 +29,14 @@ namespace MiscServices {
         DISALLOW_COPY_AND_MOVE(InputDataChannelProxy);
 
         bool InsertText(const std::u16string& text) override;
+        bool DeleteForward(int32_t length) override;
         bool DeleteBackward(int32_t length) override;
         void Close() override;
+        std::u16string GetTextBeforeCursor() override;
+        std::u16string GetTextAfterCursor() override;
+        void SendKeyboardStatus(int32_t status) override;
+        void SendFunctionKey(int32_t funcKey) override;
+        void MoveCursor(int32_t keyCode) override;
 
     private:
         static inline BrokerDelegator<InputDataChannelProxy> delegator_;

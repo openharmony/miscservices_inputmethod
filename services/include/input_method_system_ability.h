@@ -27,6 +27,7 @@
 
 namespace OHOS {
 namespace MiscServices {
+    class InputDataChannelStub;
     enum class ServiceRunningState {
         STATE_NOT_START,
         STATE_RUNNING

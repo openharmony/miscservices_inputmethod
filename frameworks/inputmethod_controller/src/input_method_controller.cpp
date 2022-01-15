@@ -109,11 +109,22 @@ using namespace MessageID;
                     }
                     break;
                 }
-                case MSG_ID_DELETE_BACKWARD: {
+
+                case MSG_ID_DELETE_FORWARD: {
+                    IMSA_HILOGI("InputMethodController::MSG_ID_DELETE_FORWARD");
                     MessageParcel *data = msg->msgContent_;
                     int32_t length = data->ReadInt32();
                     if (textListener != nullptr) {
                         textListener->DeleteForward(length);
+                    }
+                    break;
+                }
+                case MSG_ID_DELETE_BACKWARD: {
+                    IMSA_HILOGI("InputMethodController::MSG_ID_DELETE_BACKWARD");
+                    MessageParcel *data = msg->msgContent_;
+                    int32_t length = data->ReadInt32();
+                    if (textListener != nullptr) {
+                        textListener->DeleteBackward(length);
                     }
                     break;
                 }
@@ -147,6 +158,38 @@ using namespace MessageID;
                     IMSA_HILOGI("MSG_ID_EXIT_SERVICE : %{public}d", ret);
                     break;
                 }
+                case MSG_ID_SEND_KEYBOARD_STATUS: {
+                    MessageParcel *data = msg->msgContent_;
+                    int32_t ret = data->ReadInt32();
+                    IMSA_HILOGI("MSG_ID_SEND_KEYBOARD_STATUS : %{public}d", ret);
+                    KeyboardInfo *info = new KeyboardInfo();
+                    info->SetKeyboardStatus(ret);
+                    if (textListener != nullptr) {
+                        textListener->SendKeyboardInfo(*info);
+                    }
+                    break;
+                }
+                case MSG_ID_SEND_FUNCTION_KEY: {
+                    MessageParcel *data = msg->msgContent_;
+                    int32_t ret = data->ReadInt32();
+                    IMSA_HILOGI("MSG_ID_SEND_FUNCTION_KEY : %{public}d", ret);
+                    KeyboardInfo *info = new KeyboardInfo();
+                    info->SetFunctionKey(ret);
+                    if (textListener != nullptr) {
+                        textListener->SendKeyboardInfo(*info);
+                    }
+                    break;
+                }
+                case MSG_ID_MOVE_CURSOR: {
+                    MessageParcel *data = msg->msgContent_;
+                    int32_t ret = data->ReadInt32();
+                    IMSA_HILOGI("MSG_ID_MOVE_CURSOR : %{public}d", ret);
+                    if (textListener != nullptr) {
+                        Direction direction = static_cast<Direction>(ret);
+                        textListener->MoveCursor(direction);
+                    }
+                    break;
+                }
                 default: {
                     break;
                 }
@@ -159,7 +202,7 @@ using namespace MessageID;
     void InputMethodController::Attach(sptr<OnTextChangedListener> &listener)
     {
         PrepareInput(0, mClient, mInputDataChannel, mAttribute);
-        textListener=listener;
+        textListener = listener;
     }
 
     void InputMethodController::ShowTextInput()
@@ -177,6 +220,7 @@ using namespace MessageID;
     void InputMethodController::Close()
     {
         ReleaseInput(mClient);
+        textListener = nullptr;
     }
 
     void InputMethodController::PrepareInput(int32_t displayId, sptr<InputClientStub> &client,
@@ -255,20 +299,65 @@ using namespace MessageID;
 
     void InputMethodController::OnCursorUpdate(CursorInfo cursorInfo)
     {
-        IMSA_HILOGI("InputMethodController::OnCursorUpdate");
+        if (mAgent == nullptr) {
+            IMSA_HILOGI("InputMethodController::OnCursorUpdate mAgent is nullptr");
+            return;
+        }
+
+        mAgent->OnCursorUpdate(cursorInfo.left, cursorInfo.top, cursorInfo.height);
     }
 
     void InputMethodController::OnSelectionChange(std::u16string text, int start, int end)
     {
         IMSA_HILOGI("InputMethodController::OnSelectionChange");
         mTextString = text;
-        mSelectStart = start;
-        mSelectEnd = end;
+        mSelectOldBegin = mSelectNewBegin;
+        mSelectOldEnd = mSelectNewEnd;
+        mSelectNewBegin = start;
+        mSelectNewEnd = end;
+        if (mAgent == nullptr) {
+            IMSA_HILOGI("InputMethodController::OnSelectionChange mAgent is nullptr");
+            return;
+        }
+        mAgent->OnSelectionChange(mTextString, mSelectOldBegin, mSelectOldEnd, mSelectNewBegin, mSelectNewEnd);
     }
 
     void InputMethodController::OnConfigurationChange(Configuration info)
     {
         IMSA_HILOGI("InputMethodController::OnConfigurationChange");
+    }
+
+    std::u16string InputMethodController::GetTextBeforeCursor()
+    {
+        IMSA_HILOGI("InputMethodController::GetTextBeforeCursor");
+        if (!mTextString.empty()) {
+            return mTextString.substr(0, mSelectNewBegin);
+        }
+        return u"";
+    }
+
+    std::u16string InputMethodController::GetTextAfterCursor()
+    {
+        IMSA_HILOGI("InputMethodController::GetTextBeforeCursor");
+        if (!mTextString.empty()) {
+            if (mTextString.size() > mSelectNewEnd) {
+                return mTextString.substr(mSelectNewEnd);
+            }
+        }
+        return u"";
+    }
+
+    bool InputMethodController::dispatchKeyEvent(std::shared_ptr<MMI::KeyEvent> keyEvent)
+    {
+        IMSA_HILOGI("InputMethodController::dispatchKeyEvent");
+        if (mAgent == nullptr) {
+            IMSA_HILOGI("InputMethodController::dispatchKeyEvent mAgent is nullptr");
+            return false;
+        }
+        IMSA_HILOGI("InputMethodController::dispatchKeyEvent (%{public}d, %{public}d)",
+            keyEvent->GetKeyCode(), keyEvent->GetKeyAction());
+        mAgent->DispatchKey(keyEvent->GetKeyCode(), keyEvent->GetKeyAction());
+        return true;
     }
 }
 }

@@ -52,6 +52,24 @@ namespace MiscServices {
                 }
                 return result;
             }
+            case ON_CURSOR_UPDATE: {
+                int32_t positionX = data.ReadInt32();
+                int32_t positionY = data.ReadInt32();
+                int32_t height = data.ReadInt32();
+                OnCursorUpdate(positionX, positionY, height);
+                reply.WriteNoException();
+                return ErrorCode::NO_ERROR;
+            }
+            case ON_SELECTION_CHANGE: {
+                std::u16string text = data.ReadString16();
+                int32_t oldBegin = data.ReadInt32();
+                int32_t oldEnd = data.ReadInt32();
+                int32_t newBegin = data.ReadInt32();
+                int32_t newEnd = data.ReadInt32();
+                OnSelectionChange(text, oldBegin, oldEnd, newBegin, newEnd);
+                reply.WriteNoException();
+                return ErrorCode::NO_ERROR;
+            }
             default: {
                 return IRemoteStub::OnRemoteRequest(code, data, reply, option);
             }
@@ -71,6 +89,37 @@ namespace MiscServices {
         Message *message = new Message(MessageID::MSG_ID_DISPATCH_KEY, data);
         msgHandler_->SendMessage(message);
         return ErrorCode::NO_ERROR;
+    }
+ 
+    void InputMethodAgentStub::OnCursorUpdate(int32_t positionX, int32_t positionY, int height)
+    {
+        IMSA_HILOGI("InputMethodAgentStub::OnCursorUpdate");
+        if (msgHandler_ == nullptr) {
+            return;
+        }
+        MessageParcel *data = new MessageParcel();
+        data->WriteInt32(positionX);
+        data->WriteInt32(positionY);
+        data->WriteInt32(height);
+        Message *message = new Message(MessageID::MSG_ID_ON_CURSOR_UPDATE, data);
+        msgHandler_->SendMessage(message);
+    }
+
+    void InputMethodAgentStub::OnSelectionChange(std::u16string text, int32_t oldBegin, int32_t oldEnd,
+                                                 int32_t newBegin, int32_t newEnd)
+    {
+        IMSA_HILOGI("InputMethodAgentStub::OnSelectionChange");
+        if (msgHandler_ == nullptr) {
+            return;
+        }
+        MessageParcel *data = new MessageParcel();
+        data->WriteString16(text);
+        data->WriteInt32(oldBegin);
+        data->WriteInt32(oldEnd);
+        data->WriteInt32(newBegin);
+        data->WriteInt32(newEnd);
+        Message *message = new Message(MessageID::MSG_ID_ON_SELECTION_CHANGE, data);
+        msgHandler_->SendMessage(message);
     }
 
     void InputMethodAgentStub::SetMessageHandler(MessageHandler *msgHandler)

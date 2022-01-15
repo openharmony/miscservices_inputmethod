@@ -32,6 +32,7 @@ namespace MiscServices {
     };
 
     enum class TextInputType {
+        NONE = -1,
         TEXT = 0,
         MULTILINE,
         NUMBER,
@@ -61,6 +62,7 @@ namespace MiscServices {
         {
             enterKeyType = keyType;
         }
+
         TextInputType GetTextInputType() const
         {
             return textInputType;
@@ -93,7 +95,7 @@ namespace MiscServices {
     };
     enum class FunctionKey {
         NONE = 0,
-        CONFIRM,
+        CONFIRM
     };
     class KeyboardInfo {
     public:
@@ -116,7 +118,6 @@ namespace MiscServices {
         {
             functionKey = static_cast<FunctionKey>(key);
         }
-
     private:
         KeyboardStatus keyboardStatus = KeyboardStatus::NONE;
         FunctionKey functionKey = FunctionKey::NONE;

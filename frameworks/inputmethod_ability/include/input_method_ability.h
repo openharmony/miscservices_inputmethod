@@ -42,8 +42,13 @@ namespace MiscServices {
         sptr<IInputMethodCore> OnConnect();
         bool InsertText(const std::string text);
         void setEventTarget(sptr<EventTarget> &eventTarget);
+        void DeleteForward(int32_t length);
         void DeleteBackward(int32_t length);
         void HideKeyboardSelf();
+        std::u16string GetTextBeforeCursor();
+        std::u16string GetTextAfterCursor();
+        void SendFunctionKey(int32_t funcKey);
+        void MoveCursor(int32_t keyCode);
 
     private:
         std::thread workThreadHandler;
@@ -54,6 +59,8 @@ namespace MiscServices {
         sptr<IRemoteObject> startInputToken;
         InputChannel *writeInputChannel;
         bool stop_;
+        int32_t KEYBOARD_HIDE = 1;
+        int32_t KEYBOARD_SHOW = 2;
 
         // communicating with IMSA
         sptr<IInputControlChannel> inputControlChannel;
@@ -81,6 +88,8 @@ namespace MiscServices {
 
         // the message from IMC
         bool DispatchKey(Message *msg);
+        void OnCursorUpdate(Message *msg);
+        void OnSelectionChange(Message *msg);
 
         // control inputwindow
         void InitialInputWindow();
