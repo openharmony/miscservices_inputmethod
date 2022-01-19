@@ -97,6 +97,25 @@ namespace MiscServices {
         }
     }
 
+    void InputMethodSystemAbilityProxy::DispatchKey(MessageParcel& data)
+    {
+        IMSA_HILOGI("InputMethodSystemAbilityProxy::DispatchKey");
+        MessageParcel reply;
+        MessageOption option;
+
+        auto ret = Remote()->SendRequest(DISPATCH_KEY, data, reply, option);
+        if (ret != NO_ERROR) {
+            IMSA_HILOGI("InputMethodSystemAbilityProxy::DispatchKey SendRequest failed");
+            return;
+        }
+
+        ret = reply.ReadInt32();
+        if (ret != NO_ERROR) {
+            IMSA_HILOGI("InputMethodSystemAbilityProxy::DispatchKey reply failed");
+            return;
+        }
+    }
+
     int32_t InputMethodSystemAbilityProxy::setInputMethodCore(sptr<IInputMethodCore> &core)
     {
         IMSA_HILOGI("InputMethodSystemAbilityProxy::setInputMethodCore");

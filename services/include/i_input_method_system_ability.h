@@ -37,6 +37,7 @@ namespace MiscServices {
             RELEASE_INPUT,
             START_INPUT,
             STOP_INPUT,
+            DISPATCH_KEY,
             SET_INPUT_METHOD_CORE,
             GET_DISPLAY_MODE,
             GET_KEYBOARD_WINDOW_HEIGHT,
@@ -52,6 +53,7 @@ namespace MiscServices {
         virtual void releaseInput(MessageParcel& data) = 0;
         virtual void startInput(MessageParcel& data) = 0;
         virtual void stopInput(MessageParcel& data) = 0;
+        virtual void DispatchKey(MessageParcel& data) = 0;
         virtual int32_t setInputMethodCore(sptr<IInputMethodCore> &core) = 0;
 
         virtual int32_t getDisplayMode(int32_t retMode) = 0;

@@ -36,10 +36,9 @@ namespace MiscServices {
             INITIALIZE_INPUT = FIRST_CALL_TRANSACTION,
             START_INPUT,
             STOP_INPUT,
+            DISPATCH_KEY,
             SHOW_KEYBOARD,
             HIDE_KEYBOARD,
-            ON_CURSOR_UPDATE,
-            ON_SELECT_TEXT_CHANGE,
             SET_KEYBOARD_TYPE,
             GET_KEYBOARD_WINDOW_HEIGHT,
         };
