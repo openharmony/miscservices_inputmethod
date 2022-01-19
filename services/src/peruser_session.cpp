@@ -1355,7 +1355,7 @@ namespace MiscServices {
         if (localControlChannel[currentIndex]->GetAgentAndChannel(&imsAgent, &imsChannel) == true) {
             IMSA_HILOGI("PerUserSession::DispatchKey GetAgentAndChannel");
             sptr<InputMethodAgentProxy> agent = new InputMethodAgentProxy(imsAgent->AsObject().GetRefPtr());
-            agent->DispatchKey(keyCode,state);
+            agent->DispatchKey(keyCode, state);
         }
     }
 }
