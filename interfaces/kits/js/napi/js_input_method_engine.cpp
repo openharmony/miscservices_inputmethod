@@ -298,6 +298,7 @@ namespace MiscServices {
             DECLARE_NAPI_FUNCTION("InsertText", JS_InsertText),
             DECLARE_NAPI_FUNCTION("DeleteForward", JS_DeleteForward),
             DECLARE_NAPI_FUNCTION("DeleteBackward", JS_DeleteBackward),
+            DECLARE_NAPI_FUNCTION("MoveCursor", JS_MoveCursor),
             DECLARE_NAPI_FUNCTION("HideKeyboardSelf", JS_HideKeyboardSelf),
             DECLARE_NAPI_FUNCTION("GetTextBeforeCursor", JS_GetTextBeforeCursor),
             DECLARE_NAPI_FUNCTION("GetTextAfterCursor", JS_GetTextAfterCursor),

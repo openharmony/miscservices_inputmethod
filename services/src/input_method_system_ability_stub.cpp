@@ -61,6 +61,12 @@ namespace MiscServices {
                 reply.WriteInt32(NO_ERROR);
                 break;
             }
+            case DISPATCH_KEY: {
+                MessageParcel *msgParcel = (MessageParcel*) &data;
+                DispatchKey(*msgParcel);
+                reply.WriteInt32(NO_ERROR);
+                break;
+            }
             case SET_INPUT_METHOD_CORE: {
                 MessageParcel *msgParcel = (MessageParcel*) &data;
                 setInputMethodCoreFromHap(*msgParcel);
@@ -242,6 +248,21 @@ namespace MiscServices {
         parcel->WriteRemoteObject(data.ReadRemoteObject());
 
         Message *msg = new Message(MSG_ID_STOP_INPUT, parcel);
+        MessageHandler::Instance()->SendMessage(msg);
+    }
+
+    void InputMethodSystemAbilityStub::DispatchKey(MessageParcel& data)
+    {
+        IMSA_HILOGI("InputMethodSystemAbilityStub::DispatchKey");
+        int32_t uid = IPCSkeleton::GetCallingUid();
+        int32_t userId = getUserId(uid);
+        MessageParcel *parcel = new MessageParcel();
+        parcel->WriteInt32(userId);
+        parcel->WriteRemoteObject(data.ReadRemoteObject());
+        parcel->WriteInt32(data.ReadInt32());
+        parcel->WriteInt32(data.ReadInt32());
+
+        Message *msg = new Message(MSG_ID_DISPATCH_KEY, parcel);
         MessageHandler::Instance()->SendMessage(msg);
     }
 

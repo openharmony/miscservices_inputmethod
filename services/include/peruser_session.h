@@ -165,6 +165,7 @@ namespace MiscServices {
         void OnReleaseInput(Message *msg);
         void OnStartInput(Message *msg);
         void OnStopInput(Message *msg);
+        void DispatchKey(Message *msg);
         void OnClientDied(const wptr<IRemoteObject>& who);
         void OnImsDied(const wptr<IRemoteObject>& who);
         void OnHideKeyboardSelf(int flags);
