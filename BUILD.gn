@@ -18,7 +18,7 @@ import("//build/ohos.gni")
 group("inputmethod_native_packages") {
   if (is_standard_system) {
     deps = [
-      "etc/init:inputmethodservice.rc",
+      "etc/init:inputmethodservice.cfg",
       "frameworks/inputmethod_ability:inputmethod_ability",
       "frameworks/inputmethod_controller:inputmethod_client",
       "interfaces/kits/js/declaration:inputmethod",
