@@ -418,6 +418,7 @@ namespace MiscServices {
                 case MSG_ID_SET_DISPLAY_MODE:
                 case MSG_ID_CLIENT_DIED:
                 case MSG_ID_IMS_DIED:
+                case MSG_ID_DISPATCH_KEY:
                 case MSG_ID_RESTART_IMS: {
                     OnHandleMessage(msg);
                     break;

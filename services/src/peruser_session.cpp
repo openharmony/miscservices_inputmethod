@@ -152,6 +152,10 @@ namespace MiscServices {
                     OnStopInput(msg);
                     break;
                 }
+                case MSG_ID_DISPATCH_KEY: {
+                    DispatchKey(msg);
+                    break;
+                }
                 case MSG_ID_SET_INPUT_METHOD_CORE: {
                     onSetInputMethodCore(msg);
                     break;
@@ -1336,6 +1340,22 @@ namespace MiscServices {
             IMSA_HILOGE("PerUserSession::OnStopInput Aborted! %{public}s", ErrorCode::ToString(ret));
         } else {
             IMSA_HILOGI("PerUserSession::OnStopInput End...[%{public}d]\n", userId_);
+        }
+    }
+
+    void PerUserSession::DispatchKey(Message *msg)
+    {
+        IMSA_HILOGI("PerUserSession::DispatchKey");
+        MessageParcel *data = msg->msgContent_;
+
+        sptr<IRemoteObject> clientObject = data->ReadRemoteObject();
+        int32_t keyCode = data->ReadInt32();
+        int32_t state = data->ReadInt32();
+
+        if (localControlChannel[currentIndex]->GetAgentAndChannel(&imsAgent, &imsChannel) == true) {
+            IMSA_HILOGI("PerUserSession::DispatchKey GetAgentAndChannel");
+            sptr<InputMethodAgentProxy> agent = new InputMethodAgentProxy(imsAgent->AsObject().GetRefPtr());
+            agent->DispatchKey(keyCode, state);
         }
     }
 }

@@ -350,13 +350,18 @@ using namespace MessageID;
     bool InputMethodController::dispatchKeyEvent(std::shared_ptr<MMI::KeyEvent> keyEvent)
     {
         IMSA_HILOGI("InputMethodController::dispatchKeyEvent");
-        if (mAgent == nullptr) {
-            IMSA_HILOGI("InputMethodController::dispatchKeyEvent mAgent is nullptr");
+        if (mImms == nullptr) {
             return false;
         }
-        IMSA_HILOGI("InputMethodController::dispatchKeyEvent (%{public}d, %{public}d)",
-            keyEvent->GetKeyCode(), keyEvent->GetKeyAction());
-        mAgent->DispatchKey(keyEvent->GetKeyCode(), keyEvent->GetKeyAction());
+        MessageParcel data;
+        if (!(data.WriteInterfaceToken(mImms->GetDescriptor())
+            &&data.WriteRemoteObject(mClient->AsObject().GetRefPtr())
+            &&data.WriteInt32(keyEvent->GetKeyCode())
+            &&data.WriteInt32(keyEvent->GetKeyAction()))) {
+            return false;
+        }
+        mImms->DispatchKey(data);
+
         return true;
     }
 }

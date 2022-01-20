@@ -40,6 +40,7 @@ namespace MiscServices {
         virtual void releaseInput(MessageParcel& data) override;
         virtual void startInput(MessageParcel& data) override;
         virtual void stopInput(MessageParcel& data) override;
+        virtual void DispatchKey(MessageParcel& data) override;
         virtual int32_t setInputMethodCore(sptr<IInputMethodCore> &core) override;
 
         int32_t Prepare(int32_t displayId, sptr<InputClientStub> &client, sptr<InputDataChannelStub> &channel,
