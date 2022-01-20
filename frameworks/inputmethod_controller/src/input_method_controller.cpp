@@ -355,9 +355,9 @@ using namespace MessageID;
         }
         MessageParcel data;
         if (!(data.WriteInterfaceToken(mImms->GetDescriptor())
-            &&data.WriteRemoteObject(mClient->AsObject().GetRefPtr())
-            &&data.WriteInt32(keyEvent->GetKeyCode())
-            &&data.WriteInt32(keyEvent->GetKeyAction()))) {
+            && data.WriteRemoteObject(mClient->AsObject().GetRefPtr())
+            && data.WriteInt32(keyEvent->GetKeyCode())
+            && data.WriteInt32(keyEvent->GetKeyAction()))) {
             return false;
         }
         mImms->DispatchKey(data);
