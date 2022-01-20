@@ -222,7 +222,6 @@ namespace MiscServices {
         if (ret) {
             if (retAgent) {
                 *retAgent = agent;
-                agent = nullptr;
             }
             if (retChannel) {
                 *retChannel = channel;
