@@ -1193,6 +1193,7 @@ namespace MiscServices {
         int32_t result = ams->StartAbility(want);
         if (result != 0) {
             IMSA_HILOGE("PerUserSession::StartInputService fail. result = %{public}d", result);
+            return false;
         }
         return true;
     }
