@@ -350,6 +350,10 @@ using namespace MessageID;
     bool InputMethodController::dispatchKeyEvent(std::shared_ptr<MMI::KeyEvent> keyEvent)
     {
         IMSA_HILOGI("InputMethodController::dispatchKeyEvent");
+        if (textListener == nullptr) {
+            IMSA_HILOGI("InputMethodController::dispatchKeyEvent textListener is nullptr");
+            return false;
+        }
         if (mImms == nullptr) {
             return false;
         }
