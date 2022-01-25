@@ -172,9 +172,9 @@ namespace MiscServices {
     }
 
     void InputMethodSystemAbility::StartInputService() {
-        PerUserSession *session = GetUserSession(0);
+        PerUserSession *session = GetUserSession(MAIN_USER_ID);
 
-        std::map<int32_t, MessageHandler*>::const_iterator it = msgHandlers.find(0);
+        std::map<int32_t, MessageHandler*>::const_iterator it = msgHandlers.find(MAIN_USER_ID);
         if (it == msgHandlers.end()) {
             IMSA_HILOGE("InputMethodSystemAbility::StartInputService() need start handler");
             MessageHandler *handler = new MessageHandler();
@@ -182,7 +182,7 @@ namespace MiscServices {
                 IMSA_HILOGE("InputMethodSystemAbility::OnPrepareInput session is nullptr");
             }
             session->CreateWorkThread(*handler);
-            msgHandlers.insert(std::pair<int32_t, MessageHandler*>(0, handler));
+            msgHandlers.insert(std::pair<int32_t, MessageHandler*>(MAIN_USER_ID, handler));
         }
 
         if (!session->StartInputService()) {
