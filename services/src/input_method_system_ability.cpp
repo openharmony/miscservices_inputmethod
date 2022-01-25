@@ -26,6 +26,7 @@ namespace MiscServices {
     using namespace MessageID;
     REGISTER_SYSTEM_ABILITY_BY_ID(InputMethodSystemAbility, INPUT_METHOD_SYSTEM_ABILITY_ID, true);
     const std::int32_t INIT_INTERVAL = 10000L;
+    const std::int32_t MAIN_USER_ID = 100;
     std::mutex InputMethodSystemAbility::instanceLock_;
     sptr<InputMethodSystemAbility> InputMethodSystemAbility::instance_;
 
@@ -162,10 +163,10 @@ namespace MiscServices {
         workThreadHandler = std::thread([this] {
             WorkThread();
         });
-        PerUserSetting *setting = new PerUserSetting(0);
-        PerUserSession *session = new PerUserSession(0);
-        userSettings.insert(std::pair<int32_t, PerUserSetting*>(0, setting));
-        userSessions.insert(std::pair<int32_t, PerUserSession*>(0, session));
+        PerUserSetting *setting = new PerUserSetting(MAIN_USER_ID);
+        PerUserSession *session = new PerUserSession(MAIN_USER_ID);
+        userSettings.insert(std::pair<int32_t, PerUserSetting*>(MAIN_USER_ID, setting));
+        userSessions.insert(std::pair<int32_t, PerUserSession*>(MAIN_USER_ID, session));
 
         setting->Initialize();
     }
