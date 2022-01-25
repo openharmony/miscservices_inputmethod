@@ -357,6 +357,18 @@ using namespace MessageID;
         if (mImms == nullptr) {
             return false;
         }
+        int32_t code = keyEvent->GetKeyCode();
+        int32_t status = keyEvent->GetKeyAction();
+        if (mSpecialKeyPress != 0) {
+            if ((code == MMI::KeyEvent::KEYCODE_CTRL_LEFT || code == MMI::KeyEvent::KEYCODE_CTRL_RIGHT) && status == MMI::KeyEvent::KEY_ACTION_UP) {
+                mSpecailKeyPress--;
+            }
+            return false;
+        }
+        if ((code == MMI::KeyEvent::KEYCODE_CTRL_LEFT || code == MMI::KeyEvent::KEYCODE_CTRL_RIGHT) && status == MMI::KeyEvent::KEY_ACTION_DOWN) {
+            mSpecialKeyPress++;
+            return false;
+        }
         MessageParcel data;
         if (!(data.WriteInterfaceToken(mImms->GetDescriptor())
             && data.WriteRemoteObject(mClient->AsObject().GetRefPtr())

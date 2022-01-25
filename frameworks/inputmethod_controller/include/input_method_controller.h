@@ -91,6 +91,7 @@ namespace MiscServices {
         int mSelectOldEnd = 0;
         int mSelectNewBegin = 0;
         int mSelectNewEnd = 0;
+        int mSpecialKeyPress = 0;
 
         static std::mutex instanceLock_;
         static sptr<InputMethodController> instance_;
