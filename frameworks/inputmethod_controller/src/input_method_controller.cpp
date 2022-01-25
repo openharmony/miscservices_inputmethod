@@ -361,7 +361,7 @@ using namespace MessageID;
         int32_t status = keyEvent->GetKeyAction();
         if (mSpecialKeyPress != 0) {
             if ((code == MMI::KeyEvent::KEYCODE_CTRL_LEFT || code == MMI::KeyEvent::KEYCODE_CTRL_RIGHT) && status == MMI::KeyEvent::KEY_ACTION_UP) {
-                mSpecailKeyPress--;
+                mSpecialKeyPress--;
             }
             return false;
         }
