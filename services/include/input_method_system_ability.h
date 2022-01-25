@@ -70,11 +70,11 @@ namespace MiscServices {
         void WorkThread();
         PerUserSetting *GetUserSetting(int32_t userId);
         PerUserSession *GetUserSession(int32_t userId);
+        void StartInputService();
         int32_t OnUserStarted(const Message *msg);
         int32_t OnUserStopped(const Message *msg);
         int32_t OnUserUnlocked(const Message *msg);
         int32_t OnUserLocked(const Message *msg);
-        int32_t OnPrepareInput(Message *msg);
         int32_t OnHandleMessage(Message *msg);
         int32_t OnRemotePeerDied(const Message *msg);
         int32_t OnSettingChanged(const Message *msg);

@@ -114,7 +114,7 @@ namespace MiscServices {
         void CreateWorkThread(MessageHandler& handler);
         void JoinWorkThread();
         void SetInputMethodAbility(sptr<InputMethodAbility> &inputMethodAbility);
-        static void BindInputAbility();
+        static bool StartInputService();
     private:
         int userId_; // the id of the user to whom the object is linking
         int userState; // the state of the user to whom the object is linking
