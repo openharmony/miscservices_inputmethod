@@ -1,0 +1,86 @@
+{
+  "name": "@ohos/inputmethod",
+  "description": "Provide input capability to ime app",
+  "version": "3.1",
+  "license": "Apache License 2.0",
+  "publishAs": "code-segment",
+  "segment": {
+    "destPath": "base/miscservices/inputmethod"
+  },
+  "dirs": {},
+  "scripts": {},
+  "component": {
+    "name": "inputmethod_native",
+    "subsystem": "miscservices",
+    "syscap": [
+      "SystemCapability.Miscservices.InputMethod"
+    ],
+    "features": [
+    ],
+    "adapted_system_type": [
+      "standard"
+    ],
+    "rom":"300KB",
+    "ram":"1024KB",
+    "deps": {
+      "components": [
+        "ability_runtime",
+        "napi",
+        "bundle_framework",
+        "ipc",
+        "dmsfwk_standard",
+        "safwk",
+        "samgr_standard",
+        "multimodalinput_base",
+        "utils_base",
+        "resmgr_standard"
+      ],
+      "third_party": [
+        "jsoncpp"
+      ]
+    },
+    "build": {
+      "sub_component": [
+        "//base/miscservices/inputmethod:inputmethod_native_packages"
+      ],
+      "inner_kits": [
+        {
+          "name": "//base/miscservices/inputmethod/frameworks/inputmethod_controller:inputmethod_client",
+          "header": {	
+            "header_files": [
+              "i_input_client.h",
+              "i_input_data_channel.h",
+              "input_client_proxy.h",
+              "input_client_stub.h",
+              "input_data_channel_proxy.h",
+              "input_data_channel_stub.h",
+              "input_method_controller.h",
+              "input_method_system_ability_proxy.h"
+            ],
+            "header_base":"//base/miscservices/inputmethod/frameworks/inputmethod_controller/include"
+          }
+        },
+        {
+          "name": "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
+          "header": {
+            "header_files": [
+              "event_target.h",
+              "i_input_method_agent.h",
+              "i_input_method_core.h",
+              "input_method_ability.h",
+              "input_method_agent_proxy.h",
+              "input_method_agent_stub.h",
+              "input_method_core_proxy.h",
+              "input_method_core_stub.h"
+            ],
+            "header_base":"//base/miscservices/inputmethod/frameworks/inputmethod_ability/include"
+          }
+        }
+      ],
+      "test": [
+        "//base/miscservices/inputmethod/unitest:InputMethodControllerTest",
+        "//base/miscservices/inputmethod/unitest:InputMethodAbilityTest"
+      ]
+    }
+  }
+}
