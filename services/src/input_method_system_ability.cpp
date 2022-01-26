@@ -96,7 +96,7 @@ namespace MiscServices {
 
     void InputMethodSystemAbility::OnStart()
     {
-        IMSA_HILOGI("Enter OnStart.");
+        IMSA_HILOGI("InputMethodSystemAbility::OnStart.");
         if (state_ == ServiceRunningState::STATE_RUNNING) {
             IMSA_HILOGI("ImsaService is already running.");
             return;
@@ -123,6 +123,7 @@ namespace MiscServices {
         }
         IMSA_HILOGI("Publish ErrorCode::NO_ERROR.");
         state_ = ServiceRunningState::STATE_RUNNING;
+        StartInputService();
         return ErrorCode::NO_ERROR;
     }
 
@@ -167,6 +168,27 @@ namespace MiscServices {
         userSessions.insert(std::pair<int32_t, PerUserSession*>(0, session));
 
         setting->Initialize();
+    }
+
+    void InputMethodSystemAbility::StartInputService() {
+        PerUserSession *session = GetUserSession(0);
+
+        std::map<int32_t, MessageHandler*>::const_iterator it = msgHandlers.find(0);
+        if (it == msgHandlers.end()) {
+            IMSA_HILOGE("InputMethodSystemAbility::StartInputService() need start handler");
+            MessageHandler *handler = new MessageHandler();
+            if (session == nullptr) {
+                IMSA_HILOGE("InputMethodSystemAbility::OnPrepareInput session is nullptr");
+            }
+            session->CreateWorkThread(*handler);
+            msgHandlers.insert(std::pair<int32_t, MessageHandler*>(0, handler));
+        }
+
+        if (!session->StartInputService()) {
+            IMSA_HILOGE("StartInputService failed. Try again 10s later");
+            auto callback = [=]() { StartInputService(); };
+            serviceHandler_->PostTask(callback, INIT_INTERVAL);
+        }
     }
 
     /*! Get the state of user
@@ -406,10 +428,7 @@ namespace MiscServices {
                     OnSettingChanged(msg);
                     break;
                 }
-                case MSG_ID_PREPARE_INPUT: {
-                    OnPrepareInput(msg);
-                    break;
-                }
+                case MSG_ID_PREPARE_INPUT:
                 case MSG_ID_RELEASE_INPUT:
                 case MSG_ID_START_INPUT:
                 case MSG_ID_STOP_INPUT:
@@ -598,43 +617,6 @@ namespace MiscServices {
         setting->OnUserLocked();
         IMSA_HILOGI("End...[%d]\n", userId);
         return ErrorCode::NO_ERROR;
-    }
-
-    /*! Prepare input. Called by an input client.
-    \n Run in work thread of input method management service
-    \param msg the parameters from remote client are saved in msg->msgContent_
-    \return ErrorCode::NO_ERROR
-    \return ErrorCode::ERROR_USER_NOT_UNLOCKED user not unlocked
-    */
-    int32_t InputMethodSystemAbility::OnPrepareInput(Message *msg)
-    {
-        IMSA_HILOGI("InputMethodSystemAbility::OnPrepareInput");
-        MessageParcel *data = msg->msgContent_;
-        int32_t userId = data->ReadInt32();
-
-        PerUserSetting *setting = GetUserSetting(userId);
-        if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
-            IMSA_HILOGE("InputMethodSystemAbility::OnPrepareInput errorCode = ErrorCode::ERROR_USER_NOT_UNLOCKED");
-            return ErrorCode::ERROR_USER_NOT_UNLOCKED;
-        }
-
-        std::map<int32_t, MessageHandler*>::const_iterator it = msgHandlers.find(userId);
-        if (it == msgHandlers.end()) {
-            PerUserSession *session = GetUserSession(userId);
-            MessageHandler *handler = new MessageHandler();
-            if (session == nullptr) {
-                IMSA_HILOGE("InputMethodSystemAbility::OnPrepareInput session is nullptr");
-            }
-            session->CreateWorkThread(*handler);
-            msgHandlers.insert(std::pair<int32_t, MessageHandler*>(userId, handler));
-            it = msgHandlers.find(userId);
-        }
-
-        if (it != msgHandlers.end()) {
-            MessageHandler *handler = it->second;
-            handler->SendMessage(msg);
-        }
-        return 0;
     }
 
     /*! Handle message
