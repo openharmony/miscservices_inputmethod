@@ -26,6 +26,7 @@ namespace MiscServices {
     using namespace MessageID;
     REGISTER_SYSTEM_ABILITY_BY_ID(InputMethodSystemAbility, INPUT_METHOD_SYSTEM_ABILITY_ID, true);
     const std::int32_t INIT_INTERVAL = 10000L;
+    const std::int32_t MAIN_USER_ID = 100;
     std::mutex InputMethodSystemAbility::instanceLock_;
     sptr<InputMethodSystemAbility> InputMethodSystemAbility::instance_;
 
@@ -162,18 +163,18 @@ namespace MiscServices {
         workThreadHandler = std::thread([this] {
             WorkThread();
         });
-        PerUserSetting *setting = new PerUserSetting(0);
-        PerUserSession *session = new PerUserSession(0);
-        userSettings.insert(std::pair<int32_t, PerUserSetting*>(0, setting));
-        userSessions.insert(std::pair<int32_t, PerUserSession*>(0, session));
+        PerUserSetting *setting = new PerUserSetting(MAIN_USER_ID);
+        PerUserSession *session = new PerUserSession(MAIN_USER_ID);
+        userSettings.insert(std::pair<int32_t, PerUserSetting*>(MAIN_USER_ID, setting));
+        userSessions.insert(std::pair<int32_t, PerUserSession*>(MAIN_USER_ID, session));
 
         setting->Initialize();
     }
 
     void InputMethodSystemAbility::StartInputService() {
-        PerUserSession *session = GetUserSession(0);
+        PerUserSession *session = GetUserSession(MAIN_USER_ID);
 
-        std::map<int32_t, MessageHandler*>::const_iterator it = msgHandlers.find(0);
+        std::map<int32_t, MessageHandler*>::const_iterator it = msgHandlers.find(MAIN_USER_ID);
         if (it == msgHandlers.end()) {
             IMSA_HILOGE("InputMethodSystemAbility::StartInputService() need start handler");
             MessageHandler *handler = new MessageHandler();
@@ -181,7 +182,7 @@ namespace MiscServices {
                 IMSA_HILOGE("InputMethodSystemAbility::OnPrepareInput session is nullptr");
             }
             session->CreateWorkThread(*handler);
-            msgHandlers.insert(std::pair<int32_t, MessageHandler*>(0, handler));
+            msgHandlers.insert(std::pair<int32_t, MessageHandler*>(MAIN_USER_ID, handler));
         }
 
         if (!session->StartInputService()) {
