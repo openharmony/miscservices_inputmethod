@@ -494,7 +494,10 @@ namespace MiscServices {
 
         lastImeIndex = index;
         bool supportPhysicalKbd = Platform::Instance()->CheckPhysicalKeyboard();
-        localControlChannel[index]->ResetFlag();
+        if (imsCore[index] == nullptr) {
+            IMSA_HILOGE("PerUserSession::ShowKeyboard Aborted! imsCore[%{public}d] is nullptr", index);
+            return ErrorCode::ERROR_NULL_POINTER;
+        }
         bool ret = imsCore[index]->startInput(clientInfo->channel, clientInfo->attribute, supportPhysicalKbd);
         if (!ret ||
             localControlChannel[index]->GetAgentAndChannel(&imsAgent, &imsChannel) == false) {
@@ -578,7 +581,6 @@ namespace MiscServices {
         }
         currentClient = nullptr;
         imsAgent = nullptr;
-        imsCore[index] = nullptr;
         if (imsChannel != nullptr) {
             delete imsChannel;
             imsChannel = nullptr;
@@ -999,7 +1001,7 @@ namespace MiscServices {
         time_t now = time(0);
         double diffSeconds = difftime(now, past[imeIndex]);
 
-        //time difference is more than 5 minutes, reset time and error num;
+        // time difference is more than 5 minutes, reset time and error num;
         if (diffSeconds > COMMON_COUNT_THREE_HUNDRED) {
             past[imeIndex] = now;
             errorNum[imeIndex] = 1;
@@ -1178,18 +1180,22 @@ namespace MiscServices {
         return (ClientInfo*) it->second;
     }
 
-    void PerUserSession::BindInputAbility()
+    bool PerUserSession::StartInputService()
     {
-        IMSA_HILOGE("PerUserSession::BindInputAbility");
+        IMSA_HILOGE("PerUserSession::StartInputService");
+        sptr<AAFwk::IAbilityManager> ams = GetAbilityManagerService();
+        if (ams == nullptr) {
+            return false;
+        }
         AAFwk::Want want;
         want.SetAction("action.system.inputmethod");
-        want.SetElementName("com.example.kikakeyboard", "com.example.kikakeyboard.MainAbility");
-        sptr<InputMethodAbilityConnectionStub> stub(new (std::nothrow) InputMethodAbilityConnectionStub(0));
-        sptr<AAFwk::AbilityConnectionProxy> connCallback = new (std::nothrow) AAFwk::AbilityConnectionProxy(stub);
-        std::shared_ptr<AAFwk::AbilityStartSetting> setting = AAFwk::AbilityStartSetting::GetEmptySetting();
-        setting->AddProperty(AAFwk::AbilityStartSetting::WINDOW_MODE_KEY,
-            std::to_string(AAFwk::AbilityWindowConfiguration::MULTI_WINDOW_DISPLAY_FLOATING));
-        GetAbilityManagerService()->StartAbility(want, *setting, nullptr, -1);
+        want.SetElementName("com.example.kikakeyboard", "com.example.kikakeyboard.ServiceExtAbility");
+        int32_t result = ams->StartAbility(want);
+        if (result != 0) {
+            IMSA_HILOGE("PerUserSession::StartInputService fail. result = %{public}d", result);
+            return false;
+        }
+        return true;
     }
 
     sptr<AAFwk::IAbilityManager> PerUserSession::GetAbilityManagerService()
@@ -1241,9 +1247,7 @@ namespace MiscServices {
         int index = GetImeIndex(client);
         IMSA_HILOGI("PerUserSession::OnPrepareInput index = %{public}d", index);
         currentIndex = index;
-        IMSA_HILOGI("PerUserSession::OnPrepareInput BindInputAbility start");
-        BindInputAbility();
-        IMSA_HILOGI("PerUserSession::OnPrepareInput BindInputAbility end");
+        ShowKeyboard(client);
         currentClient = client;
     }
 
@@ -1310,15 +1314,6 @@ namespace MiscServices {
             IMSA_HILOGE("PerUserSession::onSetInputMethodCore Aborted! %{public}s", ErrorCode::ToString(ret));
         } else {
             IMSA_HILOGI("PerUserSession::onSetInputMethodCore End...[%{public}d]\n", userId_);
-        }
-        if (currentClient != nullptr) {
-            usleep(SLEEP_TIME);
-            ret = ShowKeyboard(currentClient);
-            if (ret != ErrorCode::NO_ERROR) {
-                IMSA_HILOGE("PerUserSession::OnStartInput Aborted! %{public}s", ErrorCode::ToString(ret));
-            } else {
-                IMSA_HILOGI("PerUserSession::OnStartInput End...[%{public}d]\n", userId_);
-            }
         }
         IMSA_HILOGI("PerUserSession::OnStartInput End. currentClient is nullptr");
     }
