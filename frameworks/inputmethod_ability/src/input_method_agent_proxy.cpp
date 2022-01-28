@@ -23,20 +23,17 @@ namespace MiscServices {
     {
     }
 
-    int32_t InputMethodAgentProxy::DispatchKey(int32_t key, int32_t status)
+    bool InputMethodAgentProxy::DispatchKeyEvent(MessageParcel& data)
     {
-        IMSA_HILOGI("InputMethodAgentProxy::DispatchKey key = %{public}d, status = %{public}d", key, status);
-        MessageParcel data, reply;
+        IMSA_HILOGI("InputMethodAgentProxy::DispatchKeyEvent");
+        MessageParcel reply;
         MessageOption option;
-        if (!data.WriteInterfaceToken(GetDescriptor())) {
-            IMSA_HILOGI("InputMethodAgentProxy::DispatchKey descriptor is not match");
-            return ERROR_EX_PARCELABLE;
+
+        auto ret = Remote()->SendRequest(DISPATCH_KEY_EVENT, data, reply, option);
+        if (ret != NO_ERROR) {
+            IMSA_HILOGI("InputMethodAgentProxy::DispatchKeyEvent SendRequest failed");
         }
-
-        data.WriteInt32(key);
-        data.WriteInt32(status);
-
-        auto ret = Remote()->SendRequest(DISPATCH_KEY, data, reply, option);
+        ret = reply.ReadBool();
         return ret;
     }
 

@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+#include "peruser_session.h"
 #include "unistd.h"
 #include "platform.h"
 #include "parcel.h"
@@ -21,7 +22,6 @@
 #include "want.h"
 #include "input_method_ability_connection_stub.h"
 #include <vector>
-#include "peruser_session.h"
 #include "ability_connect_callback_proxy.h"
 #include "ability_manager_interface.h"
 #include "sa_mgr_client.h"
@@ -32,6 +32,7 @@
 #include "input_control_channel_proxy.h"
 #include "ipc_skeleton.h"
 #include "input_method_core_proxy.h"
+#include "input_method_agent_proxy.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -113,11 +114,6 @@ namespace MiscServices {
         }
     }
 
-    void PerUserSession::SetInputMethodAbility(sptr<InputMethodAbility> &inputMethodAbility)
-    {
-        inputMethodAbility_ = inputMethodAbility;
-    }
-
     /*! Work thread for this user
     */
     void PerUserSession::WorkThread()
@@ -152,12 +148,8 @@ namespace MiscServices {
                     OnStopInput(msg);
                     break;
                 }
-                case MSG_ID_DISPATCH_KEY: {
-                    DispatchKey(msg);
-                    break;
-                }
-                case MSG_ID_SET_INPUT_METHOD_CORE: {
-                    onSetInputMethodCore(msg);
+                case MSG_ID_SET_CORE_AND_AGENT: {
+                    SetCoreAndAgent(msg);
                     break;
                 }
                 case MSG_ID_CLIENT_DIED: {
@@ -492,46 +484,13 @@ namespace MiscServices {
             return ErrorCode::ERROR_CLIENT_NOT_FOUND;
         }
 
-        lastImeIndex = index;
-        bool supportPhysicalKbd = Platform::Instance()->CheckPhysicalKeyboard();
-        if (imsCore[index] == nullptr) {
+        if (imsCore[0] == nullptr) {
             IMSA_HILOGE("PerUserSession::ShowKeyboard Aborted! imsCore[%{public}d] is nullptr", index);
             return ErrorCode::ERROR_NULL_POINTER;
         }
-        bool ret = imsCore[index]->startInput(clientInfo->channel, clientInfo->attribute, supportPhysicalKbd);
-        if (!ret ||
-            localControlChannel[index]->GetAgentAndChannel(&imsAgent, &imsChannel) == false) {
-            IMSA_HILOGE("PerUserSession::ShowKeyboard Aborted! client is not ready");
-            int result = clientInfo->client->onInputReady(1, nullptr, nullptr);
-            if (result != ErrorCode::NO_ERROR) {
-                IMSA_HILOGE("PerUserSession::ShowKeyboard onInputReady return : %{public}s", ErrorCode::ToString(ret));
-            }
-            return ErrorCode::ERROR_IME_START_FAILED;
-        }
 
-        ret = imsCore[index]->showKeyboard(1);
-        if (!ret) {
-            IMSA_HILOGE("PerUserSession::ShowKeyboard Aborted! showKeyboard has error : %{public}s",
-                ErrorCode::ToString(ret));
+        imsCore[0]->showKeyboard(clientInfo->channel);
 
-            int ret_client = clientInfo->client->onInputReady(1, nullptr, nullptr);
-            if (ret_client != ErrorCode::NO_ERROR) {
-                IMSA_HILOGE("PerUserSession::ShowKeyboard onInputReady has error : %{public}s",
-                    ErrorCode::ToString(ret_client));
-            }
-            return ErrorCode::ERROR_KBD_SHOW_FAILED;
-        }
-
-        if (clientInfo->client == nullptr) {
-            IMSA_HILOGI("PerUserSession::ShowKeyboard clientInfo->client is nullptr");
-        }
-
-        int result = clientInfo->client->onInputReady(0, imsAgent, imsChannel);
-        if (result != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::ShowKeyboard Aborted! onInputReady return : %{public}s",
-                ErrorCode::ToString(ret));
-            return result;
-        }
         currentClient = inputClient;
         return ErrorCode::NO_ERROR;
     }
@@ -557,34 +516,17 @@ namespace MiscServices {
         if (clientInfo == nullptr) {
             IMSA_HILOGE("PerUserSession::HideKeyboard GetClientInfo pointer nullptr");
         }
-        if (imsCore[index] == nullptr) {
+        if (imsCore[0] == nullptr) {
             IMSA_HILOGE("PerUserSession::HideKeyboard imsCore[index] is nullptr");
-            clientInfo->client->onInputReady(1, nullptr, nullptr);
             return ErrorCode::ERROR_IME_NOT_STARTED;
         }
 
-        if (currentClient == nullptr) {
-            clientInfo->client->onInputReady(1, nullptr, nullptr);
-            IMSA_HILOGE("PerUserSession::HideKeyboard Aborted! ErrorCode::ERROR_KBD_IS_NOT_SHOWING");
-            return ErrorCode::ERROR_KBD_IS_NOT_SHOWING;
-        }
-        bool ret = imsCore[index]->hideKeyboard(1);
+        bool ret = imsCore[0]->hideKeyboard(1);
         if (!ret) {
             IMSA_HILOGE("PerUserSession::HideKeyboard [imsCore->hideKeyboard] failed");
             ret = ErrorCode::ERROR_KBD_HIDE_FAILED;
         }
 
-        int ret_client_stop = clientInfo->client->onInputReady(1, nullptr, nullptr);
-        if (ret_client_stop != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::HideKeyboard onInputReady return : %{public}s",
-                ErrorCode::ToString(ret_client_stop));
-        }
-        currentClient = nullptr;
-        imsAgent = nullptr;
-        if (imsChannel != nullptr) {
-            delete imsChannel;
-            imsChannel = nullptr;
-        }
         return ErrorCode::NO_ERROR;
     }
 
@@ -1226,6 +1168,7 @@ namespace MiscServices {
         sptr<IRemoteObject> clientObject = data->ReadRemoteObject();
         if (clientObject == nullptr) {
             IMSA_HILOGI("PerUserSession::OnPrepareInput clientObject is null");
+            return;
         }
         sptr<InputClientProxy> client = new InputClientProxy(clientObject);
         sptr<IRemoteObject> channelObject = data->ReadRemoteObject();
@@ -1243,12 +1186,21 @@ namespace MiscServices {
             IMSA_HILOGE("PerUserSession::OnPrepareInput Aborted! %{public}s", ErrorCode::ToString(ret));
             return;
         }
-        SetDisplayId(displayId);
-        int index = GetImeIndex(client);
-        IMSA_HILOGI("PerUserSession::OnPrepareInput index = %{public}d", index);
-        currentIndex = index;
-        ShowKeyboard(client);
-        currentClient = client;
+        SendAgentToSingleClient(client);
+    }
+
+    void PerUserSession::SendAgentToSingleClient(const sptr<IInputClient>& inputClient) {
+        IMSA_HILOGI("PerUserSession::SendAgentToSingleClient");
+        if (imsAgent == nullptr) {
+            IMSA_HILOGI("PerUserSession::SendAgentToSingleClient imsAgent is nullptr");
+            return;
+        }
+        ClientInfo *clientInfo = GetClientInfo(inputClient);
+        if (clientInfo == nullptr) {
+            IMSA_HILOGE("PerUserSession::SendAgentToSingleClient clientInfo is nullptr");
+            return;
+        }
+        clientInfo->client->onInputReady(imsAgent);
     }
 
     /*! Release input. Called by an input client.
@@ -1284,38 +1236,53 @@ namespace MiscServices {
         MessageParcel *data = msg->msgContent_;
         sptr<IRemoteObject> clientObject = data->ReadRemoteObject();
         sptr<InputClientProxy> client = new InputClientProxy(clientObject);
-        int ret = ShowKeyboard(client);
-        if (ret != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::OnStartInput Aborted! %{public}s", ErrorCode::ToString(ret));
-        } else {
-            IMSA_HILOGI("PerUserSession::OnStartInput End...[%{public}d]\n", userId_);
-        }
+        ShowKeyboard(client);
     }
 
-    void PerUserSession::onSetInputMethodCore(Message *msg)
+    void PerUserSession::SetCoreAndAgent(Message *msg)
     {
-        IMSA_HILOGI("PerUserSession::onSetInputMethodCore Start...[%{public}d]\n", userId_);
+        IMSA_HILOGI("PerUserSession::SetCoreAndAgent Start...[%{public}d]\n", userId_);
         MessageParcel *data = msg->msgContent_;
 
         sptr<IRemoteObject> coreObject = data->ReadRemoteObject();
         sptr<InputMethodCoreProxy> core = new InputMethodCoreProxy(coreObject);
-        int index = currentIndex;
-        IMSA_HILOGI("PerUserSession::onSetInputMethodCore index = [%{public}d]\n", index);
-        if (index >= MAX_IME || index < 0) {
-            IMSA_HILOGE("PerUserSession::onSetInputMethodCore Aborted! ErrorCode::ERROR_BAD_PARAMETERS");
+        if (imsCore[0] != nullptr) {
+            IMSA_HILOGI("PerUserSession::SetCoreAndAgent Input Method Service has already been started ! ");
+        }
+        imsCore[0] = core;
+
+        sptr<IRemoteObject> agentObject = data->ReadRemoteObject();
+        sptr<InputMethodAgentProxy> proxy=new InputMethodAgentProxy(agentObject);
+        imsAgent = proxy;
+
+        InitInputControlChannel();
+
+        SendAgentToAllClients();
+    }
+
+    void PerUserSession::SendAgentToAllClients() {
+        IMSA_HILOGI("PerUserSession::SendAgentToAllClients");
+        if (imsAgent == nullptr) {
+            IMSA_HILOGI("PerUserSession::SendAgentToAllClients imsAgent is nullptr");
             return;
         }
-        if (imsCore[index] != nullptr) {
-            IMSA_HILOGI("PerUserSession::onSetInputMethodCore End... Input Method Service has already been started ! ");
+
+        for (std::map<sptr<IRemoteObject>, ClientInfo*>::iterator it = mapClients.begin(); it != mapClients.end(); it++) {
+            ClientInfo *clientInfo = (ClientInfo*) it->second;
+            if(clientInfo != nullptr) {
+                clientInfo->client->onInputReady(imsAgent);
+            }
         }
-        imsCore[index] = core;
-        int ret = StartInputMethod(index);
+    }
+
+    void PerUserSession::InitInputControlChannel()
+    {
+        IMSA_HILOGI("PerUserSession::InitInputControlChannel");
+        sptr<IInputControlChannel> inputControlChannel = new InputControlChannelStub(userId_);
+        int ret = imsCore[0]->InitInputControlChannel(inputControlChannel);
         if (ret != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::onSetInputMethodCore Aborted! %{public}s", ErrorCode::ToString(ret));
-        } else {
-            IMSA_HILOGI("PerUserSession::onSetInputMethodCore End...[%{public}d]\n", userId_);
+            IMSA_HILOGI("PerUserSession::InitInputControlChannel fail %{public}s", ErrorCode::ToString(ret));
         }
-        IMSA_HILOGI("PerUserSession::OnStartInput End. currentClient is nullptr");
     }
 
     /*! Stop input. Called by an input client.
@@ -1330,28 +1297,7 @@ namespace MiscServices {
 
         sptr<IRemoteObject> clientObject = data->ReadRemoteObject();
         sptr<InputClientProxy> client = new InputClientProxy(clientObject);
-        int ret = HideKeyboard(client);
-        if (ret != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("PerUserSession::OnStopInput Aborted! %{public}s", ErrorCode::ToString(ret));
-        } else {
-            IMSA_HILOGI("PerUserSession::OnStopInput End...[%{public}d]\n", userId_);
-        }
-    }
-
-    void PerUserSession::DispatchKey(Message *msg)
-    {
-        IMSA_HILOGI("PerUserSession::DispatchKey");
-        MessageParcel *data = msg->msgContent_;
-
-        sptr<IRemoteObject> clientObject = data->ReadRemoteObject();
-        int32_t keyCode = data->ReadInt32();
-        int32_t state = data->ReadInt32();
-
-        if (localControlChannel[currentIndex]->GetAgentAndChannel(&imsAgent, &imsChannel) == true) {
-            IMSA_HILOGI("PerUserSession::DispatchKey GetAgentAndChannel");
-            sptr<InputMethodAgentProxy> agent = new InputMethodAgentProxy(imsAgent->AsObject().GetRefPtr());
-            agent->DispatchKey(keyCode, state);
-        }
+        HideKeyboard(client);
     }
 }
 }

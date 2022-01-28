@@ -59,7 +59,7 @@ namespace MiscServices {
         }
 
         std::map<int32_t, PerUserSession*>::const_iterator it;
-        for (it = userSessions.cbegin(); it != userSessions.cend();) {
+        for (it = userSessions.cbegin(); it != userSessions.cend(); ) {
             PerUserSession *session = it->second;
             it = userSessions.erase(it);
             delete session;
@@ -67,7 +67,7 @@ namespace MiscServices {
         }
         userSessions.clear();
         std::map<int32_t, PerUserSetting*>::const_iterator it1;
-        for (it1 = userSettings.cbegin(); it1 != userSettings.cend();) {
+        for (it1 = userSettings.cbegin(); it1 != userSettings.cend(); ) {
             PerUserSetting *setting = it1->second;
             it1 = userSettings.erase(it1);
             delete setting;
@@ -75,7 +75,7 @@ namespace MiscServices {
         }
         userSettings.clear();
         std::map<int32_t, MessageHandler*>::const_iterator it2;
-        for (it2 = msgHandlers.cbegin(); it2 != msgHandlers.cend();) {
+        for (it2 = msgHandlers.cbegin(); it2 != msgHandlers.cend(); ) {
             MessageHandler *handler = it2->second;
             it2 = msgHandlers.erase(it2);
             delete handler;
@@ -172,6 +172,7 @@ namespace MiscServices {
     }
 
     void InputMethodSystemAbility::StartInputService() {
+        IMSA_HILOGE("InputMethodSystemAbility::StartInputService()");
         PerUserSession *session = GetUserSession(MAIN_USER_ID);
 
         std::map<int32_t, MessageHandler*>::const_iterator it = msgHandlers.find(MAIN_USER_ID);
@@ -433,12 +434,11 @@ namespace MiscServices {
                 case MSG_ID_RELEASE_INPUT:
                 case MSG_ID_START_INPUT:
                 case MSG_ID_STOP_INPUT:
-                case MSG_ID_SET_INPUT_METHOD_CORE:
+                case MSG_ID_SET_CORE_AND_AGENT:
                 case MSG_ID_HIDE_KEYBOARD_SELF:
                 case MSG_ID_SET_DISPLAY_MODE:
                 case MSG_ID_CLIENT_DIED:
                 case MSG_ID_IMS_DIED:
-                case MSG_ID_DISPATCH_KEY:
                 case MSG_ID_RESTART_IMS: {
                     OnHandleMessage(msg);
                     break;
@@ -542,11 +542,6 @@ namespace MiscServices {
         return ErrorCode::NO_ERROR;
     }
 
-    int32_t InputMethodSystemAbility::setInputMethodCore(sptr<IInputMethodCore> &core)
-    {
-        return ErrorCode::NO_ERROR;
-    }
-
     /*! Called when a user is unlocked. (EVENT_USER_UNLOCKED is received)
     \n Run in work thread of input method management service
     \param msg the parameters are saved in msg->msgContent_
@@ -632,7 +627,7 @@ namespace MiscServices {
         int32_t userId = data->ReadInt32();
         PerUserSetting *setting = GetUserSetting(userId);
         if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
-            IMSA_HILOGE("Aborted! %s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_UNLOCKED), userId);
+            IMSA_HILOGE("InputMethodSystemAbility::OnHandleMessage Aborted! userId = %{public}d", userId);
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
 
