@@ -18,6 +18,7 @@
 
 namespace OHOS {
 namespace MiscServices {
+//    using namespace Message;
     InputClientStub::InputClientStub()
     {
     }
@@ -40,13 +41,7 @@ namespace MiscServices {
                     break;
                 }
                 MessageParcel *parcel = new MessageParcel();
-                parcel->WriteInt32(data.ReadInt32());
-                if (data.ReadInt32() > 0) {
-                    parcel->WriteRemoteObject(data.ReadRemoteObject());
-                }
-                if (data.ReadInt32() > 0) {
-                    parcel->WriteParcelable(data.ReadParcelable<InputChannel>());
-                }
+                parcel->WriteRemoteObject(data.ReadRemoteObject());
 
                 Message *msg = new Message(MessageID::MSG_ID_ON_INPUT_READY, parcel);
                 msgHandler->SendMessage(msg);
@@ -78,8 +73,7 @@ namespace MiscServices {
         return NO_ERROR;
     }
 
-    int32_t InputClientStub::onInputReady(int32_t retValue, const sptr<IInputMethodAgent>& agent,
-        const InputChannel *channel)
+    int32_t InputClientStub::onInputReady(const sptr<IInputMethodAgent>& agent)
     {
         return ErrorCode::NO_ERROR;
     }

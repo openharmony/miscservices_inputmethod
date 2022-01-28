@@ -17,6 +17,7 @@
 #include "global.h"
 #include "message_handler.h"
 #include "message.h"
+#include "input_method_ability.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -41,16 +42,10 @@ namespace MiscServices {
         }
 
         switch (code) {
-            case DISPATCH_KEY: {
-                int32_t key = data.ReadInt32();
-                int32_t status = data.ReadInt32();
-                int32_t result = DispatchKey(key, status);
-                if (result == ErrorCode::NO_ERROR) {
-                    reply.WriteNoException();
-                } else {
-                    reply.WriteInt32(result);
-                }
-                return result;
+            case DISPATCH_KEY_EVENT: {
+                MessageParcel *msgParcel = (MessageParcel*) &data;
+                reply.WriteBool(DispatchKeyEvent(*msgParcel));
+                break;
             }
             case ON_CURSOR_UPDATE: {
                 int32_t positionX = data.ReadInt32();
@@ -77,18 +72,13 @@ namespace MiscServices {
         return ErrorCode::NO_ERROR;
     }
 
-    int32_t InputMethodAgentStub::DispatchKey(int32_t key, int32_t status)
+    bool InputMethodAgentStub::DispatchKeyEvent(MessageParcel& data)
     {
-        IMSA_HILOGI("InputMethodAgentStub::DispatchKey key = %{public}d, status = %{public}d", key, status);
+        IMSA_HILOGI("InputMethodAgentStub::DispatchKeyEvent");
         if (msgHandler_ == nullptr) {
-            return ErrorCode::ERROR_NULL_POINTER;
+            return false;
         }
-        MessageParcel *data = new MessageParcel();
-        data->WriteInt32(key);
-        data->WriteInt32(status);
-        Message *message = new Message(MessageID::MSG_ID_DISPATCH_KEY, data);
-        msgHandler_->SendMessage(message);
-        return ErrorCode::NO_ERROR;
+        return InputMethodAbility::GetInstance()->DispatchKeyEvent(data.ReadInt32(), data.ReadInt32());
     }
  
     void InputMethodAgentStub::OnCursorUpdate(int32_t positionX, int32_t positionY, int height)

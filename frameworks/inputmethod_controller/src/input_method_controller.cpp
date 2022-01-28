@@ -68,6 +68,7 @@ using namespace MessageID;
         mAttribute.SetInputPattern(InputAttribute::PATTERN_TEXT);
 
         textListener = nullptr;
+        PrepareInput(0, mClient, mInputDataChannel, mAttribute);
         return true;
     }
 
@@ -136,18 +137,9 @@ using namespace MessageID;
                 }
                 case MSG_ID_ON_INPUT_READY: {
                     MessageParcel *data = msg->msgContent_;
-                    int32_t ret = data->ReadInt32();
-                    if (ret != ErrorCode::NO_ERROR) {
-                        if (textListener != nullptr) {
-                            textListener->SetKeyboardStatus(false);
-                        }
-                        mAgent = nullptr;
-                        break;
-                    }
                     sptr<IRemoteObject> object = data->ReadRemoteObject();
-                    mAgent = new InputMethodAgentProxy(object);
-                    if (textListener != nullptr) {
-                        textListener->SetKeyboardStatus(true);
+                    if (object != nullptr) {
+                        mAgent = new InputMethodAgentProxy(object);
                     }
                     break;
                 }
@@ -201,8 +193,8 @@ using namespace MessageID;
 
     void InputMethodController::Attach(sptr<OnTextChangedListener> &listener)
     {
-        PrepareInput(0, mClient, mInputDataChannel, mAttribute);
         textListener = listener;
+        StartInput(mClient);
     }
 
     void InputMethodController::ShowTextInput()
@@ -304,12 +296,19 @@ using namespace MessageID;
             return;
         }
 
+        if(cursorInfo_.left == cursorInfo.left && cursorInfo_.top == cursorInfo.top && cursorInfo_.height == cursorInfo.height){
+            return;
+        }
+        cursorInfo_ = cursorInfo;
         mAgent->OnCursorUpdate(cursorInfo.left, cursorInfo.top, cursorInfo.height);
     }
 
     void InputMethodController::OnSelectionChange(std::u16string text, int start, int end)
     {
         IMSA_HILOGI("InputMethodController::OnSelectionChange");
+        if (mTextString == text && mSelectNewBegin == start && mSelectNewEnd == end) {
+            return;
+        }
         mTextString = text;
         mSelectOldBegin = mSelectNewBegin;
         mSelectOldEnd = mSelectNewEnd;
@@ -350,35 +349,18 @@ using namespace MessageID;
     bool InputMethodController::dispatchKeyEvent(std::shared_ptr<MMI::KeyEvent> keyEvent)
     {
         IMSA_HILOGI("InputMethodController::dispatchKeyEvent");
-        if (textListener == nullptr) {
-            IMSA_HILOGI("InputMethodController::dispatchKeyEvent textListener is nullptr");
-            return false;
-        }
-        if (mImms == nullptr) {
-            return false;
-        }
-        int32_t code = keyEvent->GetKeyCode();
-        int32_t status = keyEvent->GetKeyAction();
-        if (mSpecialKeyPress != 0) {
-            if ((code == MMI::KeyEvent::KEYCODE_CTRL_LEFT || code == MMI::KeyEvent::KEYCODE_CTRL_RIGHT) && status == MMI::KeyEvent::KEY_ACTION_UP) {
-                mSpecialKeyPress--;
-            }
-            return false;
-        }
-        if ((code == MMI::KeyEvent::KEYCODE_CTRL_LEFT || code == MMI::KeyEvent::KEYCODE_CTRL_RIGHT) && status == MMI::KeyEvent::KEY_ACTION_DOWN) {
-            mSpecialKeyPress++;
+        if (mAgent == nullptr) {
+            IMSA_HILOGI("InputMethodController::dispatchKeyEvent mAgent is nullptr");
             return false;
         }
         MessageParcel data;
-        if (!(data.WriteInterfaceToken(mImms->GetDescriptor())
-            && data.WriteRemoteObject(mClient->AsObject().GetRefPtr())
+        if (!(data.WriteInterfaceToken(mAgent->GetDescriptor())
             && data.WriteInt32(keyEvent->GetKeyCode())
             && data.WriteInt32(keyEvent->GetKeyAction()))) {
             return false;
         }
-        mImms->DispatchKey(data);
 
-        return true;
+        return mAgent->DispatchKeyEvent(data);
     }
 }
 }

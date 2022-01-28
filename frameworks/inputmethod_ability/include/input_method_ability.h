@@ -17,6 +17,7 @@
 #define FM_IMMS_PROJECT_INPUTMETHODABILITY_H
 
 #include <thread>
+#include "js_input_method_engine_listener.h"
 #include "iremote_object.h"
 #include "i_input_control_channel.h"
 #include "i_input_method_core.h"
@@ -33,7 +34,8 @@
 
 namespace OHOS {
 namespace MiscServices {
-    class EventTarget;
+    class JsInputMethodEngineListener;
+    class MessageHandler;
     class InputMethodAbility : public RefBase {
     public:
         InputMethodAbility();
@@ -41,7 +43,7 @@ namespace MiscServices {
         static sptr<InputMethodAbility> GetInstance();
         sptr<IInputMethodCore> OnConnect();
         bool InsertText(const std::string text);
-        void setEventTarget(sptr<EventTarget> &eventTarget);
+        void setImeListener(sptr<JsInputMethodEngineListener> &imeListener);
         void DeleteForward(int32_t length);
         void DeleteBackward(int32_t length);
         void HideKeyboardSelf();
@@ -49,6 +51,7 @@ namespace MiscServices {
         std::u16string GetTextAfterCursor();
         void SendFunctionKey(int32_t funcKey);
         void MoveCursor(int32_t keyCode);
+        bool DispatchKeyEvent(int32_t keyCode, int32_t keyStatus);
 
     private:
         std::thread workThreadHandler;
@@ -64,11 +67,11 @@ namespace MiscServices {
 
         // communicating with IMSA
         sptr<IInputControlChannel> inputControlChannel;
+        void SetCoreAndAgent();
 
         // communicating with IMC
         sptr<IInputDataChannel> inputDataChannel;
-        sptr<IInputMethodAgent> inputMethodAgent;
-        sptr<EventTarget> eventTarget_;
+        sptr<JsInputMethodEngineListener> imeListener_;
         static std::mutex instanceLock_;
         static sptr<InputMethodAbility> instance_;
         sptr<InputMethodSystemAbilityProxy> mImms;
@@ -76,7 +79,6 @@ namespace MiscServices {
 
         void Initialize();
         void WorkThread();
-        void CreateInputMethodAgent(bool supportPhysicalKbd);
 
         // the message from IMSA
         void OnInitialInput(Message *msg);
@@ -85,9 +87,9 @@ namespace MiscServices {
         void OnSetKeyboardType(Message *msg);
         void OnShowKeyboard(Message *msg);
         void OnHideKeyboard(Message *msg);
+        void OnInitInputControlChannel(Message *msg);
 
         // the message from IMC
-        bool DispatchKey(Message *msg);
         void OnCursorUpdate(Message *msg);
         void OnSelectionChange(Message *msg);
 
