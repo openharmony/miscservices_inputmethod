@@ -37,7 +37,6 @@ namespace MiscServices {
             RELEASE_INPUT,
             START_INPUT,
             STOP_INPUT,
-            DISPATCH_KEY,
             SET_INPUT_METHOD_CORE,
             GET_DISPLAY_MODE,
             GET_KEYBOARD_WINDOW_HEIGHT,
@@ -45,6 +44,7 @@ namespace MiscServices {
             LIST_INPUT_METHOD_ENABLED,
             LIST_INPUT_METHOD,
             LIST_KEYBOARD_TYPE,
+            SET_CORE_AND_AGENT,
         };
 
         DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.IInputMethodSystemAbility");
@@ -53,8 +53,7 @@ namespace MiscServices {
         virtual void releaseInput(MessageParcel& data) = 0;
         virtual void startInput(MessageParcel& data) = 0;
         virtual void stopInput(MessageParcel& data) = 0;
-        virtual void DispatchKey(MessageParcel& data) = 0;
-        virtual int32_t setInputMethodCore(sptr<IInputMethodCore> &core) = 0;
+        virtual void SetCoreAndAgent(MessageParcel& data) = 0;
 
         virtual int32_t getDisplayMode(int32_t retMode) = 0;
         virtual int32_t getKeyboardWindowHeight(int32_t retHeight) = 0;

@@ -20,7 +20,6 @@
 #include <thread>
 #include <string>
 #include "global.h"
-#include "input_method_ability.h"
 #include "input_method_agent_stub.h"
 #include "input_method_core_stub.h"
 #include "input_control_channel_stub.h"
@@ -104,17 +103,6 @@ namespace MiscServices {
         auto remoteObject = data.ReadRemoteObject();
         sptr<IInputControlChannel> iface = iface_cast<IInputControlChannel>(remoteObject);
         EXPECT_TRUE(iface != nullptr);
-    }
-
-    /**
-    * @tc.name: testGetInputMethodAbilityInstance
-    * @tc.desc: Checkout the function of getInstance.
-    * @tc.type: FUNC
-    */
-    HWTEST_F(InputMethodAbilityTest, testGetInputMethodAbilityInstance, TestSize.Level0)
-    {
-        auto ima = InputMethodAbility::GetInstance();
-        EXPECT_TRUE(ima != nullptr);
     }
 
     /**

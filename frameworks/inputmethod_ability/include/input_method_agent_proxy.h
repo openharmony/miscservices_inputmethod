@@ -27,7 +27,7 @@ namespace MiscServices {
         ~InputMethodAgentProxy() = default;
         DISALLOW_COPY_AND_MOVE(InputMethodAgentProxy);
 
-        int32_t DispatchKey(int32_t key, int32_t status) override;
+        bool DispatchKeyEvent(MessageParcel& data) override;
         void OnCursorUpdate(int32_t positionX, int32_t positionY, int32_t height) override;
         void OnSelectionChange(std::u16string text, int32_t oldBegin, int32_t oldEnd,
                                int32_t newBegin, int32_t newEnd) override;

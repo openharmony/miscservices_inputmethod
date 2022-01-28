@@ -38,7 +38,6 @@
 #include "keyboard_type.h"
 #include "ability_manager_interface.h"
 #include "ability_connect_callback_proxy.h"
-#include "input_method_ability.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -113,7 +112,6 @@ namespace MiscServices {
         int OnSettingChanged(const std::u16string& key, const std::u16string& value);
         void CreateWorkThread(MessageHandler& handler);
         void JoinWorkThread();
-        void SetInputMethodAbility(sptr<InputMethodAbility> &inputMethodAbility);
         static bool StartInputService();
     private:
         int userId_; // the id of the user to whom the object is linking
@@ -148,7 +146,6 @@ namespace MiscServices {
         std::thread workThreadHandler; // work thread handler
         std::mutex mtx; // mutex to lock the operations among multi work threads
         sptr<AAFwk::AbilityConnectionProxy> connCallback;
-        sptr<InputMethodAbility> inputMethodAbility_;
 
         PerUserSession(const PerUserSession&);
         PerUserSession& operator =(const PerUserSession&);
@@ -165,7 +162,7 @@ namespace MiscServices {
         void OnReleaseInput(Message *msg);
         void OnStartInput(Message *msg);
         void OnStopInput(Message *msg);
-        void DispatchKey(Message *msg);
+        void SetCoreAndAgent(Message *msg);
         void OnClientDied(const wptr<IRemoteObject>& who);
         void OnImsDied(const wptr<IRemoteObject>& who);
         void OnHideKeyboardSelf(int flags);
@@ -184,7 +181,9 @@ namespace MiscServices {
         void SetDisplayId(int displayId);
         int GetImeIndex(const sptr<IInputClient>& inputClient);
         static sptr<AAFwk::IAbilityManager> GetAbilityManagerService();
-        void onSetInputMethodCore(Message *msg);
+        void SendAgentToSingleClient(const sptr<IInputClient>& inputClient);
+        void InitInputControlChannel();
+        void SendAgentToAllClients();
     };
 }
 }

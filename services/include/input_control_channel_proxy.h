@@ -33,7 +33,6 @@ namespace MiscServices {
         InputControlChannelProxy(const sptr<IRemoteObject> &impl);
         ~InputControlChannelProxy();
 
-        virtual void onAgentCreated(sptr<IInputMethodAgent>& agent, InputChannel *channel) override;
         virtual void hideKeyboardSelf(int flags) override;
         virtual bool advanceToNext(bool isCurrentIme) override;
         virtual void setDisplayMode(int mode) override;
