@@ -53,18 +53,6 @@ namespace MiscServices {
             return ErrorCode::ERROR_STATUS_UNKNOWN_TRANSACTION;
         }
         switch (code) {
-            case ON_AGENT_CREATED: {
-                sptr<InputMethodAgentProxy> proxy = new InputMethodAgentProxy(data.ReadRemoteObject());
-                sptr<IInputMethodAgent> agent = proxy;
-
-                InputChannel *channel = nullptr;
-                if (data.ReadInt32() > 0) {
-                    channel = data.ReadParcelable<InputChannel>();
-                }
-                onAgentCreated(agent, channel);
-                reply.WriteNoException();
-                break;
-            }
             case HIDE_KEYBOARD_SELF: {
                 int flag = data.ReadInt32();
                 hideKeyboardSelf(flag);
@@ -94,25 +82,6 @@ namespace MiscServices {
             }
         }
         return NO_ERROR;
-    }
-
-
-    /*! Called when input method service creates InputMethodAgentProxy
-    \n This call is running in binder thread
-    \param agent the remote handler from input method service, with which input client can remotely callback to
-            input method service
-    \param channel channel for sending physical keyboard event from input client to input method service
-    */
-    void InputControlChannelStub::onAgentCreated(sptr < IInputMethodAgent >& agent, InputChannel *channel)
-    {
-        IMSA_HILOGI("InputControlChannelStub::onAgentCreated");
-        {
-            std::unique_lock<std::mutex> lck(mtx);
-            agentReadyFlag = true;
-        }
-        this->agent = agent;
-        this->channel = channel;
-        cv.notify_one();
     }
 
     /*! Called when input method service showed keyboard
@@ -193,43 +162,6 @@ namespace MiscServices {
         std::unique_lock<std::mutex> lck(mtx);
         keyboardReadyFlag = false;
         agentReadyFlag = false;
-        if (agent) {
-            agent = nullptr;
-        }
-        if (channel) {
-            delete channel;
-            channel = nullptr;
-        }
-    }
-    /*! Get input method agent and input write channel
-    \n This should be called in work thread of PerUserSession
-    \param[out] retAgent remote handler of InputMethodAgentProxy returned to the caller
-    \param[out] retChannel input write channel returned to caller
-    \return true - onAgentCreated is called by input method service in time
-    \n false - onAgentCreated is not called by input method service in time
-    */
-    bool InputControlChannelStub::GetAgentAndChannel(sptr<IInputMethodAgent> *retAgent, InputChannel **retChannel)
-    {
-        IMSA_HILOGI("InputControlChannelStub::GetAgentAndChannel");
-        std::chrono::milliseconds millsec(sleepTime);
-        bool ret = false;
-        {
-            std::unique_lock<std::mutex> lck(mtx);
-            ret = cv.wait_for(lck, millsec, [this] {
-                return agentReadyFlag;
-            });
-        }
-        if (ret) {
-            if (retAgent) {
-                *retAgent = agent;
-            }
-            if (retChannel) {
-                *retChannel = channel;
-                channel = nullptr;
-            }
-            return true;
-        }
-        return false;
     }
 
     /*! Wait for keyboard to be ready
