@@ -121,7 +121,7 @@ namespace MiscServices {
             NativeValue* nativeString = nullptr;
             nativeString = info.argv[ARGC_ZERO];
 
-           std::string textString;
+            std::string textString;
             if (!AbilityRuntime::ConvertFromJsValue(engine, nativeString, textString)) {
                 IMSA_HILOGI("JsInputMethodEngine::OnInsertText Failed to convert parameter to string");
                 return engine.CreateUndefined();
@@ -146,7 +146,7 @@ namespace MiscServices {
             nativeString = info.argv[ARGC_ZERO];
 
             int32_t number;
-            if(!AbilityRuntime::ConvertFromJsValue(engine, nativeString, number)) {
+            if (!AbilityRuntime::ConvertFromJsValue(engine, nativeString, number)) {
                 IMSA_HILOGI("JsInputMethodEngine::OnDeleteForward Failed to convert parameter to string");
                 return engine.CreateUndefined();
             }
@@ -339,7 +339,7 @@ NativeValue* JsInputMethodEngineInit(NativeEngine* engine, NativeValue* exportOb
     AbilityRuntime::BindNativeFunction(*engine, *object, "MoveCursor", JsInputMethodEngine::MoveCursor);
     AbilityRuntime::BindNativeFunction(*engine, *object, "HideKeyboardSelf", JsInputMethodEngine::HideKeyboardSelf);
     AbilityRuntime::BindNativeFunction(*engine, *object, "GetTextBeforeCursor",
-            JsInputMethodEngine::GetTextBeforeCursor);
+        JsInputMethodEngine::GetTextBeforeCursor);
     AbilityRuntime::BindNativeFunction(*engine, *object, "GetTextAfterCursor", JsInputMethodEngine::GetTextAfterCursor);
     AbilityRuntime::BindNativeFunction(*engine, *object, "SendFunctionKey", JsInputMethodEngine::SendFunctionKey);
 

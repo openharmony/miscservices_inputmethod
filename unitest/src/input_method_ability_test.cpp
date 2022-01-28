@@ -20,7 +20,6 @@
 #include <thread>
 #include <string>
 #include "global.h"
-#include "input_method_ability.h"
 #include "input_method_agent_stub.h"
 #include "input_method_core_stub.h"
 #include "input_control_channel_stub.h"

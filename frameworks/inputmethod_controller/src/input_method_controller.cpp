@@ -295,7 +295,8 @@ using namespace MessageID;
             return;
         }
 
-        if (cursorInfo_.left == cursorInfo.left && cursorInfo_.top == cursorInfo.top && cursorInfo_.height == cursorInfo.height) {
+        if (cursorInfo_.left == cursorInfo.left && cursorInfo_.top == cursorInfo.top
+            && cursorInfo_.height == cursorInfo.height) {
             return;
         }
         cursorInfo_ = cursorInfo;
