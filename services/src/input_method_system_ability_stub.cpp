@@ -61,15 +61,9 @@ namespace MiscServices {
                 reply.WriteInt32(NO_ERROR);
                 break;
             }
-            case DISPATCH_KEY: {
+            case SET_CORE_AND_AGENT: {
                 MessageParcel *msgParcel = (MessageParcel*) &data;
-                DispatchKey(*msgParcel);
-                reply.WriteInt32(NO_ERROR);
-                break;
-            }
-            case SET_INPUT_METHOD_CORE: {
-                MessageParcel *msgParcel = (MessageParcel*) &data;
-                setInputMethodCoreFromHap(*msgParcel);
+                SetCoreAndAgent(*msgParcel);
                 reply.WriteInt32(NO_ERROR);
                 break;
             }
@@ -251,37 +245,23 @@ namespace MiscServices {
         MessageHandler::Instance()->SendMessage(msg);
     }
 
-    void InputMethodSystemAbilityStub::DispatchKey(MessageParcel& data)
-    {
-        IMSA_HILOGI("InputMethodSystemAbilityStub::DispatchKey");
-        int32_t uid = IPCSkeleton::GetCallingUid();
-        int32_t userId = getUserId(uid);
-        MessageParcel *parcel = new MessageParcel();
-        parcel->WriteInt32(userId);
-        parcel->WriteRemoteObject(data.ReadRemoteObject());
-        parcel->WriteInt32(data.ReadInt32());
-        parcel->WriteInt32(data.ReadInt32());
-
-        Message *msg = new Message(MSG_ID_DISPATCH_KEY, parcel);
-        MessageHandler::Instance()->SendMessage(msg);
-    }
-
         /*! Prepare input
     \n Send prepareInput command to work thread.
         The handling of prepareInput is in the work thread of PerUserSession.
     \see PerUserSession::OnPrepareInput
     \param data the parcel in which the parameters are saved
     */
-    void InputMethodSystemAbilityStub::setInputMethodCoreFromHap(MessageParcel& data)
+    void InputMethodSystemAbilityStub::SetCoreAndAgent(MessageParcel& data)
     {
-        IMSA_HILOGI("InputMethodSystemAbilityStub::setInputMethodCoreFromHap");
+        IMSA_HILOGI("InputMethodSystemAbilityStub::SetCoreAndAgent");
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
         MessageParcel *parcel = new MessageParcel();
         parcel->WriteInt32(userId);
         parcel->WriteRemoteObject(data.ReadRemoteObject());
+        parcel->WriteRemoteObject(data.ReadRemoteObject());
 
-        Message *msg = new Message(MSG_ID_SET_INPUT_METHOD_CORE, parcel);
+        Message *msg = new Message(MSG_ID_SET_CORE_AND_AGENT, parcel);
         MessageHandler::Instance()->SendMessage(msg);
     }
 

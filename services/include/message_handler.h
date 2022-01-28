@@ -44,7 +44,7 @@ namespace MessageID {
         MSG_ID_START_INPUT, // start input
         MSG_ID_STOP_INPUT, // stop input
         MSG_ID_RELEASE_INPUT, // release input
-        MSG_ID_SET_INPUT_METHOD_CORE,
+        MSG_ID_SET_CORE_AND_AGENT,
 
         // the request to handle the condition that the remote object died
         MSG_ID_CLIENT_DIED, // input client died
@@ -74,9 +74,9 @@ namespace MessageID {
         MSG_ID_HIDE_KEYBOARD,
         MSG_ID_SET_KEYBOARD_TYPE,
         MSG_ID_GET_KEYBOARD_WINDOW_HEIGHT,
+        MSG_ID_INIT_INPUT_CONTROL_CHANNEL,
 
         // the request from IMC to IMA
-        MSG_ID_DISPATCH_KEY, // dispatch key from PhysicalKbd
         MSG_ID_ON_CURSOR_UPDATE,
         MSG_ID_ON_SELECTION_CHANGE,
     };

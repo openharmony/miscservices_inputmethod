@@ -40,6 +40,7 @@ namespace MiscServices {
             HIDE_KEYBOARD,
             SET_KEYBOARD_TYPE,
             GET_KEYBOARD_WINDOW_HEIGHT,
+            INIT_INPUT_CONTROL_CHANNEL
         };
 
         DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.IInputMethodCore");
@@ -50,10 +51,11 @@ namespace MiscServices {
                                 const InputAttribute& editorAttribute,
                                 bool supportPhysicalKbd) = 0;
         virtual int32_t stopInput() = 0;
-        virtual bool showKeyboard(int32_t flags) = 0;
+        virtual bool showKeyboard(const sptr<IInputDataChannel>& inputDataChannel) = 0;
         virtual bool hideKeyboard(int32_t flags) = 0;
         virtual int32_t setKeyboardType(const KeyboardType& type) = 0;
         virtual int32_t getKeyboardWindowHeight(int32_t retHeight) = 0;
+        virtual int32_t InitInputControlChannel(sptr<IInputControlChannel> &inputControlChannel) = 0;
     };
 }
 }

@@ -97,49 +97,20 @@ namespace MiscServices {
         }
     }
 
-    void InputMethodSystemAbilityProxy::DispatchKey(MessageParcel& data)
+    void InputMethodSystemAbilityProxy::SetCoreAndAgent(MessageParcel& data)
     {
-        IMSA_HILOGI("InputMethodSystemAbilityProxy::DispatchKey");
-        MessageParcel reply;
-        MessageOption option;
+        IMSA_HILOGI("InputMethodSystemAbilityProxy::SetCoreAndAgent");
 
-        auto ret = Remote()->SendRequest(DISPATCH_KEY, data, reply, option);
-        if (ret != NO_ERROR) {
-            IMSA_HILOGI("InputMethodSystemAbilityProxy::DispatchKey SendRequest failed");
-            return;
-        }
-
-        ret = reply.ReadInt32();
-        if (ret != NO_ERROR) {
-            IMSA_HILOGI("InputMethodSystemAbilityProxy::DispatchKey reply failed");
-            return;
-        }
-    }
-
-    int32_t InputMethodSystemAbilityProxy::setInputMethodCore(sptr<IInputMethodCore> &core)
-    {
-        IMSA_HILOGI("InputMethodSystemAbilityProxy::setInputMethodCore");
-
-        if (core == nullptr) {
-            IMSA_HILOGI("InputMethodSystemAbilityProxy::setInputMethodCore inputDataChannel is nullptr");
-        }
         auto remote = Remote();
         if (remote == nullptr) {
-            return -1;
-        }
-        MessageParcel data;
-        if (!(data.WriteInterfaceToken(GetDescriptor())
-            && data.WriteRemoteObject(core->AsObject()))) {
-            return -1;
+            return;
         }
         MessageParcel reply;
         MessageOption option {
             MessageOption::TF_SYNC
         };
 
-        int32_t status = Remote()->SendRequest(SET_INPUT_METHOD_CORE, data, reply, option);
-
-        return status;
+        Remote()->SendRequest(SET_CORE_AND_AGENT, data, reply, option);
     }
 
     int32_t InputMethodSystemAbilityProxy::Prepare(int32_t displayId, sptr<InputClientStub> &client,

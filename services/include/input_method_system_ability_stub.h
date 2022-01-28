@@ -33,8 +33,7 @@ namespace MiscServices {
         virtual void releaseInput(MessageParcel& data) override;
         virtual void startInput(MessageParcel& data) override;
         virtual void stopInput(MessageParcel& data) override;
-        virtual void DispatchKey(MessageParcel& data) override;
-        void setInputMethodCoreFromHap(MessageParcel& data);
+        virtual void SetCoreAndAgent(MessageParcel& data) override;
     protected:
         int32_t getUserId(int32_t uid);
         int USER_ID_CHANGE_VALUE = 200000; // user range

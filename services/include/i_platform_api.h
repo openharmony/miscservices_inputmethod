@@ -56,7 +56,6 @@ namespace OHOS {
                                                 InputMethodProperty *inputMethodProperty) = 0;
         virtual int32_t getInputMethodSetting(int userId, InputMethodSetting *inputMethodSetting) = 0;
         virtual int32_t setInputMethodSetting(int userId, const InputMethodSetting& inputMethodSetting) = 0;
-
     };
 }
 }

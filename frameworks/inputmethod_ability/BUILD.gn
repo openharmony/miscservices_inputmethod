@@ -18,17 +18,31 @@ config("inputmethod_ability_native_config") {
   include_dirs = [
     "include",
     "${inputmethod_path}/frameworks/inputmethod_controller/include",
+    "${inputmethod_path}/interfaces/kits/js/napi/include",
+    "${inputmethod_path}/services/include",
   ]
 }
 config("inputmethod_ability_native_public_config") {
   visibility = []
-  include_dirs = [ "include" ]
+  include_dirs = [
+    "include",
+    "${inputmethod_path}/services/include",
+  ]
 }
 
 ohos_shared_library("inputmethod_ability") {
   sources = [
+    "${inputmethod_path}/frameworks/inputmethod_controller/src/input_data_channel_proxy.cpp",
+    "${inputmethod_path}/interfaces/kits/js/napi/src/js_input_method_engine.cpp",
+    "${inputmethod_path}/interfaces/kits/js/napi/src/js_input_method_engine_listener.cpp",
+    "${inputmethod_path}/services/src/input_attribute.cpp",
+    "${inputmethod_path}/services/src/input_channel.cpp",
+    "${inputmethod_path}/services/src/input_control_channel_proxy.cpp",
+    "${inputmethod_path}/services/src/input_method_property.cpp",
+    "${inputmethod_path}/services/src/keyboard_type.cpp",
+    "${inputmethod_path}/services/src/message.cpp",
+    "${inputmethod_path}/services/src/message_handler.cpp",
     "../inputmethod_controller/src/input_method_system_ability_proxy.cpp",
-    "src/event_target.cpp",
     "src/input_method_ability.cpp",
     "src/input_method_agent_proxy.cpp",
     "src/input_method_agent_stub.cpp",
@@ -40,8 +54,6 @@ ohos_shared_library("inputmethod_ability") {
 
   deps = [
     "//base/global/resmgr_standard/frameworks/resmgr:global_resmgr",
-    "//base/miscservices/inputmethod/services:inputmethod_service",
-    "//foundation/aafwk/standard/frameworks/kits/ability/native:abilitykit_native",
     "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
     "//foundation/aafwk/standard/interfaces/innerkits/app_manager:app_manager",
     "//foundation/aafwk/standard/interfaces/innerkits/base:base",
@@ -59,9 +71,12 @@ ohos_shared_library("inputmethod_ability") {
     "//utils/native/base:utils",
   ]
 
-  external_deps = [ "hiviewdfx_hilog_native:libhilog" ]
+  external_deps = [
+    "ability_runtime:runtime",
+    "hiviewdfx_hilog_native:libhilog",
+  ]
 
-  public_configs = [ ":inputmethod_ability_native_config" ]
+  public_configs = [ ":inputmethod_ability_native_public_config" ]
 
   subsystem_name = "miscservices"
   part_name = "inputmethod_native"
