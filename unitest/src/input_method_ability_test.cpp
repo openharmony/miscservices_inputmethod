@@ -107,17 +107,6 @@ namespace MiscServices {
     }
 
     /**
-    * @tc.name: testGetInputMethodAbilityInstance
-    * @tc.desc: Checkout the function of getInstance.
-    * @tc.type: FUNC
-    */
-    HWTEST_F(InputMethodAbilityTest, testGetInputMethodAbilityInstance, TestSize.Level0)
-    {
-        auto ima = InputMethodAbility::GetInstance();
-        EXPECT_TRUE(ima != nullptr);
-    }
-
-    /**
     * @tc.name: testSerializedInputAttribute
     * @tc.desc: Checkout the serialization of InputAttribute.
     * @tc.type: FUNC

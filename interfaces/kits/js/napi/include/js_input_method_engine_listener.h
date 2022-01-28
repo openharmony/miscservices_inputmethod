@@ -20,9 +20,9 @@
 #include <unordered_set>
 #include <queue>
 #include <condition_variable>
+#include <refbase.h>
 #include "native_engine/native_engine.h"
 #include "native_engine/native_value.h"
-#include <refbase.h>
 namespace OHOS {
 namespace MiscServices {
     class JsInputMethodEngineListener : virtual public RefBase {
