@@ -26,8 +26,7 @@ namespace OHOS {
         class IInputControlChannel : public IRemoteBroker {
         public:
             enum {
-                ON_AGENT_CREATED = FIRST_CALL_TRANSACTION,
-                HIDE_KEYBOARD_SELF,
+                HIDE_KEYBOARD_SELF = FIRST_CALL_TRANSACTION,
                 ADVANCE_TO_NEXT,
                 SET_DISPLAY_MODE,
                 ON_KEYBOARD_SHOWED,
@@ -35,7 +34,6 @@ namespace OHOS {
 
             DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.InputControlChannel");
 
-            virtual void onAgentCreated(sptr<IInputMethodAgent>& agent, InputChannel *channel) = 0;
             virtual void hideKeyboardSelf(int flags) = 0;
             virtual bool advanceToNext(bool isCurrentIme) = 0;
             virtual void setDisplayMode(int mode) = 0;

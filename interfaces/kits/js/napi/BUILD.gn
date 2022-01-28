@@ -24,17 +24,11 @@ config("inputmethodengine_native_public_config") {
 }
 
 ohos_shared_library("inputmethodengine") {
-  include_dirs = [
-    "//third_party/node/src",
-    "//foundation/ace/napi/interfaces/kits",
+  sources = [
+    "src/input_method_engine_module.cpp",
+    "src/js_input_method_engine.cpp",
+    "src/js_input_method_engine_listener.cpp",
   ]
-
-  cflags = [
-    "-fPIC",
-    "-g3",
-  ]
-
-  sources = [ "js_input_method_engine.cpp" ]
 
   configs = [ ":inputmethodengine_native_config" ]
 
@@ -61,11 +55,12 @@ ohos_shared_library("inputmethodengine") {
   ]
 
   external_deps = [
+    "ability_runtime:runtime",
     "hiviewdfx_hilog_native:libhilog",
     "ipc:ipc_core",
   ]
 
-  relative_install_dir = "module"
+  public_configs = [ ":inputmethodengine_native_public_config" ]
 
   subsystem_name = "miscservices"
   part_name = "inputmethod_native"

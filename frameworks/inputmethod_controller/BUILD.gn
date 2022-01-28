@@ -18,6 +18,7 @@ config("inputmethod_client_native_config") {
   include_dirs = [
     "include",
     "//utils/native/base/include",
+    "${inputmethod_path}/services/include",
   ]
 }
 
@@ -37,9 +38,7 @@ config("inputmethod_client_native_public_config") {
 ohos_shared_library("inputmethod_client") {
   sources = [
     "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_agent_proxy.cpp",
-    "${inputmethod_path}/services/src/global.cpp",
     "${inputmethod_path}/services/src/input_attribute.cpp",
-    "${inputmethod_path}/services/src/input_channel.cpp",
     "${inputmethod_path}/services/src/input_method_property.cpp",
     "${inputmethod_path}/services/src/keyboard_type.cpp",
     "${inputmethod_path}/services/src/message.cpp",

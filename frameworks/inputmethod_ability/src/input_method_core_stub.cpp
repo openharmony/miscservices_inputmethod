@@ -22,6 +22,7 @@
 #include "platform.h"
 #include "message_parcel.h"
 #include "input_control_channel_proxy.h"
+#include "input_method_ability.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -67,6 +68,20 @@ namespace MiscServices {
                 reply.WriteNoException();
                 break;
             }
+            case INIT_INPUT_CONTROL_CHANNEL: {
+                sptr<IRemoteObject> channelObject = data.ReadRemoteObject();
+                if (channelObject == nullptr) {
+                    IMSA_HILOGI("InputMethodCoreStub::OnRemoteRequest channelObject is nullptr");
+                }
+                sptr<IInputControlChannel> inputControlChannel = new InputControlChannelProxy(channelObject);
+                if (inputControlChannel == nullptr) {
+                    IMSA_HILOGI("InputMethodCoreStub::OnRemoteRequest inputControlChannel is nullptr");
+                }
+
+                InitInputControlChannel(inputControlChannel);
+                reply.WriteNoException();
+                break;
+            }
             case START_INPUT: {
                 sptr<IInputDataChannel> inputDataChannel = iface_cast<IInputDataChannel>(data.ReadRemoteObject());
                 InputAttribute *editorAttribute = data.ReadParcelable<InputAttribute>();
@@ -85,8 +100,8 @@ namespace MiscServices {
                 break;
             }
             case SHOW_KEYBOARD: {
-                int32_t flags = data.ReadInt32();
-                showKeyboard(flags);
+                sptr<IInputDataChannel> inputDataChannel = iface_cast<IInputDataChannel>(data.ReadRemoteObject());
+                showKeyboard(inputDataChannel);
                 reply.WriteNoException();
                 break;
             }
@@ -138,6 +153,23 @@ namespace MiscServices {
         return ErrorCode::NO_ERROR;
     }
 
+    int32_t InputMethodCoreStub::InitInputControlChannel(sptr<IInputControlChannel>& inputControlChannel)
+    {
+        IMSA_HILOGI("InputMethodCoreStub::initializeInput");
+        if (msgHandler_ == nullptr) {
+            return ErrorCode::ERROR_NULL_POINTER;
+        }
+
+        MessageParcel *data = new MessageParcel();
+        if (inputControlChannel != nullptr) {
+            IMSA_HILOGI("InputMethodCoreStub::initializeInput. inputControlChannel is not nullptr");
+            data->WriteRemoteObject(inputControlChannel->AsObject());
+        }
+        Message *msg = new Message(MessageID::MSG_ID_INIT_INPUT_CONTROL_CHANNEL, data);
+        msgHandler_->SendMessage(msg);
+        return ErrorCode::NO_ERROR;
+    }
+
     bool InputMethodCoreStub::startInput(const sptr<IInputDataChannel>& inputDataChannel,
         const InputAttribute& editorAttribute, bool supportPhysicalKbd)
     {
@@ -169,15 +201,17 @@ namespace MiscServices {
         return ErrorCode::NO_ERROR;
     }
 
-    bool InputMethodCoreStub::showKeyboard(int32_t flags)
+    bool InputMethodCoreStub::showKeyboard(const sptr<IInputDataChannel>& inputDataChannel)
     {
         IMSA_HILOGI("InputMethodCoreStub::showKeyboard");
         if (msgHandler_ == nullptr) {
             return false;
         }
         MessageParcel *data = new MessageParcel();
-        data->WriteInt32(userId_);
-        data->WriteInt32(flags);
+        if (inputDataChannel != nullptr) {
+            IMSA_HILOGI("InputMethodCoreStub::startInput inputDataChannel is not nullptr");
+            data->WriteRemoteObject(inputDataChannel->AsObject());
+        }
 
         Message *msg = new Message(MessageID::MSG_ID_SHOW_KEYBOARD, data);
         msgHandler_->SendMessage(msg);
