@@ -41,7 +41,6 @@ using namespace MessageID;
 
     sptr<InputMethodController> InputMethodController::GetInstance()
     {
-        IMSA_HILOGI("InputMethodController::GetInstance");
         if (instance_ == nullptr) {
             std::lock_guard<std::mutex> autoLock(instanceLock_);
             if (instance_ == nullptr) {
@@ -296,7 +295,7 @@ using namespace MessageID;
             return;
         }
 
-        if(cursorInfo_.left == cursorInfo.left && cursorInfo_.top == cursorInfo.top && cursorInfo_.height == cursorInfo.height){
+        if (cursorInfo_.left == cursorInfo.left && cursorInfo_.top == cursorInfo.top && cursorInfo_.height == cursorInfo.height) {
             return;
         }
         cursorInfo_ = cursorInfo;
@@ -305,10 +304,10 @@ using namespace MessageID;
 
     void InputMethodController::OnSelectionChange(std::u16string text, int start, int end)
     {
-        IMSA_HILOGI("InputMethodController::OnSelectionChange");
         if (mTextString == text && mSelectNewBegin == start && mSelectNewEnd == end) {
             return;
         }
+        IMSA_HILOGI("InputMethodController::OnSelectionChange");
         mTextString = text;
         mSelectOldBegin = mSelectNewBegin;
         mSelectOldEnd = mSelectNewEnd;

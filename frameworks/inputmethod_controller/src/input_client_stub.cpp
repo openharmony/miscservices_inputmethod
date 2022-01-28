@@ -18,7 +18,6 @@
 
 namespace OHOS {
 namespace MiscServices {
-//    using namespace Message;
     InputClientStub::InputClientStub()
     {
     }

@@ -99,8 +99,8 @@ namespace MiscServices {
 
         MessageParcel data;
         if (!(data.WriteInterfaceToken(mImms->GetDescriptor())
-        && data.WriteRemoteObject(stub2->AsObject())
-        && data.WriteRemoteObject(inputMethodAgent->AsObject()))) {
+            && data.WriteRemoteObject(stub2->AsObject())
+            && data.WriteRemoteObject(inputMethodAgent->AsObject()))) {
             return;
         }
         mImms->SetCoreAndAgent(data);

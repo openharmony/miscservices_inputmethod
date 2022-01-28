@@ -1189,7 +1189,8 @@ namespace MiscServices {
         SendAgentToSingleClient(client);
     }
 
-    void PerUserSession::SendAgentToSingleClient(const sptr<IInputClient>& inputClient) {
+    void PerUserSession::SendAgentToSingleClient(const sptr<IInputClient>& inputClient)
+    {
         IMSA_HILOGI("PerUserSession::SendAgentToSingleClient");
         if (imsAgent == nullptr) {
             IMSA_HILOGI("PerUserSession::SendAgentToSingleClient imsAgent is nullptr");
@@ -1260,16 +1261,18 @@ namespace MiscServices {
         SendAgentToAllClients();
     }
 
-    void PerUserSession::SendAgentToAllClients() {
+    void PerUserSession::SendAgentToAllClients()
+    {
         IMSA_HILOGI("PerUserSession::SendAgentToAllClients");
         if (imsAgent == nullptr) {
             IMSA_HILOGI("PerUserSession::SendAgentToAllClients imsAgent is nullptr");
             return;
         }
 
-        for (std::map<sptr<IRemoteObject>, ClientInfo*>::iterator it = mapClients.begin(); it != mapClients.end(); it++) {
+        for (std::map<sptr<IRemoteObject>, ClientInfo*>::iterator it = mapClients.begin();
+            it != mapClients.end(); ++it) {
             ClientInfo *clientInfo = (ClientInfo*) it->second;
-            if(clientInfo != nullptr) {
+            if (clientInfo != nullptr) {
                 clientInfo->client->onInputReady(imsAgent);
             }
         }

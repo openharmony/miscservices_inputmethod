@@ -38,17 +38,18 @@ namespace MiscServices {
         std::unique_ptr<NativeReference> callbackRef;
         callbackRef.reset(engine_->CreateReference(jsListenerObject, 1));
         jsCbMap_[type].push_back(std::move(callbackRef));
-        IMSA_HILOGI("JsInputMethodEngineListener::AddCallback success jsCbMap_ size: %{public}d, and type[%{public}s] size: %{public}d!",
+        IMSA_HILOGI("JsInputMethodEngineListener::AddCallback success");
+        IMSA_HILOGI("jsCbMap_ size: %{public}d, and type[%{public}s] size: %{public}d!",
             static_cast<uint32_t>(jsCbMap_.size()), type.c_str(), static_cast<uint32_t>(jsCbMap_[type].size()));
         return;
     }
 
     void JsInputMethodEngineListener::UnregisterListenerWithType(std::string type, NativeValue* value)
     {
+        IMSA_HILOGI("JsInputMethodEngineListener::UnregisterListenerWithType");
         // should do type check
         if (jsCbMap_.empty() || jsCbMap_.find(type) == jsCbMap_.end()) {
-            IMSA_HILOGI("JsInputMethodEngineListener::UnregisterListenerWithType methodName %{public}s not registerted!",
-                    type.c_str());
+            IMSA_HILOGI("methodName %{public}s not registerted!", type.c_str());
             return;
         }
         for (auto it = jsCbMap_[type].begin(); it != jsCbMap_[type].end();) {
@@ -66,8 +67,9 @@ namespace MiscServices {
 
     bool JsInputMethodEngineListener::IfCallbackRegistered(std::string type, NativeValue* jsListenerObject)
     {
+        IMSA_HILOGI("JsInputMethodEngineListener::IfCallbackRegistered");
         if (jsCbMap_.empty() || jsCbMap_.find(type) == jsCbMap_.end()) {
-            IMSA_HILOGI("JsInputMethodEngineListener::IfCallbackRegistered methodName %{public}s not registertd!", type.c_str());
+            IMSA_HILOGI("methodName %{public}s not registertd!", type.c_str());
             return false;
         }
 
@@ -89,7 +91,7 @@ namespace MiscServices {
         }
 
         if (jsCbMap_.empty() || jsCbMap_.find(methodName) == jsCbMap_.end()) {
-            IMSA_HILOGI("JsInputMethodEngineListener::CallJsMethod methodName %{public}s not registertd!", methodName.c_str());
+            IMSA_HILOGI("methodName %{public}s not registertd!", methodName.c_str());
             return;
         }
 
@@ -98,7 +100,8 @@ namespace MiscServices {
         }
     }
 
-    bool JsInputMethodEngineListener::CallJsMethodReturnBool(std::string methodName, NativeValue* const* argv, size_t argc)
+    bool JsInputMethodEngineListener::CallJsMethodReturnBool(std::string methodName,
+                                                             NativeValue* const* argv, size_t argc)
     {
         IMSA_HILOGI("JsInputMethodEngineListener::CallJsMethodReturnBool");
         if (engine_ == nullptr) {
@@ -107,7 +110,7 @@ namespace MiscServices {
         }
 
         if (jsCbMap_.empty() || jsCbMap_.find(methodName) == jsCbMap_.end()) {
-            IMSA_HILOGI("JsInputMethodEngineListener::CallJsMethodReturnBool methodName %{public}s not registertd!", methodName.c_str());
+            IMSA_HILOGI("methodName %{public}s not registertd!", methodName.c_str());
             return false;
         }
 
@@ -200,7 +203,8 @@ namespace MiscServices {
         CallJsMethod(methodName, argv, AbilityRuntime::ArraySize(argv));
     }
 
-    void JsInputMethodEngineListener::OnSelectionChange(int32_t oldBegin, int32_t oldEnd, int32_t newBegin, int32_t newEnd)
+    void JsInputMethodEngineListener::OnSelectionChange(int32_t oldBegin, int32_t oldEnd,
+                                                        int32_t newBegin, int32_t newEnd)
     {
         std::lock_guard<std::mutex> lock(mMutex);
         IMSA_HILOGI("JsInputMethodEngineListener::OnSelectionChange");
