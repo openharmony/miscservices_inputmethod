@@ -35,19 +35,15 @@ namespace OHOS {
                                       MessageParcel &data,
                                       MessageParcel &reply,
                                       MessageOption &option) override;
-        virtual void onAgentCreated(sptr<IInputMethodAgent>& agent, InputChannel *channel) override;
         virtual void hideKeyboardSelf(int flags) override;
         virtual bool advanceToNext(bool isCurrentIme) override;
         virtual void setDisplayMode(int mode) override;
         virtual void onKeyboardShowed() override;
 
         void ResetFlag();
-        bool GetAgentAndChannel(sptr<IInputMethodAgent> *retAgent, InputChannel **retChannel);
         bool WaitKeyboardReady();
     private:
         int userId_;
-        sptr<IInputMethodAgent> agent = nullptr;
-        InputChannel *channel = nullptr;
 
         std::mutex mtx;
         std::condition_variable cv;

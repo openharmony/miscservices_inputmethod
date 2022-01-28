@@ -22,8 +22,7 @@ using namespace ErrorCode;
     {
     }
 
-    int32_t InputClientProxy::onInputReady(int32_t retValue, const sptr<IInputMethodAgent>& agent,
-                                           const InputChannel *channel)
+    int32_t InputClientProxy::onInputReady(const sptr<IInputMethodAgent>& agent)
     {
         IMSA_HILOGI("InputClientProxy::onInputReady");
         MessageParcel data, reply;
@@ -32,22 +31,7 @@ using namespace ErrorCode;
             return ERROR_EX_PARCELABLE;
         }
 
-        if (!data.WriteInt32(retValue)) {
-            return ERROR_EX_PARCELABLE;
-        }
-        if (agent == nullptr) {
-            data.WriteInt32(0);
-        } else {
-            data.WriteInt32(1);
-            data.WriteRemoteObject(agent->AsObject().GetRefPtr());
-        }
-    
-        if (channel == nullptr) {
-            data.WriteInt32(0);
-        } else {
-            data.WriteInt32(1);
-            data.WriteParcelable(channel);
-        }
+        data.WriteRemoteObject(agent->AsObject().GetRefPtr());
 
         auto ret = Remote()->SendRequest(ON_INPUT_READY, data, reply, option);
         if (ret != NO_ERROR) {

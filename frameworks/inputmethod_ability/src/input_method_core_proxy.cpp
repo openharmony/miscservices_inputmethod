@@ -21,7 +21,7 @@
 namespace OHOS {
 namespace MiscServices {
     InputMethodCoreProxy::InputMethodCoreProxy(const OHOS::sptr<OHOS::IRemoteObject> &impl)
-    : IRemoteProxy<IInputMethodCore>(impl)
+        : IRemoteProxy<IInputMethodCore>(impl)
     {
     }
 
@@ -58,6 +58,32 @@ namespace MiscServices {
         int32_t status = Remote()->SendRequest(INITIALIZE_INPUT, data, reply, option);
         if (status != ErrorCode::NO_ERROR) {
             IMSA_HILOGI("InputMethodCoreProxy::initializeInput status = %{public}d", status);
+            return status;
+        }
+        int32_t code = reply.ReadException();
+        return code;
+    }
+
+    int32_t InputMethodCoreProxy::InitInputControlChannel(sptr<IInputControlChannel> &inputControlChannel)
+    {
+        IMSA_HILOGI("InputMethodCoreProxy::InitInputControlChannel");
+
+        if (inputControlChannel == nullptr) {
+            IMSA_HILOGI("InputMethodCoreProxy::InitInputControlChannel inputControlChannel is nullptr");
+        }
+        MessageParcel data, reply;
+        data.WriteInterfaceToken(GetDescriptor());
+        sptr<IRemoteObject> channelObject = inputControlChannel->AsObject();
+        if (channelObject == nullptr) {
+            IMSA_HILOGI("InputMethodCoreProxy::InitInputControlChannel channelObject is nullptr");
+        }
+        data.WriteRemoteObject(channelObject);
+        MessageOption option {
+            MessageOption::TF_SYNC
+        };
+        int32_t status = Remote()->SendRequest(INIT_INPUT_CONTROL_CHANNEL, data, reply, option);
+        if (status != ErrorCode::NO_ERROR) {
+            IMSA_HILOGI("InputMethodCoreProxy::InitInputControlChannel status = %{public}d", status);
             return status;
         }
         int32_t code = reply.ReadException();
@@ -116,7 +142,7 @@ namespace MiscServices {
         return reply.ReadInt32();
     }
 
-    bool InputMethodCoreProxy::showKeyboard(int32_t flags)
+    bool InputMethodCoreProxy::showKeyboard(const sptr<IInputDataChannel> &inputDataChannel)
     {
         IMSA_HILOGI("InputMethodCoreProxy::showKeyboard");
         auto remote = Remote();
@@ -126,7 +152,8 @@ namespace MiscServices {
         }
 
         MessageParcel data;
-        if (!(data.WriteInterfaceToken(GetDescriptor()) && data.WriteInt32(flags))) {
+        if (!(data.WriteInterfaceToken(GetDescriptor())
+            && data.WriteRemoteObject(inputDataChannel->AsObject()))) {
             return false;
         }
         MessageParcel reply;

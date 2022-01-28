@@ -37,8 +37,7 @@ namespace MiscServices {
 
         DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.InputClient");
 
-        virtual int32_t onInputReady(int32_t retValue, const sptr<IInputMethodAgent>& agent,
-            const InputChannel *channel) = 0;
+        virtual int32_t onInputReady(const sptr<IInputMethodAgent>& agent) = 0;
         virtual int32_t onInputReleased(int32_t retValue) = 0;
         virtual int32_t setDisplayMode(int32_t mode) = 0;
     };
