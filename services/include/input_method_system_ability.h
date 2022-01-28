@@ -23,7 +23,6 @@
 #include "peruser_setting.h"
 #include "peruser_session.h"
 #include "event_handler.h"
-#include "input_method_ability.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -52,7 +51,6 @@ namespace MiscServices {
         virtual int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) override;
         virtual int32_t listInputMethod(std::vector<InputMethodProperty*> *properties) override;
         virtual int32_t listKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) override;
-        virtual  int32_t setInputMethodCore(sptr<IInputMethodCore> &core) override;
     protected:
         void OnStart() override;
         void OnStop() override;
@@ -84,7 +82,6 @@ namespace MiscServices {
         int32_t OnAdvanceToNext(const Message *msg);
 
         ServiceRunningState state_;
-        sptr<InputMethodAbility> inputMethodAbility_;
         void InitServiceHandler();
         static std::mutex instanceLock_;
         static sptr<InputMethodSystemAbility> instance_;

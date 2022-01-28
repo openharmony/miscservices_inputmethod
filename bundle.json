@@ -20,8 +20,8 @@
     "adapted_system_type": [
       "standard"
     ],
-    "rom":"300KB",
-    "ram":"1024KB",
+    "rom": "300KB",
+    "ram": "1024KB",
     "deps": {
       "components": [
         "ability_runtime",
@@ -45,8 +45,33 @@
       ],
       "inner_kits": [
         {
+          "name": "//base/miscservices/inputmethod/services:inputmethod_service",
+          "header": {
+            "header_files": [
+              "global.h",
+              "input_attribute.h",
+              "input_channel.h",
+              "input_control_channel_proxy.h",
+              "input_control_channel_stub.h",
+              "input_method_ability_connection_stub.h",
+              "input_method_property.h",
+              "input_method_setting.h",
+              "input_method_system_ability.h",
+              "input_method_system_ability_stub.h",
+              "keyboard_type.h",
+              "message.h",
+              "message_handler.h",
+              "peruser_session.h",
+              "peruser_setting.h",
+              "platform.h",
+              "platform_callback_stub.h"
+            ],
+            "header_base": "//base/miscservices/inputmethod/services/include"
+          }
+        },
+        {
           "name": "//base/miscservices/inputmethod/frameworks/inputmethod_controller:inputmethod_client",
-          "header": {	
+          "header": {
             "header_files": [
               "i_input_client.h",
               "i_input_data_channel.h",
@@ -55,16 +80,16 @@
               "input_data_channel_proxy.h",
               "input_data_channel_stub.h",
               "input_method_controller.h",
-              "input_method_system_ability_proxy.h"
+              "input_method_system_ability_proxy.h",
+              "input_method_utils.h"
             ],
-            "header_base":"//base/miscservices/inputmethod/frameworks/inputmethod_controller/include"
+            "header_base": "//base/miscservices/inputmethod/frameworks/inputmethod_controller/include"
           }
         },
         {
           "name": "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
           "header": {
             "header_files": [
-              "event_target.h",
               "i_input_method_agent.h",
               "i_input_method_core.h",
               "input_method_ability.h",
@@ -73,7 +98,17 @@
               "input_method_core_proxy.h",
               "input_method_core_stub.h"
             ],
-            "header_base":"//base/miscservices/inputmethod/frameworks/inputmethod_ability/include"
+            "header_base": "//base/miscservices/inputmethod/frameworks/inputmethod_ability/include"
+          }
+        },
+        {
+          "name": "//base/miscservices/inputmethod/interfaces/kits/js/napi:inputmethodengine",
+          "header": {
+            "header_files": [
+              "js_input_method_engine.h",
+              "js_input_method_engine_listener.h"
+            ],
+            "header_base": "//base/miscservices/inputmethod/interfaces/kits/js/napi/include"
           }
         }
       ],

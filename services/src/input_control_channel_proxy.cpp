@@ -40,24 +40,6 @@ namespace MiscServices {
     {
     }
 
-    void InputControlChannelProxy::onAgentCreated(sptr<IInputMethodAgent> &agent, InputChannel *channel)
-    {
-        IMSA_HILOGI("InputControlChannelProxy::onAgentCreated start.");
-        MessageParcel data, reply;
-        MessageOption option;
-
-        data.WriteInterfaceToken(GetDescriptor());
-        data.WriteRemoteObject(agent->AsObject());
-        if (channel == nullptr) {
-            data.WriteInt32(0);
-        } else {
-            data.WriteInt32(1);
-            data.WriteParcelable(channel);
-        }
-        Remote()->SendRequest(ON_AGENT_CREATED, data, reply, option);
-        IMSA_HILOGI("InputMethodCoreStub::onAgentCreated end.");
-    }
-
     void InputControlChannelProxy::hideKeyboardSelf(int flags)
     {
         IMSA_HILOGI("InputControlChannelProxy::hideKeyboardSelf");

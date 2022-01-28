@@ -20,6 +20,7 @@
 #include "iremote_stub.h"
 #include "i_input_client.h"
 #include "message_handler.h"
+#include "message.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -32,8 +33,7 @@ namespace MiscServices {
         ~InputClientStub();
         void SetHandler(MessageHandler *handler);
 
-        int32_t onInputReady(int32_t retValue, const sptr<IInputMethodAgent>& agent,
-                             const InputChannel *channel) override;
+        int32_t onInputReady(const sptr<IInputMethodAgent>& agent) override;
         int32_t onInputReleased(int32_t retValue) override;
         int32_t setDisplayMode(int32_t mode) override;
     private:
