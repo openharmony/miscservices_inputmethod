@@ -18,7 +18,8 @@
 
 namespace OHOS {
 namespace MiscServices {
-    void JsInputMethodEngineListener::RegisterListenerWithType(NativeEngine& engine, std::string type, NativeValue* value)
+    void JsInputMethodEngineListener::RegisterListenerWithType(NativeEngine& engine,
+                                                               std::string type, NativeValue* value)
     {
         // should do type check
         if (IfCallbackRegistered(type, value)) {
