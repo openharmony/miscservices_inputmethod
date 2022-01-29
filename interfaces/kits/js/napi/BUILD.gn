@@ -62,6 +62,7 @@ ohos_shared_library("inputmethodengine") {
 
   public_configs = [ ":inputmethodengine_native_public_config" ]
 
+  relative_install_dir = "module"
   subsystem_name = "miscservices"
   part_name = "inputmethod_native"
 }
