@@ -26,7 +26,7 @@ namespace MiscServices {
     using namespace MessageID;
     REGISTER_SYSTEM_ABILITY_BY_ID(InputMethodSystemAbility, INPUT_METHOD_SYSTEM_ABILITY_ID, true);
     const std::int32_t INIT_INTERVAL = 10000L;
-    const std::int32_t MAIN_USER_ID = 100;
+    const std::int32_t MAIN_USER_ID = 0;
     std::mutex InputMethodSystemAbility::instanceLock_;
     sptr<InputMethodSystemAbility> InputMethodSystemAbility::instance_;
 
