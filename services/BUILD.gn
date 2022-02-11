@@ -73,6 +73,8 @@ ohos_shared_library("inputmethod_service") {
     "//utils/native/base:utils",
   ]
 
+  deps += [ "//base/miscservices/inputmethod/services/dialog/js:dialog_ime_js_files_etc" ]
+
   external_deps = [ "hiviewdfx_hilog_native:libhilog" ]
 
   subsystem_name = "miscservices"
