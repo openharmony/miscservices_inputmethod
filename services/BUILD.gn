@@ -52,6 +52,7 @@ ohos_shared_library("inputmethod_service") {
 
   deps = [
     "//base/global/resmgr_standard/frameworks/resmgr:global_resmgr",
+    "//base/miscservices/inputmethod/etc/para:inputmethod_para",
     "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
     "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
     "//foundation/aafwk/standard/interfaces/innerkits/app_manager:app_manager",
@@ -59,6 +60,7 @@ ohos_shared_library("inputmethod_service") {
     "//foundation/aafwk/standard/interfaces/innerkits/intent:intent",
     "//foundation/aafwk/standard/interfaces/innerkits/want:want",
     "//foundation/aafwk/standard/services/abilitymgr:abilityms",
+    "//foundation/ace/ace_engine/interfaces/innerkits/ui_service_manager:ui_service_mgr",
     "//foundation/ace/napi/:ace_napi",
     "//foundation/ace/napi/:ace_napi",
     "//foundation/appexecfwk/standard/interfaces/innerkits/appexecfwk_base:appexecfwk_base",

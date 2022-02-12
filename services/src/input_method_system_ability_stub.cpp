@@ -124,8 +124,10 @@ namespace MiscServices {
                 break;
             }
             case LIST_INPUT_METHOD: {
+                int32_t uid = IPCSkeleton::GetCallingUid();
+                int32_t userId = getUserId(uid);
                 std::vector<InputMethodProperty*> properties;
-                int32_t ret = listInputMethod(&properties);
+                int32_t ret = listInputMethodByUserId(userId, &properties);
                 if (ret != ErrorCode::NO_ERROR) {
                     reply.WriteInt32(ErrorCode::ERROR_EX_ILLEGAL_STATE); // write exception code
                     reply.WriteInt32(-1);
@@ -158,6 +160,11 @@ namespace MiscServices {
                 kbdTypes.clear();
                 break;
             }
+            case DISPLAY_OPTIONAL_INPUT_METHOD: {
+                displayOptionalInputMethod(data);
+                reply.WriteInt32(NO_ERROR);
+                break;
+            }
             default: {
                 return BRemoteObject::OnRemoteRequest(code, data, reply, option);
             }
@@ -187,6 +194,21 @@ namespace MiscServices {
         parcel->WriteParcelable(data.ReadParcelable<InputAttribute>());
 
         Message *msg = new Message(MSG_ID_PREPARE_INPUT, parcel);
+        MessageHandler::Instance()->SendMessage(msg);
+    }
+
+    void InputMethodSystemAbilityStub::displayOptionalInputMethod(MessageParcel& data)
+    {
+        IMSA_HILOGI("InputMethodSystemAbilityStub::displayOptionalInputMethod");
+        int32_t pid = IPCSkeleton::GetCallingPid();
+        int32_t uid = IPCSkeleton::GetCallingUid();
+        int32_t userId = getUserId(uid);
+        MessageParcel *parcel = new MessageParcel();
+        parcel->WriteInt32(userId);
+        parcel->WriteInt32(pid);
+        parcel->WriteInt32(uid);
+
+        Message *msg = new Message(MSG_ID_DISPLAY_OPTIONAL_INPUT_METHOD, parcel);
         MessageHandler::Instance()->SendMessage(msg);
     }
 

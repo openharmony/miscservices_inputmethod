@@ -45,6 +45,8 @@ namespace MiscServices {
         mConfigurationPage = property.mConfigurationPage;
         isSystemIme = property.isSystemIme;
         mDefaultImeId = property.mDefaultImeId;
+        moduleName = property.moduleName;
+        description = property.description;
 
         for (int i = 0; i < (int)mTypes.size(); i++) {
             KeyboardType *type = new KeyboardType(*property.mTypes[i]);
@@ -67,6 +69,8 @@ namespace MiscServices {
         mConfigurationPage = property.mConfigurationPage;
         isSystemIme = property.isSystemIme;
         mDefaultImeId = property.mDefaultImeId;
+        moduleName = property.moduleName;
+        description = property.description;
 
         for (int i = 0; i < (int)mTypes.size(); i++) {
             KeyboardType *type = new KeyboardType(*property.mTypes[i]);
@@ -87,7 +91,9 @@ namespace MiscServices {
             && parcel.WriteString16(mAbilityName)
             && parcel.WriteString16(mConfigurationPage)
             && parcel.WriteBool(isSystemIme)
-            && parcel.WriteInt32(mDefaultImeId)))
+            && parcel.WriteInt32(mDefaultImeId)
+            && parcel.WriteString16(moduleName)
+            && parcel.WriteString16(description)))
             return false;
         int32_t size = (int32_t)mTypes.size();
         parcel.WriteInt32(size);
@@ -114,6 +120,8 @@ namespace MiscServices {
         info->mConfigurationPage = parcel.ReadString16();
         info->isSystemIme = parcel.ReadBool();
         info->mDefaultImeId = parcel.ReadInt32();
+        info->moduleName = parcel.ReadString16();
+        info->description = parcel.ReadString16();
 
         int32_t size = parcel.ReadInt32();
         if (size == 0)

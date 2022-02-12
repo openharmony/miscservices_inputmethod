@@ -45,6 +45,7 @@ namespace MiscServices {
             LIST_INPUT_METHOD,
             LIST_KEYBOARD_TYPE,
             SET_CORE_AND_AGENT,
+            DISPLAY_OPTIONAL_INPUT_METHOD,
         };
 
         DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.IInputMethodSystemAbility");
@@ -55,6 +56,7 @@ namespace MiscServices {
         virtual void stopInput(MessageParcel& data) = 0;
         virtual void SetCoreAndAgent(MessageParcel& data) = 0;
 
+        virtual void displayOptionalInputMethod(MessageParcel& data) = 0;
         virtual int32_t getDisplayMode(int32_t retMode) = 0;
         virtual int32_t getKeyboardWindowHeight(int32_t retHeight) = 0;
         virtual int32_t getCurrentKeyboardType(KeyboardType *retType) = 0;

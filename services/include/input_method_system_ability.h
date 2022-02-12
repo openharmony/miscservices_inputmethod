@@ -23,6 +23,8 @@
 #include "peruser_setting.h"
 #include "peruser_session.h"
 #include "event_handler.h"
+#include "bundle_mgr_proxy.h"
+#include "ability_manager_interface.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -50,6 +52,7 @@ namespace MiscServices {
         virtual int32_t getCurrentKeyboardType(KeyboardType *retType) override;
         virtual int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) override;
         virtual int32_t listInputMethod(std::vector<InputMethodProperty*> *properties) override;
+        virtual int32_t listInputMethodByUserId(int32_t userId, std::vector<InputMethodProperty*> *properties) override;
         virtual int32_t listKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) override;
     protected:
         void OnStart() override;
@@ -68,7 +71,8 @@ namespace MiscServices {
         void WorkThread();
         PerUserSetting *GetUserSetting(int32_t userId);
         PerUserSession *GetUserSession(int32_t userId);
-        void StartInputService();
+        void StartInputService(std::string imeId);
+        void StopInputService(std::string imeId);
         int32_t OnUserStarted(const Message *msg);
         int32_t OnUserStopped(const Message *msg);
         int32_t OnUserUnlocked(const Message *msg);
@@ -80,6 +84,9 @@ namespace MiscServices {
         int32_t OnPackageAdded(const Message *msg);
         int32_t OnDisableIms(const Message *msg);
         int32_t OnAdvanceToNext(const Message *msg);
+        void OnDisplayOptionalInputMethod(int32_t userId);
+        static sptr<AAFwk::IAbilityManager> GetAbilityManagerService();
+        OHOS::sptr<OHOS::AppExecFwk::IBundleMgr> GetBundleMgr();
 
         ServiceRunningState state_;
         void InitServiceHandler();
