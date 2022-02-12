@@ -31,6 +31,8 @@ namespace MiscServices {
         bool isSystemIme;
         int32_t mDefaultImeId;
         std::vector<KeyboardType*> mTypes;
+        std::u16string moduleName;
+        std::u16string description;
 
         InputMethodProperty();
         ~InputMethodProperty();

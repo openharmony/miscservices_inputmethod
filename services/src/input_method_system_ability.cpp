@@ -373,6 +373,8 @@ namespace MiscServices {
             InputMethodProperty *property = new InputMethodProperty();
             property->mPackageName = Str8ToStr16(extension.bundleName);
             property->mAbilityName = Str8ToStr16(extension.name);
+            property->moduleName = Str8ToStr16(extension.moduleName);
+            property->description = Str8ToStr16(extension.description);
             properties->push_back(property);
         }
         return ErrorCode::NO_ERROR;
@@ -539,7 +541,6 @@ namespace MiscServices {
 
         userSettings.insert(std::pair<int32_t, PerUserSetting*>(userId, setting));
         userSessions.insert(std::pair<int32_t, PerUserSession*>(userId, session));
-        IMSA_HILOGI("End...[%d]\n", userId);
         return ErrorCode::NO_ERROR;
     }
 
