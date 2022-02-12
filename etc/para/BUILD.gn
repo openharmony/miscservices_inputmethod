@@ -1,0 +1,42 @@
+# Copyright (C) 2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//base/miscservices/inputmethod/inputmethod.gni")
+import("//build/ohos.gni")
+
+config("inputmethod_para_config") {
+  visibility = [ ":*" ]
+  include_dirs = [ "include" ]
+}
+config("inputmethod_para_public_config") {
+  visibility = []
+  include_dirs = [ "include" ]
+}
+ohos_shared_library("inputmethod_para") {
+  sources = [ "src/para_handle.cpp" ]
+  configs = [ ":inputmethod_para_config" ]
+  deps = []
+  external_deps = [
+    "hiviewdfx_hilog_native:libhilog",
+    "startup_l2:syspara",
+  ]
+  public_configs = [ ":inputmethod_para_public_config" ]
+  subsystem_name = "miscservices"
+  part_name = "inputmethod_native"
+}
+
+ohos_prebuilt_etc("inputmethod.para") {
+  source = "//base/miscservices/inputmethod/etc/para/inputmethod.para"
+  part_name = "inputmethod_native"
+  module_install_dir = "etc/param"
+}

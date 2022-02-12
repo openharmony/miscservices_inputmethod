@@ -232,6 +232,30 @@ using namespace MessageID;
         mImms->prepareInput(data);
     }
 
+    void InputMethodController::DisplayOptionalInputMethod()
+    {
+        IMSA_HILOGI("InputMethodController::DisplayOptionalInputMethod");
+        if (mImms == nullptr) {
+            return;
+        }
+        MessageParcel data;
+        if (!(data.WriteInterfaceToken(mImms->GetDescriptor()))) {
+            return;
+        }
+        mImms->displayOptionalInputMethod(data);
+    }
+
+    std::vector<InputMethodProperty*> InputMethodController::ListInputMethod()
+    {
+        IMSA_HILOGI("InputMethodController::listInputMethod");
+        std::vector<InputMethodProperty*> properties;
+        if (mImms == nullptr) {
+            return properties;
+        }
+        mImms->listInputMethod(&properties);
+        return properties;
+    }
+
     void InputMethodController::StartInput(sptr<InputClientStub> &client)
     {
         IMSA_HILOGI("InputMethodController::StartInput");
