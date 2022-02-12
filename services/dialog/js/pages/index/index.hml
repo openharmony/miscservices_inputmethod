@@ -9,10 +9,10 @@
                 <text class="imeName">{{ $item.name }}</text>
                 <text class="imeDecription">{{ $item.discription }}</text>
             </div>
-            <circle class="circle" cx="12px" cy="12px" r="12px" stroke-width="6px" fill="white" stroke="blue"
+            <circle class="circle" cx="12fp" cy="12fp" r="12fp" stroke-width="10fp" fill="white" stroke="blue"
                     show="{{ $item.isDefaultIme == 'true' ? true : false}}">
             </circle>
-            <circle class="circle" cx="12px" cy="12px" r="12px" stroke-width="1px" fill="white" stroke="black"
+            <circle class="circle" cx="12fp" cy="12fp" r="12fp" stroke-width="1fp" fill="white" stroke="black"
                     show="{{ $item.isDefaultIme === 'true' ? false : true }}"></circle>
         </list-item>
     </list>

@@ -20,6 +20,14 @@
 #include "iservice_registry.h"
 #include "ipc_skeleton.h"
 #include "global.h"
+#include "wm_common.h"
+#include "ui_service_mgr_client.h"
+#include "bundle_mgr_proxy.h"
+#include "para_handle.h"
+#include "ability_manager_interface.h"
+#include "ability_connect_callback_proxy.h"
+#include "sa_mgr_client.h"
+#include "application_info.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -124,7 +132,8 @@ namespace MiscServices {
         }
         IMSA_HILOGI("Publish ErrorCode::NO_ERROR.");
         state_ = ServiceRunningState::STATE_RUNNING;
-        StartInputService();
+        std::string defaultIme = ParaHandle::GetDefaultIme();
+        StartInputService(defaultIme);
         return ErrorCode::NO_ERROR;
     }
 
@@ -171,8 +180,9 @@ namespace MiscServices {
         setting->Initialize();
     }
 
-    void InputMethodSystemAbility::StartInputService() {
-        IMSA_HILOGE("InputMethodSystemAbility::StartInputService()");
+    void InputMethodSystemAbility::StartInputService(std::string imeId) {
+        IMSA_HILOGE("InputMethodSystemAbility::StartInputService() ime:%{public}s", imeId.c_str());
+
         PerUserSession *session = GetUserSession(MAIN_USER_ID);
 
         std::map<int32_t, MessageHandler*>::const_iterator it = msgHandlers.find(MAIN_USER_ID);
@@ -186,11 +196,30 @@ namespace MiscServices {
             msgHandlers.insert(std::pair<int32_t, MessageHandler*>(MAIN_USER_ID, handler));
         }
 
-        if (!session->StartInputService()) {
+        bool isStartSuccess = false;
+        sptr<AAFwk::IAbilityManager> ams = GetAbilityManagerService();
+        if (ams != nullptr) {
+            AAFwk::Want want;
+            want.SetAction("action.system.inputmethod");
+            std::string::size_type pos = imeId.find("/");
+            want.SetElementName(imeId.substr(0, pos), imeId.substr(pos + 1));
+            int32_t result = ams->StartAbility(want);
+            if (result != 0) {
+                IMSA_HILOGE("PerUserSession::StartInputService fail. result = %{public}d", result);
+                isStartSuccess = false;
+            }
+            isStartSuccess = true;
+        }
+
+        if (!isStartSuccess) {
             IMSA_HILOGE("StartInputService failed. Try again 10s later");
-            auto callback = [=]() { StartInputService(); };
+            auto callback = [this, imeId]() { StartInputService(imeId); };
             serviceHandler_->PostTask(callback, INIT_INTERVAL);
         }
+    }
+
+    void InputMethodSystemAbility::StopInputService(std::string imeId) {
+        IMSA_HILOGE("InputMethodSystemAbility::StopInputService(%{public}s)", imeId.c_str());
     }
 
     /*! Get the state of user
@@ -320,29 +349,33 @@ namespace MiscServices {
         return ErrorCode::NO_ERROR;
     }
 
+    int32_t InputMethodSystemAbility::listInputMethod(std::vector<InputMethodProperty*> *properties)
+    {
+        return ErrorCode::NO_ERROR;
+    }
+
     /*! Get all of the input method engine list installed in the system
     \n Run in binder thread
     \param[out] properties input method engine list returned to the caller
     \return ErrorCode::NO_ERROR no error
     \return ErrorCode::ERROR_USER_NOT_UNLOCKED user not unlocked
     */
-    int32_t InputMethodSystemAbility::listInputMethod(std::vector<InputMethodProperty*> *properties)
+    int32_t InputMethodSystemAbility::listInputMethodByUserId(int32_t userId, std::vector<InputMethodProperty*> *properties)
     {
-        int32_t uid = IPCSkeleton::GetCallingUid();
-        int32_t userId = getUserId(uid);
-        PerUserSetting *setting = GetUserSetting(userId);
-        if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
-            IMSA_HILOGE("%s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_UNLOCKED), userId);
-            return ErrorCode::ERROR_USER_NOT_UNLOCKED;
+        IMSA_HILOGI("InputMethodSystemAbility::listInputMethodByUserId");
+        std::vector<AppExecFwk::ExtensionAbilityInfo> extensionInfos;
+        bool ret = GetBundleMgr()->QueryExtensionAbilityInfos(AppExecFwk::ExtensionAbilityType::SERVICE, userId, extensionInfos);
+        if (!ret) {
+            IMSA_HILOGI("InputMethodSystemAbility::ListInputMethod QueryExtensionAbilityInfos error");
+            return ErrorCode::ERROR_STATUS_UNKNOWN_ERROR;
         }
-        setting->ListInputMethod(properties);
-        std::vector<InputMethodProperty*>::iterator it;
-        for (it = properties->begin(); it != properties->end();) {
-            if (*it && (*it)->isSystemIme) {
-                it = properties->erase(it);
-            } else {
-                ++it;
-            }
+        for (auto extension : extensionInfos) {
+            InputMethodProperty *property = new InputMethodProperty();
+            property->mPackageName = Str8ToStr16(extension.bundleName);
+            property->mAbilityName = Str8ToStr16(extension.name);
+            property->moduleName = Str8ToStr16(extension.moduleName);
+            property->description = Str8ToStr16(extension.description);
+            properties->push_back(property);
         }
         return ErrorCode::NO_ERROR;
     }
@@ -430,6 +463,12 @@ namespace MiscServices {
                     OnSettingChanged(msg);
                     break;
                 }
+                case MSG_ID_DISPLAY_OPTIONAL_INPUT_METHOD: {
+                    MessageParcel *data = msg->msgContent_;
+                    int32_t userId = data->ReadInt32();
+                    OnDisplayOptionalInputMethod(userId);
+                    break;
+                }
                 case MSG_ID_PREPARE_INPUT:
                 case MSG_ID_RELEASE_INPUT:
                 case MSG_ID_START_INPUT:
@@ -502,7 +541,6 @@ namespace MiscServices {
 
         userSettings.insert(std::pair<int32_t, PerUserSetting*>(userId, setting));
         userSessions.insert(std::pair<int32_t, PerUserSession*>(userId, session));
-        IMSA_HILOGI("End...[%d]\n", userId);
         return ErrorCode::NO_ERROR;
     }
 
@@ -777,6 +815,64 @@ namespace MiscServices {
         return ErrorCode::NO_ERROR;
     }
 
+    void InputMethodSystemAbility::OnDisplayOptionalInputMethod(int32_t userId)
+    {
+        IMSA_HILOGI("InputMethodSystemAbility::OnDisplayOptionalInputMethod");
+        std::vector<InputMethodProperty*> properties;
+        listInputMethodByUserId(userId, &properties);
+        if (properties.size() == 0) {
+            IMSA_HILOGI("InputMethodSystemAbility::OnDisplayOptionalInputMethod has no ime");
+            return;
+        }
+        std::string defaultIme = ParaHandle::GetDefaultIme();
+        std::string params = "";
+        std::vector<InputMethodProperty*>::iterator it;
+        for (it = properties.begin(); it < properties.end(); ++it) {
+            if(it == properties.begin()) {
+                params += "{\"imeList\":[";
+            }else {
+                params += "},";
+            }
+            InputMethodProperty *property = (InputMethodProperty*)*it;
+            std::string imeId = Str16ToStr8(property->mPackageName) + "/" + Str16ToStr8(property->mAbilityName);
+            params += "{\"ime\": \"" + imeId + "\",";
+            params += "\"name\": \"" + Str16ToStr8(property->moduleName) + "\",";
+            params += "\"discription\": \"" + Str16ToStr8(property->description) + "\",";
+            std::string isDefaultIme = defaultIme == imeId ? "true" : "false";
+            params += "\"isDefaultIme\": \"" + isDefaultIme + "\"";
+        }
+        params += "}]}";
+
+        const int TITLE_HEIGHT = 62;
+        const int SINGLE_IME_HEIGHT = 66;
+        const int POSTION_X = 0;
+        const int POSTION_Y = 200;
+        const int WIDTH = 336;
+        const int HEIGHT = POSTION_Y + TITLE_HEIGHT + SINGLE_IME_HEIGHT * properties.size();
+        Ace::UIServiceMgrClient::GetInstance()->ShowDialog(
+            "input_method_choose_dialog",
+            params,
+            OHOS::Rosen::WindowType::WINDOW_TYPE_SYSTEM_ALARM_WINDOW,
+            POSTION_X,
+            POSTION_Y,
+            WIDTH,
+            HEIGHT,
+            [this](int32_t id, const std::string& event, const std::string& params) {
+                IMSA_HILOGI("Dialog callback: %{public}s, %{public}s", event.c_str(), params.c_str());
+                if (event == "EVENT_CHANGE_IME") {
+                    std::string defaultIme = ParaHandle::GetDefaultIme();
+                    if (defaultIme != params) {
+                        StopInputService(defaultIme);
+                        StartInputService(params);
+                        ParaHandle::SetDefaultIme(params);
+                    }
+                    Ace::UIServiceMgrClient::GetInstance()->CancelDialog(id);
+                } else if (event == "EVENT_START_IME_SETTING") {
+                    Ace::UIServiceMgrClient::GetInstance()->CancelDialog(id);
+                }
+        });
+    }
+
     /*! Disable input method service. Called from PerUserSession module
     \n Run in work thread of input method management service
     \param msg the parameters are saved in msg->msgContent_
@@ -831,6 +927,32 @@ namespace MiscServices {
         }
         IMSA_HILOGI("End...\n");
         return ErrorCode::NO_ERROR;
+    }
+
+    sptr<OHOS::AppExecFwk::IBundleMgr> InputMethodSystemAbility::GetBundleMgr()
+    {
+        IMSA_HILOGI("InputMethodSystemAbility::GetBundleMgr");
+        sptr<ISystemAbilityManager> systemAbilityManager =
+        SystemAbilityManagerClient::GetInstance().GetSystemAbilityManager();
+        if (systemAbilityManager == nullptr) {
+            IMSA_HILOGI("InputMethodSystemAbility::GetBundleMgr systemAbilityManager is nullptr");
+            return nullptr;
+        }
+        sptr<IRemoteObject> remoteObject =
+        systemAbilityManager->GetSystemAbility(BUNDLE_MGR_SERVICE_SYS_ABILITY_ID);
+        return iface_cast<AppExecFwk::IBundleMgr>(remoteObject);
+    }
+
+    sptr<AAFwk::IAbilityManager> InputMethodSystemAbility::GetAbilityManagerService()
+    {
+        IMSA_HILOGE("InputMethodSystemAbility::GetAbilityManagerService start");
+        sptr<IRemoteObject> abilityMsObj =
+        OHOS::DelayedSingleton<AAFwk::SaMgrClient>::GetInstance()->GetSystemAbility(ABILITY_MGR_SERVICE_ID);
+        if (abilityMsObj == nullptr) {
+            IMSA_HILOGE("failed to get ability manager service");
+            return nullptr;
+        }
+        return iface_cast<AAFwk::IAbilityManager>(abilityMsObj);
     }
 }
 }
