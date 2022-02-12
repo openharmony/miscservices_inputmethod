@@ -66,6 +66,8 @@ namespace MiscServices {
         void OnSelectionChange(std::u16string text, int start, int end);
         void OnConfigurationChange(Configuration info);
         bool dispatchKeyEvent(std::shared_ptr<MMI::KeyEvent> keyEvent);
+        void DisplayOptionalInputMethod();
+        std::vector<InputMethodProperty*> ListInputMethod();
     private:
         InputMethodController();
         ~InputMethodController();

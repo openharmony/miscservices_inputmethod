@@ -52,6 +52,7 @@ namespace MessageID {
         MSG_ID_DISABLE_IMS, // disable input method service
         MSG_ID_RESTART_IMS, // restart input method service
         MSG_ID_HIDE_KEYBOARD_SELF, // hide the current keyboard
+        MSG_ID_DISPLAY_OPTIONAL_INPUT_METHOD,
         MSG_ID_ADVANCE_TO_NEXT, // switch to next
         MSG_ID_SET_DISPLAY_MODE, // set display mode
 

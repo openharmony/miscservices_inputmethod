@@ -34,6 +34,8 @@ namespace MiscServices {
         virtual void startInput(MessageParcel& data) override;
         virtual void stopInput(MessageParcel& data) override;
         virtual void SetCoreAndAgent(MessageParcel& data) override;
+        virtual void displayOptionalInputMethod(MessageParcel& data) override;
+        virtual int32_t listInputMethodByUserId(int32_t userId, std::vector<InputMethodProperty*> *properties) = 0;
     protected:
         int32_t getUserId(int32_t uid);
         int USER_ID_CHANGE_VALUE = 200000; // user range
