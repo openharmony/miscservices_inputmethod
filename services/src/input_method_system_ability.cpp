@@ -180,7 +180,8 @@ namespace MiscServices {
         setting->Initialize();
     }
 
-    void InputMethodSystemAbility::StartInputService(std::string imeId) {
+    void InputMethodSystemAbility::StartInputService(std::string imeId)
+    {
         IMSA_HILOGE("InputMethodSystemAbility::StartInputService() ime:%{public}s", imeId.c_str());
 
         PerUserSession *session = GetUserSession(MAIN_USER_ID);
@@ -218,8 +219,15 @@ namespace MiscServices {
         }
     }
 
-    void InputMethodSystemAbility::StopInputService(std::string imeId) {
+    void InputMethodSystemAbility::StopInputService(std::string imeId)
+    {
         IMSA_HILOGE("InputMethodSystemAbility::StopInputService(%{public}s)", imeId.c_str());
+        PerUserSession *session = GetUserSession(MAIN_USER_ID);
+        if (session == nullptr){
+            IMSA_HILOGE("InputMethodSystemAbility::StopInputService abort session is nullptr");
+        }
+
+        session->StopInputService(imeId);
     }
 
     /*! Get the state of user
@@ -366,15 +374,16 @@ namespace MiscServices {
         std::vector<AppExecFwk::ExtensionAbilityInfo> extensionInfos;
         bool ret = GetBundleMgr()->QueryExtensionAbilityInfos(AppExecFwk::ExtensionAbilityType::SERVICE, userId, extensionInfos);
         if (!ret) {
-            IMSA_HILOGI("InputMethodSystemAbility::ListInputMethod QueryExtensionAbilityInfos error");
+            IMSA_HILOGI("InputMethodSystemAbility::listInputMethodByUserId QueryExtensionAbilityInfos error");
             return ErrorCode::ERROR_STATUS_UNKNOWN_ERROR;
         }
         for (auto extension : extensionInfos) {
+            AppExecFwk::ApplicationInfo applicationInfo = extension.applicationInfo;
             InputMethodProperty *property = new InputMethodProperty();
             property->mPackageName = Str8ToStr16(extension.bundleName);
             property->mAbilityName = Str8ToStr16(extension.name);
-            property->moduleName = Str8ToStr16(extension.moduleName);
-            property->description = Str8ToStr16(extension.description);
+            property->labelId = applicationInfo.labelId;
+            property->descriptionId = applicationInfo.descriptionId;
             properties->push_back(property);
         }
         return ErrorCode::NO_ERROR;
@@ -828,21 +837,24 @@ namespace MiscServices {
         std::string params = "";
         std::vector<InputMethodProperty*>::iterator it;
         for (it = properties.begin(); it < properties.end(); ++it) {
-            if(it == properties.begin()) {
+            if (it == properties.begin()) {
                 params += "{\"imeList\":[";
-            }else {
+            } else {
                 params += "},";
             }
             InputMethodProperty *property = (InputMethodProperty*)*it;
             std::string imeId = Str16ToStr8(property->mPackageName) + "/" + Str16ToStr8(property->mAbilityName);
             params += "{\"ime\": \"" + imeId + "\",";
-            params += "\"name\": \"" + Str16ToStr8(property->moduleName) + "\",";
-            params += "\"discription\": \"" + Str16ToStr8(property->description) + "\",";
+            params += "\"labelId\": \"" + std::to_string(property->labelId) + "\",";
+            params += "\"discriptionId\": \"" + std::to_string(property->descriptionId) + "\",";
             std::string isDefaultIme = defaultIme == imeId ? "true" : "false";
-            params += "\"isDefaultIme\": \"" + isDefaultIme + "\"";
+            params += "\"isDefaultIme\": \"" + isDefaultIme + "\",";
+            params += "\"label\": \"\",";
+            params += "\"discription\": \"\"";
         }
         params += "}]}";
 
+        IMSA_HILOGI("InputMethodSystemAbility::OnDisplayOptionalInputMethod param : %{public}s", params.c_str());
         const int TITLE_HEIGHT = 62;
         const int SINGLE_IME_HEIGHT = 66;
         const int POSTION_X = 0;
