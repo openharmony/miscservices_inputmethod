@@ -70,6 +70,7 @@ namespace MessageID {
         MSG_ID_MOVE_CURSOR,
 
         // the request from IMSA to IMA
+        MSG_ID_SET_CLIENT_STATE,
         MSG_ID_SHOW_KEYBOARD,
         MSG_ID_INITIALIZE_INPUT,
         MSG_ID_HIDE_KEYBOARD,

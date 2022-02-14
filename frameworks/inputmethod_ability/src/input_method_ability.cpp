@@ -138,6 +138,11 @@ namespace MiscServices {
                     OnInitInputControlChannel(msg);
                     break;
                 }
+                case MSG_ID_SET_CLIENT_STATE: {
+                    MessageParcel *data = msg->msgContent_;
+                    isBindClient = data->ReadBool();
+                    break;
+                }
                 case MSG_ID_START_INPUT: {
                     OnStartInput(msg);
                     break;
@@ -252,6 +257,10 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodAbility::DispatchKeyEvent");
         IMSA_HILOGI("InputMethodAbility::DispatchKeyEvent: key = %{public}d, status = %{public}d", keyCode, keyStatus);
+        if (!isBindClient) {
+            IMSA_HILOGI("InputMethodAbility::DispatchKeyEvent abort. no client");
+            return false;
+        }
         return imeListener_->OnKeyEvent(keyCode, keyStatus);
     }
  
