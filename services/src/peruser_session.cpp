@@ -1304,5 +1304,13 @@ namespace MiscServices {
         sptr<InputClientProxy> client = new InputClientProxy(clientObject);
         HideKeyboard(client);
     }
+
+    void PerUserSession::StopInputService(std::string imeId)
+    {
+        IMSA_HILOGI("PerUserSession::StopInputService");
+        if (imsCore[0] != nullptr) {
+            imsCore[0]->StopInputService(imeId);
+        }
+    }
 }
 }

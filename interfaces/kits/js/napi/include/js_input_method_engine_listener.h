@@ -36,6 +36,7 @@ namespace MiscServices {
         void OnCursorUpdate(int32_t positionX, int32_t positionY, int height);
         void OnSelectionChange(int32_t oldBegin, int32_t oldEnd, int32_t newBegin, int32_t newEnd);
         void OnTextChange(std::string text);
+        void OnInputStop(std::string imeId);
     private:
         void AddCallback(std::string type, NativeValue* jsListenerObject);
         void CallJsMethod(std::string methodName, NativeValue* const* argv = nullptr, size_t argc = 0);

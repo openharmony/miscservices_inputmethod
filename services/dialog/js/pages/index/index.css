@@ -7,6 +7,7 @@
     top: 0fp;
     width: 100%;
     height: 100%;
+    background: #ffffff;
 }
 
 .title {
@@ -17,7 +18,7 @@
     margin-top: 12fp;
     margin-left: 23fp;
     margin-right: 25fp;
-    color:#000000;
+    color: #000000;
 }
 
 .btn {
@@ -32,6 +33,11 @@
     margin-top: 22fp;
 }
 
+.normal {
+    width: 100%;
+    height: 100%;
+}
+
 .listItem {
     width: 100%;
     height: 42fp;
@@ -43,17 +49,17 @@
     width: 100%;
     height: 22fp;
     font-size: 16fp;
-    weight:medium;
-    color:#000000;
+    weight: medium;
+    color: #000000;
 }
 
 .imeDecription {
     width: 100%;
     height: 22fp;
     font-size: 13fp;
-    weight:medium;
+    weight: medium;
     margin-top: 2fp;
-    color:#66000000;
+    color: #66000000;
 }
 
 .imeMessage {

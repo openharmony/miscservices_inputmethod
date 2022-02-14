@@ -167,6 +167,12 @@ namespace MiscServices {
                     OnSelectionChange(msg);
                     break;
                 }
+                case MSG_ID_STOP_INPUT_SERVICE:{
+                    MessageParcel *data = msg->msgContent_;
+                    std::string imeId = Str16ToStr8(data->ReadString16());
+                    imeListener_->OnInputStop(imeId);
+                    break;
+                }
                 default: {
                     break;
                 }

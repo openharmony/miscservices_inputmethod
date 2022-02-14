@@ -112,6 +112,7 @@ namespace MiscServices {
         int OnSettingChanged(const std::u16string& key, const std::u16string& value);
         void CreateWorkThread(MessageHandler& handler);
         void JoinWorkThread();
+        void StopInputService(std::string imeId);
         static bool StartInputService();
     private:
         int userId_; // the id of the user to whom the object is linking
