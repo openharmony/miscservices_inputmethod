@@ -34,6 +34,7 @@ namespace MiscServices {
     public:
         enum {
             INITIALIZE_INPUT = FIRST_CALL_TRANSACTION,
+            SET_CLIENT_STATE,
             START_INPUT,
             STOP_INPUT,
             SHOW_KEYBOARD,
@@ -56,6 +57,7 @@ namespace MiscServices {
         virtual int32_t setKeyboardType(const KeyboardType& type) = 0;
         virtual int32_t getKeyboardWindowHeight(int32_t retHeight) = 0;
         virtual int32_t InitInputControlChannel(sptr<IInputControlChannel> &inputControlChannel) = 0;
+        virtual void SetClientState(bool state) = 0;
     };
 }
 }
