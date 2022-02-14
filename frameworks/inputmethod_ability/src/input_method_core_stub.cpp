@@ -94,6 +94,11 @@ namespace MiscServices {
                 reply.WriteNoException();
                 break;
             }
+            case SET_CLIENT_STATE: {
+                bool state = data.ReadBool();
+                SetClientState(state);
+                break;
+            }
             case STOP_INPUT: {
                 stopInput();
                 reply.WriteNoException();
@@ -199,6 +204,18 @@ namespace MiscServices {
         Message *msg = new Message(MessageID::MSG_ID_STOP_INPUT, data);
         msgHandler_->SendMessage(msg);
         return ErrorCode::NO_ERROR;
+    }
+
+    void InputMethodCoreStub::SetClientState(bool state)
+    {
+        IMSA_HILOGI("InputMethodCoreStub::SetClientState");
+        if (msgHandler_ == nullptr) {
+            return;
+        }
+        MessageParcel *data = new MessageParcel();
+
+        Message *msg = new Message(MessageID::MSG_ID_SET_CLIENT_STATE, data);
+        msgHandler_->SendMessage(msg);
     }
 
     bool InputMethodCoreStub::showKeyboard(const sptr<IInputDataChannel>& inputDataChannel)
