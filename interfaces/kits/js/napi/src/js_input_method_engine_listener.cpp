@@ -264,5 +264,23 @@ namespace MiscServices {
         std::string methodName = "textChange";
         CallJsMethod(methodName, argv, AbilityRuntime::ArraySize(argv));
     }
+
+    void JsInputMethodEngineListener::OnInputStop(std::string imeId)
+    {
+        std::lock_guard<std::mutex> lock(mMutex);
+        IMSA_HILOGI("JsInputMethodEngineListener::OnInputStop");
+
+        NativeValue* nativeValue = engine_->CreateObject();
+        NativeObject* object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeValue);
+        if (object == nullptr) {
+            IMSA_HILOGI("Failed to convert rect to jsObject");
+            return;
+        }
+        object->SetProperty("imeId", AbilityRuntime::CreateJsValue(*engine_, imeId));
+
+        NativeValue* argv[] = {nativeValue};
+        std::string methodName = "inputStop";
+        CallJsMethod(methodName, argv, AbilityRuntime::ArraySize(argv));
+    }
 }
 }

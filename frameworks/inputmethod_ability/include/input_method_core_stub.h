@@ -55,6 +55,7 @@ namespace MiscServices {
         virtual int32_t getKeyboardWindowHeight(int32_t retHeight) override;
         virtual int32_t InitInputControlChannel(sptr<IInputControlChannel> &inputControlChannel) override;
         virtual void SetClientState(bool state) override;
+        virtual void StopInputService(std::string imeId) override;
         void SetMessageHandler(MessageHandler *msgHandler);
 
     private:

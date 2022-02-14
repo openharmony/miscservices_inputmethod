@@ -17,6 +17,7 @@
 #include "message_parcel.h"
 #include "message_option.h"
 #include "input_attribute.h"
+#include <string_ex.h>
 
 namespace OHOS {
 namespace MiscServices {
@@ -185,6 +186,31 @@ namespace MiscServices {
             return false;
         }
         return true;
+    }
+
+    void InputMethodCoreProxy::StopInputService(std::string imeId)
+    {
+        IMSA_HILOGI("InputMethodCoreProxy::StopInputService");
+
+        auto remote = Remote();
+        if (remote == nullptr) {
+            IMSA_HILOGI("InputMethodCoreProxy::StopInputService remote is nullptr");
+            return;
+        }
+        MessageParcel data;
+        if (!(data.WriteInterfaceToken(GetDescriptor())
+            && data.WriteString16(Str8ToStr16(imeId)))) {
+            return;
+        }
+        MessageParcel reply;
+        MessageOption option {
+            MessageOption::TF_SYNC
+        };
+
+        int32_t res = remote->SendRequest(STOP_INPUT_SERVICE, data, reply, option);
+        if (res != ErrorCode::NO_ERROR) {
+            return;
+        }
     }
 
     bool InputMethodCoreProxy::hideKeyboard(int32_t flags)

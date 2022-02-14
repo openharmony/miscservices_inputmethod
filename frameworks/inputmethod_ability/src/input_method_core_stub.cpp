@@ -23,6 +23,7 @@
 #include "message_parcel.h"
 #include "input_control_channel_proxy.h"
 #include "input_method_ability.h"
+#include <string_ex.h>
 
 namespace OHOS {
 namespace MiscServices {
@@ -125,6 +126,12 @@ namespace MiscServices {
             case GET_KEYBOARD_WINDOW_HEIGHT: {
                 int32_t retHeight = 0;
                 getKeyboardWindowHeight(retHeight);
+                reply.WriteNoException();
+                break;
+            }
+            case STOP_INPUT_SERVICE: {
+                std::string imeId = Str16ToStr8(data.ReadString16());
+                StopInputService(imeId);
                 reply.WriteNoException();
                 break;
             }
@@ -262,6 +269,19 @@ namespace MiscServices {
         Message *msg = new Message(MessageID::MSG_ID_SET_KEYBOARD_TYPE, data);
         msgHandler_->SendMessage(msg);
         return ErrorCode::NO_ERROR;
+    }
+
+    void InputMethodCoreStub::StopInputService(std::string imeId)
+    {
+        IMSA_HILOGI("InputMethodCoreStub::StopInputService");
+        if (msgHandler_ == nullptr) {
+            return;
+        }
+        MessageParcel *data = new MessageParcel();
+        data->WriteString16(Str8ToStr16(imeId));
+
+        Message *msg = new Message(MessageID::MSG_ID_STOP_INPUT_SERVICE, data);
+        msgHandler_->SendMessage(msg);
     }
 
     int32_t InputMethodCoreStub::getKeyboardWindowHeight(int32_t retHeight)

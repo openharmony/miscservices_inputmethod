@@ -5,9 +5,9 @@
     <list class="list">
         <list-item for="{{ imeList }}" class="listItem"
                    onclick="changeDefaultIme({{ $item.ime }})">
-            <div>
+            <div class="normal">
                 <div class="imeMessage">
-                    <text class="imeName">{{ $item.name }}</text>
+                    <text class="imeName">{{ $item.label }}</text>
                     <text class="imeDecription">{{ $item.discription }}</text>
                 </div>
                 <circle class="circle" cx="12fp" cy="12fp" r="12fp" stroke-width="10fp" fill="white" stroke="blue"

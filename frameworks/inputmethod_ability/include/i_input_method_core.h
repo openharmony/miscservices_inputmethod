@@ -38,6 +38,7 @@ namespace MiscServices {
             START_INPUT,
             STOP_INPUT,
             SHOW_KEYBOARD,
+            STOP_INPUT_SERVICE,
             HIDE_KEYBOARD,
             SET_KEYBOARD_TYPE,
             GET_KEYBOARD_WINDOW_HEIGHT,
@@ -58,6 +59,7 @@ namespace MiscServices {
         virtual int32_t getKeyboardWindowHeight(int32_t retHeight) = 0;
         virtual int32_t InitInputControlChannel(sptr<IInputControlChannel> &inputControlChannel) = 0;
         virtual void SetClientState(bool state) = 0;
+        virtual void StopInputService(std::string imeId) = 0;
     };
 }
 }
