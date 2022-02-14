@@ -90,6 +90,25 @@ namespace MiscServices {
         return code;
     }
 
+    void InputMethodCoreProxy::SetClientState(bool state)
+    {
+        IMSA_HILOGI("InputMethodCoreProxy::SetClientState");
+        MessageParcel data;
+        if (!(data.WriteInterfaceToken(GetDescriptor())
+            && data.WriteBool(state))) {
+            IMSA_HILOGI("InputMethodCoreProxy::SetClientState write error");
+            return;
+        }
+        MessageParcel reply;
+        MessageOption option {
+            MessageOption::TF_SYNC
+        };
+
+        int32_t status = Remote()->SendRequest(SET_CLIENT_STATE, data, reply, option);
+        if (status != ErrorCode::NO_ERROR) {
+            IMSA_HILOGI("InputMethodCoreProxy::SetClientState status = %{public}d", status);
+        }
+    }
     bool InputMethodCoreProxy::startInput(const sptr<IInputDataChannel> &inputDataChannel,
                                           const InputAttribute& editorAttribute, bool supportPhysicalKbd)
     {

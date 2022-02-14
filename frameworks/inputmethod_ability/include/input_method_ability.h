@@ -64,6 +64,7 @@ namespace MiscServices {
         bool stop_;
         int32_t KEYBOARD_HIDE = 1;
         int32_t KEYBOARD_SHOW = 2;
+        bool isBindClient = false;
 
         // communicating with IMSA
         sptr<IInputControlChannel> inputControlChannel;
