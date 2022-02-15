@@ -28,6 +28,8 @@
 #include "ability_connect_callback_proxy.h"
 #include "sa_mgr_client.h"
 #include "application_info.h"
+#include "common_event_support.h"
+#include "im_common_event_manager.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -177,7 +179,13 @@ namespace MiscServices {
         userSettings.insert(std::pair<int32_t, PerUserSetting*>(MAIN_USER_ID, setting));
         userSessions.insert(std::pair<int32_t, PerUserSession*>(MAIN_USER_ID, session));
 
+        userId_ = MAIN_USER_ID;
         setting->Initialize();
+
+        sptr<ImCommonEventManager> imCommonEventManager = ImCommonEventManager::GetInstance();
+        if (imCommonEventManager->SubscribeEvent(EventFwk::CommonEventSupport::COMMON_EVENT_USER_SWITCHED)) {
+            IMSA_HILOGI("InputMethodSystemAbility::Initialize subscribe service event success");
+        }
     }
 
     void InputMethodSystemAbility::StartInputService(std::string imeId)
@@ -533,12 +541,15 @@ namespace MiscServices {
     */
     int32_t InputMethodSystemAbility::OnUserStarted(const Message *msg)
     {
-        IMSA_HILOGI("Start...\n");
+        IMSA_HILOGI("InputMethodSystemAbility::OnUserStarted Start...\n");
         if (msg->msgContent_ == nullptr) {
             IMSA_HILOGE("Aborted! %s\n", ErrorCode::ToString(ErrorCode::ERROR_BAD_PARAMETERS));
             return ErrorCode::ERROR_BAD_PARAMETERS;
         }
         int32_t userId = msg->msgContent_->ReadInt32();
+        userId_ = userId;
+        IMSA_HILOGI("InputMethodSystemAbility::OnUserStarted userId = %{public}u", userId);
+
         PerUserSetting *setting = GetUserSetting(userId);
         if (setting != nullptr) {
             IMSA_HILOGE("Aborted! %s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_ALREADY_STARTED), userId);
@@ -546,10 +557,15 @@ namespace MiscServices {
         }
 
         setting = new PerUserSetting(userId);
+        setting->Initialize();
         PerUserSession *session = new PerUserSession(userId);
 
         userSettings.insert(std::pair<int32_t, PerUserSetting*>(userId, setting));
         userSessions.insert(std::pair<int32_t, PerUserSession*>(userId, session));
+        std::string defaultIme = ParaHandle::GetDefaultIme();
+        StartInputService(defaultIme);
+        
+        IMSA_HILOGI("InputMethodSystemAbility::OnUserStarted End...[%d]\n", userId);
         return ErrorCode::NO_ERROR;
     }
 
@@ -672,13 +688,18 @@ namespace MiscServices {
     {
         MessageParcel *data = msg->msgContent_;
         int32_t userId = data->ReadInt32();
-        PerUserSetting *setting = GetUserSetting(userId);
+        PerUserSetting *setting = GetUserSetting(MAIN_USER_ID);
+        if (setting == nullptr) {
+            IMSA_HILOGE("InputMethodSystemAbility::OnHandleMessage Aborted! setting is nullptr");
+        }
         if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
-            IMSA_HILOGE("InputMethodSystemAbility::OnHandleMessage Aborted! userId = %{public}d", userId);
+            IMSA_HILOGE("InputMethodSystemAbility::OnHandleMessage Aborted! userId = %{public}d,", userId);
+            IMSA_HILOGE("InputMethodSystemAbility::OnHandleMessage Aborted! userState = %{public}d",
+                setting->GetUserState());
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
 
-        std::map<int32_t, MessageHandler*>::const_iterator it = msgHandlers.find(userId);
+        std::map<int32_t, MessageHandler*>::const_iterator it = msgHandlers.find(MAIN_USER_ID);
         if (it != msgHandlers.end()) {
             MessageHandler *handler = it->second;
             handler->SendMessage(msg);
