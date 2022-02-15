@@ -694,7 +694,8 @@ namespace MiscServices {
         }
         if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
             IMSA_HILOGE("InputMethodSystemAbility::OnHandleMessage Aborted! userId = %{public}d,", userId);
-            IMSA_HILOGE("InputMethodSystemAbility::OnHandleMessage Aborted! userState = %{public}d,", setting->GetUserState());
+            IMSA_HILOGE("InputMethodSystemAbility::OnHandleMessage Aborted! userState = %{public}d",
+                setting->GetUserState());
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
 
