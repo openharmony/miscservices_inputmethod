@@ -293,7 +293,7 @@ namespace MiscServices {
     */
     int32_t InputMethodSystemAbilityStub::getUserId(int32_t uid)
     {
-        return uid/USER_ID_CHANGE_VALUE;
+        return uid / USER_ID_CHANGE_VALUE;
     }
 }
 }
