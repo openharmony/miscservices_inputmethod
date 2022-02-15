@@ -17,7 +17,6 @@
 #define FM_IMMS_PROJECT_IMCOMMONEVENTMANAGER_H
 
 #include <mutex>
-
 #include "common_event_subscriber.h"
 #include "common_event_subscribe_info.h"
 #include "common_event_data.h"
@@ -25,7 +24,6 @@
 
 namespace OHOS {
 namespace MiscServices {
-
 class ImCommonEventManager : public RefBase {
 public:
     ImCommonEventManager();
@@ -36,7 +34,8 @@ public:
 
     class EventSubscriber : public EventFwk::CommonEventSubscriber {
     public:
-        EventSubscriber(const EventFwk::CommonEventSubscribeInfo &subscribeInfo) : EventFwk::CommonEventSubscriber(subscribeInfo) {}
+        EventSubscriber(const EventFwk::CommonEventSubscribeInfo &subscribeInfo) :
+            EventFwk::CommonEventSubscriber(subscribeInfo) {}
         void OnReceiveEvent(const EventFwk::CommonEventData &data);
         void startUser(int32_t newUserId);
     };
@@ -45,7 +44,6 @@ private:
     static std::mutex instanceLock_;
     static sptr<ImCommonEventManager> instance_;
 };
-
 } // namespace MiscServices
 } // namespace OHOS
 #endif // FM_IMMS_PROJECT_IPLATFORMCALLBACK_H

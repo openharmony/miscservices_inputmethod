@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-#include <functional>
 #include "im_common_event_manager.h"
 #include "common_event_manager.h"
 #include "common_event_support.h"
@@ -32,16 +31,12 @@ namespace MiscServices {
     /*! Constructor
     */
     ImCommonEventManager::ImCommonEventManager()
-    {
-
-    }
+    {}
 
     /*! Destructor
     */
     ImCommonEventManager::~ImCommonEventManager()
-    {
-
-    }
+    {}
 
     sptr<ImCommonEventManager> ImCommonEventManager::GetInstance()
     {
@@ -62,18 +57,14 @@ namespace MiscServices {
 
         EventFwk::CommonEventSubscribeInfo subscriberInfo(matchingSkills);
 
-        // std::shared_ptr<EventSubscriber> subscriber = 
-        //     std::make_shared<EventSubscriber>(subscriberInfo, event);
-        std::shared_ptr<EventSubscriber> subscriber = 
-            std::make_shared<EventSubscriber>(subscriberInfo);
-
+        std::shared_ptr<EventSubscriber> subscriber = std::make_shared<EventSubscriber>(subscriberInfo);
         if (subscriber == nullptr) {
             IMSA_HILOGI("ImCommonEventManager::SubscribeEvent subscriber is nullptr");
             return false;
         }
 
         if (!EventFwk::CommonEventManager::SubscribeCommonEvent(subscriber)) {
-            IMSA_HILOGI("ImCommonEventManager::SubscribeEvent fail");            
+            IMSA_HILOGI("ImCommonEventManager::SubscribeEvent fail");
             return false;
         }
 
