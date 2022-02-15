@@ -214,10 +214,11 @@ namespace MiscServices {
             want.SetElementName(imeId.substr(0, pos), imeId.substr(pos + 1));
             int32_t result = abms->StartAbility(want);
             if (result != 0) {
-                IMSA_HILOGE("PerUserSession::StartInputService fail. result = %{public}d", result);
+                IMSA_HILOGE("InputMethodSystemAbility::StartInputService fail. result = %{public}d", result);
                 isStartSuccess = false;
+            } else {
+                isStartSuccess = true;
             }
-            isStartSuccess = true;
         }
 
         if (!isStartSuccess) {
