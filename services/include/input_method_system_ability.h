@@ -93,6 +93,7 @@ namespace MiscServices {
         static std::mutex instanceLock_;
         static sptr<InputMethodSystemAbility> instance_;
         static std::shared_ptr<AppExecFwk::EventHandler> serviceHandler_;
+        int32_t userId_;
     };
 }
 }
