@@ -206,13 +206,13 @@ namespace MiscServices {
         }
 
         bool isStartSuccess = false;
-        sptr<AAFwk::IAbilityManager> ams = GetAbilityManagerService();
-        if (ams != nullptr) {
+        sptr<AAFwk::IAbilityManager> abms = GetAbilityManagerService();
+        if (abms != nullptr) {
             AAFwk::Want want;
             want.SetAction("action.system.inputmethod");
             std::string::size_type pos = imeId.find("/");
             want.SetElementName(imeId.substr(0, pos), imeId.substr(pos + 1));
-            int32_t result = ams->StartAbility(want);
+            int32_t result = abms->StartAbility(want);
             if (result != 0) {
                 IMSA_HILOGE("PerUserSession::StartInputService fail. result = %{public}d", result);
                 isStartSuccess = false;
