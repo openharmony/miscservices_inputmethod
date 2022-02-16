@@ -134,7 +134,7 @@ namespace MiscServices {
         }
         IMSA_HILOGI("Publish ErrorCode::NO_ERROR.");
         state_ = ServiceRunningState::STATE_RUNNING;
-        std::string defaultIme = ParaHandle::GetDefaultIme();
+        std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
         StartInputService(defaultIme);
         return ErrorCode::NO_ERROR;
     }
@@ -547,6 +547,9 @@ namespace MiscServices {
             IMSA_HILOGE("Aborted! %s\n", ErrorCode::ToString(ErrorCode::ERROR_BAD_PARAMETERS));
             return ErrorCode::ERROR_BAD_PARAMETERS;
         }
+
+        std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
+        StopInputService(defaultIme);
         int32_t userId = msg->msgContent_->ReadInt32();
         userId_ = userId;
         IMSA_HILOGI("InputMethodSystemAbility::OnUserStarted userId = %{public}u", userId);
@@ -563,10 +566,8 @@ namespace MiscServices {
 
         userSettings.insert(std::pair<int32_t, PerUserSetting*>(userId, setting));
         userSessions.insert(std::pair<int32_t, PerUserSession*>(userId, session));
-        std::string defaultIme = ParaHandle::GetDefaultIme();
+        defaultIme = ParaHandle::GetDefaultIme(userId_);
         StartInputService(defaultIme);
-        
-        IMSA_HILOGI("InputMethodSystemAbility::OnUserStarted End...[%d]\n", userId);
         return ErrorCode::NO_ERROR;
     }
 
@@ -855,7 +856,7 @@ namespace MiscServices {
             IMSA_HILOGI("InputMethodSystemAbility::OnDisplayOptionalInputMethod has no ime");
             return;
         }
-        std::string defaultIme = ParaHandle::GetDefaultIme();
+        std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
         std::string params = "";
         std::vector<InputMethodProperty*>::iterator it;
         for (it = properties.begin(); it < properties.end(); ++it) {
@@ -894,11 +895,11 @@ namespace MiscServices {
             [this](int32_t id, const std::string& event, const std::string& params) {
                 IMSA_HILOGI("Dialog callback: %{public}s, %{public}s", event.c_str(), params.c_str());
                 if (event == "EVENT_CHANGE_IME") {
-                    std::string defaultIme = ParaHandle::GetDefaultIme();
+                    std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
                     if (defaultIme != params) {
                         StopInputService(defaultIme);
                         StartInputService(params);
-                        ParaHandle::SetDefaultIme(params);
+                        ParaHandle::SetDefaultIme(userId_, params);
                     }
                     Ace::UIServiceMgrClient::GetInstance()->CancelDialog(id);
                 } else if (event == "EVENT_START_IME_SETTING") {

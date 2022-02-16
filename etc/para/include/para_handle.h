@@ -22,11 +22,13 @@ namespace OHOS {
         public:
             ParaHandle() = default;
             virtual ~ParaHandle() = default;
-            static bool SetDefaultIme(const std::string &imeName);
-            static std::string GetDefaultIme();
+            static bool SetDefaultIme(int32_t userId, const std::string &imeName);
+            static std::string GetDefaultIme(int32_t userId);
         private:
-            static const char *DEFAULT_IME;
+            static const char *DEFAULT_IME_KEY;
+            static const char *DEFAULT_IME_NAME;
             static constexpr int CONFIG_LEN = 128;
+            static const int32_t main_userId = 100;
         };
     }
 }
