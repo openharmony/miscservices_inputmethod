@@ -221,6 +221,7 @@ namespace MiscServices {
         }
         MessageParcel *data = new MessageParcel();
 
+        data->WriteBool(state);
         Message *msg = new Message(MessageID::MSG_ID_SET_CLIENT_STATE, data);
         msgHandler_->SendMessage(msg);
     }
