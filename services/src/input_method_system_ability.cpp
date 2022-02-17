@@ -547,9 +547,7 @@ namespace MiscServices {
             IMSA_HILOGE("Aborted! %s\n", ErrorCode::ToString(ErrorCode::ERROR_BAD_PARAMETERS));
             return ErrorCode::ERROR_BAD_PARAMETERS;
         }
-
         std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
-        StopInputService(defaultIme);
         int32_t userId = msg->msgContent_->ReadInt32();
         userId_ = userId;
         IMSA_HILOGI("InputMethodSystemAbility::OnUserStarted userId = %{public}u", userId);
@@ -559,6 +557,8 @@ namespace MiscServices {
             IMSA_HILOGE("Aborted! %s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_ALREADY_STARTED), userId);
             return ErrorCode::ERROR_USER_ALREADY_STARTED;
         }
+
+        StopInputService(defaultIme);
 
         setting = new PerUserSetting(userId);
         setting->Initialize();
