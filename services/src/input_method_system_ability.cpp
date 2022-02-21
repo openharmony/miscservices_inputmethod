@@ -547,10 +547,17 @@ namespace MiscServices {
             IMSA_HILOGE("Aborted! %s\n", ErrorCode::ToString(ErrorCode::ERROR_BAD_PARAMETERS));
             return ErrorCode::ERROR_BAD_PARAMETERS;
         }
-        std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
+        std::string currentDefaultIme = ParaHandle::GetDefaultIme(userId_);
         int32_t userId = msg->msgContent_->ReadInt32();
         userId_ = userId;
         IMSA_HILOGI("InputMethodSystemAbility::OnUserStarted userId = %{public}u", userId);
+
+        std::string newDefaultIme = ParaHandle::GetDefaultIme(userId_);
+
+        if (newDefaultIme != currentDefaultIme) {
+            StopInputService(currentDefaultIme);
+            StartInputService(newDefaultIme);
+        }
 
         PerUserSetting *setting = GetUserSetting(userId);
         if (setting != nullptr) {
@@ -558,16 +565,12 @@ namespace MiscServices {
             return ErrorCode::ERROR_USER_ALREADY_STARTED;
         }
 
-        StopInputService(defaultIme);
-
         setting = new PerUserSetting(userId);
         setting->Initialize();
         PerUserSession *session = new PerUserSession(userId);
 
         userSettings.insert(std::pair<int32_t, PerUserSetting*>(userId, setting));
         userSessions.insert(std::pair<int32_t, PerUserSession*>(userId, session));
-        defaultIme = ParaHandle::GetDefaultIme(userId_);
-        StartInputService(defaultIme);
         return ErrorCode::NO_ERROR;
     }
 
