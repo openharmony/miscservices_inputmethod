@@ -21,6 +21,7 @@
 #include "string_ex.h"
 namespace OHOS {
 namespace MiscServices {
+    using namespace AbilityRuntime;
     constexpr size_t ARGC_ZERO = 0;
 
     void JsInputMethodSetting::Finalizer(NativeEngine* engine, void* data, void* hint)
@@ -31,13 +32,13 @@ namespace MiscServices {
 
     NativeValue* JsInputMethodSetting::DisplayOptionalInputMethod(NativeEngine* engine, NativeCallbackInfo* info)
     {
-        JsInputMethodSetting* me = AbilityRuntime::CheckParamsAndGetThis<JsInputMethodSetting>(engine, info);
+        JsInputMethodSetting* me = CheckParamsAndGetThis<JsInputMethodSetting>(engine, info);
         return (me != nullptr) ? me->OnDisplayOptionalInputMethod(*engine, *info) : nullptr;
     }
 
     NativeValue* JsInputMethodSetting::ListInputMethod(NativeEngine* engine, NativeCallbackInfo* info)
     {
-        JsInputMethodSetting* me = AbilityRuntime::CheckParamsAndGetThis<JsInputMethodSetting>(engine, info);
+        JsInputMethodSetting* me = CheckParamsAndGetThis<JsInputMethodSetting>(engine, info);
         return (me != nullptr) ? me->OnListInputMethod(*engine, *info) : nullptr;
     }
 
@@ -68,16 +69,16 @@ namespace MiscServices {
             return engine.CreateUndefined();
         }
         NativeValue* arrayValue = engine.CreateArray(properties.size());
-        NativeArray* array = AbilityRuntime::ConvertNativeValueTo<NativeArray>(arrayValue);
+        NativeArray* array = ConvertNativeValueTo<NativeArray>(arrayValue);
         uint32_t index = 0;
         for (const auto &info : properties) {
             NativeValue* objValue = engine.CreateObject();
-            NativeObject* object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(objValue);
+            NativeObject* object = ConvertNativeValueTo<NativeObject>(objValue);
 
             IMSA_HILOGI("JsInputMethodSetting::ListInputMethod %{public}s/%{public}s", Str16ToStr8(info->mPackageName).c_str(), Str16ToStr8(info->mAbilityName).c_str());
 
-            object->SetProperty("packageName", AbilityRuntime::CreateJsValue(engine, Str16ToStr8(info->mPackageName)));
-            object->SetProperty("methodId", AbilityRuntime::CreateJsValue(engine, Str16ToStr8(info->mAbilityName)));
+            object->SetProperty("packageName", CreateJsValue(engine, Str16ToStr8(info->mPackageName)));
+            object->SetProperty("methodId", CreateJsValue(engine, Str16ToStr8(info->mAbilityName)));
             array->SetElement(index++, objValue);
         }
 

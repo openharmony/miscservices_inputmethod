@@ -26,11 +26,12 @@
 #include "js_editor_attribute.h"
 namespace OHOS {
     namespace MiscServices {
+        using namespace AbilityRuntime;
         NativeValue* CreateInputMethodEngine(NativeEngine &engine)
         {
             IMSA_HILOGI("JsInputMethodEngineUtils::CreateInputMethodEngine is called");
             NativeValue *objValue = engine.CreateObject();
-            NativeObject *object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(objValue);
+            NativeObject *object = ConvertNativeValueTo<NativeObject>(objValue);
             if (object == nullptr) {
                 IMSA_HILOGI("JsInputMethodEngineUtils::CreateInputMethodEngine Failed to get object");
                 return nullptr;
@@ -39,8 +40,8 @@ namespace OHOS {
             std::unique_ptr<JsInputMethodEngine> jsInputMethodEngine = std::make_unique<JsInputMethodEngine>(&engine);
             object->SetNativePointer(jsInputMethodEngine.release(), JsInputMethodEngine::Finalizer, nullptr);
 
-            AbilityRuntime::BindNativeFunction(engine, *object, "on", JsInputMethodEngine::RegisterCallback);
-            AbilityRuntime::BindNativeFunction(engine, *object, "off", JsInputMethodEngine::UnRegisterCallback);
+            BindNativeFunction(engine, *object, "on", JsInputMethodEngine::RegisterCallback);
+            BindNativeFunction(engine, *object, "off", JsInputMethodEngine::UnRegisterCallback);
             return objValue;
         }
 
@@ -48,7 +49,7 @@ namespace OHOS {
         {
             IMSA_HILOGI("JsInputMethodEngineUtils::CreateKeyboardController is called");
             NativeValue *objValue = engine.CreateObject();
-            NativeObject *object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(objValue);
+            NativeObject *object = ConvertNativeValueTo<NativeObject>(objValue);
             if (object == nullptr) {
                 IMSA_HILOGI("CreateKeyboardController Failed to get object");
                 return nullptr;
@@ -57,7 +58,7 @@ namespace OHOS {
             std::unique_ptr<JsKeyboardController> jsKeyboardController = std::make_unique<JsKeyboardController>();
             object->SetNativePointer(jsKeyboardController.release(), JsKeyboardController::Finalizer, nullptr);
 
-            AbilityRuntime::BindNativeFunction(engine, *object, "hideKeyboard", JsKeyboardController::HideKeyboardSelf);
+            BindNativeFunction(engine, *object, "hideKeyboard", JsKeyboardController::HideKeyboardSelf);
 
             return objValue;
         }
@@ -66,7 +67,7 @@ namespace OHOS {
         {
             IMSA_HILOGI("JsInputMethodEngineUtils::CreateTextInputClient is called");
             NativeValue *objValue = engine.CreateObject();
-            NativeObject *object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(objValue);
+            NativeObject *object = ConvertNativeValueTo<NativeObject>(objValue);
             if (object == nullptr) {
                 IMSA_HILOGI("CreateTextInputClient Failed to get object");
                 return nullptr;
@@ -75,13 +76,13 @@ namespace OHOS {
             std::unique_ptr<JsTextInputClient> jsTextInputClient = std::make_unique<JsTextInputClient>();
             object->SetNativePointer(jsTextInputClient.release(), JsTextInputClient::Finalizer, nullptr);
 
-            AbilityRuntime::BindNativeFunction(engine, *object, "insertText", JsTextInputClient::InsertText);
-            AbilityRuntime::BindNativeFunction(engine, *object, "deleteForward", JsTextInputClient::DeleteForward);
-            AbilityRuntime::BindNativeFunction(engine, *object, "deleteBackward", JsTextInputClient::DeleteBackward);
-            AbilityRuntime::BindNativeFunction(engine, *object, "sendKeyFunction", JsTextInputClient::SendFunctionKey);
-            AbilityRuntime::BindNativeFunction(engine, *object, "getForward", JsTextInputClient::GetForward);
-            AbilityRuntime::BindNativeFunction(engine, *object, "getBackward", JsTextInputClient::GetBackward);
-            AbilityRuntime::BindNativeFunction(engine, *object, "getEditorAttribute", JsTextInputClient::GetEditorAttribute);
+            BindNativeFunction(engine, *object, "insertText", JsTextInputClient::InsertText);
+            BindNativeFunction(engine, *object, "deleteForward", JsTextInputClient::DeleteForward);
+            BindNativeFunction(engine, *object, "deleteBackward", JsTextInputClient::DeleteBackward);
+            BindNativeFunction(engine, *object, "sendKeyFunction", JsTextInputClient::SendFunctionKey);
+            BindNativeFunction(engine, *object, "getForward", JsTextInputClient::GetForward);
+            BindNativeFunction(engine, *object, "getBackward", JsTextInputClient::GetBackward);
+            BindNativeFunction(engine, *object, "getEditorAttribute", JsTextInputClient::GetEditorAttribute);
             return objValue;
         }
 
@@ -89,7 +90,7 @@ namespace OHOS {
         {
             IMSA_HILOGI("JsInputMethodEngineUtils::CreateKeyboardDelegate is called");
             NativeValue *objValue = engine.CreateObject();
-            NativeObject *object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(objValue);
+            NativeObject *object = ConvertNativeValueTo<NativeObject>(objValue);
             if (object == nullptr) {
                 IMSA_HILOGI("CreateKeyboardDelegate Failed to get object");
                 return nullptr;
@@ -98,8 +99,8 @@ namespace OHOS {
             std::unique_ptr<JsKeyboardDelegate> jsKeyboardDelegate = std::make_unique<JsKeyboardDelegate>(&engine);
             object->SetNativePointer(jsKeyboardDelegate.release(), JsKeyboardDelegate::Finalizer, nullptr);
 
-            AbilityRuntime::BindNativeFunction(engine, *object, "on", JsKeyboardDelegate::RegisterCallback);
-            AbilityRuntime::BindNativeFunction(engine, *object, "off", JsKeyboardDelegate::UnRegisterCallback);
+            BindNativeFunction(engine, *object, "on", JsKeyboardDelegate::RegisterCallback);
+            BindNativeFunction(engine, *object, "off", JsKeyboardDelegate::UnRegisterCallback);
             return objValue;
         }
 
@@ -107,7 +108,7 @@ namespace OHOS {
         {
             IMSA_HILOGI("JsInputMethodEngineUtils::CreateEditorAttribute is called");
             NativeValue *objValue = engine.CreateObject();
-            NativeObject *object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(objValue);
+            NativeObject *object = ConvertNativeValueTo<NativeObject>(objValue);
             if (object == nullptr) {
                 IMSA_HILOGI("CreateEditorAttribute Failed to get object");
                 return nullptr;
@@ -116,8 +117,8 @@ namespace OHOS {
             std::unique_ptr<JsEditorAttribute> jsEditorAttribute = std::make_unique<JsEditorAttribute>();
             object->SetNativePointer(jsEditorAttribute.release(), JsEditorAttribute::Finalizer, nullptr);
 
-            object->SetProperty("enterKeyType", AbilityRuntime::CreateJsValue(engine, InputMethodAbility::GetInstance()->GetEnterKeyType()));
-            object->SetProperty("inputPattern", AbilityRuntime::CreateJsValue(engine, InputMethodAbility::GetInstance()->GetInputPattern()));
+            object->SetProperty("enterKeyType", CreateJsValue(engine, InputMethodAbility::GetInstance()->GetEnterKeyType()));
+            object->SetProperty("inputPattern", CreateJsValue(engine, InputMethodAbility::GetInstance()->GetInputPattern()));
 
             return objValue;
         }

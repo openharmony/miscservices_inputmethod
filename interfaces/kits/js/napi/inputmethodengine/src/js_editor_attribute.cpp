@@ -29,47 +29,5 @@ namespace MiscServices {
         IMSA_HILOGI("JsEditorAttribute::Finalizer is called");
         std::unique_ptr<JsEditorAttribute>(static_cast<JsEditorAttribute*>(data));
     }
-
-//    NativeValue* JsEditorAttribute::GetEnterKeyType(NativeEngine* engine, NativeCallbackInfo* info)
-//    {
-//        JsEditorAttribute* me = AbilityRuntime::CheckParamsAndGetThis<JsEditorAttribute>(engine, info);
-//        return (me != nullptr) ? me->OnGetEnterKeyType(*engine, *info) : nullptr;
-//    }
-//
-//    NativeValue* JsEditorAttribute::GetInputPattern(NativeEngine* engine, NativeCallbackInfo* info)
-//    {
-//        JsEditorAttribute* me = AbilityRuntime::CheckParamsAndGetThis<JsEditorAttribute>(engine, info);
-//        return (me != nullptr) ? me->OnGetInputPattern(*engine, *info) : nullptr;
-//    }
-
-//    NativeValue* JsEditorAttribute::OnGetEnterKeyType(NativeEngine& engine, NativeCallbackInfo& info)
-//    {
-//        IMSA_HILOGI("JsEditorAttribute::OnGetEnterKeyType is called!");
-//        if (info.argc != ARGC_ZERO) {
-//            IMSA_HILOGI("JsEditorAttribute::OnGetEnterKeyType has params!");
-//            return engine.CreateUndefined();
-//        }
-//
-//        int32_t ret = InputMethodAbility::GetInstance()->GetEnterKeyType();
-//
-//        NativeValue* result = AbilityRuntime::CreateJsValue(engine, ret);
-//
-//        return result;
-//    }
-//
-//    NativeValue* JsEditorAttribute::OnGetInputPattern(NativeEngine& engine, NativeCallbackInfo& info)
-//    {
-//        IMSA_HILOGI("JsEditorAttribute::OnGetInputPattern is called!");
-//        if (info.argc != ARGC_ZERO) {
-//            IMSA_HILOGI("JsEditorAttribute::OnGetInputPattern has params!");
-//            return engine.CreateUndefined();
-//        }
-//
-//        int32_t ret = InputMethodAbility::GetInstance()->GetInputPattern();
-//
-//        NativeValue* result = AbilityRuntime::CreateJsValue(engine, ret);
-//
-//        return result;
-//    }
 }
 }

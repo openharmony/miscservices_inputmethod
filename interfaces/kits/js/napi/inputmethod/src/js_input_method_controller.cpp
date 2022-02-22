@@ -21,6 +21,7 @@
 #include "string_ex.h"
 namespace OHOS {
 namespace MiscServices {
+    using namespace AbilityRuntime;
     constexpr size_t ARGC_ZERO = 0;
 
     void JsInputMethodController::Finalizer(NativeEngine* engine, void* data, void* hint)
@@ -31,7 +32,7 @@ namespace MiscServices {
 
     NativeValue* JsInputMethodController::StopInput(NativeEngine* engine, NativeCallbackInfo* info)
     {
-        JsInputMethodController* me = AbilityRuntime::CheckParamsAndGetThis<JsInputMethodController>(engine, info);
+        JsInputMethodController* me = CheckParamsAndGetThis<JsInputMethodController>(engine, info);
         return (me != nullptr) ? me->OnStopInput(*engine, *info) : nullptr;
     }
 
@@ -45,7 +46,7 @@ namespace MiscServices {
 
         InputMethodController::GetInstance()->HideCurrentInput();
 
-        NativeValue* result = AbilityRuntime::CreateJsValue(engine, true);
+        NativeValue* result = CreateJsValue(engine, true);
 
         return result;
     }

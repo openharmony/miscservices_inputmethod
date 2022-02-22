@@ -25,6 +25,7 @@
 
 namespace OHOS {
 namespace MiscServices {
+    using namespace AbilityRuntime;
     namespace {
         constexpr size_t ARGC_ZERO = 0;
         constexpr size_t ARGC_ONE = 1;
@@ -46,19 +47,19 @@ namespace MiscServices {
 
         static NativeValue* GetInputMethodEngine(NativeEngine* engine, NativeCallbackInfo* info)
         {
-            JsInputMethodEngineRegistry* me = AbilityRuntime::CheckParamsAndGetThis<JsInputMethodEngineRegistry>(engine, info);
+            JsInputMethodEngineRegistry* me = CheckParamsAndGetThis<JsInputMethodEngineRegistry>(engine, info);
             return (me != nullptr) ? me->OnGetInputMethodEngine(*engine, *info) : nullptr;
         }
 
         static NativeValue* GetKeyboardDelegate(NativeEngine* engine, NativeCallbackInfo* info)
         {
-            JsInputMethodEngineRegistry* me = AbilityRuntime::CheckParamsAndGetThis<JsInputMethodEngineRegistry>(engine, info);
+            JsInputMethodEngineRegistry* me = CheckParamsAndGetThis<JsInputMethodEngineRegistry>(engine, info);
             return (me != nullptr) ? me->OnGetKeyboardDelegate(*engine, *info) : nullptr;
         }
 
         static NativeValue* MoveCursor(NativeEngine* engine, NativeCallbackInfo* info)
         {
-            JsInputMethodEngineRegistry* me = AbilityRuntime::CheckParamsAndGetThis<JsInputMethodEngineRegistry>(engine, info);
+            JsInputMethodEngineRegistry* me = CheckParamsAndGetThis<JsInputMethodEngineRegistry>(engine, info);
             return (me != nullptr) ? me->OnMoveCursor(*engine, *info) : nullptr;
         }
     private:
@@ -96,14 +97,14 @@ namespace MiscServices {
             nativeString = info.argv[ARGC_ZERO];
 
             int32_t number;
-            if (!AbilityRuntime::ConvertFromJsValue(engine, nativeString, number)) {
+            if (!ConvertFromJsValue(engine, nativeString, number)) {
                 IMSA_HILOGI("JsInputMethodEngineRegistry::OnMoveCursor Failed to convert parameter to string");
                 return engine.CreateUndefined();
             }
 
             InputMethodAbility::GetInstance()->MoveCursor(number);
 
-            NativeValue* result = AbilityRuntime::CreateJsValue(engine, true);
+            NativeValue* result = CreateJsValue(engine, true);
 
             return result;
         }
@@ -118,7 +119,7 @@ namespace MiscServices {
             return nullptr;
         }
 
-        NativeObject* object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(exportObj);
+        NativeObject* object = ConvertNativeValueTo<NativeObject>(exportObj);
         if (object == nullptr) {
             IMSA_HILOGI("object null");
             return nullptr;
@@ -127,50 +128,46 @@ namespace MiscServices {
         std::unique_ptr<JsInputMethodEngineRegistry> jsInputMethodEngineRegistry = std::make_unique<JsInputMethodEngineRegistry>(engine);
         object->SetNativePointer(jsInputMethodEngineRegistry.release(), JsInputMethodEngineRegistry::Finalizer, nullptr);
 
-        AbilityRuntime::BindNativeFunction(*engine, *object, "getInputMethodEngine", JsInputMethodEngineRegistry::GetInputMethodEngine);
-        AbilityRuntime::BindNativeFunction(*engine, *object, "createKeyboardDelegate", JsInputMethodEngineRegistry::GetKeyboardDelegate);
+        BindNativeFunction(*engine, *object, "getInputMethodEngine", JsInputMethodEngineRegistry::GetInputMethodEngine);
+        BindNativeFunction(*engine, *object, "createKeyboardDelegate", JsInputMethodEngineRegistry::GetKeyboardDelegate);
 
-        object->SetProperty("ENTER_KEY_TYPE_UNSPECIFIED", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(EnterKeyType::UNSPECIFIED)));
-        object->SetProperty("ENTER_KEY_TYPE_GO", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(EnterKeyType::GO)));
-        object->SetProperty("ENTER_KEY_TYPE_SEARCH", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(EnterKeyType::SEARCH)));
-        object->SetProperty("ENTER_KEY_TYPE_SEND", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(EnterKeyType::SEND)));
-        object->SetProperty("ENTER_KEY_TYPE_NEXT", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(EnterKeyType::NEXT)));
-        object->SetProperty("ENTER_KEY_TYPE_DONE", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(EnterKeyType::DONE)));
-        object->SetProperty("ENTER_KEY_TYPE_PREVIOUS", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(EnterKeyType::PREVIOUS)));
+        object->SetProperty("ENTER_KEY_TYPE_UNSPECIFIED", CreateJsValue(*engine, static_cast<uint32_t>(EnterKeyType::UNSPECIFIED)));
+        object->SetProperty("ENTER_KEY_TYPE_GO", CreateJsValue(*engine, static_cast<uint32_t>(EnterKeyType::GO)));
+        object->SetProperty("ENTER_KEY_TYPE_SEARCH", CreateJsValue(*engine, static_cast<uint32_t>(EnterKeyType::SEARCH)));
+        object->SetProperty("ENTER_KEY_TYPE_SEND", CreateJsValue(*engine, static_cast<uint32_t>(EnterKeyType::SEND)));
+        object->SetProperty("ENTER_KEY_TYPE_NEXT", CreateJsValue(*engine, static_cast<uint32_t>(EnterKeyType::NEXT)));
+        object->SetProperty("ENTER_KEY_TYPE_DONE", CreateJsValue(*engine, static_cast<uint32_t>(EnterKeyType::DONE)));
+        object->SetProperty("ENTER_KEY_TYPE_PREVIOUS", CreateJsValue(*engine, static_cast<uint32_t>(EnterKeyType::PREVIOUS)));
 
-        object->SetProperty("PATTERN_NULL", AbilityRuntime::CreateJsValue(*engine, static_cast<int32_t>(TextInputType::NONE)));
-        object->SetProperty("PATTERN_TEXT", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(TextInputType::TEXT)));
-        object->SetProperty("PATTERN_NUMBER", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(TextInputType::NUMBER)));
-        object->SetProperty("PATTERN_PHONE", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(TextInputType::PHONE)));
-        object->SetProperty("PATTERN_DATETIME", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(TextInputType::DATETIME)));
-        object->SetProperty("PATTERN_EMAIL", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(TextInputType::EMAIL_ADDRESS)));
-        object->SetProperty("PATTERN_URI", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(TextInputType::URL)));
-        object->SetProperty("PATTERN_PASSWORD", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(TextInputType::VISIBLE_PASSWORD)));
+        object->SetProperty("PATTERN_NULL", CreateJsValue(*engine, static_cast<int32_t>(TextInputType::NONE)));
+        object->SetProperty("PATTERN_TEXT", CreateJsValue(*engine, static_cast<uint32_t>(TextInputType::TEXT)));
+        object->SetProperty("PATTERN_NUMBER", CreateJsValue(*engine, static_cast<uint32_t>(TextInputType::NUMBER)));
+        object->SetProperty("PATTERN_PHONE", CreateJsValue(*engine, static_cast<uint32_t>(TextInputType::PHONE)));
+        object->SetProperty("PATTERN_DATETIME", CreateJsValue(*engine, static_cast<uint32_t>(TextInputType::DATETIME)));
+        object->SetProperty("PATTERN_EMAIL", CreateJsValue(*engine, static_cast<uint32_t>(TextInputType::EMAIL_ADDRESS)));
+        object->SetProperty("PATTERN_URI", CreateJsValue(*engine, static_cast<uint32_t>(TextInputType::URL)));
+        object->SetProperty("PATTERN_PASSWORD", CreateJsValue(*engine, static_cast<uint32_t>(TextInputType::VISIBLE_PASSWORD)));
 
+        object->SetProperty("FLAG_SELECTING", CreateJsValue(*engine, static_cast<uint32_t>(2)));
+        object->SetProperty("FLAG_SINGLE_LINE", CreateJsValue(*engine, static_cast<uint32_t>(1)));
 
-        object->SetProperty("FLAG_SELECTING", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(2)));
-        object->SetProperty("FLAG_SINGLE_LINE", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(1)));
+        object->SetProperty("DISPLAY_MODE_PART", CreateJsValue(*engine, static_cast<uint32_t>(0)));
+        object->SetProperty("DISPLAY_MODE_FULL", CreateJsValue(*engine, static_cast<uint32_t>(1)));
 
-        object->SetProperty("DISPLAY_MODE_PART", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(0)));
-        object->SetProperty("DISPLAY_MODE_FULL", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(1)));
+        object->SetProperty("OPTION_ASCII", CreateJsValue(*engine, static_cast<uint32_t>(20)));
+        object->SetProperty("OPTION_NONE", CreateJsValue(*engine, static_cast<uint32_t>(0)));
+        object->SetProperty("OPTION_AUTO_CAP_CHARACTERS", CreateJsValue(*engine, static_cast<uint32_t>(2)));
+        object->SetProperty("OPTION_AUTO_CAP_SENTENCES", CreateJsValue(*engine, static_cast<uint32_t>(8)));
+        object->SetProperty("OPTION_AUTO_WORDS", CreateJsValue(*engine, static_cast<uint32_t>(4)));
+        object->SetProperty("OPTION_MULTI_LINE", CreateJsValue(*engine, static_cast<uint32_t>(1)));
+        object->SetProperty("OPTION_NO_FULLSCREEN", CreateJsValue(*engine, static_cast<uint32_t>(10)));
 
-        object->SetProperty("OPTION_ASCII", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(20)));
-        object->SetProperty("OPTION_NONE", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(0)));
-        object->SetProperty("OPTION_AUTO_CAP_CHARACTERS", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(2)));
-        object->SetProperty("OPTION_AUTO_CAP_SENTENCES", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(8)));
-        object->SetProperty("OPTION_AUTO_WORDS", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(4)));
-        object->SetProperty("OPTION_MULTI_LINE", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(1)));
-        object->SetProperty("OPTION_NO_FULLSCREEN", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(10)));
+        BindNativeFunction(*engine, *object, "MoveCursor", JsInputMethodEngineRegistry::MoveCursor);
 
-
-
-        AbilityRuntime::BindNativeFunction(*engine, *object, "MoveCursor", JsInputMethodEngineRegistry::MoveCursor);
-
-        object->SetProperty("FUNCTION_KEY_CONFIRM", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(1)));
-        object->SetProperty("CURSOR_UP", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(1)));
-        object->SetProperty("CURSOR_DOWN", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(2)));
-        object->SetProperty("CURSOR_LEFT", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(3)));
-        object->SetProperty("CURSOR_RIGHT", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(4)));
+        object->SetProperty("CURSOR_UP", CreateJsValue(*engine, static_cast<uint32_t>(1)));
+        object->SetProperty("CURSOR_DOWN", CreateJsValue(*engine, static_cast<uint32_t>(2)));
+        object->SetProperty("CURSOR_LEFT", CreateJsValue(*engine, static_cast<uint32_t>(3)));
+        object->SetProperty("CURSOR_RIGHT", CreateJsValue(*engine, static_cast<uint32_t>(4)));
         return engine->CreateUndefined();
     }
 }

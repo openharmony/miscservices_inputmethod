@@ -23,6 +23,7 @@
 #include "js_input_method_engine_utils.h"
 namespace OHOS {
 namespace MiscServices {
+    using namespace AbilityRuntime;
     constexpr size_t ARGC_ZERO = 0;
     constexpr size_t ARGC_ONE = 1;
 
@@ -34,43 +35,43 @@ namespace MiscServices {
 
     NativeValue* JsTextInputClient::InsertText(NativeEngine* engine, NativeCallbackInfo* info)
     {
-        JsTextInputClient* me = AbilityRuntime::CheckParamsAndGetThis<JsTextInputClient>(engine, info);
+        JsTextInputClient* me = CheckParamsAndGetThis<JsTextInputClient>(engine, info);
         return (me != nullptr) ? me->OnInsertText(*engine, *info) : nullptr;
     }
 
     NativeValue* JsTextInputClient::DeleteForward(NativeEngine* engine, NativeCallbackInfo* info)
     {
-        JsTextInputClient* me = AbilityRuntime::CheckParamsAndGetThis<JsTextInputClient>(engine, info);
+        JsTextInputClient* me = CheckParamsAndGetThis<JsTextInputClient>(engine, info);
         return (me != nullptr) ? me->OnDeleteForward(*engine, *info) : nullptr;
     }
 
     NativeValue* JsTextInputClient::DeleteBackward(NativeEngine* engine, NativeCallbackInfo* info)
     {
-        JsTextInputClient* me = AbilityRuntime::CheckParamsAndGetThis<JsTextInputClient>(engine, info);
+        JsTextInputClient* me = CheckParamsAndGetThis<JsTextInputClient>(engine, info);
         return (me != nullptr) ? me->OnDeleteBackward(*engine, *info) : nullptr;
     }
 
     NativeValue* JsTextInputClient::SendFunctionKey(NativeEngine* engine, NativeCallbackInfo* info)
     {
-        JsTextInputClient* me = AbilityRuntime::CheckParamsAndGetThis<JsTextInputClient>(engine, info);
+        JsTextInputClient* me = CheckParamsAndGetThis<JsTextInputClient>(engine, info);
         return (me != nullptr) ? me->OnSendFunctionKey(*engine, *info) : nullptr;
     }
 
     NativeValue* JsTextInputClient::GetForward(NativeEngine* engine, NativeCallbackInfo* info)
     {
-        JsTextInputClient* me = AbilityRuntime::CheckParamsAndGetThis<JsTextInputClient>(engine, info);
+        JsTextInputClient* me = CheckParamsAndGetThis<JsTextInputClient>(engine, info);
         return (me != nullptr) ? me->OnGetForward(*engine, *info) : nullptr;
     }
 
     NativeValue* JsTextInputClient::GetBackward(NativeEngine* engine, NativeCallbackInfo* info)
     {
-        JsTextInputClient* me = AbilityRuntime::CheckParamsAndGetThis<JsTextInputClient>(engine, info);
+        JsTextInputClient* me = CheckParamsAndGetThis<JsTextInputClient>(engine, info);
         return (me != nullptr) ? me->OnGetBackward(*engine, *info) : nullptr;
     }
 
     NativeValue* JsTextInputClient::GetEditorAttribute(NativeEngine* engine, NativeCallbackInfo* info)
     {
-        JsTextInputClient* me = AbilityRuntime::CheckParamsAndGetThis<JsTextInputClient>(engine, info);
+        JsTextInputClient* me = CheckParamsAndGetThis<JsTextInputClient>(engine, info);
         return (me != nullptr) ? me->OnGetEditorAttribute(*engine, *info) : nullptr;
     }
 
@@ -86,14 +87,14 @@ namespace MiscServices {
         nativeString = info.argv[ARGC_ZERO];
 
         std::string textString;
-        if (!AbilityRuntime::ConvertFromJsValue(engine, nativeString, textString)) {
+        if (!ConvertFromJsValue(engine, nativeString, textString)) {
             IMSA_HILOGI("JsTextInputClient::OnInsertText Failed to convert parameter to string");
             return engine.CreateUndefined();
         }
 
         bool ret = InputMethodAbility::GetInstance()->InsertText(textString);
 
-        NativeValue* result = AbilityRuntime::CreateJsValue(engine, ret);
+        NativeValue* result = CreateJsValue(engine, ret);
 
         return result;
     }
@@ -110,14 +111,14 @@ namespace MiscServices {
         nativeString = info.argv[ARGC_ZERO];
 
         int32_t number;
-        if (!AbilityRuntime::ConvertFromJsValue(engine, nativeString, number)) {
+        if (!ConvertFromJsValue(engine, nativeString, number)) {
             IMSA_HILOGI("JsTextInputClient::OnDeleteForward Failed to convert parameter to string");
             return engine.CreateUndefined();
         }
 
         InputMethodAbility::GetInstance()->DeleteForward(number);
 
-        NativeValue* result = AbilityRuntime::CreateJsValue(engine, true);
+        NativeValue* result = CreateJsValue(engine, true);
 
         return result;
     }
@@ -134,14 +135,14 @@ namespace MiscServices {
         nativeString = info.argv[ARGC_ZERO];
 
         int32_t number;
-        if (!AbilityRuntime::ConvertFromJsValue(engine, nativeString, number)) {
+        if (!ConvertFromJsValue(engine, nativeString, number)) {
             IMSA_HILOGI("JsTextInputClient::OnDeleteBackward Failed to convert parameter to string");
             return engine.CreateUndefined();
         }
 
         InputMethodAbility::GetInstance()->DeleteBackward(number);
 
-        NativeValue* result = AbilityRuntime::CreateJsValue(engine, true);
+        NativeValue* result = CreateJsValue(engine, true);
 
         return result;
     }
@@ -158,14 +159,14 @@ namespace MiscServices {
         nativeString = info.argv[ARGC_ZERO];
 
         int32_t number;
-        if (!AbilityRuntime::ConvertFromJsValue(engine, nativeString, number)) {
+        if (!ConvertFromJsValue(engine, nativeString, number)) {
             IMSA_HILOGI("JsTextInputClient::OnSendFunctionKey Failed to convert parameter to string");
             return engine.CreateUndefined();
         }
 
         InputMethodAbility::GetInstance()->SendFunctionKey(number);
 
-        NativeValue* result = AbilityRuntime::CreateJsValue(engine, true);
+        NativeValue* result = CreateJsValue(engine, true);
 
         return result;
     }
@@ -182,14 +183,14 @@ namespace MiscServices {
         nativeString = info.argv[ARGC_ZERO];
 
         int32_t number;
-        if (!AbilityRuntime::ConvertFromJsValue(engine, nativeString, number)) {
+        if (!ConvertFromJsValue(engine, nativeString, number)) {
             IMSA_HILOGI("JsTextInputClient::OnGetForward Failed to convert parameter to string");
             return engine.CreateUndefined();
         }
 
         std::string ret = Str16ToStr8(InputMethodAbility::GetInstance()->GetTextBeforeCursor(number));
 
-        NativeValue* result = AbilityRuntime::CreateJsValue(engine, ret);
+        NativeValue* result = CreateJsValue(engine, ret);
 
         return result;
     }
@@ -206,14 +207,14 @@ namespace MiscServices {
         nativeString = info.argv[ARGC_ZERO];
 
         int32_t number;
-        if (!AbilityRuntime::ConvertFromJsValue(engine, nativeString, number)) {
+        if (!ConvertFromJsValue(engine, nativeString, number)) {
             IMSA_HILOGI("JsTextInputClient::OnGetBackward Failed to convert parameter to string");
             return engine.CreateUndefined();
         }
 
         std::string ret = Str16ToStr8(InputMethodAbility::GetInstance()->GetTextAfterCursor(number));
 
-        NativeValue* result = AbilityRuntime::CreateJsValue(engine, ret);
+        NativeValue* result = CreateJsValue(engine, ret);
 
         return result;
     }
