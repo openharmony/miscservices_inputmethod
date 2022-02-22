@@ -22,8 +22,11 @@ import {AsyncCallback} from './basic';
  * @devices phone, tablet, tv, wearable
  */
 declare namespace inputMethod {
+    const MAX_TYPE_NUM: number
 
     function getInputMethodSetting(): InputMethodSetting;
+
+    function getInputMethodController(): InputMethodController;
 
     interface InputMethodSetting {
         listInputMethod(callback: AsyncCallback<Array<InputMethodProperty>>): void;
@@ -31,6 +34,11 @@ declare namespace inputMethod {
 
         displayOptionalInputMethod(callback: AsyncCallback<void>): void;
         displayOptionalInputMethod(): Promise<void>;
+    }
+
+    interface InputMethodController {
+        stopInput(callback: AsyncCallback<boolean>): void;
+        stopInput(): Promise<boolean>;
     }
 
     interface InputMethodProperty {

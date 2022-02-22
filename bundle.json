@@ -102,13 +102,30 @@
           }
         },
         {
-          "name": "//base/miscservices/inputmethod/interfaces/kits/js/napi:inputmethodengine",
+          "name": "//base/miscservices/inputmethod/interfaces/kits/js/napi/inputmethod:inputmethod",
           "header": {
             "header_files": [
-              "js_input_method_engine.h",
-              "js_input_method_engine_listener.h"
+              "js_input_method_registry.h",
+              "js_input_method_utils.h",
+              "js_input_method_setting.h",
+              "js_input_method_controller.h"
             ],
-            "header_base": "//base/miscservices/inputmethod/interfaces/kits/js/napi/include"
+            "header_base": "//base/miscservices/inputmethod/interfaces/kits/js/napi/inputmethod/include"
+          }
+        },
+        {
+          "name": "//base/miscservices/inputmethod/interfaces/kits/js/napi/inputmethodengine:inputmethodengine",
+          "header": {
+            "header_files": [
+              "js_input_method_engine_registry.h",
+              "js_input_method_engine_listener.h",
+              "js_input_method_engine.h",
+              "js_input_method_engine_utils.h",
+              "js_keyboard_controller.h",
+              "js_text_input_client.h",
+              "js_keyboard_delegate.h"
+            ],
+            "header_base": "//base/miscservices/inputmethod/interfaces/kits/js/napi/inputmethodengine/include"
           }
         }
       ],

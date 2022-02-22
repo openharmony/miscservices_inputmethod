@@ -32,11 +32,14 @@ namespace MiscServices {
         bool DeleteForward(int32_t length) override;
         bool DeleteBackward(int32_t length) override;
         void Close() override;
-        std::u16string GetTextBeforeCursor() override;
-        std::u16string GetTextAfterCursor() override;
+        std::u16string GetTextBeforeCursor(int32_t number) override;
+        std::u16string GetTextAfterCursor(int32_t number) override;
         void SendKeyboardStatus(int32_t status) override;
         void SendFunctionKey(int32_t funcKey) override;
         void MoveCursor(int32_t keyCode) override;
+        int32_t GetEnterKeyType() override;
+        int32_t GetInputPattern() override;
+        void StopInput() override;
 
     private:
         static inline BrokerDelegator<InputDataChannelProxy> delegator_;

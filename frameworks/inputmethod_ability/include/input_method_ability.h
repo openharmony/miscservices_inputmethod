@@ -18,6 +18,7 @@
 
 #include <thread>
 #include "js_input_method_engine_listener.h"
+#include "js_keyboard_delegate_listener.h"
 #include "iremote_object.h"
 #include "i_input_control_channel.h"
 #include "i_input_method_core.h"
@@ -44,14 +45,18 @@ namespace MiscServices {
         sptr<IInputMethodCore> OnConnect();
         bool InsertText(const std::string text);
         void setImeListener(sptr<JsInputMethodEngineListener> &imeListener);
+        void setKdListener(sptr<JsKeyboardDelegateListener> &kdListener);
         void DeleteForward(int32_t length);
         void DeleteBackward(int32_t length);
         void HideKeyboardSelf();
-        std::u16string GetTextBeforeCursor();
-        std::u16string GetTextAfterCursor();
+        std::u16string GetTextBeforeCursor(int32_t number);
+        std::u16string GetTextAfterCursor(int32_t number);
         void SendFunctionKey(int32_t funcKey);
         void MoveCursor(int32_t keyCode);
         bool DispatchKeyEvent(int32_t keyCode, int32_t keyStatus);
+        int32_t GetEnterKeyType();
+        int32_t GetInputPattern();
+        void StopInput();
 
     private:
         std::thread workThreadHandler;
@@ -73,6 +78,7 @@ namespace MiscServices {
         // communicating with IMC
         sptr<IInputDataChannel> inputDataChannel;
         sptr<JsInputMethodEngineListener> imeListener_;
+        sptr<JsKeyboardDelegateListener> kdListener_;
         static std::mutex instanceLock_;
         static sptr<InputMethodAbility> instance_;
         sptr<InputMethodSystemAbilityProxy> mImms;

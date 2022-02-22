@@ -14,16 +14,16 @@
  */
 
 #include "native_engine/native_engine.h"
-#include "js_input_method_engine.h"
+#include "js_input_method_registry.h"
 
-extern "C" __attribute__((constructor)) void NAPI_inputMethodEngine_AutoRegister()
+extern "C" __attribute__((constructor)) void NAPI_inputMethod_AutoRegister()
 {
     auto moduleManager = NativeModuleManager::GetInstance();
     NativeModule newModuleInfo = {
-    .name = "inputMethodEngine",
-    .fileName = "inputmethodengine.so/inputmethod_engine.js",
-    .registerCallback = OHOS::MiscServices::JsInputMethodEngineInit,
-};
+    .name = "inputMethod",
+    .fileName = "inputmethod.so/inputmethod.js",
+    .registerCallback = OHOS::MiscServices::JsInputMethodRegistryInit,
+    };
 
     moduleManager->Register(&newModuleInfo);
 }

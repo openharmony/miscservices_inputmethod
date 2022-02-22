@@ -15,6 +15,7 @@
 #include "js_input_method_engine_listener.h"
 #include "global.h"
 #include "js_runtime_utils.h"
+#include "js_input_method_engine_utils.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -147,121 +148,30 @@ namespace MiscServices {
         CallJsMethod(methodName, argv, AbilityRuntime::ArraySize(argv));
     }
 
-    bool JsInputMethodEngineListener::OnKeyEvent(int32_t keyCode, int32_t keyStatus)
+    void JsInputMethodEngineListener::OnInputStart()
     {
         std::lock_guard<std::mutex> lock(mMutex);
-        IMSA_HILOGI("JsInputMethodEngineListener::OnKeyEvent");
+        IMSA_HILOGI("JsInputMethodEngineListener::OnInputStart");
+//        NativeValue *nativeValuekb = engine_->CreateObject();
+//        NativeObject *objectkb = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeValuekb);
+//        if (objectkb == nullptr) {
+//            IMSA_HILOGI("JsInputMethodEngineListener::OnInputStart Failed to get object");
+//            return;
+//        }
 
-        NativeValue* nativeValue = engine_->CreateObject();
-        NativeObject* object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeValue);
-        if (object == nullptr) {
-            IMSA_HILOGI("Failed to convert rect to jsObject");
-            return false;
-        }
-        NativeValue* argv[] = {nativeValue};
-        std::string methodName;
-        if (keyStatus == 2) {
-            methodName = "keyDown";
-        } else {
-            methodName = "keyUp";
-        }
-        object->SetProperty("keyCode", AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(keyCode)));
-        object->SetProperty("keyAction", AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(keyStatus)));
-        return CallJsMethodReturnBool(methodName, argv, AbilityRuntime::ArraySize(argv));
-    }
+        NativeValue *nativeValuekb = CreateKeyboardController(*engine_);
+//        objectkb->SetProperty("kbController", CreateKeyboardController(*engine_));
 
-    void JsInputMethodEngineListener::OnCursorUpdate(int32_t positionX, int32_t positionY, int height)
-    {
-        std::lock_guard<std::mutex> lock(mMutex);
-        IMSA_HILOGI("JsInputMethodEngineListener::OnCursorUpdate");
-
-        NativeValue* nativeXValue = engine_->CreateObject();
-        NativeObject* objectX = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeXValue);
-        if (objectX == nullptr) {
-            IMSA_HILOGI("Failed to convert rect to jsObject");
-            return;
-        }
-        objectX->SetProperty("x", AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(positionX)));
-
-        NativeValue* nativeYValue = engine_->CreateObject();
-        NativeObject* objectY = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeYValue);
-        if (objectY == nullptr) {
-            IMSA_HILOGI("Failed to convert rect to jsObject");
-            return;
-        }
-        objectY->SetProperty("y", AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(positionY)));
-
-        NativeValue* nativeHValue = engine_->CreateObject();
-        NativeObject* objectH = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeHValue);
-        if (objectH == nullptr) {
-            IMSA_HILOGI("Failed to convert rect to jsObject");
-            return;
-        }
-        objectH->SetProperty("height", AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(height)));
-
-        NativeValue* argv[] = {nativeXValue, nativeYValue, nativeHValue};
-        std::string methodName = "cursorContextChange";
-        CallJsMethod(methodName, argv, AbilityRuntime::ArraySize(argv));
-    }
-
-    void JsInputMethodEngineListener::OnSelectionChange(int32_t oldBegin, int32_t oldEnd,
-                                                        int32_t newBegin, int32_t newEnd)
-    {
-        std::lock_guard<std::mutex> lock(mMutex);
-        IMSA_HILOGI("JsInputMethodEngineListener::OnSelectionChange");
-
-        NativeValue* nativeOBValue = engine_->CreateObject();
-        NativeObject* objectOB = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeOBValue);
-        if (objectOB == nullptr) {
-            IMSA_HILOGI("Failed to convert rect to jsObject");
-            return;
-        }
-        objectOB->SetProperty("oldBegin", AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(oldBegin)));
-
-        NativeValue* nativeOEValue = engine_->CreateObject();
-        NativeObject* objectOE = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeOEValue);
-        if (objectOE == nullptr) {
-            IMSA_HILOGI("Failed to convert rect to jsObject");
-            return;
-        }
-        objectOE->SetProperty("oldEnd", AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(oldEnd)));
-
-        NativeValue* nativeNBHValue = engine_->CreateObject();
-        NativeObject* objectNB = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeNBHValue);
-        if (objectNB == nullptr) {
-            IMSA_HILOGI("Failed to convert rect to jsObject");
-            return;
-        }
-        objectNB->SetProperty("newBegin", AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(newBegin)));
-
-        NativeValue* nativeNEValue = engine_->CreateObject();
-        NativeObject* objectNE = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeNEValue);
-        if (objectNE == nullptr) {
-            IMSA_HILOGI("Failed to convert rect to jsObject");
-            return;
-        }
-        objectNE->SetProperty("newEnd", AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(newEnd)));
-
-        NativeValue* argv[] = {nativeOEValue, nativeOEValue, nativeNBHValue, nativeNEValue};
-        std::string methodName = "selectionChange";
-        CallJsMethod(methodName, argv, AbilityRuntime::ArraySize(argv));
-    }
-
-    void JsInputMethodEngineListener::OnTextChange(std::string text)
-    {
-        std::lock_guard<std::mutex> lock(mMutex);
-        IMSA_HILOGI("JsInputMethodEngineListener::OnTextChange");
-
-        NativeValue* nativeValue = engine_->CreateObject();
-        NativeObject* object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeValue);
-        if (object == nullptr) {
-            IMSA_HILOGI("Failed to convert rect to jsObject");
-            return;
-        }
-        object->SetProperty("text", AbilityRuntime::CreateJsValue(*engine_, text));
-
-        NativeValue* argv[] = {nativeValue};
-        std::string methodName = "textChange";
+//        NativeValue *nativeValuetx = engine_->CreateObject();
+//        NativeObject *objecttx = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeValuetx);
+//        if (objecttx == nullptr) {
+//            IMSA_HILOGI("JsInputMethodEngineListener::OnInputStart Failed to get object");
+//            return;
+//        }
+//        objecttx->SetProperty("textInputClient", CreateTextInputClient(*engine_));
+        NativeValue *nativeValuetx = CreateTextInputClient(*engine_);
+        NativeValue* argv[] = {nativeValuekb, nativeValuetx};
+        std::string methodName = "inputStart";
         CallJsMethod(methodName, argv, AbilityRuntime::ArraySize(argv));
     }
 
