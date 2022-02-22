@@ -12,8 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef FM_IMMS_PROJECT_INPUTMETHODENGINELISTENER_H
-#define FM_IMMS_PROJECT_INPUTMETHODENGINELISTENER_H
+#ifndef FM_IMMS_PROJECT_JS_INPUT_METHOD_ENGINE_LISTENER_H
+#define FM_IMMS_PROJECT_JS_INPUT_METHOD_ENGINE_LISTENER_H
 
 #include <map>
 #include <mutex>
@@ -32,10 +32,7 @@ namespace MiscServices {
         void RegisterListenerWithType(NativeEngine& engine, std::string type, NativeValue* value);
         void UnregisterListenerWithType(std::string type, NativeValue* value);
         void OnKeyboardStatus(bool isShow);
-        bool OnKeyEvent(int32_t keyCode, int32_t keyStatus);
-        void OnCursorUpdate(int32_t positionX, int32_t positionY, int height);
-        void OnSelectionChange(int32_t oldBegin, int32_t oldEnd, int32_t newBegin, int32_t newEnd);
-        void OnTextChange(std::string text);
+        void OnInputStart();
         void OnInputStop(std::string imeId);
     private:
         void AddCallback(std::string type, NativeValue* jsListenerObject);
@@ -49,4 +46,4 @@ namespace MiscServices {
     };
 }
 }
-#endif // FM_IMMS_PROJECT_INPUTMETHODENGINELISTENER_H
+#endif // FM_IMMS_PROJECT_JS_INPUT_METHOD_ENGINE_LISTENER_H

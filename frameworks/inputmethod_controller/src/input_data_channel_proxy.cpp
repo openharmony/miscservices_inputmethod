@@ -84,24 +84,26 @@ namespace MiscServices {
         }
     }
 
-    std::u16string InputDataChannelProxy::GetTextBeforeCursor()
+    std::u16string InputDataChannelProxy::GetTextBeforeCursor(int32_t number)
     {
         IMSA_HILOGI("InputDataChannelProxy::GetTextBeforeCursor");
         MessageParcel data, reply;
         MessageOption option;
         data.WriteInterfaceToken(GetDescriptor());
+        data.WriteInt32(number);
 
         Remote()->SendRequest(GET_TEXT_BEFORE_CURSOR, data, reply, option);
         auto result = reply.ReadString16();
         return result;
     }
 
-    std::u16string InputDataChannelProxy::GetTextAfterCursor()
+    std::u16string InputDataChannelProxy::GetTextAfterCursor(int32_t number)
     {
         IMSA_HILOGI("InputDataChannelProxy::GetTextAfterCursor");
         MessageParcel data, reply;
         MessageOption option;
         data.WriteInterfaceToken(GetDescriptor());
+        data.WriteInt32(number);
 
         Remote()->SendRequest(GET_TEXT_AFTER_CURSOR, data, reply, option);
         auto result = reply.ReadString16();
@@ -140,6 +142,40 @@ namespace MiscServices {
         data.WriteInt32(keyCode);
 
         Remote()->SendRequest(MOVE_CURSOR, data, reply, option);
+    }
+
+    int32_t InputDataChannelProxy::GetEnterKeyType()
+    {
+        IMSA_HILOGI("InputDataChannelProxy::GetEnterKeyType");
+        MessageParcel data, reply;
+        MessageOption option;
+        data.WriteInterfaceToken(GetDescriptor());
+
+        Remote()->SendRequest(GET_ENTER_KEY_TYPE, data, reply, option);
+        auto result = reply.ReadInt32();
+        return result;
+    }
+
+    int32_t InputDataChannelProxy::GetInputPattern()
+    {
+        IMSA_HILOGI("InputDataChannelProxy::GetInputPattern");
+        MessageParcel data, reply;
+        MessageOption option;
+        data.WriteInterfaceToken(GetDescriptor());
+
+        Remote()->SendRequest(GET_INPUT_PATTERN, data, reply, option);
+        auto result = reply.ReadInt32();
+        return result;
+    }
+
+    void InputDataChannelProxy::StopInput()
+    {
+        IMSA_HILOGI("InputDataChannelProxy::StopInput");
+        MessageParcel data, reply;
+        MessageOption option;
+        data.WriteInterfaceToken(GetDescriptor());
+
+        Remote()->SendRequest(STOP_INPUT, data, reply, option);
     }
 }
 }

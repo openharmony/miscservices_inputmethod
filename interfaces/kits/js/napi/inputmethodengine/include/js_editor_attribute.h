@@ -13,18 +13,20 @@
  * limitations under the License.
  */
 
-#ifndef OHOS_MISCSERVICES_JS_INPUT_METHOD_ENGINE_H
-#define OHOS_MISCSERVICES_JS_INPUT_METHOD_ENGINE_H
-
+#ifndef OHOS_MISCSERVICES_JS_EDITOR_ATTRIBUTE_H
+#define OHOS_MISCSERVICES_JS_EDITOR_ATTRIBUTE_H
 #include "native_engine/native_engine.h"
 #include "native_engine/native_value.h"
-#include "global.h"
 #include "js_runtime_utils.h"
-
 namespace OHOS {
     namespace MiscServices {
-        NativeValue* JsInputMethodInit(NativeEngine* engine, NativeValue* exportObj);
+        class JsEditorAttribute {
+        public:
+            JsEditorAttribute() = default;
+            ~JsEditorAttribute() = default;
+            static void Finalizer(NativeEngine* engine, void* data, void* hint);
+        private:
+        };
     }
 }
-
-#endif // OHOS_MISCSERVICES_JS_INPUT_METHOD_ENGINE_H
+#endif // OHOS_MISCSERVICES_JS_EDITOR_ATTRIBUTE_H

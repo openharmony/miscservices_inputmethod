@@ -125,6 +125,14 @@ namespace MiscServices {
         }
     }
 
+    void InputMethodAbility::setKdListener(sptr<JsKeyboardDelegateListener> &kdListener)
+    {
+        IMSA_HILOGI("InputMethodAbility::setKdListener");
+        if (kdListener_ == nullptr) {
+            kdListener_ = kdListener;
+        }
+    }
+
     void InputMethodAbility::WorkThread()
     {
         while (!stop_) {
@@ -170,7 +178,9 @@ namespace MiscServices {
                 case MSG_ID_STOP_INPUT_SERVICE:{
                     MessageParcel *data = msg->msgContent_;
                     std::string imeId = Str16ToStr8(data->ReadString16());
-                    imeListener_->OnInputStop(imeId);
+                    if (imeListener_ != nullptr) {
+                        imeListener_->OnInputStop(imeId);
+                    }
                     break;
                 }
                 default: {
@@ -267,22 +277,54 @@ namespace MiscServices {
             IMSA_HILOGI("InputMethodAbility::DispatchKeyEvent abort. no client");
             return false;
         }
-        return imeListener_->OnKeyEvent(keyCode, keyStatus);
+        if (kdListener_ == nullptr) {
+            IMSA_HILOGI("InputMethodAbility::DispatchKeyEvent kdListener_ is nullptr");
+            return false;
+        }
+        return kdListener_->OnKeyEvent(keyCode, keyStatus);
     }
  
     void InputMethodAbility::OnCursorUpdate(Message *msg)
     {
         IMSA_HILOGI("InputMethodAbility::OnCursorUpdate");
+        MessageParcel *data = msg->msgContent_;
+        int32_t positionX = data->ReadInt32();
+        int32_t positionY = data->ReadInt32();
+        int32_t height = data->ReadInt32();
+        if (kdListener_ == nullptr) {
+            IMSA_HILOGI("InputMethodAbility::OnCursorUpdate kdListener_ is nullptr");
+            return;
+        }
+        kdListener_->OnCursorUpdate(positionX, positionY, height);
     }
 
     void InputMethodAbility::OnSelectionChange(Message *msg)
     {
         IMSA_HILOGI("InputMethodAbility::OnSelectionChange");
+        MessageParcel *data = msg->msgContent_;
+        std::string text = Str16ToStr8(data->ReadString16());
+        int32_t oldBegin = data->ReadInt32();
+        int32_t oldEnd = data->ReadInt32();
+        int32_t newBegin = data->ReadInt32();
+        int32_t newEnd = data->ReadInt32();
+
+        if (kdListener_ == nullptr) {
+            IMSA_HILOGI("InputMethodAbility::OnSelectionChange kdListener_ is nullptr");
+            return;
+        }
+        kdListener_->OnTextChange(text);
+
+        kdListener_->OnSelectionChange(oldBegin, oldEnd, newBegin, newEnd);
     }
 
     void InputMethodAbility::ShowInputWindow()
     {
         IMSA_HILOGI("InputMethodAbility::ShowInputWindow");
+        if (imeListener_ == nullptr) {
+            IMSA_HILOGI("InputMethodAbility::ShowInputWindow imeListener_ is nullptr");
+            return;
+        }
+        imeListener_->OnInputStart();
         imeListener_->OnKeyboardStatus(true);
         if (inputDataChannel != nullptr) {
             inputDataChannel->SendKeyboardStatus(KEYBOARD_SHOW);
@@ -292,6 +334,10 @@ namespace MiscServices {
     void InputMethodAbility::DissmissInputWindow()
     {
         IMSA_HILOGI("InputMethodAbility::DissmissInputWindow");
+        if (imeListener_ == nullptr) {
+            IMSA_HILOGI("InputMethodAbility::DissmissInputWindow imeListener_ is nullptr");
+            return;
+        }
         imeListener_->OnKeyboardStatus(false);
         if (inputDataChannel != nullptr) {
             inputDataChannel->SendKeyboardStatus(KEYBOARD_HIDE);
@@ -345,16 +391,26 @@ namespace MiscServices {
         inputControlChannel->hideKeyboardSelf(1);
     }
 
-    std::u16string InputMethodAbility::GetTextBeforeCursor()
+    std::u16string InputMethodAbility::GetTextBeforeCursor(int32_t number)
     {
         IMSA_HILOGI("InputMethodAbility::GetTextBeforeCursor");
-        return inputDataChannel->GetTextBeforeCursor();
+
+        if (inputDataChannel == nullptr) {
+            IMSA_HILOGI("InputMethodAbility::GetTextBeforeCursor inputDataChanel is nullptr");
+            return u"";
+        }
+        return inputDataChannel->GetTextBeforeCursor(number);
     }
 
-    std::u16string InputMethodAbility::GetTextAfterCursor()
+    std::u16string InputMethodAbility::GetTextAfterCursor(int32_t number)
     {
         IMSA_HILOGI("InputMethodAbility::GetTextAfterCursor");
-        return inputDataChannel->GetTextAfterCursor();
+
+        if (inputDataChannel == nullptr) {
+            IMSA_HILOGI("InputMethodAbility::GetTextAfterCursor inputDataChanel is nullptr");
+            return u"";
+        }
+        return inputDataChannel->GetTextAfterCursor(number);
     }
 
     void InputMethodAbility::MoveCursor(int32_t keyCode)
@@ -368,6 +424,36 @@ namespace MiscServices {
 
         inputDataChannel->MoveCursor(keyCode);
         return;
+    }
+
+    int32_t InputMethodAbility::GetEnterKeyType() {
+        IMSA_HILOGI("InputMethodAbility::GetEnterKeyType");
+
+        if (inputDataChannel == nullptr) {
+            IMSA_HILOGI("InputMethodAbility::GetEnterKeyType inputDataChanel is nullptr");
+            return 0;
+        }
+        return inputDataChannel->GetEnterKeyType();
+    }
+
+    int32_t InputMethodAbility::GetInputPattern() {
+        IMSA_HILOGI("InputMethodAbility::GetInputPattern");
+
+        if (inputDataChannel == nullptr) {
+            IMSA_HILOGI("InputMethodAbility::GetInputPattern inputDataChanel is nullptr");
+            return 0;
+        }
+        return inputDataChannel->GetInputPattern();
+    }
+
+    void InputMethodAbility::StopInput() {
+        IMSA_HILOGI("InputMethodAbility::StopInput");
+
+        if (inputDataChannel == nullptr) {
+            IMSA_HILOGI("InputMethodAbility::StopInput inputDataChanel is nullptr");
+            return;
+        }
+        inputDataChannel->StopInput();
     }
 }
 }

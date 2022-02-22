@@ -18,38 +18,102 @@ import { AsyncCallback } from './basic';
 /**
  * inputmethod
  *
- * @since 7
+ * @since 8
  * @devices phone, tablet, tv, wearable
  */
 declare namespace inputMethodEngine {
-  function on(type: 'keyboardShow', callback: () => void): void;
-  function off(type: 'keyboardShow', callback: () => void): void;
+    const ENTER_KEY_TYPE_UNSPECIFIED: number;
+    const ENTER_KEY_TYPE_GO: number;
+    const ENTER_KEY_TYPE_SEARCH: number;
+    const ENTER_KEY_TYPE_SEND: number;
+    const ENTER_KEY_TYPE_NEXT: number;
+    const ENTER_KEY_TYPE_DONE: number;
+    const ENTER_KEY_TYPE_PREVIOUS: number;
 
-  function on(type: 'keyboardHide', callback: () => void): void;
-  function off(type: 'keyboardHide', callback: () => void): void;
+    const PATTERN_NULL: number;
+    const PATTERN_TEXT: number;
+    const PATTERN_NUMBER: number;
+    const PATTERN_PHONE: number;
+    const PATTERN_DATETIME: number;
+    const PATTERN_EMAIL: number;
+    const PATTERN_URI: number;
+    const PATTERN_PASSWORD: number;
 
-  function InsertText(text: string, callback: AsyncCallback<boolean>): void;
-  function InsertText(text: string): Promise<boolean>;
-  
-  function DeleteForward(length: number, callback: () => void): void;
-  function DeleteForward(length: number): Promise<void>;
+    const FLAG_SELECTING: number;
+    const FLAG_SINGLE_LINE: number;
 
-  function DeleteBackward(length: number, callback: () => void): void;
-  function DeleteBackward(length: number): Promise<void>;
+    const DISPLAY_MODE_PART: number;
+    const DISPLAY_MODE_FULL: number;
 
-  function HideKeyboardSelf(callback: () => void): void;
-  function HideKeyboardSelf(): Promise<void>;
+    const OPTION_ASCII: number;
+    const OPTION_NONE: number;
+    const OPTION_AUTO_CAP_CHARACTERS: number;
+    const OPTION_AUTO_CAP_SENTENCES: number;
+    const OPTION_AUTO_WORDS: number;
+    const OPTION_MULTI_LINE: number;
+    const OPTION_NO_FULLSCREEN: number;
 
-  function GetTextBeforeCursor(callback: () => string): void;
-  function GetTextBeforeCursor(): Promise<string>;
+    function getInputMethodEngine(): InputMethodEngine;
 
-  function GetTextAfterCursor(callback: () => string): void;
-  function GetTextAfterCursor(): Promise<string>;
+    function createKeyboardDelegate(): KeyboardDelegate;
 
-  function SendFunctionKey(callback: () => void): void;
-  function SendFunctionKey(): Promise<void>;
+    interface KeyboardController {
+        hideKeyboard(callbakc: AsyncCallback<void>): void;
+        hideKeyboard(): Promise<void>;
+    }
 
-  const FUNCTION_KEY_CONFIRM: number;
+    interface InputMethodEngine {
+        on(type: 'inputStart', callback: (kbController: KeyboardController, textInputClient: TextInputClient) => void): void;
+        off(type: 'inputStart', callback?: (kbController: KeyboardController, textInputClient: TextInputClient) => void): void;
+
+        on(type: 'keyboardShow', callback: () => void): void;
+        off(type: 'keyboardShow', callback: () => void): void;
+
+        on(type: 'keyboardHide', callback: () => void): void;
+        off(type: 'keyboardHide', callback: () => void): void;
+    }
+
+    interface TextInputClient {
+        sendKeyFunction(action: number, callback: AsyncCallback<boolean>): void;
+        sendKeyFunction(action: number): Promise<boolean>;
+
+        deleteForward(length: number, callback: AsyncCallback<boolean>): void;
+        deleteForward(length: number): Promise<boolean>;
+
+        deleteBackward(length: number, callback: AsyncCallback<boolean>): void;
+        deleteBackward(length: number): Promise<boolean>;
+
+        InsertText(text: string, callback: AsyncCallback<boolean>): void;
+        InsertText(text: string): Promise<boolean>;
+
+        getForward(length: number, callback: AsyncCallback<string>): void;
+        getForward(length: number): Promise<string>;
+
+        getEditorAttribute(lcallback: AsyncCallback<EditorAttribute>): void;
+        getEditorAttribute(): Promise<EditorAttribute>;
+    }
+
+    interface KeyboardDelegate {
+        on(type: 'keyDown', callback: (event: KeyEvent) => boolean): void;
+        off(type: 'keyDown', callback?: (event: KeyEvent) => boolean): void;
+
+        on(type: 'keyUp', callback: (event: KeyEvent) => boolean): void;
+        off(type: 'keyUp', callback?: (event: KeyEvent) => boolean): void;
+
+        on(type: 'cursorContextChange', callback: (x: number, y: number, height: number) => void): void;
+        off(type: 'cursorContextChange', callback?: (x: number, y: number, height: number) => void): void;
+
+        on(type: 'selectionChange', callback: (oldBegine: number, oldEnd: number, newBegine: number, newEnd: number) => void): void;
+        off(type: 'selectionChange', callback?: (oldBegine: number, oldEnd: number, newBegine: number, newEnd: number) => void): void;
+
+        on(type: 'textChange', callback: (text: string) => void): void;
+        off(type: 'textChange', callback?: (text: string) => void): void;
+    }
+
+    interface EditorAttribute {
+        readonly inputPattern: number;
+        readonly enterKeyType: number;
+    }
 }
 
 export default inputMethodEngine;
