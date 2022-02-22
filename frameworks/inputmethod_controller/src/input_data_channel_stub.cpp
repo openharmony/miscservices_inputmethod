@@ -59,11 +59,13 @@ namespace MiscServices {
                 break;
             }
             case GET_TEXT_BEFORE_CURSOR: {
-                reply.WriteString16(GetTextBeforeCursor());
+                auto number = data.ReadInt32();
+                reply.WriteString16(GetTextBeforeCursor(number));
                 break;
             }
             case GET_TEXT_AFTER_CURSOR: {
-                reply.WriteString16(GetTextAfterCursor());
+                auto number = data.ReadInt32();
+                reply.WriteString16(GetTextAfterCursor(number));
                 break;
             }
             case SEND_KEYBOARD_STATUS: {
@@ -79,6 +81,18 @@ namespace MiscServices {
             case MOVE_CURSOR: {
                 auto keyCode = data.ReadInt32();
                 MoveCursor(keyCode);
+            }
+            case GET_ENTER_KEY_TYPE: {
+                reply.WriteInt32(GetEnterKeyType());
+                break;
+            }
+            case GET_INPUT_PATTERN: {
+                reply.WriteInt32(GetInputPattern());
+                break;
+            }
+            case STOP_INPUT: {
+                StopInput();
+                break;
             }
             default:
                 return IPCObjectStub::OnRemoteRequest(code, data, reply, option);
@@ -131,16 +145,34 @@ namespace MiscServices {
     {
     }
 
-    std::u16string InputDataChannelStub::GetTextBeforeCursor()
+    std::u16string InputDataChannelStub::GetTextBeforeCursor(int32_t number)
     {
         IMSA_HILOGI("InputDataChannelStub::GetTextBeforeCursor");
-        return InputMethodController::GetInstance()->GetTextBeforeCursor();
+        return InputMethodController::GetInstance()->GetTextBeforeCursor(number);
     }
 
-    std::u16string InputDataChannelStub::GetTextAfterCursor()
+    std::u16string InputDataChannelStub::GetTextAfterCursor(int32_t number)
     {
         IMSA_HILOGI("InputDataChannelStub::GetTextAfterCursor");
-        return InputMethodController::GetInstance()->GetTextAfterCursor();
+        return InputMethodController::GetInstance()->GetTextAfterCursor(number);
+    }
+
+    int32_t InputDataChannelStub::GetEnterKeyType()
+    {
+        IMSA_HILOGI("InputDataChannelStub::GetEnterKeyType");
+        return InputMethodController::GetInstance()->GetEnterKeyType();
+    }
+
+    int32_t InputDataChannelStub::GetInputPattern()
+    {
+        IMSA_HILOGI("InputDataChannelStub::GetInputPattern");
+        return InputMethodController::GetInstance()->GetInputPattern();
+    }
+
+    void InputDataChannelStub::StopInput()
+    {
+        IMSA_HILOGI("InputDataChannelStub::StopInput");
+        InputMethodController::GetInstance()->HideTextInput();
     }
 
     void InputDataChannelStub::SendKeyboardStatus(int32_t status)

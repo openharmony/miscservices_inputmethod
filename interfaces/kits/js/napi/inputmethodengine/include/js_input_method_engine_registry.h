@@ -13,18 +13,21 @@
  * limitations under the License.
  */
 
-#ifndef OHOS_MISCSERVICES_JS_INPUT_METHOD_ENGINE_H
-#define OHOS_MISCSERVICES_JS_INPUT_METHOD_ENGINE_H
+#ifndef OHOS_MISCSERVICES_JS_INPUT_METHOD_ENGINE_REGISTRY_H
+#define OHOS_MISCSERVICES_JS_INPUT_METHOD_ENGINE_REGISTRY_H
 
 #include "native_engine/native_engine.h"
 #include "native_engine/native_value.h"
-#include "global.h"
 #include "js_runtime_utils.h"
+#include "js_input_method_engine.h"
+#include "js_keyboard_controller.h"
+#include "js_text_input_client.h"
+#include "js_keyboard_delegate.h"
 
 namespace OHOS {
     namespace MiscServices {
-        NativeValue* JsInputMethodEngineInit(NativeEngine* engine, NativeValue* exportObj);
+        NativeValue* JsInputMethodEngineRegistryInit(NativeEngine* engine, NativeValue* exportObj);
     }
 }
 
-#endif // OHOS_MISCSERVICES_JS_INPUT_METHOD_ENGINE_H
+#endif // OHOS_MISCSERVICES_JS_INPUT_METHOD_ENGINE_REGISTRY_H

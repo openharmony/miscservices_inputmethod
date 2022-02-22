@@ -165,6 +165,11 @@ namespace MiscServices {
                 reply.WriteInt32(NO_ERROR);
                 break;
             }
+            case HIDE_CURRENT_INPUT: {
+                HideCurrentInput(data);
+                reply.WriteInt32(NO_ERROR);
+                break;
+            }
             default: {
                 return BRemoteObject::OnRemoteRequest(code, data, reply, option);
             }
@@ -284,6 +289,18 @@ namespace MiscServices {
         parcel->WriteRemoteObject(data.ReadRemoteObject());
 
         Message *msg = new Message(MSG_ID_SET_CORE_AND_AGENT, parcel);
+        MessageHandler::Instance()->SendMessage(msg);
+    }
+
+    void InputMethodSystemAbilityStub::HideCurrentInput(MessageParcel& data)
+    {
+        IMSA_HILOGI("InputMethodSystemAbilityStub::HideCurrentInput");
+        int32_t uid = IPCSkeleton::GetCallingUid();
+        int32_t userId = getUserId(uid);
+        MessageParcel *parcel = new MessageParcel();
+        parcel->WriteInt32(userId);
+
+        Message *msg = new Message(MSG_HIDE_CURRENT_INPUT, parcel);
         MessageHandler::Instance()->SendMessage(msg);
     }
 

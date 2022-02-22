@@ -491,6 +491,7 @@ namespace MiscServices {
                 case MSG_ID_RELEASE_INPUT:
                 case MSG_ID_START_INPUT:
                 case MSG_ID_STOP_INPUT:
+                case MSG_HIDE_CURRENT_INPUT:
                 case MSG_ID_SET_CORE_AND_AGENT:
                 case MSG_ID_HIDE_KEYBOARD_SELF:
                 case MSG_ID_SET_DISPLAY_MODE:

@@ -18,7 +18,7 @@ config("inputmethod_ability_native_config") {
   include_dirs = [
     "include",
     "${inputmethod_path}/frameworks/inputmethod_controller/include",
-    "${inputmethod_path}/interfaces/kits/js/napi/include",
+    "${inputmethod_path}/interfaces/kits/js/napi/inputmethodengine/include",
     "${inputmethod_path}/services/include",
   ]
 }
@@ -33,8 +33,15 @@ config("inputmethod_ability_native_public_config") {
 ohos_shared_library("inputmethod_ability") {
   sources = [
     "${inputmethod_path}/frameworks/inputmethod_controller/src/input_data_channel_proxy.cpp",
-    "${inputmethod_path}/interfaces/kits/js/napi/src/js_input_method_engine.cpp",
-    "${inputmethod_path}/interfaces/kits/js/napi/src/js_input_method_engine_listener.cpp",
+    "${inputmethod_path}/interfaces/kits/js/napi/inputmethodengine/src/js_editor_attribute.cpp",
+    "${inputmethod_path}/interfaces/kits/js/napi/inputmethodengine/src/js_input_method_engine.cpp",
+    "${inputmethod_path}/interfaces/kits/js/napi/inputmethodengine/src/js_input_method_engine_listener.cpp",
+    "${inputmethod_path}/interfaces/kits/js/napi/inputmethodengine/src/js_input_method_engine_registry.cpp",
+    "${inputmethod_path}/interfaces/kits/js/napi/inputmethodengine/src/js_input_method_engine_utils.cpp",
+    "${inputmethod_path}/interfaces/kits/js/napi/inputmethodengine/src/js_keyboard_controller.cpp",
+    "${inputmethod_path}/interfaces/kits/js/napi/inputmethodengine/src/js_keyboard_delegate.cpp",
+    "${inputmethod_path}/interfaces/kits/js/napi/inputmethodengine/src/js_keyboard_delegate_listener.cpp",
+    "${inputmethod_path}/interfaces/kits/js/napi/inputmethodengine/src/js_text_input_client.cpp",
     "${inputmethod_path}/services/src/input_attribute.cpp",
     "${inputmethod_path}/services/src/input_channel.cpp",
     "${inputmethod_path}/services/src/input_control_channel_proxy.cpp",

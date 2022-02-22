@@ -56,8 +56,8 @@ namespace MiscServices {
     public:
         static sptr<InputMethodController> GetInstance();
         void Attach(sptr<OnTextChangedListener> &listener);
-        std::u16string GetTextBeforeCursor();
-        std::u16string GetTextAfterCursor();
+        std::u16string GetTextBeforeCursor(int32_t number);
+        std::u16string GetTextAfterCursor(int32_t number);
         void ShowTextInput();
         void HideTextInput();
         void Close();
@@ -68,6 +68,9 @@ namespace MiscServices {
         bool dispatchKeyEvent(std::shared_ptr<MMI::KeyEvent> keyEvent);
         void DisplayOptionalInputMethod();
         std::vector<InputMethodProperty*> ListInputMethod();
+        int32_t GetEnterKeyType();
+        int32_t GetInputPattern();
+        void HideCurrentInput();
     private:
         InputMethodController();
         ~InputMethodController();
@@ -100,6 +103,8 @@ namespace MiscServices {
         std::thread workThreadHandler;
         MessageHandler *msgHandler;
         bool stop_;
+        int32_t enterKeyType_ = 0;
+        int32_t inputPattern_ = 0;
     };
 }
 }

@@ -13,16 +13,6 @@
 import("//base/miscservices/inputmethod/inputmethod.gni")
 import("//build/ohos.gni")
 
-config("inputmethodengine_native_config") {
-  visibility = [ ":*" ]
-  include_dirs = [ "include" ]
-}
-
-config("inputmethodengine_native_public_config") {
-  visibility = []
-  include_dirs = [ "include" ]
-}
-
 config("inputmethod_native_config") {
   visibility = [ ":*" ]
   include_dirs = [ "include" ]
@@ -33,57 +23,16 @@ config("inputmethod_native_public_config") {
   include_dirs = [ "include" ]
 }
 
-ohos_shared_library("inputmethodengine") {
-  sources = [
-    "src/input_method_engine_module.cpp",
-    "src/js_input_method_engine.cpp",
-    "src/js_input_method_engine_listener.cpp",
-  ]
-
-  configs = [ ":inputmethodengine_native_config" ]
-
-  deps = [
-    "//base/global/resmgr_standard/frameworks/resmgr:global_resmgr",
-    "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
-    "//base/miscservices/inputmethod/services:inputmethod_service",
-    "//foundation/aafwk/standard/frameworks/kits/ability/native:abilitykit_native",
-    "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
-    "//foundation/aafwk/standard/interfaces/innerkits/app_manager:app_manager",
-    "//foundation/aafwk/standard/interfaces/innerkits/base:base",
-    "//foundation/aafwk/standard/interfaces/innerkits/intent:intent",
-    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
-    "//foundation/ace/napi/:ace_napi",
-    "//foundation/appexecfwk/standard/interfaces/innerkits/appexecfwk_base:appexecfwk_base",
-    "//foundation/appexecfwk/standard/interfaces/innerkits/appexecfwk_core:appexecfwk_core",
-    "//foundation/appexecfwk/standard/interfaces/innerkits/libeventhandler:libeventhandler",
-    "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
-    "//foundation/communication/ipc/interfaces/innerkits/ipc_single:ipc_single",
-    "//foundation/distributedschedule/dmsfwk/interfaces/innerkits/uri:zuri",
-    "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
-    "//foundation/multimodalinput/input/frameworks/proxy:libmmi-client",
-    "//utils/native/base:utils",
-  ]
-
-  external_deps = [
-    "ability_runtime:runtime",
-    "hiviewdfx_hilog_native:libhilog",
-    "ipc:ipc_core",
-  ]
-
-  public_configs = [ ":inputmethodengine_native_public_config" ]
-
-  relative_install_dir = "module"
-  subsystem_name = "miscservices"
-  part_name = "inputmethod_native"
-}
-
 ohos_shared_library("inputmethod") {
   sources = [
     "${inputmethod_path}/frameworks/inputmethod_controller/src/input_client_stub.cpp",
     "${inputmethod_path}/frameworks/inputmethod_controller/src/input_data_channel_stub.cpp",
     "${inputmethod_path}/frameworks/inputmethod_controller/src/input_method_controller.cpp",
     "src/input_method_module.cpp",
-    "src/js_input_method.cpp",
+    "src/js_input_method_controller.cpp",
+    "src/js_input_method_registry.cpp",
+    "src/js_input_method_setting.cpp",
+    "src/js_input_method_utils.cpp",
   ]
 
   configs = [ ":inputmethod_native_config" ]

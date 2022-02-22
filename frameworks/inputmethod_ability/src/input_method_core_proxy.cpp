@@ -71,6 +71,7 @@ namespace MiscServices {
 
         if (inputControlChannel == nullptr) {
             IMSA_HILOGI("InputMethodCoreProxy::InitInputControlChannel inputControlChannel is nullptr");
+            return ErrorCode::ERROR_EX_NULL_POINTER;
         }
         MessageParcel data, reply;
         data.WriteInterfaceToken(GetDescriptor());

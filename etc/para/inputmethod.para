@@ -11,4 +11,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-persist.sys.default_ime=com.example.kikakeyboard/com.example.kikakeyboard.ServiceExtAbility
+persist.sys.default_ime=com.example.kikakeyboard/ServiceExtAbility

@@ -182,6 +182,9 @@ namespace MiscServices {
                     OnRestartIms(index, imeId);
                     break;
                 }
+                case MSG_HIDE_CURRENT_INPUT: {
+                    OnHideKeyboardSelf(0);
+                }
                 default: {
                     break;
                 }
