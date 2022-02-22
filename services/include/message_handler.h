@@ -45,6 +45,7 @@ namespace MessageID {
         MSG_ID_STOP_INPUT, // stop input
         MSG_ID_RELEASE_INPUT, // release input
         MSG_ID_SET_CORE_AND_AGENT,
+        MSG_HIDE_CURRENT_INPUT,
 
         // the request to handle the condition that the remote object died
         MSG_ID_CLIENT_DIED, // input client died

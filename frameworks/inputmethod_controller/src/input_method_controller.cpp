@@ -208,6 +208,19 @@ using namespace MessageID;
         StopInput(mClient);
     }
 
+    void InputMethodController::HideCurrentInput()
+    {
+        IMSA_HILOGI("InputMethodController::HideCurrentInput");
+        if (mImms == nullptr) {
+            return;
+        }
+        MessageParcel data;
+        if (!(data.WriteInterfaceToken(mImms->GetDescriptor()))) {
+            return;
+        }
+        mImms->HideCurrentInput(data);
+    }
+
     void InputMethodController::Close()
     {
         ReleaseInput(mClient);
@@ -348,24 +361,26 @@ using namespace MessageID;
     void InputMethodController::OnConfigurationChange(Configuration info)
     {
         IMSA_HILOGI("InputMethodController::OnConfigurationChange");
+        enterKeyType_ = static_cast<uint32_t>(info.GetEnterKeyType());
+        inputPattern_ = static_cast<uint32_t>(info.GetTextInputType());
     }
 
-    std::u16string InputMethodController::GetTextBeforeCursor()
+    std::u16string InputMethodController::GetTextBeforeCursor(int32_t number)
     {
         IMSA_HILOGI("InputMethodController::GetTextBeforeCursor");
         if (!mTextString.empty()) {
-            return mTextString.substr(0, mSelectNewBegin);
+            int32_t startPos = (mSelectNewBegin >= number ? (mSelectNewBegin - number + 1) : 0);
+            return mTextString.substr(startPos, mSelectNewBegin);
         }
         return u"";
     }
 
-    std::u16string InputMethodController::GetTextAfterCursor()
+    std::u16string InputMethodController::GetTextAfterCursor(int32_t number)
     {
         IMSA_HILOGI("InputMethodController::GetTextBeforeCursor");
         if (!mTextString.empty()) {
-            if (mTextString.size() > mSelectNewEnd) {
-                return mTextString.substr(mSelectNewEnd);
-            }
+            int32_t endPos = (mSelectNewEnd+number<mTextString.size()) ? (mSelectNewEnd + number) : mTextString.size();
+            return mTextString.substr(mSelectNewEnd, endPos);
         }
         return u"";
     }
@@ -385,6 +400,18 @@ using namespace MessageID;
         }
 
         return mAgent->DispatchKeyEvent(data);
+    }
+
+    int32_t InputMethodController::GetEnterKeyType()
+    {
+        IMSA_HILOGI("InputMethodController::GetEnterKeyType");
+        return enterKeyType_;
+    }
+
+    int32_t InputMethodController::GetInputPattern()
+    {
+        IMSA_HILOGI("InputMethodController::GetInputPattern");
+        return inputPattern_;
     }
 }
 }

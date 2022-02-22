@@ -13,17 +13,20 @@
  * limitations under the License.
  */
 
+#ifndef OHOS_MISCSERVICES_JS_INPUT_METHOD_REGISTRY_H
+#define OHOS_MISCSERVICES_JS_INPUT_METHOD_REGISTRY_H
+
 #include "native_engine/native_engine.h"
-#include "js_input_method.h"
+#include "native_engine/native_value.h"
+#include "global.h"
+#include "js_runtime_utils.h"
+#include "js_input_method_utils.h"
+#include "js_input_method_setting.h"
 
-extern "C" __attribute__((constructor)) void NAPI_inputMethod_AutoRegister()
-{
-    auto moduleManager = NativeModuleManager::GetInstance();
-    NativeModule newModuleInfo = {
-    .name = "inputMethod",
-    .fileName = "inputmethod.so/inputmethod.js",
-    .registerCallback = OHOS::MiscServices::JsInputMethodInit,
-    };
-
-    moduleManager->Register(&newModuleInfo);
+namespace OHOS {
+    namespace MiscServices {
+        NativeValue* JsInputMethodRegistryInit(NativeEngine* engine, NativeValue* exportObj);
+    }
 }
+
+#endif // OHOS_MISCSERVICES_JS_INPUT_METHOD_REGISTRY_H

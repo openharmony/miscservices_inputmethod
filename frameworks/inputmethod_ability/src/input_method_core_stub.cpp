@@ -234,7 +234,7 @@ namespace MiscServices {
         }
         MessageParcel *data = new MessageParcel();
         if (inputDataChannel != nullptr) {
-            IMSA_HILOGI("InputMethodCoreStub::startInput inputDataChannel is not nullptr");
+            IMSA_HILOGI("InputMethodCoreStub::showKeyboard inputDataChannel is not nullptr");
             data->WriteRemoteObject(inputDataChannel->AsObject());
         }
 

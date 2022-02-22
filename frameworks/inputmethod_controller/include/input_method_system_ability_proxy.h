@@ -41,6 +41,7 @@ namespace MiscServices {
         virtual void startInput(MessageParcel& data) override;
         virtual void stopInput(MessageParcel& data) override;
         virtual void SetCoreAndAgent(MessageParcel& data) override;
+        virtual void HideCurrentInput(MessageParcel& data) override;
 
         int32_t Prepare(int32_t displayId, sptr<InputClientStub> &client, sptr<InputDataChannelStub> &channel,
                         InputAttribute &attribute);
