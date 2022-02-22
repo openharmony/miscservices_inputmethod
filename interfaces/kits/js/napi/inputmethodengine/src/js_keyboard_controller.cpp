@@ -22,6 +22,7 @@
 #include "input_method_ability.h"
 namespace OHOS {
 namespace MiscServices {
+    using namespace AbilityRuntime;
     constexpr size_t ARGC_ZERO = 0;
     void JsKeyboardController::Finalizer(NativeEngine* engine, void* data, void* hint)
     {
@@ -31,7 +32,7 @@ namespace MiscServices {
 
     NativeValue* JsKeyboardController::HideKeyboardSelf(NativeEngine* engine, NativeCallbackInfo* info)
     {
-        JsKeyboardController* me = AbilityRuntime::CheckParamsAndGetThis<JsKeyboardController>(engine, info);
+        JsKeyboardController* me = CheckParamsAndGetThis<JsKeyboardController>(engine, info);
         return (me != nullptr) ? me->OnHideKeyboardSelf(*engine, *info) : nullptr;
     }
 

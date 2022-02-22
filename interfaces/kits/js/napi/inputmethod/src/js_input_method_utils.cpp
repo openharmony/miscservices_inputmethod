@@ -22,11 +22,12 @@
 #include "js_input_method_controller.h"
 namespace OHOS {
     namespace MiscServices {
+        using namespace AbilityRuntime;
         NativeValue* CreateInputMethodSetting(NativeEngine& engine)
         {
             IMSA_HILOGI("JsInputMethodUtils::CreateInputMethodSetting is called");
             NativeValue *objValue = engine.CreateObject();
-            NativeObject *object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(objValue);
+            NativeObject *object = ConvertNativeValueTo<NativeObject>(objValue);
             if (object == nullptr) {
                 IMSA_HILOGI("JsInputMethodUtils::CreateInputMethodSetting Failed to get object");
                 return nullptr;
@@ -35,9 +36,8 @@ namespace OHOS {
             std::unique_ptr<JsInputMethodSetting> jsInputMethodSetting = std::make_unique<JsInputMethodSetting>();
             object->SetNativePointer(jsInputMethodSetting.release(), JsInputMethodSetting::Finalizer, nullptr);
 
-            AbilityRuntime::BindNativeFunction(engine, *object, "displayOptionalInputMethod",
-                    JsInputMethodSetting::DisplayOptionalInputMethod);
-            AbilityRuntime::BindNativeFunction(engine, *object, "listInputMethod", JsInputMethodSetting::ListInputMethod);
+            BindNativeFunction(engine, *object, "displayOptionalInputMethod", JsInputMethodSetting::DisplayOptionalInputMethod);
+            BindNativeFunction(engine, *object, "listInputMethod", JsInputMethodSetting::ListInputMethod);
             return objValue;
         }
 
@@ -45,7 +45,7 @@ namespace OHOS {
         {
             IMSA_HILOGI("JsInputMethodUtils::CreateInputMethodController is called");
             NativeValue *objValue = engine.CreateObject();
-            NativeObject *object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(objValue);
+            NativeObject *object = ConvertNativeValueTo<NativeObject>(objValue);
             if (object == nullptr) {
                 IMSA_HILOGI("JsInputMethodUtils::CreateInputMethodController Failed to get object");
                 return nullptr;
@@ -54,7 +54,7 @@ namespace OHOS {
             std::unique_ptr<JsInputMethodController> jsInputMethodController = std::make_unique<JsInputMethodController>();
             object->SetNativePointer(jsInputMethodController.release(), JsInputMethodController::Finalizer, nullptr);
 
-            AbilityRuntime::BindNativeFunction(engine, *object, "stopInput", JsInputMethodController::StopInput);
+            BindNativeFunction(engine, *object, "stopInput", JsInputMethodController::StopInput);
             return objValue;
         }
     }

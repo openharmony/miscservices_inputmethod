@@ -24,6 +24,7 @@
 
 namespace OHOS {
 namespace MiscServices {
+    using namespace AbilityRuntime;
     namespace {
         constexpr size_t ARGC_ZERO = 0;
         constexpr int32_t MAX_TYPE_NUM = 128;
@@ -46,14 +47,14 @@ namespace MiscServices {
         static NativeValue* GetInputMethodSetting(NativeEngine* engine, NativeCallbackInfo* info)
         {
             IMSA_HILOGI("JsInputMethodRegistry::GetInputMethodSetting is called");
-            JsInputMethodRegistry* me = AbilityRuntime::CheckParamsAndGetThis<JsInputMethodRegistry>(engine, info);
+            JsInputMethodRegistry* me = CheckParamsAndGetThis<JsInputMethodRegistry>(engine, info);
             return (me != nullptr) ? me->OnGetInputMethodSetting(*engine, *info) : nullptr;
         }
 
         static NativeValue* GetInputMethodController(NativeEngine* engine, NativeCallbackInfo* info)
         {
             IMSA_HILOGI("JsInputMethodRegistry::GetInputMethodController is called");
-            JsInputMethodRegistry* me = AbilityRuntime::CheckParamsAndGetThis<JsInputMethodRegistry>(engine, info);
+            JsInputMethodRegistry* me = CheckParamsAndGetThis<JsInputMethodRegistry>(engine, info);
             return (me != nullptr) ? me->OnGetInputMethodController(*engine, *info) : nullptr;
         }
 
@@ -90,7 +91,7 @@ namespace MiscServices {
             return nullptr;
         }
 
-        NativeObject* object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(exportObj);
+        NativeObject* object = ConvertNativeValueTo<NativeObject>(exportObj);
         if (object == nullptr) {
             IMSA_HILOGI("object null");
             return nullptr;
@@ -99,12 +100,10 @@ namespace MiscServices {
         std::unique_ptr<JsInputMethodRegistry> jsInputMethodRegistry = std::make_unique<JsInputMethodRegistry>(engine);
         object->SetNativePointer(jsInputMethodRegistry.release(), JsInputMethodRegistry::Finalizer, nullptr);
 
-        AbilityRuntime::BindNativeFunction(*engine, *object, "getInputMethodSetting",
-                JsInputMethodRegistry::GetInputMethodSetting);
-        AbilityRuntime::BindNativeFunction(*engine, *object, "getInputMethodController",
-                JsInputMethodRegistry::GetInputMethodController);
+        BindNativeFunction(*engine, *object, "getInputMethodSetting", JsInputMethodRegistry::GetInputMethodSetting);
+        BindNativeFunction(*engine, *object, "getInputMethodController", JsInputMethodRegistry::GetInputMethodController);
 
-        object->SetProperty("MAX_TYPE_NUM", AbilityRuntime::CreateJsValue(*engine, static_cast<uint32_t>(MAX_TYPE_NUM)));
+        object->SetProperty("MAX_TYPE_NUM", CreateJsValue(*engine, static_cast<uint32_t>(MAX_TYPE_NUM)));
 
         return engine->CreateUndefined();
     }

@@ -19,6 +19,7 @@
 
 namespace OHOS {
 namespace MiscServices {
+    using namespace AbilityRuntime;
     void JsInputMethodEngineListener::RegisterListenerWithType(NativeEngine& engine,
                                                                std::string type, NativeValue* value)
     {
@@ -120,7 +121,7 @@ namespace MiscServices {
         for (auto iter = jsCbMap_[methodName].begin(); iter != jsCbMap_[methodName].end(); iter++) {
             NativeValue* nativeValue = engine_->CallFunction(engine_->CreateUndefined(), (*iter)->Get(), argv, argc);
             bool ret = false;
-            if (AbilityRuntime::ConvertFromJsValue(*engine_, nativeValue, ret) && ret) {
+            if (ConvertFromJsValue(*engine_, nativeValue, ret) && ret) {
                 result = true;
             }
         }
@@ -133,7 +134,7 @@ namespace MiscServices {
         IMSA_HILOGI("JsInputMethodEngineListener::OnKeyboardStatus");
 
         NativeValue* nativeValue = engine_->CreateObject();
-        NativeObject* object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeValue);
+        NativeObject* object = ConvertNativeValueTo<NativeObject>(nativeValue);
         if (object == nullptr) {
             IMSA_HILOGI("Failed to convert rect to jsObject");
             return;
@@ -145,34 +146,19 @@ namespace MiscServices {
         } else {
             methodName = "keyboardHide";
         }
-        CallJsMethod(methodName, argv, AbilityRuntime::ArraySize(argv));
+        CallJsMethod(methodName, argv, ArraySize(argv));
     }
 
     void JsInputMethodEngineListener::OnInputStart()
     {
         std::lock_guard<std::mutex> lock(mMutex);
         IMSA_HILOGI("JsInputMethodEngineListener::OnInputStart");
-//        NativeValue *nativeValuekb = engine_->CreateObject();
-//        NativeObject *objectkb = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeValuekb);
-//        if (objectkb == nullptr) {
-//            IMSA_HILOGI("JsInputMethodEngineListener::OnInputStart Failed to get object");
-//            return;
-//        }
 
         NativeValue *nativeValuekb = CreateKeyboardController(*engine_);
-//        objectkb->SetProperty("kbController", CreateKeyboardController(*engine_));
-
-//        NativeValue *nativeValuetx = engine_->CreateObject();
-//        NativeObject *objecttx = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeValuetx);
-//        if (objecttx == nullptr) {
-//            IMSA_HILOGI("JsInputMethodEngineListener::OnInputStart Failed to get object");
-//            return;
-//        }
-//        objecttx->SetProperty("textInputClient", CreateTextInputClient(*engine_));
         NativeValue *nativeValuetx = CreateTextInputClient(*engine_);
         NativeValue* argv[] = {nativeValuekb, nativeValuetx};
         std::string methodName = "inputStart";
-        CallJsMethod(methodName, argv, AbilityRuntime::ArraySize(argv));
+        CallJsMethod(methodName, argv, ArraySize(argv));
     }
 
     void JsInputMethodEngineListener::OnInputStop(std::string imeId)
@@ -181,16 +167,16 @@ namespace MiscServices {
         IMSA_HILOGI("JsInputMethodEngineListener::OnInputStop");
 
         NativeValue* nativeValue = engine_->CreateObject();
-        NativeObject* object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeValue);
+        NativeObject* object = ConvertNativeValueTo<NativeObject>(nativeValue);
         if (object == nullptr) {
             IMSA_HILOGI("Failed to convert rect to jsObject");
             return;
         }
-        object->SetProperty("imeId", AbilityRuntime::CreateJsValue(*engine_, imeId));
+        object->SetProperty("imeId", CreateJsValue(*engine_, imeId));
 
         NativeValue* argv[] = {nativeValue};
         std::string methodName = "inputStop";
-        CallJsMethod(methodName, argv, AbilityRuntime::ArraySize(argv));
+        CallJsMethod(methodName, argv, ArraySize(argv));
     }
 }
 }

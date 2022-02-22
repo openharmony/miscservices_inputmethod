@@ -19,8 +19,8 @@
 
 namespace OHOS {
 namespace MiscServices {
-    void JsKeyboardDelegateListener::RegisterListenerWithType(NativeEngine& engine,
-                                                               std::string type, NativeValue* value)
+    using namespace AbilityRuntime;
+    void JsKeyboardDelegateListener::RegisterListenerWithType(NativeEngine& engine, std::string type, NativeValue* value)
     {
         // should do type check
         if (IfCallbackRegistered(type, value)) {
@@ -120,7 +120,7 @@ namespace MiscServices {
         for (auto iter = jsCbMap_[methodName].begin(); iter != jsCbMap_[methodName].end(); iter++) {
             NativeValue* nativeValue = engine_->CallFunction(engine_->CreateUndefined(), (*iter)->Get(), argv, argc);
             bool ret = false;
-            if (AbilityRuntime::ConvertFromJsValue(*engine_, nativeValue, ret) && ret) {
+            if (ConvertFromJsValue(*engine_, nativeValue, ret) && ret) {
                 result = true;
             }
         }
@@ -133,7 +133,7 @@ namespace MiscServices {
         IMSA_HILOGI("JsKeyboardDelegateListener::OnKeyEvent");
 
         NativeValue* nativeValue = engine_->CreateObject();
-        NativeObject* object = AbilityRuntime::ConvertNativeValueTo<NativeObject>(nativeValue);
+        NativeObject* object = ConvertNativeValueTo<NativeObject>(nativeValue);
         if (object == nullptr) {
             IMSA_HILOGI("Failed to convert rect to jsObject");
             return false;
@@ -145,9 +145,9 @@ namespace MiscServices {
         } else {
             methodName = "keyUp";
         }
-        object->SetProperty("keyCode", AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(keyCode)));
-        object->SetProperty("keyAction", AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(keyStatus)));
-        return CallJsMethodReturnBool(methodName, argv, AbilityRuntime::ArraySize(argv));
+        object->SetProperty("keyCode", CreateJsValue(*engine_, static_cast<uint32_t>(keyCode)));
+        object->SetProperty("keyAction", CreateJsValue(*engine_, static_cast<uint32_t>(keyStatus)));
+        return CallJsMethodReturnBool(methodName, argv, ArraySize(argv));
     }
 
     void JsKeyboardDelegateListener::OnCursorUpdate(int32_t positionX, int32_t positionY, int height)
@@ -156,32 +156,31 @@ namespace MiscServices {
         IMSA_HILOGI("JsKeyboardDelegateListener::OnCursorUpdate");
 
         auto task = [this, positionX, positionY, height] () {
-            NativeValue* nativeXValue = AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(positionX));
-            NativeValue* nativeYValue = AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(positionY));
-            NativeValue* nativeHValue = AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(height));
+            NativeValue* nativeXValue = CreateJsValue(*engine_, static_cast<uint32_t>(positionX));
+            NativeValue* nativeYValue = CreateJsValue(*engine_, static_cast<uint32_t>(positionY));
+            NativeValue* nativeHValue = CreateJsValue(*engine_, static_cast<uint32_t>(height));
 
             NativeValue* argv[] = {nativeXValue, nativeYValue, nativeHValue};
             std::string methodName = "cursorContextChange";
-            CallJsMethod(methodName, argv, AbilityRuntime::ArraySize(argv));
+            CallJsMethod(methodName, argv, ArraySize(argv));
         };
         mainHandler_->PostTask(task);
     }
 
-    void JsKeyboardDelegateListener::OnSelectionChange(int32_t oldBegin, int32_t oldEnd,
-                                                        int32_t newBegin, int32_t newEnd)
+    void JsKeyboardDelegateListener::OnSelectionChange(int32_t oldBegin, int32_t oldEnd, int32_t newBegin, int32_t newEnd)
     {
         std::lock_guard<std::mutex> lock(mMutex);
         IMSA_HILOGI("JsKeyboardDelegateListener::OnSelectionChange");
 
         auto task = [this, oldBegin, oldEnd, newBegin, newEnd] () {
-            NativeValue* nativeOBValue = AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(oldBegin));
-            NativeValue* nativeOEValue = AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(oldEnd));
-            NativeValue* nativeNBHValue = AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(newBegin));
-            NativeValue* nativeNEValue = AbilityRuntime::CreateJsValue(*engine_, static_cast<uint32_t>(newEnd));
+            NativeValue* nativeOBValue = CreateJsValue(*engine_, static_cast<uint32_t>(oldBegin));
+            NativeValue* nativeOEValue = CreateJsValue(*engine_, static_cast<uint32_t>(oldEnd));
+            NativeValue* nativeNBHValue = CreateJsValue(*engine_, static_cast<uint32_t>(newBegin));
+            NativeValue* nativeNEValue = CreateJsValue(*engine_, static_cast<uint32_t>(newEnd));
 
             NativeValue* argv[] = {nativeOBValue, nativeOEValue, nativeNBHValue, nativeNEValue};
             std::string methodName = "selectionChange";
-            CallJsMethod(methodName, argv, AbilityRuntime::ArraySize(argv));
+            CallJsMethod(methodName, argv, ArraySize(argv));
         };
 
         mainHandler_->PostTask(task);
@@ -192,11 +191,11 @@ namespace MiscServices {
         std::lock_guard<std::mutex> lock(mMutex);
         IMSA_HILOGI("JsKeyboardDelegateListener::OnTextChange");
         auto task = [this, text] () {
-            NativeValue* nativeValue = AbilityRuntime::CreateJsValue(*engine_, text);
+            NativeValue* nativeValue = CreateJsValue(*engine_, text);
 
             NativeValue* argv[] = {nativeValue};
             std::string methodName = "textChange";
-            CallJsMethod(methodName, argv, AbilityRuntime::ArraySize(argv));
+            CallJsMethod(methodName, argv, ArraySize(argv));
         };
 
         mainHandler_->PostTask(task);

@@ -25,11 +25,7 @@ namespace OHOS {
             JsEditorAttribute() = default;
             ~JsEditorAttribute() = default;
             static void Finalizer(NativeEngine* engine, void* data, void* hint);
-//            static NativeValue* GetEnterKeyType(NativeEngine* engine, NativeCallbackInfo* info);
-//            static NativeValue* GetInputPattern(NativeEngine* engine, NativeCallbackInfo* info);
         private:
-//            NativeValue* OnGetEnterKeyType(NativeEngine& engine, NativeCallbackInfo& info);
-//            NativeValue* OnGetInputPattern(NativeEngine& engine, NativeCallbackInfo& info);
         };
     }
 }

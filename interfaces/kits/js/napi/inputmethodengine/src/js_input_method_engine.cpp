@@ -24,6 +24,7 @@
 #include "global.h"
 namespace OHOS {
 namespace MiscServices {
+    using namespace AbilityRuntime;
     constexpr size_t ARGC_TWO = 2;
     JsInputMethodEngine::JsInputMethodEngine(NativeEngine* engine)
     {
@@ -40,13 +41,13 @@ namespace MiscServices {
 
     NativeValue* JsInputMethodEngine::RegisterCallback(NativeEngine* engine, NativeCallbackInfo* info)
     {
-        JsInputMethodEngine* me = AbilityRuntime::CheckParamsAndGetThis<JsInputMethodEngine>(engine, info);
+        JsInputMethodEngine* me = CheckParamsAndGetThis<JsInputMethodEngine>(engine, info);
         return (me != nullptr) ? me->OnRegisterCallback(*engine, *info) : nullptr;
     }
 
     NativeValue* JsInputMethodEngine::UnRegisterCallback(NativeEngine* engine, NativeCallbackInfo* info)
     {
-        JsInputMethodEngine* me = AbilityRuntime::CheckParamsAndGetThis<JsInputMethodEngine>(engine, info);
+        JsInputMethodEngine* me = CheckParamsAndGetThis<JsInputMethodEngine>(engine, info);
         return (me != nullptr) ? me->OnUnRegisterCallback(*engine, *info) : nullptr;
     }
 
@@ -59,7 +60,7 @@ namespace MiscServices {
         }
 
         std::string cbType;
-        if (!AbilityRuntime::ConvertFromJsValue(engine, info.argv[0], cbType)) {
+        if (!ConvertFromJsValue(engine, info.argv[0], cbType)) {
             IMSA_HILOGI("JsInputMethodEngine::OnRegisterCallback Failed to convert parameter to callbackType");
             return engine.CreateUndefined();
         }
@@ -78,7 +79,7 @@ namespace MiscServices {
         }
 
         std::string cbType;
-        if (!AbilityRuntime::ConvertFromJsValue(engine, info.argv[0], cbType)) {
+        if (!ConvertFromJsValue(engine, info.argv[0], cbType)) {
             IMSA_HILOGI("JsInputMethodEngine::OnUnRegisterCallback Failed to convert parameter to callbackType");
             return engine.CreateUndefined();
         }

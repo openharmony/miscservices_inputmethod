@@ -24,6 +24,7 @@
 #include "global.h"
 namespace OHOS {
 namespace MiscServices {
+    using namespace AbilityRuntime;
     constexpr size_t ARGC_TWO = 2;
     JsKeyboardDelegate::JsKeyboardDelegate(NativeEngine* engine)
     {
@@ -50,13 +51,13 @@ namespace MiscServices {
 
     NativeValue* JsKeyboardDelegate::RegisterCallback(NativeEngine* engine, NativeCallbackInfo* info)
     {
-        JsKeyboardDelegate* me = AbilityRuntime::CheckParamsAndGetThis<JsKeyboardDelegate>(engine, info);
+        JsKeyboardDelegate* me = CheckParamsAndGetThis<JsKeyboardDelegate>(engine, info);
         return (me != nullptr) ? me->OnRegisterCallback(*engine, *info) : nullptr;
     }
 
     NativeValue* JsKeyboardDelegate::UnRegisterCallback(NativeEngine* engine, NativeCallbackInfo* info)
     {
-        JsKeyboardDelegate* me = AbilityRuntime::CheckParamsAndGetThis<JsKeyboardDelegate>(engine, info);
+        JsKeyboardDelegate* me = CheckParamsAndGetThis<JsKeyboardDelegate>(engine, info);
         return (me != nullptr) ? me->OnUnRegisterCallback(*engine, *info) : nullptr;
     }
 
@@ -69,7 +70,7 @@ namespace MiscServices {
         }
 
         std::string cbType;
-        if (!AbilityRuntime::ConvertFromJsValue(engine, info.argv[0], cbType)) {
+        if (!ConvertFromJsValue(engine, info.argv[0], cbType)) {
             IMSA_HILOGI("JsKeyboardDelegate::OnRegisterCallback Failed to convert parameter to callbackType");
             return engine.CreateUndefined();
         }
@@ -88,7 +89,7 @@ namespace MiscServices {
         }
 
         std::string cbType;
-        if (!AbilityRuntime::ConvertFromJsValue(engine, info.argv[0], cbType)) {
+        if (!ConvertFromJsValue(engine, info.argv[0], cbType)) {
             IMSA_HILOGI("JsKeyboardDelegate::OnUnRegisterCallback Failed to convert parameter to callbackType");
             return engine.CreateUndefined();
         }
