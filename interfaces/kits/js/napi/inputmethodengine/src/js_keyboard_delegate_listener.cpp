@@ -103,7 +103,7 @@ namespace MiscServices {
     }
 
     bool JsKeyboardDelegateListener::CallJsMethodReturnBool(std::string methodName,
-                                                             NativeValue* const* argv, size_t argc)
+        NativeValue* const* argv, size_t argc)
     {
         IMSA_HILOGI("JsKeyboardDelegateListener::CallJsMethodReturnBool");
         if (engine_ == nullptr) {

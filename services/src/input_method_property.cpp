@@ -47,6 +47,8 @@ namespace MiscServices {
         mDefaultImeId = property.mDefaultImeId;
         labelId = property.labelId;
         descriptionId = property.descriptionId;
+        label = property.label;
+        description = property.description;
 
         for (int i = 0; i < (int)mTypes.size(); i++) {
             KeyboardType *type = new KeyboardType(*property.mTypes[i]);
@@ -71,6 +73,8 @@ namespace MiscServices {
         mDefaultImeId = property.mDefaultImeId;
         labelId = property.labelId;
         descriptionId = property.descriptionId;
+        label = property.label;
+        description = property.description;
 
         for (int i = 0; i < (int)mTypes.size(); i++) {
             KeyboardType *type = new KeyboardType(*property.mTypes[i]);
@@ -93,7 +97,9 @@ namespace MiscServices {
             && parcel.WriteBool(isSystemIme)
             && parcel.WriteInt32(mDefaultImeId)
             && parcel.WriteInt32(labelId)
-            && parcel.WriteInt32(descriptionId)))
+            && parcel.WriteInt32(descriptionId)
+            && parcel.WriteString16(label)
+            && parcel.WriteString16(description)))
             return false;
         int32_t size = (int32_t)mTypes.size();
         parcel.WriteInt32(size);
@@ -122,6 +128,8 @@ namespace MiscServices {
         info->mDefaultImeId = parcel.ReadInt32();
         info->labelId = parcel.ReadInt32();
         info->descriptionId = parcel.ReadInt32();
+        info->label = parcel.ReadString16();
+        info->description = parcel.ReadString16();
 
         int32_t size = parcel.ReadInt32();
         if (size == 0)
