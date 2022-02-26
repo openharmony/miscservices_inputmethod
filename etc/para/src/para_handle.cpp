@@ -18,7 +18,7 @@
 namespace OHOS {
     namespace MiscServices {
         const char *ParaHandle::DEFAULT_IME_KEY = "persist.sys.default_ime";
-        const char *ParaHandle::DEFAULT_IME_NAME = "com.example.kikakeyboard/com.example.kikakeyboard.ServiceExtAbility";
+        const char *ParaHandle::DEFAULT_IME_NAME = "com.example.kikakeyboard/ServiceExtAbility";
         bool ParaHandle::SetDefaultIme(int32_t userId, const std::string &imeName)
         {
             if (userId != main_userId) {

@@ -30,6 +30,7 @@
 #include "application_info.h"
 #include "common_event_support.h"
 #include "im_common_event_manager.h"
+#include "resource_manager.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -387,12 +388,24 @@ namespace MiscServices {
             return ErrorCode::ERROR_STATUS_UNKNOWN_ERROR;
         }
         for (auto extension : extensionInfos) {
+            std::shared_ptr<Global::Resource::ResourceManager> resourceManager(Global::Resource::CreateResourceManager());
+            if (resourceManager == nullptr) {
+                IMSA_HILOGI("InputMethodSystemAbility::listInputMethodByUserId resourcemanager is nullptr");
+                break;
+            }
             AppExecFwk::ApplicationInfo applicationInfo = extension.applicationInfo;
             InputMethodProperty *property = new InputMethodProperty();
             property->mPackageName = Str8ToStr16(extension.bundleName);
             property->mAbilityName = Str8ToStr16(extension.name);
             property->labelId = applicationInfo.labelId;
             property->descriptionId = applicationInfo.descriptionId;
+            resourceManager->AddResource(extension.resourcePath.c_str());
+            std::string labelString;
+            resourceManager->GetStringById(applicationInfo.labelId, labelString);
+            property->label = Str8ToStr16(labelString);
+            std::string descriptionString;
+            resourceManager->GetStringById(applicationInfo.descriptionId, descriptionString);
+            property->description = Str8ToStr16(descriptionString);
             properties->push_back(property);
         }
         return ErrorCode::NO_ERROR;
@@ -876,8 +889,8 @@ namespace MiscServices {
             params += "\"discriptionId\": \"" + std::to_string(property->descriptionId) + "\",";
             std::string isDefaultIme = defaultIme == imeId ? "true" : "false";
             params += "\"isDefaultIme\": \"" + isDefaultIme + "\",";
-            params += "\"label\": \"\",";
-            params += "\"discription\": \"\"";
+            params += "\"label\": \"" + Str16ToStr8(property->label) + "\",";
+            params += "\"discription\": \"" + Str16ToStr8(property->description) + "\"";
         }
         params += "}]}";
 

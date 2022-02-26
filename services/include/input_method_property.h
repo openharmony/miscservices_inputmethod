@@ -33,6 +33,8 @@ namespace MiscServices {
         std::vector<KeyboardType*> mTypes;
         int32_t labelId;
         int32_t descriptionId;
+        std::u16string label;
+        std::u16string description;
 
         InputMethodProperty();
         ~InputMethodProperty();
