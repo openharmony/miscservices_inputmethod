@@ -166,13 +166,7 @@ namespace MiscServices {
         std::lock_guard<std::mutex> lock(mMutex);
         IMSA_HILOGI("JsInputMethodEngineListener::OnInputStop");
 
-        NativeValue* nativeValue = engine_->CreateObject();
-        NativeObject* object = ConvertNativeValueTo<NativeObject>(nativeValue);
-        if (object == nullptr) {
-            IMSA_HILOGI("Failed to convert rect to jsObject");
-            return;
-        }
-        object->SetProperty("imeId", CreateJsValue(*engine_, imeId));
+        NativeValue* nativeValue = CreateJsValue(*engine_, imeId);
 
         NativeValue* argv[] = {nativeValue};
         std::string methodName = "inputStop";
