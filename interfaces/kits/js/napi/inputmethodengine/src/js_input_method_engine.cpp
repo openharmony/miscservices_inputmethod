@@ -29,7 +29,8 @@ namespace MiscServices {
     JsInputMethodEngine::JsInputMethodEngine(NativeEngine* engine)
     {
         IMSA_HILOGI("JsInputMethodEngine::Constructor is called");
-        imeListener_ = new JsInputMethodEngineListener(engine);
+        auto mainHandler = GetMainHandler();
+        imeListener_ = new JsInputMethodEngineListener(engine, mainHandler);
         InputMethodAbility::GetInstance()->setImeListener(imeListener_);
     }
 
@@ -37,6 +38,15 @@ namespace MiscServices {
     {
         IMSA_HILOGI("JsInputMethodEngine::Finalizer is called");
         std::unique_ptr<JsInputMethodEngine>(static_cast<JsInputMethodEngine*>(data));
+    }
+
+    std::shared_ptr<AppExecFwk::EventHandler> JsInputMethodEngine::GetMainHandler()
+    {
+        if (!mainHandler_) {
+            mainHandler_ =
+            std::make_shared<AppExecFwk::EventHandler>(AppExecFwk::EventRunner::GetMainEventRunner());
+        }
+        return mainHandler_;
     }
 
     NativeValue* JsInputMethodEngine::RegisterCallback(NativeEngine* engine, NativeCallbackInfo* info)

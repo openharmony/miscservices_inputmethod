@@ -23,11 +23,15 @@
 #include <refbase.h>
 #include "native_engine/native_engine.h"
 #include "native_engine/native_value.h"
+#include "event_handler.h"
+#include "event_runner.h"
 namespace OHOS {
 namespace MiscServices {
     class JsInputMethodEngineListener : virtual public RefBase {
     public:
         explicit JsInputMethodEngineListener(NativeEngine* engine) : engine_(engine) {}
+        JsInputMethodEngineListener(NativeEngine* engine, std::shared_ptr<AppExecFwk::EventHandler> &handler)
+            : engine_(engine), mainHandler_(handler) {}
         virtual ~JsInputMethodEngineListener() = default;
         void RegisterListenerWithType(NativeEngine& engine, std::string type, NativeValue* value);
         void UnregisterListenerWithType(std::string type, NativeValue* value);
@@ -43,6 +47,7 @@ namespace MiscServices {
         NativeEngine* engine_ = nullptr;
         std::mutex mMutex;
         std::map<std::string, std::vector<std::unique_ptr<NativeReference>>> jsCbMap_;
+        std::shared_ptr<AppExecFwk::EventHandler> mainHandler_ = nullptr;
     };
 }
 }
