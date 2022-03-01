@@ -35,6 +35,8 @@ namespace OHOS {
             std::mutex mtx_;
             NativeValue* OnRegisterCallback(NativeEngine& engine, NativeCallbackInfo& info);
             NativeValue* OnUnRegisterCallback(NativeEngine& engine, NativeCallbackInfo& info);
+            std::shared_ptr<AppExecFwk::EventHandler> GetMainHandler();
+            std::shared_ptr<AppExecFwk::EventHandler> mainHandler_ = nullptr;
         };
     }
 }
