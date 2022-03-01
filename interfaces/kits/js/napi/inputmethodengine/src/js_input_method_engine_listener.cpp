@@ -133,32 +133,37 @@ namespace MiscServices {
         std::lock_guard<std::mutex> lock(mMutex);
         IMSA_HILOGI("JsInputMethodEngineListener::OnKeyboardStatus");
 
-        NativeValue* nativeValue = engine_->CreateObject();
-        NativeObject* object = ConvertNativeValueTo<NativeObject>(nativeValue);
-        if (object == nullptr) {
-            IMSA_HILOGI("Failed to convert rect to jsObject");
-            return;
-        }
-        NativeValue* argv[] = {nativeValue};
-        std::string methodName;
-        if (isShow) {
-            methodName = "keyboardShow";
-        } else {
-            methodName = "keyboardHide";
-        }
-        CallJsMethod(methodName, argv, ArraySize(argv));
+        auto task = [this, isShow] () {
+            NativeValue* nativeValue = engine_->CreateObject();
+            NativeObject* object = ConvertNativeValueTo < NativeObject >(nativeValue);
+            if (object == nullptr) {
+                IMSA_HILOGI("Failed to convert rect to jsObject");
+                return;
+            }
+            NativeValue* argv[] = { nativeValue };
+            std::string methodName;
+            if (isShow) {
+                methodName = "keyboardShow";
+            } else {
+                methodName = "keyboardHide";
+            }
+            CallJsMethod(methodName, argv, ArraySize(argv));
+        };
+        mainHandler_->PostTask(task);
     }
 
     void JsInputMethodEngineListener::OnInputStart()
     {
         std::lock_guard<std::mutex> lock(mMutex);
         IMSA_HILOGI("JsInputMethodEngineListener::OnInputStart");
-
-        NativeValue *nativeValuekb = CreateKeyboardController(*engine_);
-        NativeValue *nativeValuetx = CreateTextInputClient(*engine_);
-        NativeValue* argv[] = {nativeValuekb, nativeValuetx};
-        std::string methodName = "inputStart";
-        CallJsMethod(methodName, argv, ArraySize(argv));
+        auto task = [this] () {
+            NativeValue *nativeValuekb = CreateKeyboardController(*engine_);
+            NativeValue *nativeValuetx = CreateTextInputClient(*engine_);
+            NativeValue* argv[] = {nativeValuekb, nativeValuetx};
+            std::string methodName = "inputStart";
+            CallJsMethod(methodName, argv, ArraySize(argv));
+        };
+        mainHandler_->PostTask(task);
     }
 
     void JsInputMethodEngineListener::OnInputStop(std::string imeId)
@@ -166,11 +171,14 @@ namespace MiscServices {
         std::lock_guard<std::mutex> lock(mMutex);
         IMSA_HILOGI("JsInputMethodEngineListener::OnInputStop");
 
-        NativeValue* nativeValue = CreateJsValue(*engine_, imeId);
+        auto task = [this, imeId] () {
+            NativeValue* nativeValue = CreateJsValue(*engine_, imeId);
 
-        NativeValue* argv[] = {nativeValue};
-        std::string methodName = "inputStop";
-        CallJsMethod(methodName, argv, ArraySize(argv));
+            NativeValue* argv[] = { nativeValue };
+            std::string methodName = "inputStop";
+            CallJsMethod(methodName, argv, ArraySize(argv));
+        };
+        mainHandler_->PostTask(task);
     }
 }
 }
