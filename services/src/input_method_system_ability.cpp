@@ -186,7 +186,8 @@ namespace MiscServices {
         StartUserIdListener();
     }
 
-    void InputMethodSystemAbility::StartUserIdListener() {
+    void InputMethodSystemAbility::StartUserIdListener()
+    {
         sptr<ImCommonEventManager> imCommonEventManager = ImCommonEventManager::GetInstance();
         bool isSuccess = imCommonEventManager->SubscribeEvent(EventFwk::CommonEventSupport::COMMON_EVENT_USER_SWITCHED);
         if (isSuccess) {
