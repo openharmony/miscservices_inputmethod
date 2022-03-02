@@ -183,10 +183,20 @@ namespace MiscServices {
         userId_ = MAIN_USER_ID;
         setting->Initialize();
 
+        StartUserIdListener();
+    }
+
+    void InputMethodSystemAbility::StartUserIdListener() {
         sptr<ImCommonEventManager> imCommonEventManager = ImCommonEventManager::GetInstance();
-        if (imCommonEventManager->SubscribeEvent(EventFwk::CommonEventSupport::COMMON_EVENT_USER_SWITCHED)) {
+        bool isSuccess = imCommonEventManager->SubscribeEvent(EventFwk::CommonEventSupport::COMMON_EVENT_USER_SWITCHED);
+        if (isSuccess) {
             IMSA_HILOGI("InputMethodSystemAbility::Initialize subscribe service event success");
+            return;
         }
+
+        IMSA_HILOGE("StartUserIdListener failed. Try again 10s later");
+        auto callback = [this]() { StartUserIdListener(); };
+        serviceHandler_->PostTask(callback, INIT_INTERVAL);
     }
 
     void InputMethodSystemAbility::StartInputService(std::string imeId)
