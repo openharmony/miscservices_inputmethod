@@ -87,6 +87,7 @@ namespace MiscServices {
         void OnDisplayOptionalInputMethod(int32_t userId);
         static sptr<AAFwk::IAbilityManager> GetAbilityManagerService();
         OHOS::sptr<OHOS::AppExecFwk::IBundleMgr> GetBundleMgr();
+        void StartUserIdListener();
 
         ServiceRunningState state_;
         void InitServiceHandler();
