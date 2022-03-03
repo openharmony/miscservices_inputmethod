@@ -193,6 +193,7 @@ using namespace MessageID;
     void InputMethodController::Attach(sptr<OnTextChangedListener> &listener)
     {
         textListener = listener;
+        PrepareInput(0, mClient, mInputDataChannel, mAttribute);
         StartInput(mClient);
     }
 
