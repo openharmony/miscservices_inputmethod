@@ -884,6 +884,7 @@ namespace MiscServices {
             IMSA_HILOGI("InputMethodSystemAbility::OnDisplayOptionalInputMethod has no ime");
             return;
         }
+
         std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
         std::string params = "";
         std::vector<InputMethodProperty*>::iterator it;
