@@ -22,8 +22,6 @@
 #include "input_method_ability.h"
 namespace OHOS {
 namespace MiscServices {
-//    constexpr size_t ARGC_ZERO = 0;
-
     void JsEditorAttribute::Finalizer(NativeEngine* engine, void* data, void* hint)
     {
         IMSA_HILOGI("JsEditorAttribute::Finalizer is called");
