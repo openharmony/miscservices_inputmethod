@@ -78,6 +78,7 @@ namespace MiscServices {
         sptr<IRemoteObject> channelObject = inputControlChannel->AsObject();
         if (channelObject == nullptr) {
             IMSA_HILOGI("InputMethodCoreProxy::InitInputControlChannel channelObject is nullptr");
+            return ErrorCode::ERROR_EX_NULL_POINTER;
         }
         data.WriteRemoteObject(channelObject);
         MessageOption option {
