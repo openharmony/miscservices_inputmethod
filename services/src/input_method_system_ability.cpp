@@ -137,6 +137,7 @@ namespace MiscServices {
         state_ = ServiceRunningState::STATE_RUNNING;
         std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
         StartInputService(defaultIme);
+        StartUserIdListener();
         return ErrorCode::NO_ERROR;
     }
 
@@ -182,8 +183,6 @@ namespace MiscServices {
 
         userId_ = MAIN_USER_ID;
         setting->Initialize();
-
-        StartUserIdListener();
     }
 
     void InputMethodSystemAbility::StartUserIdListener()
