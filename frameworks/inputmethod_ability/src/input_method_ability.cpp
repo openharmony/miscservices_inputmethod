@@ -426,7 +426,8 @@ namespace MiscServices {
         return;
     }
 
-    int32_t InputMethodAbility::GetEnterKeyType() {
+    int32_t InputMethodAbility::GetEnterKeyType()
+    {
         IMSA_HILOGI("InputMethodAbility::GetEnterKeyType");
 
         if (inputDataChannel == nullptr) {
@@ -436,7 +437,8 @@ namespace MiscServices {
         return inputDataChannel->GetEnterKeyType();
     }
 
-    int32_t InputMethodAbility::GetInputPattern() {
+    int32_t InputMethodAbility::GetInputPattern()
+    {
         IMSA_HILOGI("InputMethodAbility::GetInputPattern");
 
         if (inputDataChannel == nullptr) {
@@ -446,7 +448,8 @@ namespace MiscServices {
         return inputDataChannel->GetInputPattern();
     }
 
-    void InputMethodAbility::StopInput() {
+    void InputMethodAbility::StopInput()
+    {
         IMSA_HILOGI("InputMethodAbility::StopInput");
 
         if (inputDataChannel == nullptr) {

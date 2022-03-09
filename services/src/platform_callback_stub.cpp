@@ -34,6 +34,10 @@ namespace MiscServices {
     int PlatformCallbackStub::OnRemoteRequest(uint32_t code, MessageParcel& data, MessageParcel& reply,
                                               MessageOption& option)
     {
+        auto descriptorToken = data.ReadInterfaceToken();
+        if (descriptorToken != GetDescriptor()) {
+            return ErrorCode::ERROR_STATUS_UNKNOWN_TRANSACTION;
+        }
         switch (code) {
             case NOTIFY_EVENT: {
                 int eventId = data.ReadInt32();
