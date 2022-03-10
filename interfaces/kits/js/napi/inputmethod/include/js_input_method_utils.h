@@ -22,7 +22,6 @@
 #include "js_input_method_setting.h"
 namespace OHOS {
     namespace MiscServices {
-//        class JsInputMethodSetting;
         NativeValue *CreateInputMethodSetting(NativeEngine& engine);
         NativeValue *CreateInputMethodController(NativeEngine& engine);
     }
