@@ -1221,7 +1221,9 @@ namespace MiscServices {
         sptr<InputClientProxy> client = new InputClientProxy(clientObject);
         sptr<IInputClient> interface = client;
         int remainClientNum = 0;
-        imsCore[0]->SetClientState(false);
+        if(imsCore[0] != nullptr) {
+            imsCore[0]->SetClientState(false);
+        }
         HideKeyboard(client);
         int ret = RemoveClient(client, remainClientNum);
         if (ret != ErrorCode::NO_ERROR) {
@@ -1241,7 +1243,9 @@ namespace MiscServices {
         MessageParcel *data = msg->msgContent_;
         sptr<IRemoteObject> clientObject = data->ReadRemoteObject();
         sptr<InputClientProxy> client = new InputClientProxy(clientObject);
-        imsCore[0]->SetClientState(true);
+        if(imsCore[0] != nullptr) {
+            imsCore[0]->SetClientState(true);
+        }
         ShowKeyboard(client);
     }
 
