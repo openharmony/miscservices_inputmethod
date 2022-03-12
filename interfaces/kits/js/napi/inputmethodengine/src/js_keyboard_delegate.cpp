@@ -95,12 +95,17 @@ namespace MiscServices {
         }
 
         std::lock_guard<std::mutex> lock(mtx_);
-        NativeValue* value = info.argv[1];
-        if (!value->IsCallable()) {
-            IMSA_HILOGI("JsKeyboardDelegate::OnUnregisterWindowManagerCallback info->argv[1] is not callable");
-            return engine.CreateUndefined();
+
+        if (info.argc == 1) {
+            kdListener_->UnregisterAllListenerWithType(cbType);
+        } else {
+            NativeValue* value = info.argv[1];
+            if (!value->IsCallable()) {
+                IMSA_HILOGI("JsKeyboardDelegate::OnUnregisterWindowManagerCallback info->argv[1] is not callable");
+                return engine.CreateUndefined();
+            }
+            kdListener_->UnregisterListenerWithType(cbType, value);
         }
-        kdListener_->UnregisterListenerWithType(cbType, value);
         return engine.CreateUndefined();
     }
 }
