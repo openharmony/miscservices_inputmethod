@@ -35,6 +35,7 @@ namespace MiscServices {
         virtual ~JsInputMethodEngineListener() = default;
         void RegisterListenerWithType(NativeEngine& engine, std::string type, NativeValue* value);
         void UnregisterListenerWithType(std::string type, NativeValue* value);
+        void UnregisterAllListenerWithType(std::string type);
         void OnKeyboardStatus(bool isShow);
         void OnInputStart();
         void OnInputStop(std::string imeId);
