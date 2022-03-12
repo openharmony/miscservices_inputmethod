@@ -94,13 +94,17 @@ namespace MiscServices {
             return engine.CreateUndefined();
         }
 
-        std::lock_guard<std::mutex> lock(mtx_);
-        NativeValue* value = info.argv[1];
-        if (!value->IsCallable()) {
-            IMSA_HILOGI("JsInputMethodEngine::OnUnregisterWindowManagerCallback info->argv[1] is not callable");
-            return engine.CreateUndefined();
+        if (info.argc == 1) {
+            imeListener_->UnregisterAllListenerWithType(cbType);
+        } else {
+            std::lock_guard<std::mutex> lock(mtx_);
+            NativeValue* value = info.argv[1];
+            if (!value->IsCallable()) {
+                IMSA_HILOGI("JsInputMethodEngine::OnUnregisterWindowManagerCallback info->argv[1] is not callable");
+                return engine.CreateUndefined();
+            }
+            imeListener_->UnregisterListenerWithType(cbType, value);
         }
-        imeListener_->UnregisterListenerWithType(cbType, value);
         return engine.CreateUndefined();
     }
 }

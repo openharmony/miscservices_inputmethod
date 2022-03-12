@@ -35,6 +35,7 @@ namespace MiscServices {
         virtual ~JsKeyboardDelegateListener() = default;
         void RegisterListenerWithType(NativeEngine& engine, std::string type, NativeValue* value);
         void UnregisterListenerWithType(std::string type, NativeValue* value);
+        void UnregisterAllListenerWithType(std::string type);
         bool OnKeyEvent(int32_t keyCode, int32_t keyStatus);
         void OnCursorUpdate(int32_t positionX, int32_t positionY, int height);
         void OnSelectionChange(int32_t oldBegin, int32_t oldEnd, int32_t newBegin, int32_t newEnd);
