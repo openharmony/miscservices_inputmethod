@@ -158,6 +158,7 @@ using namespace MessageID;
                     if (textListener != nullptr) {
                         textListener->SendKeyboardInfo(*info);
                     }
+                    delete info;
                     break;
                 }
                 case MSG_ID_SEND_FUNCTION_KEY: {
@@ -169,6 +170,7 @@ using namespace MessageID;
                     if (textListener != nullptr) {
                         textListener->SendKeyboardInfo(*info);
                     }
+                    delete info;
                     break;
                 }
                 case MSG_ID_MOVE_CURSOR: {
