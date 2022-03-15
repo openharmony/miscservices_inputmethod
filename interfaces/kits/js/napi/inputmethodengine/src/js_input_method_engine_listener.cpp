@@ -47,6 +47,24 @@ namespace MiscServices {
         return;
     }
 
+    void JsInputMethodEngineListener::UnregisterAllListenerWithType(std::string type)
+    {
+        IMSA_HILOGI("JsInputMethodEngineListener::UnregisterAllListenerWithType");
+        // should do type check
+        if (jsCbMap_.empty() || jsCbMap_.find(type) == jsCbMap_.end()) {
+            IMSA_HILOGI("methodName %{public}s not registerted!", type.c_str());
+            return;
+        }
+        for (auto it = jsCbMap_[type].begin(); it != jsCbMap_[type].end();) {
+            jsCbMap_[type].erase(it);
+        }
+        // one type with multi jscallback, erase type when there is no callback in one type
+        if (jsCbMap_[type].empty()) {
+            jsCbMap_.erase(type);
+        }
+        return;
+    }
+
     void JsInputMethodEngineListener::UnregisterListenerWithType(std::string type, NativeValue* value)
     {
         IMSA_HILOGI("JsInputMethodEngineListener::UnregisterListenerWithType");
