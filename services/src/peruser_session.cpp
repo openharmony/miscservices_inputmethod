@@ -1185,6 +1185,7 @@ namespace MiscServices {
         }
 
         int ret = AddClient(pid, uid, displayId, client, channel, *attribute);
+        delete attribute;
         if (ret != ErrorCode::NO_ERROR) {
             IMSA_HILOGE("PerUserSession::OnPrepareInput Aborted! %{public}s", ErrorCode::ToString(ret));
             return;

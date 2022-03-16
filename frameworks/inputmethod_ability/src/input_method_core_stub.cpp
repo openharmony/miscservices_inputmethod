@@ -92,6 +92,7 @@ namespace MiscServices {
                     IMSA_HILOGI("InputMethodCoreStub::OnRemoteRequest START_INPUT inputDataChannel is nulltpr");
                 }
                 startInput(inputDataChannel, *editorAttribute, supportPhysicalKbd);
+                delete editorAttribute;
                 reply.WriteNoException();
                 break;
             }
@@ -120,6 +121,7 @@ namespace MiscServices {
             case SET_KEYBOARD_TYPE: {
                 KeyboardType *type = data.ReadParcelable<KeyboardType>();
                 setKeyboardType(*type);
+                delete type;
                 reply.WriteNoException();
                 break;
             }
