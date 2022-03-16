@@ -43,6 +43,7 @@ namespace MiscServices {
 
         if (inputControlChannel == nullptr) {
             IMSA_HILOGI("InputMethodCoreProxy::initializeInput inputControlChannel is nullptr");
+            return ErrorCode::ERROR_NULL_POINTER;
         }
         IMSA_HILOGI("InputMethodCoreProxy::initializeInput displayId = %{public}d", displayId);
         MessageParcel data, reply;
@@ -51,6 +52,7 @@ namespace MiscServices {
         sptr<IRemoteObject> channelObject = inputControlChannel->AsObject();
         if (channelObject == nullptr) {
             IMSA_HILOGI("InputMethodCoreProxy::initializeInput channelObject is nullptr");
+            return ErrorCode::ERROR_NULL_POINTER;
         }
         bool wor = data.WriteRemoteObject(channelObject);
         if (wor) {
@@ -137,6 +139,7 @@ namespace MiscServices {
         }
         if (inputDataChannel == nullptr) {
             IMSA_HILOGI("InputMethodCoreProxy::startInput inputDataChannel is nullptr");
+            return false;
         }
 
         MessageParcel data;
