@@ -45,6 +45,23 @@ namespace MiscServices {
             static_cast<uint32_t>(jsCbMap_.size()), type.c_str(), static_cast<uint32_t>(jsCbMap_[type].size()));
         return;
     }
+    void JsKeyboardDelegateListener::UnregisterAllListenerWithType(std::string type)
+    {
+        IMSA_HILOGI("JsKeyboardDelegateListener::UnregisterAllListenerWithType");
+        // should do type check
+        if (jsCbMap_.empty() || jsCbMap_.find(type) == jsCbMap_.end()) {
+            IMSA_HILOGI("methodName %{public}s not registerted!", type.c_str());
+            return;
+        }
+        for (auto it = jsCbMap_[type].begin(); it != jsCbMap_[type].end();) {
+            jsCbMap_[type].erase(it);
+        }
+        // one type with multi jscallback, erase type when there is no callback in one type
+        if (jsCbMap_[type].empty()) {
+            jsCbMap_.erase(type);
+        }
+        return;
+    }
 
     void JsKeyboardDelegateListener::UnregisterListenerWithType(std::string type, NativeValue* value)
     {
