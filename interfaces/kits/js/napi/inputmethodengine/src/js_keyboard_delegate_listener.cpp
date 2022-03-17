@@ -166,7 +166,7 @@ namespace MiscServices {
             }
             object->SetProperty("keyCode", CreateJsValue(*engine_, static_cast<uint32_t>(keyCode)));
             object->SetProperty("keyAction", CreateJsValue(*engine_, static_cast<uint32_t>(keyStatus)));
-            return CallJsMethodReturnBool(methodName, argv, ArraySize(argv));
+            result = CallJsMethodReturnBool(methodName, argv, ArraySize(argv));
         };
 
         mainHandler_->PostSyncTask(task);
