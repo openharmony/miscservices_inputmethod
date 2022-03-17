@@ -149,13 +149,13 @@ namespace MiscServices {
         std::lock_guard<std::mutex> lock(mMutex);
         IMSA_HILOGI("JsKeyboardDelegateListener::OnKeyEvent");
 
-        bool result = false;
+        auto result = false;
         auto task = [this, keyCode, keyStatus, &result] () {
             NativeValue* nativeValue = engine_->CreateObject();
             NativeObject* object = ConvertNativeValueTo<NativeObject>(nativeValue);
             if (object == nullptr) {
                 IMSA_HILOGI("Failed to convert rect to jsObject");
-                return false;
+                return;
             }
             NativeValue* argv[] = {nativeValue};
             std::string methodName;
@@ -166,7 +166,7 @@ namespace MiscServices {
             }
             object->SetProperty("keyCode", CreateJsValue(*engine_, static_cast<uint32_t>(keyCode)));
             object->SetProperty("keyAction", CreateJsValue(*engine_, static_cast<uint32_t>(keyStatus)));
-            return CallJsMethodReturnBool(methodName, argv, ArraySize(argv));
+            result = CallJsMethodReturnBool(methodName, argv, ArraySize(argv));
         };
 
         mainHandler_->PostSyncTask(task);
