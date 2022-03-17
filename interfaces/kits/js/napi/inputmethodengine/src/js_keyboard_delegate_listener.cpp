@@ -149,22 +149,28 @@ namespace MiscServices {
         std::lock_guard<std::mutex> lock(mMutex);
         IMSA_HILOGI("JsKeyboardDelegateListener::OnKeyEvent");
 
-        NativeValue* nativeValue = engine_->CreateObject();
-        NativeObject* object = ConvertNativeValueTo<NativeObject>(nativeValue);
-        if (object == nullptr) {
-            IMSA_HILOGI("Failed to convert rect to jsObject");
-            return false;
-        }
-        NativeValue* argv[] = {nativeValue};
-        std::string methodName;
-        if (keyStatus == 2) {
-            methodName = "keyDown";
-        } else {
-            methodName = "keyUp";
-        }
-        object->SetProperty("keyCode", CreateJsValue(*engine_, static_cast<uint32_t>(keyCode)));
-        object->SetProperty("keyAction", CreateJsValue(*engine_, static_cast<uint32_t>(keyStatus)));
-        return CallJsMethodReturnBool(methodName, argv, ArraySize(argv));
+        bool result = false;
+        auto task = [this, keyCode, keyStatus, &result] () {
+            NativeValue* nativeValue = engine_->CreateObject();
+            NativeObject* object = ConvertNativeValueTo<NativeObject>(nativeValue);
+            if (object == nullptr) {
+                IMSA_HILOGI("Failed to convert rect to jsObject");
+                return false;
+            }
+            NativeValue* argv[] = {nativeValue};
+            std::string methodName;
+            if (keyStatus == 2) {
+                methodName = "keyDown";
+            } else {
+                methodName = "keyUp";
+            }
+            object->SetProperty("keyCode", CreateJsValue(*engine_, static_cast<uint32_t>(keyCode)));
+            object->SetProperty("keyAction", CreateJsValue(*engine_, static_cast<uint32_t>(keyStatus)));
+            return CallJsMethodReturnBool(methodName, argv, ArraySize(argv));
+        };
+
+        mainHandler_->PostSyncTask(task);
+        return result;
     }
 
     void JsKeyboardDelegateListener::OnCursorUpdate(int32_t positionX, int32_t positionY, int height)
