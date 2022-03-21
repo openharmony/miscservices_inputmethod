@@ -209,11 +209,11 @@ namespace MiscServices {
         if (it == msgHandlers.end()) {
             IMSA_HILOGE("InputMethodSystemAbility::StartInputService() need start handler");
             MessageHandler *handler = new MessageHandler();
-            if (session == nullptr) {
-                IMSA_HILOGE("InputMethodSystemAbility::OnPrepareInput session is nullptr");
+            if (session != nullptr) {
+                IMSA_HILOGE("InputMethodSystemAbility::OnPrepareInput session is not nullptr");
+                session->CreateWorkThread(*handler);
+                msgHandlers.insert(std::pair<int32_t, MessageHandler*>(MAIN_USER_ID, handler));
             }
-            session->CreateWorkThread(*handler);
-            msgHandlers.insert(std::pair<int32_t, MessageHandler*>(MAIN_USER_ID, handler));
         }
 
         bool isStartSuccess = false;
@@ -245,6 +245,7 @@ namespace MiscServices {
         PerUserSession *session = GetUserSession(MAIN_USER_ID);
         if (session == nullptr){
             IMSA_HILOGE("InputMethodSystemAbility::StopInputService abort session is nullptr");
+            return;
         }
 
         session->StopInputService(imeId);
@@ -723,8 +724,6 @@ namespace MiscServices {
         }
         if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
             IMSA_HILOGE("InputMethodSystemAbility::OnHandleMessage Aborted! userId = %{public}d,", userId);
-            IMSA_HILOGE("InputMethodSystemAbility::OnHandleMessage Aborted! userState = %{public}d",
-                setting->GetUserState());
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
 
@@ -848,6 +847,9 @@ namespace MiscServices {
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
         PerUserSession *session = GetUserSession(userId);
+        if (session == nullptr) {
+            return ErrorCode::ERROR_NULL_POINTER;
+        }
         int32_t ret = session->OnSettingChanged(updatedKey, updatedValue);
         if (ret == ErrorCode::ERROR_SETTING_SAME_VALUE) {
             IMSA_HILOGI("End...No need to update\n");
