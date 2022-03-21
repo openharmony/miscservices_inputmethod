@@ -1182,6 +1182,7 @@ namespace MiscServices {
         InputAttribute *attribute = data->ReadParcelable<InputAttribute>();
         if (attribute == nullptr) {
             IMSA_HILOGI("PerUserSession::OnPrepareInput attribute is nullptr");
+            return;
         }
 
         int ret = AddClient(pid, uid, displayId, client, channel, *attribute);
