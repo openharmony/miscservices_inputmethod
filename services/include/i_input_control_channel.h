@@ -39,6 +39,6 @@ namespace OHOS {
             virtual void setDisplayMode(int mode) = 0;
             virtual void onKeyboardShowed() = 0;
         };
-    }
-}
-#endif // FM_IMMS_PROJECT_IINPUTCONTROLCHANNEL_H
+    } // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_I_INPUT_CONTROL_CHANNEL_H

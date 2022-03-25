@@ -139,5 +139,5 @@ namespace MiscServices {
         }
         return info;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

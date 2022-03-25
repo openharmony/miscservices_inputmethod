@@ -100,5 +100,5 @@ namespace MiscServices {
         MessageHandler::Instance()->SendMessage(msg);
         IMSA_HILOGI("ImCommonEventManager::startUser 3");
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

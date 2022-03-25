@@ -59,5 +59,5 @@ namespace MiscServices {
     {
         messageHandler = handler;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

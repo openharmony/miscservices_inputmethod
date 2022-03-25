@@ -182,5 +182,5 @@ namespace MiscServices {
         }
         return ret;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

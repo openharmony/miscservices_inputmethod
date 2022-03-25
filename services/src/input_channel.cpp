@@ -58,5 +58,5 @@ namespace MiscServices {
         inputChannel->inputChannelParcel.RewindRead(0);
         return inputChannel;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

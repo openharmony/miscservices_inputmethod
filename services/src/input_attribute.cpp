@@ -103,5 +103,5 @@ namespace MiscServices {
     {
         inputPattern = pattern;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

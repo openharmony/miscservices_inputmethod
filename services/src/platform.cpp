@@ -185,5 +185,5 @@ namespace MiscServices {
         (void)displayId;
         return true;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

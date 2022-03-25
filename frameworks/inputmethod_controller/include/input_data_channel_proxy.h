@@ -44,6 +44,6 @@ namespace MiscServices {
     private:
         static inline BrokerDelegator<InputDataChannelProxy> delegator_;
     };
-}
-}
-#endif
+} // namespace MiscServices
+} // namespace OHOS
+#endif // FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_DATA_CHANNEL_PROXY_H

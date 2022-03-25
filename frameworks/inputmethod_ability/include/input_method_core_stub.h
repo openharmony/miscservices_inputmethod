@@ -38,30 +38,30 @@ namespace MiscServices {
         DISALLOW_COPY_AND_MOVE(InputMethodCoreStub);
         explicit InputMethodCoreStub(int userId);
         virtual ~InputMethodCoreStub();
-        virtual int OnRemoteRequest(uint32_t code,
+        int OnRemoteRequest(uint32_t code,
                                     MessageParcel &data,
                                     MessageParcel &reply,
                                     MessageOption &option) override;
 
-        virtual int32_t initializeInput(sptr<IRemoteObject>& startInputToken, int32_t displayId,
+        int32_t initializeInput(sptr<IRemoteObject>& startInputToken, int32_t displayId,
                                         sptr<IInputControlChannel>& inputControlChannel) override;
-        virtual bool startInput(const sptr<IInputDataChannel>& inputDataChannel,
+        bool startInput(const sptr<IInputDataChannel>& inputDataChannel,
                                 const InputAttribute& editorAttribute,
                                 bool supportPhysicalKbd) override;
-        virtual int32_t stopInput() override;
-        virtual bool showKeyboard(const sptr<IInputDataChannel>& inputDataChannel) override;
-        virtual bool hideKeyboard(int32_t flags)override;
-        virtual int32_t setKeyboardType(const KeyboardType& type) override;
-        virtual int32_t getKeyboardWindowHeight(int32_t retHeight) override;
-        virtual int32_t InitInputControlChannel(sptr<IInputControlChannel> &inputControlChannel) override;
-        virtual void SetClientState(bool state) override;
-        virtual void StopInputService(std::string imeId) override;
+        int32_t stopInput() override;
+        bool showKeyboard(const sptr<IInputDataChannel>& inputDataChannel) override;
+        bool hideKeyboard(int32_t flags)override;
+        int32_t setKeyboardType(const KeyboardType& type) override;
+        int32_t getKeyboardWindowHeight(int32_t retHeight) override;
+        int32_t InitInputControlChannel(sptr<IInputControlChannel> &inputControlChannel) override;
+        void SetClientState(bool state) override;
+        void StopInputService(std::string imeId) override;
         void SetMessageHandler(MessageHandler *msgHandler);
 
     private:
         int userId_;
         MessageHandler *msgHandler_;
     };
-}
-}
-#endif // FM_IMMS_PROJECT_INPUTCONTROLCHANNEL_SK_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // FRAMEWORKS_INPUTMETHOD_ABILITY_INCLUDE_INPUT_METHOD_CORE_STUB_H

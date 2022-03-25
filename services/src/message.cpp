@@ -72,5 +72,5 @@ namespace MiscServices {
             msgContent_ = nullptr;
         }
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

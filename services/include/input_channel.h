@@ -26,14 +26,15 @@ namespace MiscServices {
     public:
         InputChannel();
         ~InputChannel();
-        virtual bool Marshalling(Parcel &parcel) const override;
+        bool Marshalling(Parcel &parcel) const override;
         static InputChannel *Unmarshalling(Parcel &parcel);
+
     private:
         std::u16string name;
         MessageParcel inputChannelParcel;
         InputChannel(const InputChannel& channel);
         InputChannel& operator =(const InputChannel& channel);
     };
-}
-}
-#endif // INPUTMETHODSYSTEMSERVICE_INPUTCHANNEL_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_INPUT_CHANNEL_H

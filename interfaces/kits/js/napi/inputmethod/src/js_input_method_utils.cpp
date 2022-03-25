@@ -57,5 +57,5 @@ namespace OHOS {
             BindNativeFunction(engine, *object, "stopInput", JsInputMethodController::StopInput);
             return objValue;
         }
-    }
-}
+    } // namespace MiscServices
+} // namespace OHOS

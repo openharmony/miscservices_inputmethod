@@ -104,6 +104,6 @@ namespace MessageID {
         MessageHandler(const MessageHandler&&);
         MessageHandler& operator =(const MessageHandler&&);
     };
-}
-}
-#endif // FM_IMMS_PROJECT_MESSAGEHANDLER_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_MESSAGE_HANDLER_H

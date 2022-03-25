@@ -29,19 +29,20 @@ namespace MiscServices {
         int32_t OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply,
                                 MessageOption &option) override;
 
-        virtual void prepareInput(MessageParcel& data) override;
-        virtual void releaseInput(MessageParcel& data) override;
-        virtual void startInput(MessageParcel& data) override;
-        virtual void stopInput(MessageParcel& data) override;
-        virtual void SetCoreAndAgent(MessageParcel& data) override;
-        virtual void HideCurrentInput(MessageParcel& data) override;
-        virtual void displayOptionalInputMethod(MessageParcel& data) override;
+        void prepareInput(MessageParcel& data) override;
+        void releaseInput(MessageParcel& data) override;
+        void startInput(MessageParcel& data) override;
+        void stopInput(MessageParcel& data) override;
+        void SetCoreAndAgent(MessageParcel& data) override;
+        void HideCurrentInput(MessageParcel& data) override;
+        void displayOptionalInputMethod(MessageParcel& data) override;
         virtual int32_t listInputMethodByUserId(int32_t userId, std::vector<InputMethodProperty*> *properties) = 0;
+
     protected:
         int32_t getUserId(int32_t uid);
         int USER_ID_CHANGE_VALUE = 200000; // user range
     };
-}
-}
+} // namespace MiscServices
+} // namespace OHOS
 
-#endif // FM_IMMS_PROJECT_INPUTMETHODSYSTEMABILITY_SK_H
+#endif // SERVICES_INCLUDE_INPUT_METHOD_SYSTEM_ABILITY_STUB_H

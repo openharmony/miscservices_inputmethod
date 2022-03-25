@@ -122,5 +122,5 @@ namespace OHOS {
 
             return objValue;
         }
-    }
-}
+    } // namespace MiscServices
+} // namespace OHOS

@@ -40,6 +40,6 @@ namespace MiscServices {
         virtual void OnSelectionChange(std::u16string text, int32_t oldBegin, int32_t oldEnd,
                                        int32_t newBegin, int32_t newEnd) = 0;
     };
-}
-}
-#endif // FM_IMMS_PROJECT_IINPUTMETHODAGENT_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // FRAMEWORKS_INPUTMETHOD_ABILITY_INCLUDE_I_INPUT_METHOD_AGENT_H

@@ -50,5 +50,5 @@ namespace MiscServices {
 
         return result;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS
