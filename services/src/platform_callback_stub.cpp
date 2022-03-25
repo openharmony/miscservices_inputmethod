@@ -104,5 +104,5 @@ namespace MiscServices {
         Message *msg = new Message(msgId, parcel);
         MessageHandler::Instance()->SendMessage(msg);
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

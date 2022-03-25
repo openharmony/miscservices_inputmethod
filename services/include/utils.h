@@ -36,7 +36,7 @@ namespace MiscServices {
             return std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> {}.from_bytes(str);
         }
     };
-}
-}
+} // namespace MiscServices
+} // namespace OHOS
 
-#endif
+#endif // SERVICES_INCLUDE_UTILS_H

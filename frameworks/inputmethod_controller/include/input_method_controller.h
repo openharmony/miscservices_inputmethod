@@ -71,6 +71,7 @@ namespace MiscServices {
         int32_t GetEnterKeyType();
         int32_t GetInputPattern();
         void HideCurrentInput();
+
     private:
         InputMethodController();
         ~InputMethodController();
@@ -106,6 +107,6 @@ namespace MiscServices {
         int32_t enterKeyType_ = 0;
         int32_t inputPattern_ = 0;
     };
-}
-}
-#endif
+} // namespace MiscServices
+} // namespace OHOS
+#endif // FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_METHOD_CONTROLLER_H

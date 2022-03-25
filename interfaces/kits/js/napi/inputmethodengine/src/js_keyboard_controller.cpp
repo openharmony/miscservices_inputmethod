@@ -48,5 +48,5 @@ namespace MiscServices {
 
         return engine.CreateUndefined();
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

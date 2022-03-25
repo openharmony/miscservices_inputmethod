@@ -32,6 +32,7 @@ namespace OHOS {
             static NativeValue* GetForward(NativeEngine* engine, NativeCallbackInfo* info);
             static NativeValue* GetBackward(NativeEngine* engine, NativeCallbackInfo* info);
             static NativeValue* GetEditorAttribute(NativeEngine* engine, NativeCallbackInfo* info);
+
         private:
             NativeValue* OnInsertText(NativeEngine& engine, NativeCallbackInfo& info);
             NativeValue* OnDeleteForward(NativeEngine& engine, NativeCallbackInfo& info);
@@ -41,6 +42,6 @@ namespace OHOS {
             NativeValue* OnGetBackward(NativeEngine& engine, NativeCallbackInfo& info);
             NativeValue* OnGetEditorAttribute(NativeEngine& engine, NativeCallbackInfo& info);
         };
-    }
-}
-#endif // OHOS_MISCSERVICES_JS_TEXT_INPUT_CLIENT_H
+    } // namespace MiscServices
+} // namespace OHOS
+#endif // INTERFACE_KITS_JS_NAPI_INPUTMETHODENGINE_INCLUDE_JS_TEXT_INPUT_CLIENT_H

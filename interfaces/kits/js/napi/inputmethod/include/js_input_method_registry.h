@@ -26,7 +26,7 @@
 namespace OHOS {
     namespace MiscServices {
         NativeValue* JsInputMethodRegistryInit(NativeEngine* engine, NativeValue* exportObj);
-    }
-}
+    } // namespace MiscServices
+} // namespace OHOS
 
-#endif // OHOS_MISCSERVICES_JS_INPUT_METHOD_REGISTRY_H
+#endif // INTERFACE_KITS_JS_NAPI_INPUTMETHOD_INCLUDE_JS_INPUT_METHOD_REGISTRY_H

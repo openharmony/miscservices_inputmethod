@@ -105,6 +105,6 @@ namespace MiscServices {
         void ShowInputWindow();
         void DissmissInputWindow();
     };
-}
-}
-#endif // FM_IMMS_PROJECT_INPUTMETHODABILITY_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // FRAMEWORKS_INPUTMETHOD_ABILITY_INCLUDE_INPUT_METHOD_ABILITY_H

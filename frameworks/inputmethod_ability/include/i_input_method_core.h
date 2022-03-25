@@ -61,6 +61,6 @@ namespace MiscServices {
         virtual void SetClientState(bool state) = 0;
         virtual void StopInputService(std::string imeId) = 0;
     };
-}
-}
-#endif // FM_IMMS_PROJECT_IINPUTMETHODCORE_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // FRAMEWORKS_INPUTMETHOD_ABILITY_INCLUDE_I_INPUT_METHOD_CORE_H

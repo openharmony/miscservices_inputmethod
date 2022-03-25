@@ -47,16 +47,18 @@ namespace MiscServices {
 
         int32_t OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply,
                                 MessageOption &option) override;
-        virtual int32_t getDisplayMode(int32_t retMode) override;
-        virtual int32_t getKeyboardWindowHeight(int32_t retHeight) override;
-        virtual int32_t getCurrentKeyboardType(KeyboardType *retType) override;
-        virtual int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) override;
-        virtual int32_t listInputMethod(std::vector<InputMethodProperty*> *properties) override;
-        virtual int32_t listInputMethodByUserId(int32_t userId, std::vector<InputMethodProperty*> *properties) override;
-        virtual int32_t listKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) override;
+        int32_t getDisplayMode(int32_t retMode) override;
+        int32_t getKeyboardWindowHeight(int32_t retHeight) override;
+        int32_t getCurrentKeyboardType(KeyboardType *retType) override;
+        int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) override;
+        int32_t listInputMethod(std::vector<InputMethodProperty*> *properties) override;
+        int32_t listInputMethodByUserId(int32_t userId, std::vector<InputMethodProperty*> *properties) override;
+        int32_t listKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) override;
+
     protected:
         void OnStart() override;
         void OnStop() override;
+
     private:
         int32_t Init();
         void Initialize();
@@ -96,6 +98,6 @@ namespace MiscServices {
         static std::shared_ptr<AppExecFwk::EventHandler> serviceHandler_;
         int32_t userId_;
     };
-}
-}
-#endif // FM_IMMS_PROJECT_INPUTMETHODSYSTEMABILITY_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_INPUT_METHOD_SYSTEM_ABILITY_H

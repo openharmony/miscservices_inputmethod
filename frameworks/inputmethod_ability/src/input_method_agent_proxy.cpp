@@ -73,5 +73,5 @@ namespace MiscServices {
 
         Remote()->SendRequest(ON_SELECTION_CHANGE, data, reply, option);
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

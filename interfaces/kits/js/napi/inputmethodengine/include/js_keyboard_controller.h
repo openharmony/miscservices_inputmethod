@@ -26,9 +26,10 @@ namespace OHOS {
             ~JsKeyboardController() = default;
             static void Finalizer(NativeEngine* engine, void* data, void* hint);
             static NativeValue* HideKeyboardSelf(NativeEngine* engine, NativeCallbackInfo* info);
+
         private:
             NativeValue* OnHideKeyboardSelf(NativeEngine& engine, NativeCallbackInfo& info);
         };
-    }
-}
-#endif // OHOS_MISCSERVICES_JS_KEYBOARD_CONTROLLER_H
+    } // namespace MiscServices
+} // namespace OHOS
+#endif // INTERFACE_KITS_JS_NAPI_INPUTMETHODENGINE_INCLUDE_JS_KEYBOARD_CONTROLLER_H

@@ -55,7 +55,7 @@ namespace MiscServices {
         void ClearData();
         bool FindKey(const std::u16string& key) const;
 
-        virtual bool Marshalling(Parcel &parcel) const override;
+        bool Marshalling(Parcel &parcel) const override;
         static InputMethodSetting *Unmarshalling(Parcel &parcel);
 
     private:
@@ -65,6 +65,6 @@ namespace MiscServices {
         std::vector<std::u16string> Split(const std::u16string& str, char16_t delim);
         std::u16string BuildString(const std::vector<std::u16string>& vector, char16_t delim);
     };
-}
-}
-#endif // FM_IMMS_PROJECT_INPUTMETHODSETTING_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_INPUT_METHOD_SETTING_H

@@ -76,6 +76,5 @@ namespace MiscServices {
         }
         return handler;
     }
-}
-}
-
+} // namespace MiscServices
+} // namespace OHOS

@@ -15,6 +15,5 @@
 #include "input_method_utils.h"
 namespace OHOS {
 namespace MiscServices {
-}
-}
-
+} // namespace MiscServices
+} // namespace OHOS

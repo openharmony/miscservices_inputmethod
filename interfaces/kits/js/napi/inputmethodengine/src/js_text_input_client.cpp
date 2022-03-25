@@ -229,5 +229,5 @@ namespace MiscServices {
 
         return CreateEditorAttribute(engine);
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

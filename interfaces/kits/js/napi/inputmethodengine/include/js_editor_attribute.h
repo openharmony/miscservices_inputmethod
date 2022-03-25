@@ -25,8 +25,7 @@ namespace OHOS {
             JsEditorAttribute() = default;
             ~JsEditorAttribute() = default;
             static void Finalizer(NativeEngine* engine, void* data, void* hint);
-        private:
         };
-    }
-}
-#endif // OHOS_MISCSERVICES_JS_EDITOR_ATTRIBUTE_H
+    } // namespace MiscServices
+} // namespace OHOS
+#endif // INTERFACE_KITS_JS_NAPI_INPUTMETHODENGINE_INCLUDE_JS_EDITOR_ATTRIBUTE_H

@@ -29,11 +29,12 @@ namespace MiscServices {
         explicit Message(const Message& msg);
         Message& operator =(const Message& msg);
         ~Message();
+
     private:
         Message(const Message&&);
         Message& operator =(const Message&&);
     };
-}
-}
+} // namespace MiscServices
+} // namespace OHOS
 
-#endif // FM_IMMS_PROJECT_MESSAGE_H
+#endif // SERVICES_INCLUDE_MESSAGE_H

@@ -69,6 +69,6 @@ namespace MiscServices {
         std::u16string GetKeyboardTypeLanguage(const InputMethodProperty *property, int32_t hashCode);
         std::u16string GetImeId(const std::u16string& packageName);
     };
-}
-}
-#endif // FM_IMMS_PROJECT_PERUSERSETTING_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_PERUSER_SETTING_H

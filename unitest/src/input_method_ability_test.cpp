@@ -139,5 +139,5 @@ namespace MiscServices {
         EXPECT_TRUE(deserialization != nullptr);
         EXPECT_TRUE(deserialization->getId() == def_value);
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS
