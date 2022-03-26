@@ -25,18 +25,19 @@ namespace MiscServices {
         InputAttribute(const InputAttribute& attribute);
         InputAttribute& operator =(const InputAttribute& attribute);
         ~InputAttribute();
-        virtual bool Marshalling(Parcel &parcel) const override;
+        bool Marshalling(Parcel &parcel) const override;
         static InputAttribute *Unmarshalling(Parcel &parcel);
         void SetInputPattern(int32_t pattern);
         bool GetSecurityFlag();
         static const int32_t PATTERN_TEXT = 0x00000001;
         static const int32_t PATTERN_PASSWORD = 0x00000007;
+
     private:
         int32_t inputPattern;
         int32_t enterKeyType;
         int32_t inputOption;
     };
-}
-}
+} // namespace MiscServices
+} // namespace OHOS
 
-#endif // FM_IMMS_PROJECT_INPUTATTRIBUTE_H
+#endif // SERVICES_INCLUDE_INPUT_ATTRIBUTE_H

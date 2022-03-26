@@ -141,7 +141,7 @@ namespace MiscServices {
         for (it = inputMethodProperties.begin(); it < inputMethodProperties.end(); ++it) {
             InputMethodProperty *node = (InputMethodProperty*)*it;
             if (node->mImeId == imeId) {
-                if (CheckIfSecurityIme(*node) == true) {
+                if (CheckIfSecurityIme(*node)) {
                     securityFlag = true;
                 }
                 inputMethodProperties.erase(it);
@@ -162,7 +162,7 @@ namespace MiscServices {
         imSetting.SetValue(key, inputMethodSetting.GetValue(key));
 
         bool flag = imSetting.RemoveEnabledInputMethod(imeId);
-        if (flag == false) {
+        if (!flag) {
             IMSA_HILOGI("The package removed is not an enabled IME. [%d]\n", userId_);
             return ErrorCode::NO_ERROR;
         }
@@ -219,7 +219,7 @@ namespace MiscServices {
             if (imeId == currentImeId) {
                 flag = true;
             } else if (enabledInputMethods.find(imeId) != std::string::npos) {
-                if (flag == true) {
+                if (flag) {
                     nextImeId = imeId;
                     break;
                 } else if (firstEnabledProperty == nullptr) {
@@ -338,7 +338,7 @@ namespace MiscServices {
         std::u16string systemLocales = inputMethodSetting.GetValue(InputMethodSetting::SYSTEM_LOCALE_TAG);
         for (int i = 0; i < (int)inputMethodProperties.size(); i++) {
             InputMethodProperty *imp = inputMethodProperties[i];
-            if (CheckIfSecurityIme(*imp) == false) {
+            if (!CheckIfSecurityIme(*imp)) {
                 continue;
             }
             // if systemLocales is not setting, return the first security ime
@@ -375,7 +375,7 @@ namespace MiscServices {
             if (imeId == currentImeId) {
                 flag = true;
             } else if (enabledInputMethods.find(imeId) != std::string::npos) {
-                if (flag == true) {
+                if (flag) {
                     return inputMethodProperties[i];
                 } else if (firstEnabledProperty == nullptr) {
                     firstEnabledProperty = inputMethodProperties[i];
@@ -476,9 +476,9 @@ namespace MiscServices {
     void PerUserSetting::InitInputMethodSetting()
     {
         bool flag = inputMethodSetting.FindKey(InputMethodSetting::ENABLED_INPUT_METHODS_TAG);
-        if (flag == false) {
+        if (!flag) {
             for (int i = 0; i < (int)inputMethodProperties.size(); i++) {
-                if (CheckIfSecurityIme(*inputMethodProperties[i]) == true) {
+                if (CheckIfSecurityIme(*inputMethodProperties[i])) {
                     continue;
                 }
                 std::vector<int> types;
@@ -492,13 +492,13 @@ namespace MiscServices {
 
         flag = inputMethodSetting.FindKey(InputMethodSetting::CURRENT_INPUT_METHOD_TAG);
         std::u16string imeId = inputMethodSetting.GetCurrentInputMethod();
-        if (flag == false) {
+        if (!flag) {
             ResetCurrentInputMethod();
         } else {
             currentImeId = imeId;
         }
         flag = inputMethodSetting.FindKey(InputMethodSetting::CURRENT_SYS_KEYBOARD_TYPE_TAG);
-        if (flag == false) {
+        if (!flag) {
             inputMethodSetting.SetCurrentSysKeyboardType(-1);
         }
         Platform::Instance()->SetInputMethodSetting(userId_, inputMethodSetting);
@@ -543,7 +543,7 @@ namespace MiscServices {
 
         // if we cannot find any keyboard type which belongs to system locales,
         // we will use the first enabled ime as current ime.
-        if (flag == false) {
+        if (!flag) {
             if (firstEnabledIme) {
                 currentImeId = firstEnabledIme->mImeId;
             } else {
@@ -577,5 +577,5 @@ namespace MiscServices {
     {
         return property.isSystemIme;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

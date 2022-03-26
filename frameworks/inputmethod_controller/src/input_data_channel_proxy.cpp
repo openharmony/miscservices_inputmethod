@@ -177,5 +177,5 @@ namespace MiscServices {
 
         Remote()->SendRequest(STOP_INPUT, data, reply, option);
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

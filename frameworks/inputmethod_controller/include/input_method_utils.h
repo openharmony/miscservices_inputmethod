@@ -93,10 +93,12 @@ namespace MiscServices {
         HIDE,
         SHOW
     };
+
     enum class FunctionKey {
         NONE = 0,
         CONFIRM
     };
+
     class KeyboardInfo {
     public:
         KeyboardStatus GetKeyboardStatus() const
@@ -118,10 +120,11 @@ namespace MiscServices {
         {
             functionKey = static_cast<FunctionKey>(key);
         }
+
     private:
         KeyboardStatus keyboardStatus = KeyboardStatus::NONE;
         FunctionKey functionKey = FunctionKey::NONE;
     };
-}
-}
-#endif // FM_IMC_PROJECT_INPUT_METHOD_UTILS_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_METHOD_UTILS_H

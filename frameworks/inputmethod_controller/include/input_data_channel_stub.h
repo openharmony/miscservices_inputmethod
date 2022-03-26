@@ -48,9 +48,10 @@ namespace MiscServices {
         int32_t GetEnterKeyType() override;
         int32_t GetInputPattern() override;
         void StopInput() override;
+
     private:
         MessageHandler *msgHandler;
     };
-}
-}
-#endif
+} // namespace MiscServices
+} // namespace OHOS
+#endif // FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_DATA_CHANNEL_STUB_H

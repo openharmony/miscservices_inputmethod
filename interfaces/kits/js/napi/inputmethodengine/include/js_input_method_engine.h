@@ -30,6 +30,7 @@ namespace OHOS {
             static void Finalizer(NativeEngine* engine, void* data, void* hint);
             static NativeValue* RegisterCallback(NativeEngine* engine, NativeCallbackInfo* info);
             static NativeValue* UnRegisterCallback(NativeEngine* engine, NativeCallbackInfo* info);
+
         private:
             sptr<JsInputMethodEngineListener> imeListener_;
             std::mutex mtx_;
@@ -38,6 +39,6 @@ namespace OHOS {
             std::shared_ptr<AppExecFwk::EventHandler> GetMainHandler();
             std::shared_ptr<AppExecFwk::EventHandler> mainHandler_ = nullptr;
         };
-    }
-}
-#endif // OHOS_MISCSERVICES_JS_INPUT_METHOD_ENGINE_H
+    } // namespace MiscServices
+} // namespace OHOS
+#endif // INTERFACE_KITS_JS_NAPI_INPUTMETHODENGINE_INCLUDE_JS_INPUT_METHOD_ENGINE_H

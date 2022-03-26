@@ -84,5 +84,5 @@ namespace MiscServices {
 
         return arrayValue;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

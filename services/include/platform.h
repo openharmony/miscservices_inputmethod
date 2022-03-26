@@ -60,6 +60,6 @@ namespace MiscServices {
         Platform(const Platform&&);
         Platform& operator =(const Platform&&);
     };
-}
-}
-#endif // FM_IMMS_PROJECT_PLATFORMAPI_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_PLATFORM_H

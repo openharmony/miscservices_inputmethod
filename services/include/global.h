@@ -62,7 +62,7 @@ namespace CommonEvent {
         COMMON_EVENT_PACKAGE_ADDED = 10006, // a package is installed.
         COMMON_EVENT_PACKAGE_REMOVED = 10007, // a package is removed
     };
-};
+}; // namespace CommonEvent
 
 // User State
 namespace UserState {
@@ -72,7 +72,7 @@ namespace UserState {
         USER_STATE_STARTED = 0, // a user is started.
         USER_STATE_UNLOCKED, // a user is unlocked.
     };
-};
+}; // namespace UserState
 
 // Error Code
 namespace ErrorCode {
@@ -147,7 +147,7 @@ namespace ErrorCode {
         ERROR_CLIENT_NOT_FOUND, // client is not found
     };
     const char* ToString(int errorCode);
-};
+}; // namespace ErrorCode
 
 static constexpr HiviewDFX::HiLogLabel g_SMALL_SERVICES_LABEL = {
     LOG_CORE,
@@ -167,4 +167,4 @@ static constexpr HiviewDFX::HiLogLabel g_SMALL_SERVICES_LABEL = {
     "line: %d, function: %s," fmt, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 }
 }
-#endif // FM_IMMS_PROJECT_GLOBAL_H
+#endif // SERVICES_INCLUDE_GLOBAL_H

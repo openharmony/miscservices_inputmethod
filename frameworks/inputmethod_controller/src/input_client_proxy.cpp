@@ -63,5 +63,5 @@ using namespace ErrorCode;
         auto status = Remote()->SendRequest(SET_DISPLAY_MODE, data, reply, option);
         return status;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

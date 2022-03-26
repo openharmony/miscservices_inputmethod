@@ -170,5 +170,5 @@ namespace MiscServices {
         object->SetProperty("CURSOR_RIGHT", CreateJsValue(*engine, static_cast<uint32_t>(4)));
         return engine->CreateUndefined();
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

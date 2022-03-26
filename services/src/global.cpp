@@ -216,7 +216,6 @@ namespace MiscServices {
             }
             return "error is out of definition";
         };
-    }
-}
-}
-
+    } // namespace ErrorCode
+} // namespace MiscServices
+} // namespace OHOS

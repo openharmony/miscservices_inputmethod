@@ -41,6 +41,6 @@ namespace MiscServices {
         virtual int32_t onInputReleased(int32_t retValue) = 0;
         virtual int32_t setDisplayMode(int32_t mode) = 0;
     };
-} 
-}
-#endif // FM_IMMS_PROJECT_IINPUTCLIENT_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_I_INPUT_CLIENT_H

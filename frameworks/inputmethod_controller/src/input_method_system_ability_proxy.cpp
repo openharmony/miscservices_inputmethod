@@ -437,5 +437,5 @@ namespace MiscServices {
         }
         return NO_ERROR;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

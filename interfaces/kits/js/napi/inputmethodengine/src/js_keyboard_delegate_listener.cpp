@@ -223,5 +223,5 @@ namespace MiscServices {
 
         mainHandler_->PostTask(task);
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

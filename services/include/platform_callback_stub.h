@@ -29,10 +29,10 @@ namespace MiscServices {
         PlatformCallbackStub();
         ~PlatformCallbackStub();
 
-        virtual int  OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply,
+        int  OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply,
                                      MessageOption &option) override;
-        virtual void notifyEvent(int eventId, int userId, const std::vector<std::u16string>& eventContent) override;
+        void notifyEvent(int eventId, int userId, const std::vector<std::u16string>& eventContent) override;
     };
-}
-}
-#endif // FM_IMMS_PROJECT_PLATFORMCALLBACK_SK_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_PLATFORM_CALLBACK_STUB_H

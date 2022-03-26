@@ -27,5 +27,5 @@ namespace MiscServices {
         IMSA_HILOGI("JsEditorAttribute::Finalizer is called");
         std::unique_ptr<JsEditorAttribute>(static_cast<JsEditorAttribute*>(data));
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

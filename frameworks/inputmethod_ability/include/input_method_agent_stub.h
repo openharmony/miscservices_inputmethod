@@ -28,18 +28,19 @@ namespace MiscServices {
     public:
         explicit InputMethodAgentStub();
         virtual ~InputMethodAgentStub();
-        virtual int32_t OnRemoteRequest(uint32_t code,
+        int32_t OnRemoteRequest(uint32_t code,
                                         MessageParcel &data,
                                         MessageParcel &reply,
                                         MessageOption &option) override;
-        virtual bool DispatchKeyEvent(MessageParcel &data) override;
-        virtual void OnCursorUpdate(int32_t positionX, int32_t positionY, int height) override;
-        virtual void OnSelectionChange(std::u16string text, int32_t oldBegin, int32_t oldEnd,
+        bool DispatchKeyEvent(MessageParcel &data) override;
+        void OnCursorUpdate(int32_t positionX, int32_t positionY, int height) override;
+        void OnSelectionChange(std::u16string text, int32_t oldBegin, int32_t oldEnd,
                                        int32_t newBegin, int32_t newEnd) override;
         void SetMessageHandler(MessageHandler *msgHandler);
+
     private:
         MessageHandler *msgHandler_;
     };
-}
-}
-#endif // FM_IMC_PROJECT_INPUTMETHODAGENTSTUB_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // FRAMEWORKS_INPUTMETHOD_ABILITY_INCLUDE_INPUT_METHOD_AGENT_STUB_H

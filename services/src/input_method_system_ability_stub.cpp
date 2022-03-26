@@ -312,5 +312,5 @@ namespace MiscServices {
     {
         return uid / USER_ID_CHANGE_VALUE;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

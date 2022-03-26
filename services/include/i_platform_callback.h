@@ -34,6 +34,6 @@ namespace MiscServices {
 
         virtual void notifyEvent(int eventId, int userId, const std::vector<std::u16string>& eventContent) = 0;
     };
-}
-}
-#endif // FM_IMMS_PROJECT_IPLATFORMCALLBACK_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_I_PLATFORM_CALLBACK_H

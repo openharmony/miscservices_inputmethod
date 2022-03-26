@@ -58,6 +58,6 @@ namespace MiscServices {
         virtual int32_t GetInputPattern() = 0;
         virtual void StopInput() = 0;
     };
-}
-}
-#endif // FM_IMMS_PROJECT_IINPUTDATACHANNEL_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_I_INPUT_DATA_CHANNEL_H

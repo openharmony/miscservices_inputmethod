@@ -311,5 +311,5 @@ namespace MiscServices {
         retHeight = reply.ReadInt32();
         return ErrorCode::NO_ERROR;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

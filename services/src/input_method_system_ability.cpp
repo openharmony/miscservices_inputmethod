@@ -765,7 +765,7 @@ namespace MiscServices {
             IMSA_HILOGI("End...\n");
             return ret;
         }
-        if (securityImeFlag == true) {
+        if (securityImeFlag) {
             InputMethodProperty *securityIme = setting->GetSecurityInputMethod();
             InputMethodProperty *defaultIme = setting->GetCurrentInputMethod();
             GetUserSession(userId)->ResetIme(defaultIme, securityIme);
@@ -814,7 +814,7 @@ namespace MiscServices {
             IMSA_HILOGI("End...\n");
             return ret;
         }
-        if (securityImeFlag == true) {
+        if (securityImeFlag) {
             InputMethodProperty *securityIme = setting->GetSecurityInputMethod();
             InputMethodProperty *defaultIme = setting->GetCurrentInputMethod();
             GetUserSession(userId)->ResetIme(defaultIme, securityIme);
@@ -1019,5 +1019,5 @@ namespace MiscServices {
         }
         return iface_cast<AAFwk::IAbilityManager>(abilityMsObj);
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

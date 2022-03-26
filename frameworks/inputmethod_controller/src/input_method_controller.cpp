@@ -420,5 +420,5 @@ using namespace MessageID;
         IMSA_HILOGI("InputMethodController::GetInputPattern");
         return inputPattern_;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

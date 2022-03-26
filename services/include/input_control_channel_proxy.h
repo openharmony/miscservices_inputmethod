@@ -33,11 +33,11 @@ namespace MiscServices {
         InputControlChannelProxy(const sptr<IRemoteObject> &impl);
         ~InputControlChannelProxy();
 
-        virtual void hideKeyboardSelf(int flags) override;
-        virtual bool advanceToNext(bool isCurrentIme) override;
-        virtual void setDisplayMode(int mode) override;
-        virtual void onKeyboardShowed() override;
+        void hideKeyboardSelf(int flags) override;
+        bool advanceToNext(bool isCurrentIme) override;
+        void setDisplayMode(int mode) override;
+        void onKeyboardShowed() override;
     };
-}
-}
-#endif // FM_IMMS_PROJECT_INPUTCONTROLCHANNELPROXY_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_INPUT_CONTROL_CHANNEL_PROXY_H

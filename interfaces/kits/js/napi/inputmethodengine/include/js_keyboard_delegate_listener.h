@@ -40,6 +40,7 @@ namespace MiscServices {
         void OnCursorUpdate(int32_t positionX, int32_t positionY, int height);
         void OnSelectionChange(int32_t oldBegin, int32_t oldEnd, int32_t newBegin, int32_t newEnd);
         void OnTextChange(std::string text);
+
     private:
         void AddCallback(std::string type, NativeValue* jsListenerObject);
         void CallJsMethod(std::string methodName, NativeValue* const* argv = nullptr, size_t argc = 0);
@@ -51,6 +52,6 @@ namespace MiscServices {
         std::map<std::string, std::vector<std::unique_ptr<NativeReference>>> jsCbMap_;
         std::shared_ptr<AppExecFwk::EventHandler> mainHandler_ = nullptr;
     };
-}
-}
-#endif // FM_IMMS_PROJECT_JS_KEYBOARD_DELEGATE_LISTENER_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // INTERFACE_KITS_JS_NAPI_INPUTMETHODENGINE_INCLUDE_JS_KEYBOARD_DELEGATE_LISTENER_H

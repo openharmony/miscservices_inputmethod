@@ -212,5 +212,5 @@ namespace MiscServices {
     {
         msgHandler = handler;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

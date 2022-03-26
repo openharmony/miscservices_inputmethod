@@ -41,6 +41,6 @@ namespace MiscServices {
         MessageHandler *messageHandler;
         int mIndex;
     };
-}
-}
-#endif // SERVICES_INPUTMETHODABILITYCONNECTIONSTUB_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_INPUT_METHOD_ABILITY_CONNECTION_STUB_H
