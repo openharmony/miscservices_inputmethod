@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef OHOS_MISCSERVICES_INPUTMETHOD_PARA_HANDLE_H
-#define OHOS_MISCSERVICES_INPUTMETHOD_PARA_HANDLE_H
+#ifndef ETC_PARA_INCLUDE_PARA_HANDLE_H
+#define ETC_PARA_INCLUDE_PARA_HANDLE_H
 #include <string>
 namespace OHOS {
     namespace MiscServices {

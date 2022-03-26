@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT__INPUTCHANNEL_H
-#define FM_IMMS_PROJECT__INPUTCHANNEL_H
+#ifndef SERVICES_INCLUDE_INPUT_CHANNEL_H
+#define SERVICES_INCLUDE_INPUT_CHANNEL_H
 #include <string>
 #include "parcel.h"
 #include "global.h"

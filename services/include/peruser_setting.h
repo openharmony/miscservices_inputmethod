@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_PERUSERSETTING_H
-#define FM_IMMS_PROJECT_PERUSERSETTING_H
+#ifndef SERVICES_INCLUDE_PERUSER_SETTING_H
+#define SERVICES_INCLUDE_PERUSER_SETTING_H
 
 #include <map>
 #include <string>

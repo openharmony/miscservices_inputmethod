@@ -52,13 +52,13 @@ namespace MiscServices {
     NativeValue* JsInputMethodEngine::RegisterCallback(NativeEngine* engine, NativeCallbackInfo* info)
     {
         JsInputMethodEngine* me = CheckParamsAndGetThis<JsInputMethodEngine>(engine, info);
-        return (me != nullptr) ? me->OnRegisterCallback(*engine, *info) : nullptr;
+        return (me) ? me->OnRegisterCallback(*engine, *info) : nullptr;
     }
 
     NativeValue* JsInputMethodEngine::UnRegisterCallback(NativeEngine* engine, NativeCallbackInfo* info)
     {
         JsInputMethodEngine* me = CheckParamsAndGetThis<JsInputMethodEngine>(engine, info);
-        return (me != nullptr) ? me->OnUnRegisterCallback(*engine, *info) : nullptr;
+        return (me) ? me->OnUnRegisterCallback(*engine, *info) : nullptr;
     }
 
     NativeValue* JsInputMethodEngine::OnRegisterCallback(NativeEngine& engine, NativeCallbackInfo& info)
@@ -83,7 +83,7 @@ namespace MiscServices {
     NativeValue* JsInputMethodEngine::OnUnRegisterCallback(NativeEngine& engine, NativeCallbackInfo& info)
     {
         IMSA_HILOGI("JsInputMethodEngine::OnUnRegisterCallback is called!");
-        if (info.argc == 0) {
+        if (!info.argc) {
             IMSA_HILOGI("JsInputMethodEngine::OnUnRegisterCallback Params not match");
             return engine.CreateUndefined();
         }

@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef OHOS_MISCSERVICES_JS_EDITOR_ATTRIBUTE_H
-#define OHOS_MISCSERVICES_JS_EDITOR_ATTRIBUTE_H
+#ifndef INTERFACE_KITS_JS_NAPI_INPUTMETHODENGINE_INCLUDE_JS_EDITOR_ATTRIBUTE_H
+#define INTERFACE_KITS_JS_NAPI_INPUTMETHODENGINE_INCLUDE_JS_EDITOR_ATTRIBUTE_H
 #include "native_engine/native_engine.h"
 #include "native_engine/native_value.h"
 #include "js_runtime_utils.h"

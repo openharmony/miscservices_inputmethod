@@ -36,7 +36,7 @@ namespace MiscServices {
         }
         switch (code) {
             case ON_INPUT_READY: {
-                if (msgHandler == nullptr) {
+                if (!msgHandler) {
                     break;
                 }
                 MessageParcel *parcel = new MessageParcel();
@@ -47,7 +47,7 @@ namespace MiscServices {
                 break;
             }
             case ON_INPUT_RELEASED: {
-                if (msgHandler == nullptr) {
+                if (!msgHandler) {
                     break;
                 }
                 MessageParcel *parcel = new MessageParcel();
@@ -57,7 +57,7 @@ namespace MiscServices {
                 break;
             }
             case SET_DISPLAY_MODE: {
-                if (msgHandler == nullptr) {
+                if (!msgHandler) {
                     break;
                 }
                 MessageParcel *parcel = new MessageParcel();

@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_INPUTCONTROLCHANNELSTUB_H
-#define FM_IMMS_PROJECT_INPUTCONTROLCHANNELSTUB_H
+#ifndef SERVICES_INCLUDE_INPUT_CONTROL_CHANNEL_STUB_H
+#define SERVICES_INCLUDE_INPUT_CONTROL_CHANNEL_STUB_H
 
 #include <mutex>
 #include <condition_variable>

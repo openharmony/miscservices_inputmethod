@@ -86,13 +86,13 @@ namespace MiscServices {
     {
         IMSA_HILOGI("JsInputMethodRegistryInit() is called!");
 
-        if (engine == nullptr || exportObj == nullptr) {
+        if (!engine || !exportObj) {
             IMSA_HILOGI("engine or exportObj null");
             return nullptr;
         }
 
         NativeObject* object = ConvertNativeValueTo<NativeObject>(exportObj);
-        if (object == nullptr) {
+        if (!object) {
             IMSA_HILOGI("object null");
             return nullptr;
         }

@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_INPUTMETHODPROPERTY_H
-#define FM_IMMS_PROJECT_INPUTMETHODPROPERTY_H
+#ifndef SERVICES_INCLUDE_INPUT_METHOD_PROPERTY_H
+#define SERVICES_INCLUDE_INPUT_METHOD_PROPERTY_H
 #include <vector>
 #include <string>
 #include "parcel.h"

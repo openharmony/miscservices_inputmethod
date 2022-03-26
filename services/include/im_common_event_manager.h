@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_IMCOMMONEVENTMANAGER_H
-#define FM_IMMS_PROJECT_IMCOMMONEVENTMANAGER_H
+#ifndef SERVICES_INCLUDE_IM_COMMON_EVENT_MANAGER_H
+#define SERVICES_INCLUDE_IM_COMMON_EVENT_MANAGER_H
 
 #include <mutex>
 #include "common_event_subscriber.h"

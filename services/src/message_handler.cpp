@@ -28,7 +28,7 @@ namespace MiscServices {
     MessageHandler::~MessageHandler()
     {
         std::unique_lock<std::mutex> lock(mMutex);
-        while (! mQueue.empty()) {
+        while (!mQueue.empty()) {
             Message *msg = mQueue.front();
             mQueue.pop();
             delete msg;
@@ -71,7 +71,7 @@ namespace MiscServices {
     MessageHandler *MessageHandler::Instance()
     {
         static MessageHandler *handler = nullptr;
-        if (handler == nullptr) {
+        if (!handler) {
             handler = new MessageHandler();
         }
         return handler;

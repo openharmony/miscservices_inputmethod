@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_KEYBOARDTYPE_H
-#define FM_IMMS_PROJECT_KEYBOARDTYPE_H
+#ifndef SERVICES_INCLUDE_KEYBOARD_TYPE_H
+#define SERVICES_INCLUDE_KEYBOARD_TYPE_H
 
 #include <vector>
 #include <string>

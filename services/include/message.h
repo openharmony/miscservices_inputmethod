@@ -14,8 +14,8 @@
  */
 
 /*! \file MessageHandler.h */
-#ifndef FM_IMMS_PROJECT_MESSAGE_H
-#define FM_IMMS_PROJECT_MESSAGE_H
+#ifndef SERVICES_INCLUDE_MESSAGE_H
+#define SERVICES_INCLUDE_MESSAGE_H
 
 #include "global.h"
 #include "message_parcel.h"
