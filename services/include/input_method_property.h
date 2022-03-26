@@ -40,9 +40,9 @@ namespace MiscServices {
         ~InputMethodProperty();
         InputMethodProperty(const InputMethodProperty& property);
         InputMethodProperty& operator =(const InputMethodProperty& property);
-        virtual bool Marshalling(Parcel &parcel) const override;
+        bool Marshalling(Parcel &parcel) const override;
         static InputMethodProperty *Unmarshalling(Parcel &parcel);
     };
-}
-}
-#endif // FM_IMMS_PROJECT_INPUTMETHODPROPERTY_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_INPUT_METHOD_PROPERTY_H

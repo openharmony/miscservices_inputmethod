@@ -36,12 +36,12 @@ namespace MiscServices {
         ~InputMethodSystemAbilityProxy() = default;
         DISALLOW_COPY_AND_MOVE(InputMethodSystemAbilityProxy);
 
-        virtual void prepareInput(MessageParcel& data) override;
-        virtual void releaseInput(MessageParcel& data) override;
-        virtual void startInput(MessageParcel& data) override;
-        virtual void stopInput(MessageParcel& data) override;
-        virtual void SetCoreAndAgent(MessageParcel& data) override;
-        virtual void HideCurrentInput(MessageParcel& data) override;
+        void prepareInput(MessageParcel& data) override;
+        void releaseInput(MessageParcel& data) override;
+        void startInput(MessageParcel& data) override;
+        void stopInput(MessageParcel& data) override;
+        void SetCoreAndAgent(MessageParcel& data) override;
+        void HideCurrentInput(MessageParcel& data) override;
 
         int32_t Prepare(int32_t displayId, sptr<InputClientStub> &client, sptr<InputDataChannelStub> &channel,
                         InputAttribute &attribute);
@@ -49,17 +49,17 @@ namespace MiscServices {
         int32_t Start(sptr<InputClientStub> &client);
         int32_t Stop(sptr<InputClientStub> &client);
 
-        virtual void displayOptionalInputMethod(MessageParcel& data) override;
-        virtual int32_t getDisplayMode(int32_t retMode) override;
-        virtual int32_t getKeyboardWindowHeight(int32_t retHeight) override;
-        virtual int32_t getCurrentKeyboardType(KeyboardType *retType) override;
-        virtual int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) override;
-        virtual int32_t listInputMethod(std::vector<InputMethodProperty*> *properties) override;
-        virtual int32_t listKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) override;
+        void displayOptionalInputMethod(MessageParcel& data) override;
+        int32_t getDisplayMode(int32_t retMode) override;
+        int32_t getKeyboardWindowHeight(int32_t retHeight) override;
+        int32_t getCurrentKeyboardType(KeyboardType *retType) override;
+        int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) override;
+        int32_t listInputMethod(std::vector<InputMethodProperty*> *properties) override;
+        int32_t listKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) override;
 
     private:
         static inline BrokerDelegator<InputMethodSystemAbilityProxy> delegator_;
     };
-}
-}
-#endif
+} // namespace MiscServices
+} // namespace OHOS
+#endif // FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_METHOD_SYSTEM_ABILITY_PROXY_H

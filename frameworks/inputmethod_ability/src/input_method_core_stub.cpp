@@ -304,5 +304,5 @@ namespace MiscServices {
     {
         msgHandler_ = msgHandler;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

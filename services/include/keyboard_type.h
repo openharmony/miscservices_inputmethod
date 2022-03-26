@@ -28,7 +28,7 @@ namespace MiscServices {
         KeyboardType(const KeyboardType& type);
         ~KeyboardType();
         KeyboardType& operator =(const KeyboardType& type);
-        virtual bool Marshalling(Parcel &parcel) const override;
+        bool Marshalling(Parcel &parcel) const override;
         static KeyboardType *Unmarshalling(Parcel &parcel);
         void setId(int32_t typeId);
         void setLabelId(int32_t labelId);
@@ -58,6 +58,6 @@ namespace MiscServices {
 
         const int32_t ID_NONE = 0;
     };
-}
-}
-#endif // FM_IMMS_PROJECT_KEYBOARDTYPE_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_KEYBOARD_TYPE_H

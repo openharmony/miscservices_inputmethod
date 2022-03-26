@@ -29,10 +29,11 @@ namespace OHOS {
             static void Finalizer(NativeEngine *engine, void *data, void *hint);
             static NativeValue* DisplayOptionalInputMethod(NativeEngine* engine, NativeCallbackInfo* info);
             static NativeValue* ListInputMethod(NativeEngine* engine, NativeCallbackInfo* info);
+
         private:
             NativeValue* OnDisplayOptionalInputMethod(NativeEngine& engine, NativeCallbackInfo& info);
             NativeValue* OnListInputMethod(NativeEngine& engine, NativeCallbackInfo& info);
         };
-    }
-}
-#endif // OHOS_MISCSERVICES_JS_INPUT_METHOD_SETTING_H
+    } // namespace MiscServices
+} // namespace OHOS
+#endif // INTERFACE_KITS_JS_NAPI_INPUTMETHOD_INCLUDE_JS_INPUT_METHOD_SETTING_H

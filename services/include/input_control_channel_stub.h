@@ -31,17 +31,18 @@ namespace OHOS {
     public:
         explicit InputControlChannelStub(int userId);
         virtual ~InputControlChannelStub();
-        virtual int OnRemoteRequest(uint32_t code,
+        int OnRemoteRequest(uint32_t code,
                                       MessageParcel &data,
                                       MessageParcel &reply,
                                       MessageOption &option) override;
-        virtual void hideKeyboardSelf(int flags) override;
-        virtual bool advanceToNext(bool isCurrentIme) override;
-        virtual void setDisplayMode(int mode) override;
-        virtual void onKeyboardShowed() override;
+        void hideKeyboardSelf(int flags) override;
+        bool advanceToNext(bool isCurrentIme) override;
+        void setDisplayMode(int mode) override;
+        void onKeyboardShowed() override;
 
         void ResetFlag();
         bool WaitKeyboardReady();
+
     private:
         int userId_;
 
@@ -51,6 +52,6 @@ namespace OHOS {
         bool keyboardReadyFlag = false;
         const int32_t sleepTime = 300;
     };
-}
-}
-#endif // FM_IMMS_PROJECT_INPUTCONTROLCHANNELSTUB_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_INPUT_CONTROL_CHANNEL_STUB_H

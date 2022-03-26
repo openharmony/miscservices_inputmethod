@@ -172,7 +172,7 @@ namespace MiscServices {
                 break;
             }
         }
-        if (flag == false) {
+        if (!flag) {
             imeList.push_back(imeStr);
         }
 
@@ -200,7 +200,7 @@ namespace MiscServices {
                 break;
             }
         }
-        if (flag == true) {
+        if (flag) {
             std::u16string value = BuildString(imeList, DELIM_IME);
             SetValue(ENABLED_INPUT_METHODS_TAG, value);
         }
@@ -227,7 +227,7 @@ namespace MiscServices {
             }
         }
         tmpVector.clear();
-        if (flag == false) {
+        if (!flag) {
             return retValue;
         }
 
@@ -340,5 +340,5 @@ namespace MiscServices {
         }
         return retValue;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

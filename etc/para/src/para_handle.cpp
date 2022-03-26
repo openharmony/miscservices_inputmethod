@@ -44,5 +44,5 @@ namespace OHOS {
             SetDefaultIme(userId, DEFAULT_IME_NAME);
             return DEFAULT_IME_NAME;
         }
-    }
-}
+    } // namespace MiscServices
+} // namespace OHOS

@@ -257,8 +257,8 @@ namespace MiscServices {
             std::map<sptr<IRemoteObject>, ClientInfo*>::const_iterator it;
             bool flag = false;
             for (it = mapClients.cbegin(); it != mapClients.cend(); ++it) {
-                if ((i == DEFAULT_IME && it->second->attribute.GetSecurityFlag() == false) ||
-                        (i == SECURITY_IME && it->second->attribute.GetSecurityFlag() == true)) {
+                if ((i == DEFAULT_IME && !it->second->attribute.GetSecurityFlag()) ||
+                        (i == SECURITY_IME && it->second->attribute.GetSecurityFlag())) {
                     flag = true;
                     break;
                 }
@@ -607,7 +607,7 @@ namespace MiscServices {
                 break;
             }
         }
-        if (flag == false) {
+        if (!flag) {
             IMSA_HILOGW("Aborted! The client died is not found! [%{public}d]\n", userId_);
             return;
         }
@@ -936,7 +936,7 @@ namespace MiscServices {
     {
         static int errorNum[2] = {0, 0};
         static time_t past[2] = {time(0), time(0)};
-        if (resetFlag == true) {
+        if (resetFlag) {
             errorNum[imeIndex] = 0;
             past[imeIndex] = 0;
             return 0;
@@ -1026,7 +1026,7 @@ namespace MiscServices {
                     }
                 }
             }
-            if (flag == false) {
+            if (!flag) {
                 IMSA_HILOGW("The current keyboard type is not found in the current IME. Reset it!");
                 type = GetKeyboardType(imeIndex, currentKbdIndex[imeIndex]);
             } else if (imsCore[imeIndex] == imsCore[1 - imeIndex]) {
@@ -1071,7 +1071,7 @@ namespace MiscServices {
             return -1;
         }
 
-        if (clientInfo->attribute.GetSecurityFlag() == true) {
+        if (clientInfo->attribute.GetSecurityFlag()) {
             return SECURITY_IME;
         }
         return DEFAULT_IME;
@@ -1264,7 +1264,7 @@ namespace MiscServices {
         imsCore[0] = core;
 
         sptr<IRemoteObject> agentObject = data->ReadRemoteObject();
-        sptr<InputMethodAgentProxy> proxy=new InputMethodAgentProxy(agentObject);
+        sptr<InputMethodAgentProxy> proxy = new InputMethodAgentProxy(agentObject);
         imsAgent = proxy;
 
         InitInputControlChannel();
@@ -1321,5 +1321,5 @@ namespace MiscServices {
             imsCore[0]->StopInputService(imeId);
         }
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

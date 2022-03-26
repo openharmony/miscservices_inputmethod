@@ -46,6 +46,7 @@ namespace MiscServices {
         RemoteObjectDeathRecipient(int userId, int msgId);
         ~RemoteObjectDeathRecipient();
         void OnRemoteDied(const wptr<IRemoteObject>& who) override;
+
     private:
         int userId_; // the id of the user to whom the object is linking
         int msgId_; // the message id can be  MessageID::MSG_ID_CLIENT_DIED and MessageID::MSG_ID_IMS_DIED
@@ -114,6 +115,7 @@ namespace MiscServices {
         void JoinWorkThread();
         void StopInputService(std::string imeId);
         static bool StartInputService();
+
     private:
         int userId_; // the id of the user to whom the object is linking
         int userState; // the state of the user to whom the object is linking
@@ -186,6 +188,6 @@ namespace MiscServices {
         void InitInputControlChannel();
         void SendAgentToAllClients();
     };
-}
-}
-#endif // FM_IMMS_PROJECT_PERUSERSESSION_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_PERUSER_SESSION_H

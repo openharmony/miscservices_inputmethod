@@ -82,5 +82,5 @@ namespace MiscServices {
         Remote()->SendRequest(ON_KEYBOARD_SHOWED, data, reply, option);
         IMSA_HILOGI("InputControlChannelProxy::onKeyboardShowed.");
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

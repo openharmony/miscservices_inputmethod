@@ -66,6 +66,6 @@ namespace MiscServices {
         virtual int32_t listInputMethod(std::vector<InputMethodProperty*> *properties) = 0;
         virtual int32_t listKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) = 0;
     };
-}
-}
-#endif // FM_IMMS_PROJECT_IINPUTMETHODSYSTEMABILITY_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_I_INPUT_METHOD_SYSTEM_ABILITY_H

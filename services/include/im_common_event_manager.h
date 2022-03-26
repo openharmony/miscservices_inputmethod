@@ -46,4 +46,4 @@ private:
 };
 } // namespace MiscServices
 } // namespace OHOS
-#endif // FM_IMMS_PROJECT_IPLATFORMCALLBACK_H
+#endif // SERVICES_INCLUDE_IM_COMMON_EVENT_MANAGER_H

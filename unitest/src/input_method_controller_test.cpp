@@ -231,5 +231,5 @@ namespace MiscServices {
         sleep(waitForStatusOk);
         IMSA_HILOGI("IMC TEST OVER");
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS

@@ -57,6 +57,6 @@ namespace OHOS {
         virtual int32_t getInputMethodSetting(int userId, InputMethodSetting *inputMethodSetting) = 0;
         virtual int32_t setInputMethodSetting(int userId, const InputMethodSetting& inputMethodSetting) = 0;
     };
-}
-}
-#endif // FM_IMMS_PROJECT_IPLATFORMAPI_H
+} // namespace MiscServices
+} // namespace OHOS
+#endif // SERVICES_INCLUDE_I_PLATFORM_API_H

@@ -182,5 +182,5 @@ namespace MiscServices {
     {
         return mCustomizedValue;
     }
-}
-}
+} // namespace MiscServices
+} // namespace OHOS
