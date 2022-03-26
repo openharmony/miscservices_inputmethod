@@ -339,7 +339,7 @@ namespace MiscServices {
         }
 
         PerUserSession *userSession = GetUserSession(userId);
-        if (user!session) {
+        if (!userSession) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         KeyboardType *type = userSession->GetCurrentKeyboardType();
@@ -540,7 +540,7 @@ namespace MiscServices {
                         Message *destMsg = new Message(MSG_ID_EXIT_SERVICE, nullptr);
                         handler->SendMessage(destMsg);
                         PerUserSession *userSession = GetUserSession(it->first);
-                        if (user!session) {
+                        if (!userSession) {
                             IMSA_HILOGE("getUserSession fail.");
                             return;
                         }
