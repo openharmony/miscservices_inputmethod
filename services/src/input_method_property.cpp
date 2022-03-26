@@ -103,7 +103,7 @@ namespace MiscServices {
             return false;
         int32_t size = (int32_t)mTypes.size();
         parcel.WriteInt32(size);
-        if (size == 0) {
+        if (!size) {
             return true;
         }
         for (int i = 0; i < size; i++) {
@@ -132,7 +132,7 @@ namespace MiscServices {
         info->description = parcel.ReadString16();
 
         int32_t size = parcel.ReadInt32();
-        if (size == 0)
+        if (!size)
             return info;
         for (int i = 0; i < size; i++) {
             info->mTypes.push_back(parcel.ReadParcelable<KeyboardType>());

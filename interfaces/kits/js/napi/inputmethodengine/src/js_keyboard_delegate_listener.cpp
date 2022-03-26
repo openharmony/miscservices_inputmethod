@@ -104,7 +104,7 @@ namespace MiscServices {
     void JsKeyboardDelegateListener::CallJsMethod(std::string methodName, NativeValue* const* argv, size_t argc)
     {
         IMSA_HILOGI("JsKeyboardDelegateListener::CallJsMethod");
-        if (engine_ == nullptr) {
+        if (!engine_) {
             IMSA_HILOGI("engine_ nullptr");
             return;
         }
@@ -123,7 +123,7 @@ namespace MiscServices {
         NativeValue* const* argv, size_t argc)
     {
         IMSA_HILOGI("JsKeyboardDelegateListener::CallJsMethodReturnBool");
-        if (engine_ == nullptr) {
+        if (!engine_) {
             IMSA_HILOGI("engine_ nullptr");
             return false;
         }
@@ -153,7 +153,7 @@ namespace MiscServices {
         auto task = [this, keyCode, keyStatus, &result] () {
             NativeValue* nativeValue = engine_->CreateObject();
             NativeObject* object = ConvertNativeValueTo<NativeObject>(nativeValue);
-            if (object == nullptr) {
+            if (!object) {
                 IMSA_HILOGI("Failed to convert rect to jsObject");
                 return;
             }

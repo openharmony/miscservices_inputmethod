@@ -120,7 +120,7 @@ namespace MiscServices {
         IMSA_HILOGI("InputMethodSystemAbilityProxy::SetCoreAndAgent");
 
         auto remote = Remote();
-        if (remote == nullptr) {
+        if (!remote) {
             return;
         }
         MessageParcel reply;
@@ -307,7 +307,7 @@ namespace MiscServices {
 
     int32_t InputMethodSystemAbilityProxy::getCurrentKeyboardType(KeyboardType *retType)
     {
-        if (retType == nullptr) {
+        if (!retType) {
             return ERROR_NULL_POINTER;
         }
 
@@ -329,7 +329,7 @@ namespace MiscServices {
         }
 
         KeyboardType *keyType = reply.ReadParcelable<KeyboardType>();
-        if (keyType == nullptr) {
+        if (!keyType) {
             return ERROR_NULL_POINTER;
         }
         *retType = *keyType;
@@ -340,7 +340,7 @@ namespace MiscServices {
 
     int32_t InputMethodSystemAbilityProxy::listInputMethodEnabled(std::vector<InputMethodProperty*> *properties)
     {
-        if (properties == nullptr) {
+        if (!properties) {
             return ERROR_NULL_POINTER;
         }
 
@@ -373,7 +373,7 @@ namespace MiscServices {
 
     int32_t InputMethodSystemAbilityProxy::listInputMethod(std::vector<InputMethodProperty*> *properties)
     {
-        if (properties == nullptr) {
+        if (!properties) {
             return ERROR_NULL_POINTER;
         }
 
@@ -408,7 +408,7 @@ namespace MiscServices {
     int32_t InputMethodSystemAbilityProxy::listKeyboardType(const std::u16string& imeId,
         std::vector<KeyboardType*> *types)
     {
-        if (types == nullptr) {
+        if (!types) {
             return ERROR_NULL_POINTER;
         }
 

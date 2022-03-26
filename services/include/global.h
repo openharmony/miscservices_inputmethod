@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_GLOBAL_H
-#define FM_IMMS_PROJECT_GLOBAL_H
+#ifndef SERVICES_INCLUDE_GLOBAL_H
+#define SERVICES_INCLUDE_GLOBAL_H
 
 #include <errno.h>
 #include <time.h>
@@ -30,8 +30,6 @@ namespace MiscServices {
 #define PLATFORM   OHOS
 
 using BRemoteObject = IPCObjectStub;
-
-#define INPUTMETHOD_DEBUG 0
 
 #define LOG_INFO(fmt, args...) \
     LogTimeStamp(); printf("I %s:%d  %s - " fmt, basename(__FILE__), __LINE__, __FUNCTION__, ##args)

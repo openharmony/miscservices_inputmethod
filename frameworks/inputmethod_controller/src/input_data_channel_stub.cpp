@@ -24,7 +24,7 @@ namespace MiscServices {
 
     InputDataChannelStub::~InputDataChannelStub()
     {
-        if (msgHandler != nullptr) {
+        if (msgHandler) {
             delete msgHandler;
             msgHandler = nullptr;
         }
@@ -103,7 +103,7 @@ namespace MiscServices {
     bool InputDataChannelStub::InsertText(const std::u16string& text)
     {
         IMSA_HILOGI("InputDataChannelStub::InsertText");
-        if (msgHandler != nullptr) {
+        if (msgHandler) {
             MessageParcel *parcel = new MessageParcel;
             parcel->WriteString16(text);
             Message *msg = new Message(MessageID::MSG_ID_INSERT_CHAR, parcel);
@@ -117,7 +117,7 @@ namespace MiscServices {
     bool InputDataChannelStub::DeleteForward(int32_t length)
     {
         IMSA_HILOGI("InputDataChannelStub::DeleteForward");
-        if (msgHandler == nullptr) {
+        if (!msgHandler) {
             return false;
         }
         MessageParcel *parcel = new MessageParcel;
@@ -131,7 +131,7 @@ namespace MiscServices {
     bool InputDataChannelStub::DeleteBackward(int32_t length)
     {
         IMSA_HILOGI("InputDataChannelStub::DeleteBackward");
-        if (msgHandler != nullptr) {
+        if (msgHandler) {
             MessageParcel *parcel = new MessageParcel;
             parcel->WriteInt32(length);
             Message *msg = new Message(MessageID::MSG_ID_DELETE_BACKWARD, parcel);
@@ -178,7 +178,7 @@ namespace MiscServices {
     void InputDataChannelStub::SendKeyboardStatus(int32_t status)
     {
         IMSA_HILOGI("InputDataChannelStub::SendKeyboardStatus");
-        if (msgHandler != nullptr) {
+        if (msgHandler) {
             MessageParcel *parcel = new MessageParcel;
             parcel->WriteInt32(status);
             Message *msg = new Message(MessageID::MSG_ID_SEND_KEYBOARD_STATUS, parcel);
@@ -189,7 +189,7 @@ namespace MiscServices {
     void InputDataChannelStub::SendFunctionKey(int32_t funcKey)
     {
         IMSA_HILOGI("InputDataChannelStub::SendFunctionKey");
-        if (msgHandler != nullptr) {
+        if (msgHandler) {
             MessageParcel *parcel = new MessageParcel;
             parcel->WriteInt32(funcKey);
             Message *msg = new Message(MessageID::MSG_ID_SEND_FUNCTION_KEY, parcel);
@@ -200,7 +200,7 @@ namespace MiscServices {
     void InputDataChannelStub::MoveCursor(int32_t keyCode)
     {
         IMSA_HILOGI("InputDataChannelStub::MoveCursor");
-        if (msgHandler != nullptr) {
+        if (msgHandler) {
             MessageParcel *parcel = new MessageParcel;
             parcel->WriteInt32(keyCode);
             Message *msg = new Message(MessageID::MSG_ID_MOVE_CURSOR, parcel);

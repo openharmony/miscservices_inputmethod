@@ -14,8 +14,8 @@
  */
 
 /*! \file MessageHandler.h */
-#ifndef FM_IMMS_PROJECT_MESSAGEHANDLER_H
-#define FM_IMMS_PROJECT_MESSAGEHANDLER_H
+#ifndef SERVICES_INCLUDE_MESSAGE_HANDLER_H
+#define SERVICES_INCLUDE_MESSAGE_HANDLER_H
 
 #include <queue>
 #include <mutex>

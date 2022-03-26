@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef OHOS_MISCSERVICES_JS_INPUT_METHOD_CONTROLLER_H
-#define OHOS_MISCSERVICES_JS_INPUT_METHOD_CONTROLLER_H
+#ifndef INTERFACE_KITS_JS_NAPI_INPUTMETHOD_INCLUDE_JS_INPUT_METHOD_CONTROLLER_H
+#define INTERFACE_KITS_JS_NAPI_INPUTMETHOD_INCLUDE_JS_INPUT_METHOD_CONTROLLER_H
 #include "native_engine/native_engine.h"
 #include "native_engine/native_value.h"
 #include "global.h"

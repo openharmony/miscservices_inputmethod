@@ -43,7 +43,7 @@ namespace MiscServices {
     Platform *Platform::Instance()
     {
         static Platform *platform = nullptr;
-        if (platform == nullptr) {
+        if (!platform) {
             platform = new Platform();
         }
         return platform;
@@ -58,7 +58,7 @@ namespace MiscServices {
     sptr<IInputMethodCore> Platform::BindInputMethodService(int userId, const std::u16string& packageName,
                                                             const std::u16string& intention)
     {
-        if (platformApi == nullptr) {
+        if (!platformApi) {
             return nullptr;
         }
         return platformApi->bindInputMethodService(packageName, intention, userId);
@@ -71,7 +71,7 @@ namespace MiscServices {
     */
     int Platform::UnbindInputMethodService(int userId, const std::u16string& packageName)
     {
-        if (platformApi == nullptr) {
+        if (!platformApi) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         return platformApi->unbindInputMethodService(userId, packageName);
@@ -85,7 +85,7 @@ namespace MiscServices {
     */
     sptr < IRemoteObject > Platform::CreateWindowToken(int userId, int displayId, const std::u16string& packageName)
     {
-        if (platformApi == nullptr) {
+        if (!platformApi) {
             return nullptr;
         }
         return platformApi->createWindowToken(userId, displayId, packageName);
@@ -98,7 +98,7 @@ namespace MiscServices {
     */
     int Platform::DestroyWindowToken(int userId, const std::u16string& packageName)
     {
-        if (platformApi == nullptr) {
+        if (!platformApi) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         return platformApi->destroyWindowToken(userId, packageName);
@@ -123,7 +123,7 @@ namespace MiscServices {
     int Platform::GetInputMethodProperty(int userId, const std::u16string& packageName,
                                          InputMethodProperty *inputMethodProperty)
     {
-        if (platformApi == nullptr) {
+        if (!platformApi) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         return platformApi->getInputMethodProperty(userId, packageName, inputMethodProperty);
@@ -147,7 +147,7 @@ namespace MiscServices {
     */
     int Platform::SetInputMethodSetting(int userId, const InputMethodSetting& inputMethodSetting)
     {
-        if (platformApi == nullptr) {
+        if (!platformApi) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         return platformApi->setInputMethodSetting(userId, inputMethodSetting);

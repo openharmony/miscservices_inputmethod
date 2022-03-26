@@ -33,7 +33,7 @@ namespace MiscServices {
     NativeValue* JsKeyboardController::HideKeyboardSelf(NativeEngine* engine, NativeCallbackInfo* info)
     {
         JsKeyboardController* me = CheckParamsAndGetThis<JsKeyboardController>(engine, info);
-        return (me != nullptr) ? me->OnHideKeyboardSelf(*engine, *info) : nullptr;
+        return (me) ? me->OnHideKeyboardSelf(*engine, *info) : nullptr;
     }
 
     NativeValue* JsKeyboardController::OnHideKeyboardSelf(NativeEngine& engine, NativeCallbackInfo& info)

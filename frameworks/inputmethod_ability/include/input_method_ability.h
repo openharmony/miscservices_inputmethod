@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_INPUTMETHODABILITY_H
-#define FM_IMMS_PROJECT_INPUTMETHODABILITY_H
+#ifndef FRAMEWORKS_INPUTMETHOD_ABILITY_INCLUDE_INPUT_METHOD_ABILITY_H
+#define FRAMEWORKS_INPUTMETHOD_ABILITY_INCLUDE_INPUT_METHOD_ABILITY_H
 
 #include <thread>
 #include "js_input_method_engine_listener.h"

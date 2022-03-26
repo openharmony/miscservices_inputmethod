@@ -106,7 +106,7 @@ namespace MiscServices {
     void JsInputMethodEngineListener::CallJsMethod(std::string methodName, NativeValue* const* argv, size_t argc)
     {
         IMSA_HILOGI("JsInputMethodEngineListener::CallJsMethod");
-        if (engine_ == nullptr) {
+        if (!engine_) {
             IMSA_HILOGI("engine_ nullptr");
             return;
         }
@@ -125,7 +125,7 @@ namespace MiscServices {
                                                              NativeValue* const* argv, size_t argc)
     {
         IMSA_HILOGI("JsInputMethodEngineListener::CallJsMethodReturnBool");
-        if (engine_ == nullptr) {
+        if (!engine_) {
             IMSA_HILOGI("engine_ nullptr");
             return false;
         }
@@ -154,7 +154,7 @@ namespace MiscServices {
         auto task = [this, isShow] () {
             NativeValue* nativeValue = engine_->CreateObject();
             NativeObject* object = ConvertNativeValueTo < NativeObject >(nativeValue);
-            if (object == nullptr) {
+            if (!object) {
                 IMSA_HILOGI("Failed to convert rect to jsObject");
                 return;
             }

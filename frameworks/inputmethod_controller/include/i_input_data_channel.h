@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_IINPUTDATACHANNEL_H
-#define FM_IMMS_PROJECT_IINPUTDATACHANNEL_H
+#ifndef FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_I_INPUT_DATA_CHANNEL_H
+#define FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_I_INPUT_DATA_CHANNEL_H
 #include <errors.h>
 #include "iremote_broker.h"
 #include "global.h"

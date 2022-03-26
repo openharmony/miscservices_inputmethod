@@ -89,10 +89,7 @@ namespace MiscServices {
     */
     bool InputAttribute::GetSecurityFlag()
     {
-        if (inputPattern == PATTERN_PASSWORD) {
-            return true;
-        }
-        return false;
+        return inputPattern == PATTERN_PASSWORD;
     }
 
     /*! Set input pattern.

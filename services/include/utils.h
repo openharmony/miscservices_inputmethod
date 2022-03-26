@@ -15,8 +15,8 @@
 
 /*! \file utils.h */
 
-#ifndef FM_IMMS_PROJECT_UTILS_H
-#define FM_IMMS_PROJECT_UTILS_H
+#ifndef SERVICES_INCLUDE_UTILS_H
+#define SERVICES_INCLUDE_UTILS_H
 
 #include <string>
 #include <codecvt>
