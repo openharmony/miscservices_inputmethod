@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_PLATFORMCALLBACK_SK_H
-#define FM_IMMS_PROJECT_PLATFORMCALLBACK_SK_H
+#ifndef SERVICES_INCLUDE_PLATFORM_CALLBACK_STUB_H
+#define SERVICES_INCLUDE_PLATFORM_CALLBACK_STUB_H
 
 #include <string>
 #include "iremote_stub.h"

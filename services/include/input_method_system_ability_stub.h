@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_INPUTMETHODSYSTEMABILITY_SK_H
-#define FM_IMMS_PROJECT_INPUTMETHODSYSTEMABILITY_SK_H
+#ifndef SERVICES_INCLUDE_INPUT_METHOD_SYSTEM_ABILITY_STUB_H
+#define SERVICES_INCLUDE_INPUT_METHOD_SYSTEM_ABILITY_STUB_H
 #include <errors.h>
 #include "refbase.h"
 #include "i_input_method_system_ability.h"

@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_INPUTCONTROLCHANNELPROXY_H
-#define FM_IMMS_PROJECT_INPUTCONTROLCHANNELPROXY_H
+#ifndef SERVICES_INCLUDE_INPUT_CONTROL_CHANNEL_PROXY_H
+#define SERVICES_INCLUDE_INPUT_CONTROL_CHANNEL_PROXY_H
 
 #include "parcel.h"
 #include "iremote_broker.h"

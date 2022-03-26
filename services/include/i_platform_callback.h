@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_IPLATFORMCALLBACK_H
-#define FM_IMMS_PROJECT_IPLATFORMCALLBACK_H
+#ifndef SERVICES_INCLUDE_I_PLATFORM_CALLBACK_H
+#define SERVICES_INCLUDE_I_PLATFORM_CALLBACK_H
 
 #include <vector>
 #include <string>

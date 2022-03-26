@@ -97,9 +97,9 @@ namespace MiscServices {
 
     sptr<InputMethodSystemAbility> InputMethodSystemAbility::GetInstance()
     {
-        if (instance_ == nullptr) {
+        if (!instance_) {
             std::lock_guard<std::mutex> autoLock(instanceLock_);
-            if (instance_ == nullptr) {
+            if (!instance_) {
                 instance_ = new InputMethodSystemAbility;
             }
         }
@@ -156,7 +156,7 @@ namespace MiscServices {
     void InputMethodSystemAbility::InitServiceHandler()
     {
         IMSA_HILOGI("InitServiceHandler started.");
-        if (serviceHandler_ != nullptr) {
+        if (serviceHandler_) {
             IMSA_HILOGI("InitServiceHandler already init.");
             return;
         }
@@ -209,7 +209,7 @@ namespace MiscServices {
         if (it == msgHandlers.end()) {
             IMSA_HILOGE("InputMethodSystemAbility::StartInputService() need start handler");
             MessageHandler *handler = new MessageHandler();
-            if (session != nullptr) {
+            if (session) {
                 IMSA_HILOGE("InputMethodSystemAbility::OnPrepareInput session is not nullptr");
                 session->CreateWorkThread(*handler);
                 msgHandlers.insert(std::pair<int32_t, MessageHandler*>(MAIN_USER_ID, handler));
@@ -218,13 +218,13 @@ namespace MiscServices {
 
         bool isStartSuccess = false;
         sptr<AAFwk::IAbilityManager> abms = GetAbilityManagerService();
-        if (abms != nullptr) {
+        if (abms) {
             AAFwk::Want want;
             want.SetAction("action.system.inputmethod");
             std::string::size_type pos = imeId.find("/");
             want.SetElementName(imeId.substr(0, pos), imeId.substr(pos + 1));
             int32_t result = abms->StartAbility(want);
-            if (result != 0) {
+            if (result) {
                 IMSA_HILOGE("InputMethodSystemAbility::StartInputService fail. result = %{public}d", result);
                 isStartSuccess = false;
             } else {
@@ -243,7 +243,7 @@ namespace MiscServices {
     {
         IMSA_HILOGE("InputMethodSystemAbility::StopInputService(%{public}s)", imeId.c_str());
         PerUserSession *session = GetUserSession(MAIN_USER_ID);
-        if (session == nullptr){
+        if (!session){
             IMSA_HILOGE("InputMethodSystemAbility::StopInputService abort session is nullptr");
             return;
         }
@@ -259,7 +259,7 @@ namespace MiscServices {
     int32_t InputMethodSystemAbility::GetUserState(int32_t userId)
     {
         PerUserSetting *setting = GetUserSetting(userId);
-        if (setting == nullptr) {
+        if (!setting) {
             return UserState::USER_STATE_NOT_AVAILABLE;
         }
         return setting->GetUserState();
@@ -290,7 +290,7 @@ namespace MiscServices {
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
         PerUserSetting *setting = GetUserSetting(userId);
-        if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
+        if (!setting || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
             IMSA_HILOGE("%s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_UNLOCKED), userId);
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
@@ -309,7 +309,7 @@ namespace MiscServices {
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
         PerUserSetting *setting = GetUserSetting(userId);
-        if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
+        if (!setting || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
             IMSA_HILOGE("%s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_UNLOCKED), userId);
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
@@ -333,17 +333,17 @@ namespace MiscServices {
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
         PerUserSetting *setting = GetUserSetting(userId);
-        if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
+        if (!setting || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
             IMSA_HILOGE("%s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_UNLOCKED), userId);
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
 
         PerUserSession *userSession = GetUserSession(userId);
-        if (userSession == nullptr) {
+        if (user!session) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         KeyboardType *type = userSession->GetCurrentKeyboardType();
-        if (type == nullptr) {
+        if (!type) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         *retType = *type;
@@ -361,7 +361,7 @@ namespace MiscServices {
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
         PerUserSetting *setting = GetUserSetting(userId);
-        if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
+        if (!setting || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
             IMSA_HILOGE("%s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_UNLOCKED), userId);
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
@@ -400,7 +400,7 @@ namespace MiscServices {
         }
         for (auto extension : extensionInfos) {
             std::shared_ptr<Global::Resource::ResourceManager> resourceManager(Global::Resource::CreateResourceManager());
-            if (resourceManager == nullptr) {
+            if (!resourceManager) {
                 IMSA_HILOGI("InputMethodSystemAbility::listInputMethodByUserId resourcemanager is nullptr");
                 break;
             }
@@ -434,7 +434,7 @@ namespace MiscServices {
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
         PerUserSetting *setting = GetUserSetting(userId);
-        if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
+        if (!setting || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
             IMSA_HILOGE("%s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_UNLOCKED), userId);
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
@@ -540,7 +540,7 @@ namespace MiscServices {
                         Message *destMsg = new Message(MSG_ID_EXIT_SERVICE, nullptr);
                         handler->SendMessage(destMsg);
                         PerUserSession *userSession = GetUserSession(it->first);
-                        if (userSession == nullptr) {
+                        if (user!session) {
                             IMSA_HILOGE("getUserSession fail.");
                             return;
                         }
@@ -568,7 +568,7 @@ namespace MiscServices {
     int32_t InputMethodSystemAbility::OnUserStarted(const Message *msg)
     {
         IMSA_HILOGI("InputMethodSystemAbility::OnUserStarted Start...\n");
-        if (msg->msgContent_ == nullptr) {
+        if (!msg->msgContent_) {
             IMSA_HILOGE("Aborted! %s\n", ErrorCode::ToString(ErrorCode::ERROR_BAD_PARAMETERS));
             return ErrorCode::ERROR_BAD_PARAMETERS;
         }
@@ -585,7 +585,7 @@ namespace MiscServices {
         }
 
         PerUserSetting *setting = GetUserSetting(userId);
-        if (setting != nullptr) {
+        if (setting) {
             IMSA_HILOGE("Aborted! %s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_ALREADY_STARTED), userId);
             return ErrorCode::ERROR_USER_ALREADY_STARTED;
         }
@@ -607,14 +607,14 @@ namespace MiscServices {
     int32_t InputMethodSystemAbility::OnUserStopped(const Message *msg)
     {
         IMSA_HILOGI("Start...\n");
-        if (msg->msgContent_ == nullptr) {
+        if (!msg->msgContent_) {
             IMSA_HILOGE("Aborted! %s\n", ErrorCode::ToString(ErrorCode::ERROR_BAD_PARAMETERS));
             return ErrorCode::ERROR_BAD_PARAMETERS;
         }
         int32_t userId = msg->msgContent_->ReadInt32();
         PerUserSetting *setting = GetUserSetting(userId);
         PerUserSession *session = GetUserSession(userId);
-        if (setting == nullptr || session == nullptr) {
+        if (!setting || !session) {
             IMSA_HILOGE("Aborted! %s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_STARTED), userId);
             return ErrorCode::ERROR_USER_NOT_STARTED;
         }
@@ -643,14 +643,14 @@ namespace MiscServices {
     int32_t InputMethodSystemAbility::OnUserUnlocked(const Message *msg)
     {
         IMSA_HILOGI("Start...\n");
-        if (msg->msgContent_ == nullptr) {
+        if (!msg->msgContent_) {
             IMSA_HILOGE("Aborted! %s\n", ErrorCode::ToString(ErrorCode::ERROR_BAD_PARAMETERS));
             return ErrorCode::ERROR_BAD_PARAMETERS;
         }
         int32_t userId = msg->msgContent_->ReadInt32();
         PerUserSetting *setting = GetUserSetting(userId);
         PerUserSession *session = GetUserSession(userId);
-        if (setting == nullptr || session == nullptr) {
+        if (!setting || !session) {
             IMSA_HILOGE("Aborted! %s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_STARTED), userId);
             return ErrorCode::ERROR_USER_NOT_STARTED;
         }
@@ -678,13 +678,13 @@ namespace MiscServices {
     int32_t InputMethodSystemAbility::OnUserLocked(const Message *msg)
     {
         IMSA_HILOGI("Start...\n");
-        if (msg->msgContent_ == nullptr) {
+        if (!msg->msgContent_) {
             IMSA_HILOGE("Aborted! %s\n", ErrorCode::ToString(ErrorCode::ERROR_BAD_PARAMETERS));
             return ErrorCode::ERROR_BAD_PARAMETERS;
         }
         int32_t userId = msg->msgContent_->ReadInt32();
         PerUserSetting *setting = GetUserSetting(userId);
-        if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
+        if (!setting || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
             IMSA_HILOGE("Aborted! %s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_UNLOCKED), userId);
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
@@ -692,10 +692,10 @@ namespace MiscServices {
         if (it != msgHandlers.end()) {
             MessageHandler *handler = it->second;
             Message *destMsg = new Message(MSG_ID_USER_LOCK, nullptr);
-            if (destMsg != nullptr) {
+            if (destMsg) {
                 handler->SendMessage(destMsg);
                 PerUserSession *userSession = GetUserSession(userId);
-                if (userSession != nullptr) {
+                if (userSession) {
                     userSession->JoinWorkThread();
                 }
                 msgHandlers.erase(it);
@@ -719,10 +719,10 @@ namespace MiscServices {
         MessageParcel *data = msg->msgContent_;
         int32_t userId = data->ReadInt32();
         PerUserSetting *setting = GetUserSetting(MAIN_USER_ID);
-        if (setting == nullptr) {
+        if (!setting) {
             IMSA_HILOGE("InputMethodSystemAbility::OnHandleMessage Aborted! setting is nullptr");
         }
-        if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
+        if (!setting || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
             IMSA_HILOGE("InputMethodSystemAbility::OnHandleMessage Aborted! userId = %{public}d,", userId);
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
@@ -755,7 +755,7 @@ namespace MiscServices {
         }
         std::u16string packageName = data->ReadString16();
         PerUserSetting *setting = GetUserSetting(userId);
-        if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
+        if (!setting || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
             IMSA_HILOGE("Aborted! %s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_UNLOCKED), userId);
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
@@ -785,7 +785,7 @@ namespace MiscServices {
     {
         IMSA_HILOGI("Start...\n");
         MessageParcel *data = msg->msgContent_;
-        if (data == nullptr) {
+        if (!data) {
             IMSA_HILOGI("InputMethodSystemAbility::OnPackageRemoved data is nullptr");
             return ErrorCode::ERROR_NULL_POINTER;
         }
@@ -798,12 +798,12 @@ namespace MiscServices {
         }
         std::u16string packageName = data->ReadString16();
         PerUserSetting *setting = GetUserSetting(userId);
-        if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
+        if (!setting || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
             IMSA_HILOGE("Aborted! %s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_UNLOCKED), userId);
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
         PerUserSession *session = GetUserSession(userId);
-        if (session == nullptr) {
+        if (!session) {
             IMSA_HILOGI("InputMethodSystemAbility::OnPackageRemoved session is nullptr");
             return ErrorCode::ERROR_NULL_POINTER;
         }
@@ -842,12 +842,12 @@ namespace MiscServices {
         std::u16string updatedKey = data->ReadString16();
         std::u16string updatedValue = data->ReadString16();
         PerUserSetting *setting = GetUserSetting(userId);
-        if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
+        if (!setting || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
             IMSA_HILOGE("Aborted! %s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_UNLOCKED), userId);
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
         PerUserSession *session = GetUserSession(userId);
-        if (session == nullptr) {
+        if (!session) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         int32_t ret = session->OnSettingChanged(updatedKey, updatedValue);
@@ -864,7 +864,7 @@ namespace MiscServices {
         }
 
         ret = setting->OnSettingChanged(updatedKey, updatedValue);
-        if (ret != 0) {
+        if (ret) {
             IMSA_HILOGI("End...No need to update\n");
             return ret;
         }
@@ -881,7 +881,7 @@ namespace MiscServices {
         IMSA_HILOGI("InputMethodSystemAbility::OnDisplayOptionalInputMethod");
         std::vector<InputMethodProperty*> properties;
         listInputMethodByUserId(userId, &properties);
-        if (properties.size() == 0) {
+        if (!properties.size()) {
             IMSA_HILOGI("InputMethodSystemAbility::OnDisplayOptionalInputMethod has no ime");
             return;
         }
@@ -899,11 +899,11 @@ namespace MiscServices {
             std::string imeId = Str16ToStr8(property->mPackageName) + "/" + Str16ToStr8(property->mAbilityName);
             params += "{\"ime\": \"" + imeId + "\",";
             params += "\"labelId\": \"" + std::to_string(property->labelId) + "\",";
-            params += "\"discriptionId\": \"" + std::to_string(property->descriptionId) + "\",";
+            params += "\"descriptionId\": \"" + std::to_string(property->descriptionId) + "\",";
             std::string isDefaultIme = defaultIme == imeId ? "true" : "false";
             params += "\"isDefaultIme\": \"" + isDefaultIme + "\",";
             params += "\"label\": \"" + Str16ToStr8(property->label) + "\",";
-            params += "\"discription\": \"" + Str16ToStr8(property->description) + "\"";
+            params += "\"description\": \"" + Str16ToStr8(property->description) + "\"";
         }
         params += "}]}";
 
@@ -951,7 +951,7 @@ namespace MiscServices {
         int32_t userId = data->ReadInt32();
         std::u16string imeId = data->ReadString16();
         PerUserSetting *setting = GetUserSetting(userId);
-        if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
+        if (!setting || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
             IMSA_HILOGE("Aborted! %s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_UNLOCKED), userId);
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
@@ -977,7 +977,7 @@ namespace MiscServices {
         int32_t userId = data->ReadInt32();
         bool isCurrentIme = data->ReadBool();
         PerUserSetting *setting = GetUserSetting(userId);
-        if (setting == nullptr || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
+        if (!setting || setting->GetUserState() != UserState::USER_STATE_UNLOCKED) {
             IMSA_HILOGE("Aborted! %s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_UNLOCKED), userId);
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
@@ -999,7 +999,7 @@ namespace MiscServices {
         IMSA_HILOGI("InputMethodSystemAbility::GetBundleMgr");
         sptr<ISystemAbilityManager> systemAbilityManager =
         SystemAbilityManagerClient::GetInstance().GetSystemAbilityManager();
-        if (systemAbilityManager == nullptr) {
+        if (!systemAbilityManager) {
             IMSA_HILOGI("InputMethodSystemAbility::GetBundleMgr systemAbilityManager is nullptr");
             return nullptr;
         }
@@ -1013,7 +1013,7 @@ namespace MiscServices {
         IMSA_HILOGE("InputMethodSystemAbility::GetAbilityManagerService start");
         sptr<IRemoteObject> abilityMsObj =
         OHOS::DelayedSingleton<AAFwk::SaMgrClient>::GetInstance()->GetSystemAbility(ABILITY_MGR_SERVICE_ID);
-        if (abilityMsObj == nullptr) {
+        if (!abilityMsObj) {
             IMSA_HILOGE("failed to get ability manager service");
             return nullptr;
         }

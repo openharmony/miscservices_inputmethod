@@ -32,7 +32,7 @@ using namespace MessageID;
 
     InputMethodController::~InputMethodController()
     {
-        if (msgHandler != nullptr) {
+        if (msgHandler) {
             delete msgHandler;
             msgHandler = nullptr;
             stop_ = false;
@@ -41,9 +41,9 @@ using namespace MessageID;
 
     sptr<InputMethodController> InputMethodController::GetInstance()
     {
-        if (instance_ == nullptr) {
+        if (!instance_) {
             std::lock_guard<std::mutex> autoLock(instanceLock_);
-            if (instance_ == nullptr) {
+            if (!instance_) {
                 IMSA_HILOGI("InputMethodController::GetInstance instance_ is nullptr");
                 instance_ = new InputMethodController();
             }
@@ -77,18 +77,18 @@ using namespace MessageID;
         IMSA_HILOGI("InputMethodController::GetImsaProxy");
         sptr<ISystemAbilityManager> systemAbilityManager =
             SystemAbilityManagerClient::GetInstance().GetSystemAbilityManager();
-        if (systemAbilityManager == nullptr) {
+        if (!systemAbilityManager) {
             IMSA_HILOGI("InputMethodController::GetImsaProxy systemAbilityManager is nullptr");
             return nullptr;
         }
 
         auto systemAbility = systemAbilityManager->GetSystemAbility(INPUT_METHOD_SYSTEM_ABILITY_ID, "");
-        if (systemAbility == nullptr) {
+        if (!systemAbility) {
             IMSA_HILOGI("InputMethodController::GetImsaProxy systemAbility is nullptr");
             return nullptr;
         }
 
-        if (deathRecipient_ == nullptr) {
+        if (!deathRecipient_) {
             deathRecipient_ = new ImsaDeathRecipient();
         }
         systemAbility->AddDeathRecipient(deathRecipient_);
@@ -106,7 +106,7 @@ using namespace MessageID;
                     MessageParcel *data = msg->msgContent_;
                     std::u16string text = data->ReadString16();
 		    IMSA_HILOGI("InputMethodController::WorkThread InsertText");
-                    if (textListener != nullptr) {
+                    if (textListener) {
                         textListener->InsertText(text);
                     }
                     break;
@@ -116,7 +116,7 @@ using namespace MessageID;
                     MessageParcel *data = msg->msgContent_;
                     int32_t length = data->ReadInt32();
 		    IMSA_HILOGI("InputMethodController::WorkThread DeleteForward");
-                    if (textListener != nullptr) {
+                    if (textListener) {
                         textListener->DeleteForward(length);
                     }
                     break;
@@ -125,7 +125,7 @@ using namespace MessageID;
                     MessageParcel *data = msg->msgContent_;
                     int32_t length = data->ReadInt32();
 		    IMSA_HILOGI("InputMethodController::WorkThread DeleteBackward");
-                    if (textListener != nullptr) {
+                    if (textListener) {
                         textListener->DeleteBackward(length);
                     }
                     break;
@@ -139,7 +139,7 @@ using namespace MessageID;
                 case MSG_ID_ON_INPUT_READY: {
                     MessageParcel *data = msg->msgContent_;
                     sptr<IRemoteObject> object = data->ReadRemoteObject();
-                    if (object != nullptr) {
+                    if (object) {
                         mAgent = new InputMethodAgentProxy(object);
                     }
                     break;
@@ -157,7 +157,7 @@ using namespace MessageID;
                     KeyboardInfo *info = new KeyboardInfo();
                     info->SetKeyboardStatus(ret);
                     IMSA_HILOGI("InputMethodController::WorkThread SendKeyboardInfo");
-                    if (textListener != nullptr) {
+                    if (textListener) {
                         textListener->SendKeyboardInfo(*info);
                     }
                     delete info;
@@ -169,7 +169,7 @@ using namespace MessageID;
                     KeyboardInfo *info = new KeyboardInfo();
                     info->SetFunctionKey(ret);
 		    IMSA_HILOGI("InputMethodController::WorkThread SendKeyboardInfo");
-                    if (textListener != nullptr) {
+                    if (textListener) {
                         textListener->SendKeyboardInfo(*info);
                     }
                     delete info;
@@ -179,7 +179,7 @@ using namespace MessageID;
                     MessageParcel *data = msg->msgContent_;
                     int32_t ret = data->ReadInt32();
 		    IMSA_HILOGI("InputMethodController::WorkThread MoveCursor");
-                    if (textListener != nullptr) {
+                    if (textListener) {
                         Direction direction = static_cast<Direction>(ret);
                         textListener->MoveCursor(direction);
                     }
@@ -217,7 +217,7 @@ using namespace MessageID;
     void InputMethodController::HideCurrentInput()
     {
         IMSA_HILOGI("InputMethodController::HideCurrentInput");
-        if (mImms == nullptr) {
+        if (!mImms) {
             return;
         }
         MessageParcel data;
@@ -238,7 +238,7 @@ using namespace MessageID;
                                              sptr<InputDataChannelStub> &channel, InputAttribute &attribute)
     {
         IMSA_HILOGI("InputMethodController::PrepareInput");
-        if (mImms == nullptr) {
+        if (!mImms) {
             return;
         }
         MessageParcel data;
@@ -255,7 +255,7 @@ using namespace MessageID;
     void InputMethodController::DisplayOptionalInputMethod()
     {
         IMSA_HILOGI("InputMethodController::DisplayOptionalInputMethod");
-        if (mImms == nullptr) {
+        if (!mImms) {
             return;
         }
         MessageParcel data;
@@ -269,7 +269,7 @@ using namespace MessageID;
     {
         IMSA_HILOGI("InputMethodController::listInputMethod");
         std::vector<InputMethodProperty*> properties;
-        if (mImms == nullptr) {
+        if (!mImms) {
             return properties;
         }
         mImms->listInputMethod(&properties);
@@ -279,7 +279,7 @@ using namespace MessageID;
     void InputMethodController::StartInput(sptr<InputClientStub> &client)
     {
         IMSA_HILOGI("InputMethodController::StartInput");
-        if (mImms == nullptr) {
+        if (!mImms) {
             return;
         }
         MessageParcel data;
@@ -293,7 +293,7 @@ using namespace MessageID;
     void InputMethodController::ReleaseInput(sptr<InputClientStub> &client)
     {
         IMSA_HILOGI("InputMethodController::ReleaseInput");
-        if (mImms == nullptr) {
+        if (!mImms) {
             return;
         }
         MessageParcel data;
@@ -307,7 +307,7 @@ using namespace MessageID;
     void InputMethodController::StopInput(sptr<InputClientStub> &client)
     {
         IMSA_HILOGI("InputMethodController::StopInput");
-        if (mImms == nullptr) {
+        if (!mImms) {
             return;
         }
         MessageParcel data;
@@ -334,7 +334,7 @@ using namespace MessageID;
 
     void InputMethodController::OnCursorUpdate(CursorInfo cursorInfo)
     {
-        if (mAgent == nullptr) {
+        if (!mAgent) {
             IMSA_HILOGI("InputMethodController::OnCursorUpdate mAgent is nullptr");
             return;
         }
@@ -358,7 +358,7 @@ using namespace MessageID;
         mSelectOldEnd = mSelectNewEnd;
         mSelectNewBegin = start;
         mSelectNewEnd = end;
-        if (mAgent == nullptr) {
+        if (!mAgent) {
             IMSA_HILOGI("InputMethodController::OnSelectionChange mAgent is nullptr");
             return;
         }
@@ -395,7 +395,7 @@ using namespace MessageID;
     bool InputMethodController::dispatchKeyEvent(std::shared_ptr<MMI::KeyEvent> keyEvent)
     {
         IMSA_HILOGI("InputMethodController::dispatchKeyEvent");
-        if (mAgent == nullptr) {
+        if (!mAgent) {
             IMSA_HILOGI("InputMethodController::dispatchKeyEvent mAgent is nullptr");
             return false;
         }

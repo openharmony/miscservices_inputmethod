@@ -33,15 +33,15 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodCoreProxy::initializeInput");
         auto remote = Remote();
-        if (remote == nullptr) {
+        if (!remote) {
             IMSA_HILOGI("remote is nullptr");
             return ErrorCode::ERROR_NULL_POINTER;
         }
-        if (startInputToken == nullptr) {
+        if (!startInputToken) {
             IMSA_HILOGI("InputMethodCoreProxy::initializeInput startInputToken is nullptr");
         }
 
-        if (inputControlChannel == nullptr) {
+        if (!inputControlChannel) {
             IMSA_HILOGI("InputMethodCoreProxy::initializeInput inputControlChannel is nullptr");
             return ErrorCode::ERROR_NULL_POINTER;
         }
@@ -50,7 +50,7 @@ namespace MiscServices {
         data.WriteInterfaceToken(GetDescriptor());
         data.WriteInt32(displayId);
         sptr<IRemoteObject> channelObject = inputControlChannel->AsObject();
-        if (channelObject == nullptr) {
+        if (!channelObject) {
             IMSA_HILOGI("InputMethodCoreProxy::initializeInput channelObject is nullptr");
             return ErrorCode::ERROR_NULL_POINTER;
         }
@@ -76,18 +76,18 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodCoreProxy::InitInputControlChannel");
         auto remote = Remote();
-        if (remote == nullptr) {
+        if (!remote) {
             IMSA_HILOGI("remote is nullptr");
             return ErrorCode::ERROR_NULL_POINTER;
         }
-        if (inputControlChannel == nullptr) {
+        if (!inputControlChannel) {
             IMSA_HILOGI("InputMethodCoreProxy::InitInputControlChannel inputControlChannel is nullptr");
             return ErrorCode::ERROR_EX_NULL_POINTER;
         }
         MessageParcel data, reply;
         data.WriteInterfaceToken(GetDescriptor());
         sptr<IRemoteObject> channelObject = inputControlChannel->AsObject();
-        if (channelObject == nullptr) {
+        if (!channelObject) {
             IMSA_HILOGI("InputMethodCoreProxy::InitInputControlChannel channelObject is nullptr");
             return ErrorCode::ERROR_EX_NULL_POINTER;
         }
@@ -108,7 +108,7 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodCoreProxy::SetClientState");
         auto remote = Remote();
-        if (remote == nullptr) {
+        if (!remote) {
             IMSA_HILOGI("remote is nullptr");
             return;
         }
@@ -133,11 +133,11 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodCoreProxy::startInput");
         auto remote = Remote();
-        if (remote == nullptr) {
+        if (!remote) {
             IMSA_HILOGI("remote is nullptr");
             return false;
         }
-        if (inputDataChannel == nullptr) {
+        if (!inputDataChannel) {
             IMSA_HILOGI("InputMethodCoreProxy::startInput inputDataChannel is nullptr");
             return false;
         }
@@ -169,7 +169,7 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodCoreProxy::stopInput");
         auto remote = Remote();
-        if (remote == nullptr) {
+        if (!remote) {
             IMSA_HILOGI("remote is nullptr");
             return ErrorCode::ERROR_NULL_POINTER;
         }
@@ -195,7 +195,7 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodCoreProxy::showKeyboard");
         auto remote = Remote();
-        if (remote == nullptr) {
+        if (!remote) {
             IMSA_HILOGI("InputMethodCoreProxy::showKeyboard remote is nullptr");
             return false;
         }
@@ -221,7 +221,7 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodCoreProxy::StopInputService");
         auto remote = Remote();
-        if (remote == nullptr) {
+        if (!remote) {
             IMSA_HILOGI("InputMethodCoreProxy::StopInputService remote is nullptr");
             return;
         }
@@ -245,7 +245,7 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodCoreProxy::hideKeyboard");
         auto remote = Remote();
-        if (remote == nullptr) {
+        if (!remote) {
             return false;
         }
 
@@ -269,7 +269,7 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodCoreProxy::setKeyboardType");
         auto remote = Remote();
-        if (remote == nullptr) {
+        if (!remote) {
             IMSA_HILOGI("remote is nullptr");
             return ErrorCode::ERROR_NULL_POINTER;
         }
@@ -291,7 +291,7 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodCoreProxy::getKeyboardWindowHeight");
         auto remote = Remote();
-        if (remote == nullptr) {
+        if (!remote) {
             IMSA_HILOGI("remote is nullptr");
             return ErrorCode::ERROR_NULL_POINTER;
         }
@@ -305,7 +305,7 @@ namespace MiscServices {
             return status;
         }
         int32_t code = reply.ReadException();
-        if (code != 0) {
+        if (code) {
             return code;
         }
         retHeight = reply.ReadInt32();

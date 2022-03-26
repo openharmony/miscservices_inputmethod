@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_IINPUTCONTROLCHANNEL_H
-#define FM_IMMS_PROJECT_IINPUTCONTROLCHANNEL_H
+#ifndef SERVICES_INCLUDE_I_INPUT_CONTROL_CHANNEL_H
+#define SERVICES_INCLUDE_I_INPUT_CONTROL_CHANNEL_H
 
 #include "iremote_broker.h"
 #include "input_channel.h"

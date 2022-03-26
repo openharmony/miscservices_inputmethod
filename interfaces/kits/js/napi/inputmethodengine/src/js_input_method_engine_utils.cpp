@@ -32,7 +32,7 @@ namespace OHOS {
             IMSA_HILOGI("JsInputMethodEngineUtils::CreateInputMethodEngine is called");
             NativeValue *objValue = engine.CreateObject();
             NativeObject *object = ConvertNativeValueTo<NativeObject>(objValue);
-            if (object == nullptr) {
+            if (!object) {
                 IMSA_HILOGI("JsInputMethodEngineUtils::CreateInputMethodEngine Failed to get object");
                 return nullptr;
             }
@@ -50,7 +50,7 @@ namespace OHOS {
             IMSA_HILOGI("JsInputMethodEngineUtils::CreateKeyboardController is called");
             NativeValue *objValue = engine.CreateObject();
             NativeObject *object = ConvertNativeValueTo<NativeObject>(objValue);
-            if (object == nullptr) {
+            if (!object) {
                 IMSA_HILOGI("CreateKeyboardController Failed to get object");
                 return nullptr;
             }
@@ -68,7 +68,7 @@ namespace OHOS {
             IMSA_HILOGI("JsInputMethodEngineUtils::CreateTextInputClient is called");
             NativeValue *objValue = engine.CreateObject();
             NativeObject *object = ConvertNativeValueTo<NativeObject>(objValue);
-            if (object == nullptr) {
+            if (!object) {
                 IMSA_HILOGI("CreateTextInputClient Failed to get object");
                 return nullptr;
             }
@@ -91,7 +91,7 @@ namespace OHOS {
             IMSA_HILOGI("JsInputMethodEngineUtils::CreateKeyboardDelegate is called");
             NativeValue *objValue = engine.CreateObject();
             NativeObject *object = ConvertNativeValueTo<NativeObject>(objValue);
-            if (object == nullptr) {
+            if (!object) {
                 IMSA_HILOGI("CreateKeyboardDelegate Failed to get object");
                 return nullptr;
             }
@@ -109,7 +109,7 @@ namespace OHOS {
             IMSA_HILOGI("JsInputMethodEngineUtils::CreateEditorAttribute is called");
             NativeValue *objValue = engine.CreateObject();
             NativeObject *object = ConvertNativeValueTo<NativeObject>(objValue);
-            if (object == nullptr) {
+            if (!object) {
                 IMSA_HILOGI("CreateEditorAttribute Failed to get object");
                 return nullptr;
             }

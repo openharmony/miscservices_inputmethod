@@ -36,7 +36,7 @@ namespace MiscServices {
     Message::Message(const Message& msg)
     {
         msgId_ = msg.msgId_;
-        if (msgContent_ != nullptr) {
+        if (msgContent_) {
             delete msgContent_;
             msgContent_ = nullptr;
         }
@@ -53,7 +53,7 @@ namespace MiscServices {
             return *this;
         }
         msgId_ = msg.msgId_;
-        if (msgContent_ != nullptr) {
+        if (msgContent_) {
             delete msgContent_;
             msgContent_ = nullptr;
         }

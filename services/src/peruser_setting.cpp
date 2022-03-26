@@ -53,7 +53,7 @@ namespace MiscServices {
             IMSA_HILOGE("Failed to listInputMethod [%d]\n", userId_);
         }
         int size = inputMethodProperties.size();
-        if (size == 0) {
+        if (!size) {
             currentImeId = Utils::to_utf16("");
         }
 
@@ -82,7 +82,7 @@ namespace MiscServices {
             isSecurityIme = false;
         }
         std::u16string imeId = GetImeId(packageName);
-        if (imeId.size() != 0) {
+        if (imeId.size()) {
             IMSA_HILOGI("%s [%d]\n", ErrorCode::ToString(ErrorCode::ERROR_IME_PACKAGE_DUPLICATED), userId_);
             return ErrorCode::ERROR_IME_PACKAGE_DUPLICATED;
         }
@@ -132,7 +132,7 @@ namespace MiscServices {
             isSecurityIme = false;
         }
         std::u16string imeId = GetImeId(packageName);
-        if (imeId.size() == 0) {
+        if (!imeId.size()) {
             IMSA_HILOGI("%s [%d]\n", ErrorCode::ToString(ErrorCode::ERROR_NOT_IME_PACKAGE), userId_);
             return ErrorCode::ERROR_NOT_IME_PACKAGE;
         }
@@ -193,7 +193,7 @@ namespace MiscServices {
             currentImeId = inputMethodSetting.GetCurrentInputMethod();
         } else if (key == InputMethodSetting::ENABLED_INPUT_METHODS_TAG) {
             if ((currentImeId.size() > 0 && value.find(currentImeId) == std::string::npos) ||
-                currentImeId.size() == 0) {
+                !currentImeId.size()) {
                 ResetCurrentInputMethod();
                 InputMethodSetting tmpSetting;
                 tmpSetting.ClearData();
@@ -222,18 +222,18 @@ namespace MiscServices {
                 if (flag) {
                     nextImeId = imeId;
                     break;
-                } else if (firstEnabledProperty == nullptr) {
+                } else if (!firstEnabledProperty) {
                     firstEnabledProperty = inputMethodProperties[i];
                 }
             }
         }
 
-        if (nextImeId.size() == 0 && firstEnabledProperty) {
+        if (!nextImeId.size() && firstEnabledProperty) {
             nextImeId = firstEnabledProperty->mImeId;
         }
 
         // next enabled ime is not available.
-        if (nextImeId.size() == 0) {
+        if (!nextImeId.size()) {
             IMSA_HILOGW("No next IME is available. [%d]\n", userId_);
             return;
         }
@@ -261,7 +261,7 @@ namespace MiscServices {
         std::vector<InputMethodProperty*>::iterator it;
         for (it = inputMethodProperties.begin(); it < inputMethodProperties.end();) {
             InputMethodProperty *node = (InputMethodProperty*)*it;
-            if (node != nullptr) {
+            if (node) {
                 it = inputMethodProperties.erase(it);
                 delete node;
                 node = nullptr;
@@ -342,10 +342,10 @@ namespace MiscServices {
                 continue;
             }
             // if systemLocales is not setting, return the first security ime
-            if (systemLocales.size() == 0) {
+            if (!systemLocales.size()) {
                 return imp;
             }
-            if (ime == nullptr) {
+            if (!ime) {
                 ime = imp;
             }
             for (int j = 0; j < (int)inputMethodProperties[i]->mTypes.size(); j++) {
@@ -377,7 +377,7 @@ namespace MiscServices {
             } else if (enabledInputMethods.find(imeId) != std::string::npos) {
                 if (flag) {
                     return inputMethodProperties[i];
-                } else if (firstEnabledProperty == nullptr) {
+                } else if (!firstEnabledProperty) {
                     firstEnabledProperty = inputMethodProperties[i];
                 }
             }
@@ -523,7 +523,7 @@ namespace MiscServices {
             if (enabledInputMethods.find(imeId) == std::string::npos) {
                 continue;
             }
-            if (firstEnabledIme == nullptr) {
+            if (!firstEnabledIme) {
                 firstEnabledIme = inputMethodProperties[i];
             }
 
