@@ -28,7 +28,7 @@ namespace OHOS {
             IMSA_HILOGI("JsInputMethodUtils::CreateInputMethodSetting is called");
             NativeValue *objValue = engine.CreateObject();
             NativeObject *object = ConvertNativeValueTo<NativeObject>(objValue);
-            if (object == nullptr) {
+            if (!object) {
                 IMSA_HILOGI("JsInputMethodUtils::CreateInputMethodSetting Failed to get object");
                 return nullptr;
             }
@@ -46,7 +46,7 @@ namespace OHOS {
             IMSA_HILOGI("JsInputMethodUtils::CreateInputMethodController is called");
             NativeValue *objValue = engine.CreateObject();
             NativeObject *object = ConvertNativeValueTo<NativeObject>(objValue);
-            if (object == nullptr) {
+            if (!object) {
                 IMSA_HILOGI("JsInputMethodUtils::CreateInputMethodController Failed to get object");
                 return nullptr;
             }

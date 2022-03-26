@@ -52,13 +52,13 @@ namespace MiscServices {
     NativeValue* JsKeyboardDelegate::RegisterCallback(NativeEngine* engine, NativeCallbackInfo* info)
     {
         JsKeyboardDelegate* me = CheckParamsAndGetThis<JsKeyboardDelegate>(engine, info);
-        return (me != nullptr) ? me->OnRegisterCallback(*engine, *info) : nullptr;
+        return (me) ? me->OnRegisterCallback(*engine, *info) : nullptr;
     }
 
     NativeValue* JsKeyboardDelegate::UnRegisterCallback(NativeEngine* engine, NativeCallbackInfo* info)
     {
         JsKeyboardDelegate* me = CheckParamsAndGetThis<JsKeyboardDelegate>(engine, info);
-        return (me != nullptr) ? me->OnUnRegisterCallback(*engine, *info) : nullptr;
+        return (me) ? me->OnUnRegisterCallback(*engine, *info) : nullptr;
     }
 
     NativeValue* JsKeyboardDelegate::OnRegisterCallback(NativeEngine& engine, NativeCallbackInfo& info)
@@ -83,7 +83,7 @@ namespace MiscServices {
     NativeValue* JsKeyboardDelegate::OnUnRegisterCallback(NativeEngine& engine, NativeCallbackInfo& info)
     {
         IMSA_HILOGI("JsKeyboardDelegate::OnUnRegisterCallback is called!");
-        if (info.argc == 0) {
+        if (!info.argc) {
             IMSA_HILOGI("JsKeyboardDelegate::OnUnRegisterCallback Params not match");
             return engine.CreateUndefined();
         }

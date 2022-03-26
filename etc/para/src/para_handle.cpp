@@ -22,9 +22,9 @@ namespace OHOS {
         bool ParaHandle::SetDefaultIme(int32_t userId, const std::string &imeName)
         {
             if (userId != main_userId) {
-                return SetParameter(DEFAULT_IME_KEY + userId, imeName.data()) == 0;
+                return !SetParameter(DEFAULT_IME_KEY + userId, imeName.data());
             } else {
-                return SetParameter(DEFAULT_IME_KEY, imeName.data()) == 0;
+                return !SetParameter(DEFAULT_IME_KEY, imeName.data());
             }
         }
 

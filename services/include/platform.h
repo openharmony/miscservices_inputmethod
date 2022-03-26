@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_PLATFORMAPI_H
-#define FM_IMMS_PROJECT_PLATFORMAPI_H
+#ifndef SERVICES_INCLUDE_PLATFORM_H
+#define SERVICES_INCLUDE_PLATFORM_H
 
 #include <vector>
 #include <string>

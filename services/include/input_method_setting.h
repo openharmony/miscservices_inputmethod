@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_INPUTMETHODSETTING_H
-#define FM_IMMS_PROJECT_INPUTMETHODSETTING_H
+#ifndef SERVICES_INCLUDE_INPUT_METHOD_SETTING_H
+#define SERVICES_INCLUDE_INPUT_METHOD_SETTING_H
 #include <map>
 #include <vector>
 #include "string.h"

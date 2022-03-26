@@ -36,43 +36,43 @@ namespace MiscServices {
     NativeValue* JsTextInputClient::InsertText(NativeEngine* engine, NativeCallbackInfo* info)
     {
         JsTextInputClient* me = CheckParamsAndGetThis<JsTextInputClient>(engine, info);
-        return (me != nullptr) ? me->OnInsertText(*engine, *info) : nullptr;
+        return (me) ? me->OnInsertText(*engine, *info) : nullptr;
     }
 
     NativeValue* JsTextInputClient::DeleteForward(NativeEngine* engine, NativeCallbackInfo* info)
     {
         JsTextInputClient* me = CheckParamsAndGetThis<JsTextInputClient>(engine, info);
-        return (me != nullptr) ? me->OnDeleteForward(*engine, *info) : nullptr;
+        return (me) ? me->OnDeleteForward(*engine, *info) : nullptr;
     }
 
     NativeValue* JsTextInputClient::DeleteBackward(NativeEngine* engine, NativeCallbackInfo* info)
     {
         JsTextInputClient* me = CheckParamsAndGetThis<JsTextInputClient>(engine, info);
-        return (me != nullptr) ? me->OnDeleteBackward(*engine, *info) : nullptr;
+        return (me) ? me->OnDeleteBackward(*engine, *info) : nullptr;
     }
 
     NativeValue* JsTextInputClient::SendFunctionKey(NativeEngine* engine, NativeCallbackInfo* info)
     {
         JsTextInputClient* me = CheckParamsAndGetThis<JsTextInputClient>(engine, info);
-        return (me != nullptr) ? me->OnSendFunctionKey(*engine, *info) : nullptr;
+        return (me) ? me->OnSendFunctionKey(*engine, *info) : nullptr;
     }
 
     NativeValue* JsTextInputClient::GetForward(NativeEngine* engine, NativeCallbackInfo* info)
     {
         JsTextInputClient* me = CheckParamsAndGetThis<JsTextInputClient>(engine, info);
-        return (me != nullptr) ? me->OnGetForward(*engine, *info) : nullptr;
+        return (me) ? me->OnGetForward(*engine, *info) : nullptr;
     }
 
     NativeValue* JsTextInputClient::GetBackward(NativeEngine* engine, NativeCallbackInfo* info)
     {
         JsTextInputClient* me = CheckParamsAndGetThis<JsTextInputClient>(engine, info);
-        return (me != nullptr) ? me->OnGetBackward(*engine, *info) : nullptr;
+        return (me) ? me->OnGetBackward(*engine, *info) : nullptr;
     }
 
     NativeValue* JsTextInputClient::GetEditorAttribute(NativeEngine* engine, NativeCallbackInfo* info)
     {
         JsTextInputClient* me = CheckParamsAndGetThis<JsTextInputClient>(engine, info);
-        return (me != nullptr) ? me->OnGetEditorAttribute(*engine, *info) : nullptr;
+        return (me) ? me->OnGetEditorAttribute(*engine, *info) : nullptr;
     }
 
     NativeValue* JsTextInputClient::OnInsertText(NativeEngine& engine, NativeCallbackInfo& info)

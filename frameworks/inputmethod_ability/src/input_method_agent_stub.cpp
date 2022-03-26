@@ -75,7 +75,7 @@ namespace MiscServices {
     bool InputMethodAgentStub::DispatchKeyEvent(MessageParcel& data)
     {
         IMSA_HILOGI("InputMethodAgentStub::DispatchKeyEvent");
-        if (msgHandler_ == nullptr) {
+        if (!msgHandler_) {
             return false;
         }
         return InputMethodAbility::GetInstance()->DispatchKeyEvent(data.ReadInt32(), data.ReadInt32());
@@ -84,7 +84,7 @@ namespace MiscServices {
     void InputMethodAgentStub::OnCursorUpdate(int32_t positionX, int32_t positionY, int height)
     {
         IMSA_HILOGI("InputMethodAgentStub::OnCursorUpdate");
-        if (msgHandler_ == nullptr) {
+        if (!msgHandler_) {
             return;
         }
         MessageParcel *data = new MessageParcel();
@@ -99,7 +99,7 @@ namespace MiscServices {
                                                  int32_t newBegin, int32_t newEnd)
     {
         IMSA_HILOGI("InputMethodAgentStub::OnSelectionChange");
-        if (msgHandler_ == nullptr) {
+        if (!msgHandler_) {
             return;
         }
         MessageParcel *data = new MessageParcel();

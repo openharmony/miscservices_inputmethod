@@ -57,11 +57,11 @@ namespace MiscServices {
                 int32_t displayId = data.ReadInt32();
                 IMSA_HILOGI("InputMethodCoreStub::OnRemoteRequest displayId = %{public}d", displayId);
                 sptr<IRemoteObject> channelObject = data.ReadRemoteObject();
-                if (channelObject == nullptr) {
+                if (!channelObject) {
                     IMSA_HILOGI("InputMethodCoreStub::OnRemoteRequest channelObject is nullptr");
                 }
                 sptr<IInputControlChannel> inputControlChannel = new InputControlChannelProxy(channelObject);
-                if (inputControlChannel == nullptr) {
+                if (!inputControlChannel) {
                     IMSA_HILOGI("InputMethodCoreStub::OnRemoteRequest inputControlChannel is nullptr");
                 }
 
@@ -71,11 +71,11 @@ namespace MiscServices {
             }
             case INIT_INPUT_CONTROL_CHANNEL: {
                 sptr<IRemoteObject> channelObject = data.ReadRemoteObject();
-                if (channelObject == nullptr) {
+                if (!channelObject) {
                     IMSA_HILOGI("InputMethodCoreStub::OnRemoteRequest channelObject is nullptr");
                 }
                 sptr<IInputControlChannel> inputControlChannel = new InputControlChannelProxy(channelObject);
-                if (inputControlChannel == nullptr) {
+                if (!inputControlChannel) {
                     IMSA_HILOGI("InputMethodCoreStub::OnRemoteRequest inputControlChannel is nullptr");
                 }
 
@@ -88,7 +88,7 @@ namespace MiscServices {
                 InputAttribute *editorAttribute = data.ReadParcelable<InputAttribute>();
                 bool supportPhysicalKbd = data.ReadBool();
 
-                if (inputDataChannel == nullptr) {
+                if (!inputDataChannel) {
                     IMSA_HILOGI("InputMethodCoreStub::OnRemoteRequest START_INPUT inputDataChannel is nulltpr");
                 }
                 startInput(inputDataChannel, *editorAttribute, supportPhysicalKbd);
@@ -148,17 +148,17 @@ namespace MiscServices {
         sptr<IInputControlChannel>& inputControlChannel)
     {
         IMSA_HILOGI("InputMethodCoreStub::initializeInput");
-        if (msgHandler_ == nullptr) {
+        if (!msgHandler_) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
 
-        if (startInputToken == nullptr) {
+        if (!startInputToken) {
             IMSA_HILOGI("InputMethodCoreStub::initializeInput startInputToken is nullptr");
         }
 
         MessageParcel *data = new MessageParcel();
         data->WriteInt32(displayId);
-        if (inputControlChannel != nullptr) {
+        if (inputControlChannel) {
             IMSA_HILOGI("InputMethodCoreStub::initializeInput. inputControlChannel is not nullptr");
             data->WriteRemoteObject(inputControlChannel->AsObject());
         }
@@ -170,12 +170,12 @@ namespace MiscServices {
     int32_t InputMethodCoreStub::InitInputControlChannel(sptr<IInputControlChannel>& inputControlChannel)
     {
         IMSA_HILOGI("InputMethodCoreStub::initializeInput");
-        if (msgHandler_ == nullptr) {
+        if (!msgHandler_) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
 
         MessageParcel *data = new MessageParcel();
-        if (inputControlChannel != nullptr) {
+        if (inputControlChannel) {
             IMSA_HILOGI("InputMethodCoreStub::initializeInput. inputControlChannel is not nullptr");
             data->WriteRemoteObject(inputControlChannel->AsObject());
         }
@@ -188,11 +188,11 @@ namespace MiscServices {
         const InputAttribute& editorAttribute, bool supportPhysicalKbd)
     {
         IMSA_HILOGI("InputMethodCoreStub::startInput");
-        if (msgHandler_ == nullptr) {
+        if (!msgHandler_) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         MessageParcel *data = new MessageParcel();
-        if (inputDataChannel != nullptr) {
+        if (inputDataChannel) {
             IMSA_HILOGI("InputMethodCoreStub::startInput inputDataChannel is not nullptr");
             data->WriteRemoteObject(inputDataChannel->AsObject());
         }
@@ -206,7 +206,7 @@ namespace MiscServices {
     int32_t InputMethodCoreStub::stopInput()
     {
         IMSA_HILOGI("InputMethodCoreStub::stopInput");
-        if (msgHandler_ == nullptr) {
+        if (!msgHandler_) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         MessageParcel *data = new MessageParcel();
@@ -218,7 +218,7 @@ namespace MiscServices {
     void InputMethodCoreStub::SetClientState(bool state)
     {
         IMSA_HILOGI("InputMethodCoreStub::SetClientState");
-        if (msgHandler_ == nullptr) {
+        if (!msgHandler_) {
             return;
         }
         MessageParcel *data = new MessageParcel();
@@ -231,11 +231,11 @@ namespace MiscServices {
     bool InputMethodCoreStub::showKeyboard(const sptr<IInputDataChannel>& inputDataChannel)
     {
         IMSA_HILOGI("InputMethodCoreStub::showKeyboard");
-        if (msgHandler_ == nullptr) {
+        if (!msgHandler_) {
             return false;
         }
         MessageParcel *data = new MessageParcel();
-        if (inputDataChannel != nullptr) {
+        if (inputDataChannel) {
             IMSA_HILOGI("InputMethodCoreStub::showKeyboard inputDataChannel is not nullptr");
             data->WriteRemoteObject(inputDataChannel->AsObject());
         }
@@ -248,7 +248,7 @@ namespace MiscServices {
     bool InputMethodCoreStub::hideKeyboard(int32_t flags)
     {
         IMSA_HILOGI("InputMethodCoreStub::hideKeyboard");
-        if (msgHandler_ == nullptr) {
+        if (!msgHandler_) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         MessageParcel *data = new MessageParcel();
@@ -263,7 +263,7 @@ namespace MiscServices {
     int32_t InputMethodCoreStub::setKeyboardType(const KeyboardType& type)
     {
         IMSA_HILOGI("InputMethodCoreStub::setKeyboardType");
-        if (msgHandler_ == nullptr) {
+        if (!msgHandler_) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         MessageParcel *data = new MessageParcel();
@@ -277,7 +277,7 @@ namespace MiscServices {
     void InputMethodCoreStub::StopInputService(std::string imeId)
     {
         IMSA_HILOGI("InputMethodCoreStub::StopInputService");
-        if (msgHandler_ == nullptr) {
+        if (!msgHandler_) {
             return;
         }
         MessageParcel *data = new MessageParcel();
@@ -290,7 +290,7 @@ namespace MiscServices {
     int32_t InputMethodCoreStub::getKeyboardWindowHeight(int32_t retHeight)
     {
         IMSA_HILOGI("InputMethodCoreStub::getKeyboardWindowHeight");
-        if (msgHandler_ == nullptr) {
+        if (!msgHandler_) {
             return ErrorCode::ERROR_NULL_POINTER;
         }
         MessageParcel *data = new MessageParcel();

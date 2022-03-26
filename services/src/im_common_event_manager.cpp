@@ -40,9 +40,9 @@ namespace MiscServices {
 
     sptr<ImCommonEventManager> ImCommonEventManager::GetInstance()
     {
-        if (instance_ == nullptr) {
+        if (!instance_) {
             std::lock_guard<std::mutex> autoLock(instanceLock_);
-            if (instance_ == nullptr) {
+            if (!instance_) {
                 IMSA_HILOGI("ImCommonEventManager::GetInstance instance_ is nullptr");
                 instance_ = new ImCommonEventManager();
             }
@@ -58,7 +58,7 @@ namespace MiscServices {
         EventFwk::CommonEventSubscribeInfo subscriberInfo(matchingSkills);
 
         std::shared_ptr<EventSubscriber> subscriber = std::make_shared<EventSubscriber>(subscriberInfo);
-        if (subscriber == nullptr) {
+        if (!subscriber) {
             IMSA_HILOGI("ImCommonEventManager::SubscribeEvent subscriber is nullptr");
             return false;
         }

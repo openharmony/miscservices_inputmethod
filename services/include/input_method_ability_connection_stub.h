@@ -12,8 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef SERVICES_INPUTMETHODABILITYCONNECTIONSTUB_H
-#define SERVICES_INPUTMETHODABILITYCONNECTIONSTUB_H
+#ifndef SERVICES_INCLUDE_INPUT_METHOD_ABILITY_CONNECTION_STUB_H
+#define SERVICES_INCLUDE_INPUT_METHOD_ABILITY_CONNECTION_STUB_H
 #include "ability_connect_callback_stub.h"
 #include "want.h"
 #include "element_name.h"

@@ -64,7 +64,7 @@ namespace MiscServices {
         }
 
         std::vector<InputMethodProperty*> properties = InputMethodController::GetInstance()->ListInputMethod();
-        if (properties.size() == 0) {
+        if (!properties.size()) {
             IMSA_HILOGI("JsInputMethodSetting::ListInputMethod has no ime");
             return engine.CreateUndefined();
         }

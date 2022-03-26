@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef FM_IMMS_PROJECT_INPUTATTRIBUTE_H
-#define FM_IMMS_PROJECT_INPUTATTRIBUTE_H
+#ifndef SERVICES_INCLUDE_INPUT_ATTRIBUTE_H
+#define SERVICES_INCLUDE_INPUT_ATTRIBUTE_H
 #include "parcel.h"
 
 namespace OHOS {
