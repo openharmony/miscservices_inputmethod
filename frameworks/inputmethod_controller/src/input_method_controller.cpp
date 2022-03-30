@@ -67,7 +67,7 @@ using namespace MessageID;
         mAttribute.SetInputPattern(InputAttribute::PATTERN_TEXT);
 
         textListener = nullptr;
-	IMSA_HILOGI("InputMethodController::Initialize textListener is nullptr");
+        IMSA_HILOGI("InputMethodController::Initialize textListener is nullptr");
         PrepareInput(0, mClient, mInputDataChannel, mAttribute);
         return true;
     }
@@ -105,7 +105,7 @@ using namespace MessageID;
                 case MSG_ID_INSERT_CHAR: {
                     MessageParcel *data = msg->msgContent_;
                     std::u16string text = data->ReadString16();
-		    IMSA_HILOGI("InputMethodController::WorkThread InsertText");
+                    IMSA_HILOGI("InputMethodController::WorkThread InsertText");
                     if (textListener) {
                         textListener->InsertText(text);
                     }
@@ -115,7 +115,7 @@ using namespace MessageID;
                 case MSG_ID_DELETE_FORWARD: {
                     MessageParcel *data = msg->msgContent_;
                     int32_t length = data->ReadInt32();
-		    IMSA_HILOGI("InputMethodController::WorkThread DeleteForward");
+                    IMSA_HILOGI("InputMethodController::WorkThread DeleteForward");
                     if (textListener) {
                         textListener->DeleteForward(length);
                     }
@@ -124,7 +124,7 @@ using namespace MessageID;
                 case MSG_ID_DELETE_BACKWARD: {
                     MessageParcel *data = msg->msgContent_;
                     int32_t length = data->ReadInt32();
-		    IMSA_HILOGI("InputMethodController::WorkThread DeleteBackward");
+                    IMSA_HILOGI("InputMethodController::WorkThread DeleteBackward");
                     if (textListener) {
                         textListener->DeleteBackward(length);
                     }
@@ -168,7 +168,7 @@ using namespace MessageID;
                     int32_t ret = data->ReadInt32();
                     KeyboardInfo *info = new KeyboardInfo();
                     info->SetFunctionKey(ret);
-		    IMSA_HILOGI("InputMethodController::WorkThread SendKeyboardInfo");
+                    IMSA_HILOGI("InputMethodController::WorkThread SendKeyboardInfo");
                     if (textListener) {
                         textListener->SendKeyboardInfo(*info);
                     }
@@ -178,7 +178,7 @@ using namespace MessageID;
                 case MSG_ID_MOVE_CURSOR: {
                     MessageParcel *data = msg->msgContent_;
                     int32_t ret = data->ReadInt32();
-		    IMSA_HILOGI("InputMethodController::WorkThread MoveCursor");
+                    IMSA_HILOGI("InputMethodController::WorkThread MoveCursor");
                     if (textListener) {
                         Direction direction = static_cast<Direction>(ret);
                         textListener->MoveCursor(direction);
@@ -197,7 +197,7 @@ using namespace MessageID;
     void InputMethodController::Attach(sptr<OnTextChangedListener> &listener)
     {
         textListener = listener;
-	IMSA_HILOGI("InputMethodController::Attach");
+        IMSA_HILOGI("InputMethodController::Attach");
         PrepareInput(0, mClient, mInputDataChannel, mAttribute);
         StartInput(mClient);
     }
@@ -231,7 +231,7 @@ using namespace MessageID;
     {
         ReleaseInput(mClient);
         textListener = nullptr;
-	IMSA_HILOGI("InputMethodController::Close");
+        IMSA_HILOGI("InputMethodController::Close");
     }
 
     void InputMethodController::PrepareInput(int32_t displayId, sptr<InputClientStub> &client,
