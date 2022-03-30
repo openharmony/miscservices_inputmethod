@@ -90,7 +90,7 @@ namespace MiscServices {
         sptr<InputMethodSystemAbilityProxy> mImms;
         sptr<ImsaDeathRecipient> deathRecipient_;
         sptr<InputMethodAgentProxy> mAgent;
-        sptr<OnTextChangedListener> &textListener;
+        sptr<OnTextChangedListener> textListener;
         InputAttribute mAttribute;
         std::u16string mTextString;
         int mSelectOldBegin = 0;
