@@ -20,7 +20,6 @@
 #include "ipc_skeleton.h"
 #include "message_handler.h"
 #include "input_method_system_ability_stub.h"
-#include "os_account_manager.h"
 
 namespace OHOS {
 namespace MiscServices {
