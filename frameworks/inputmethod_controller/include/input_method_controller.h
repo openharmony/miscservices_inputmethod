@@ -71,6 +71,7 @@ namespace MiscServices {
         int32_t GetEnterKeyType();
         int32_t GetInputPattern();
         void HideCurrentInput();
+        void SetCallingWindow(uint32_t windowId);
 
     private:
         InputMethodController();

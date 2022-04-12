@@ -47,6 +47,10 @@ namespace MiscServices {
                 reply.WriteBool(DispatchKeyEvent(*msgParcel));
                 break;
             }
+            case SET_CALLING_WINDOW_ID: {
+                uint32_t windowId = data.ReadInt32;
+                SetCallingWindow(windowId);
+            }
             case ON_CURSOR_UPDATE: {
                 int32_t positionX = data.ReadInt32();
                 int32_t positionY = data.ReadInt32();
@@ -81,6 +85,16 @@ namespace MiscServices {
         return InputMethodAbility::GetInstance()->DispatchKeyEvent(data.ReadInt32(), data.ReadInt32());
     }
  
+    void InputMethodAgentStub::SetCallingWindow(uint32_t windowId)
+    {
+        IMSA_HILOGI("InputMethodAgentStub::SetCallingWindow");
+        if (!msgHandler_) {
+            return false;
+        }
+        InputMethodAbility::SetCallingWindow(windowId);
+        return;
+    }
+
     void InputMethodAgentStub::OnCursorUpdate(int32_t positionX, int32_t positionY, int height)
     {
         IMSA_HILOGI("InputMethodAgentStub::OnCursorUpdate");
