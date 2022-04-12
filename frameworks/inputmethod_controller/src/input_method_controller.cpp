@@ -431,6 +431,5 @@ using namespace MessageID;
         mAgent->SetCallingWindow(windowId);
         return;
     }
-
 } // namespace MiscServices
 } // namespace OHOS

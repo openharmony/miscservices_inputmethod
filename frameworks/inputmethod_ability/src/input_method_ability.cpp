@@ -471,6 +471,5 @@ namespace MiscServices {
         }
         inputDataChannel->StopInput();
     }
-
 } // namespace MiscServices
 } // namespace OHOS
