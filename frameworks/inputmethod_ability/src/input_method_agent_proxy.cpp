@@ -73,5 +73,19 @@ namespace MiscServices {
 
         Remote()->SendRequest(ON_SELECTION_CHANGE, data, reply, option);
     }
+
+    void InputMethodAgentProxy::SetCallingWindow(uint32_t windowId)
+    {
+        IMSA_HILOGI("InputMethodAgentProxy::SetCallingWindow");
+        MessageParcel data, reply;
+        MessageOption option;
+        if (!data.WriteInterfaceToken(GetDescriptor())) {
+            IMSA_HILOGI("InputMethodAgentProxy::SetCallingWindow descriptor is not match");
+            return;
+        }
+
+        data.WriteInt32(windowId);
+        Remote()->SendRequest(SET_CALLING_WINDOW_ID, data, reply, option);
+    }
 } // namespace MiscServices
 } // namespace OHOS
