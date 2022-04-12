@@ -91,7 +91,7 @@ namespace MiscServices {
         if (!msgHandler_) {
             return false;
         }
-        InputMethodAbility::SetCallingWindow(windowId);
+        InputMethodAbility::GetInstance()->SetCallingWindow(windowId);
         return;
     }
 
