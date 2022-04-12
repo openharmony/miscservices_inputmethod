@@ -48,7 +48,7 @@ namespace MiscServices {
                 break;
             }
             case SET_CALLING_WINDOW_ID: {
-                uint32_t windowId = data.ReadInt32;
+                uint32_t windowId = data.ReadUint32();
                 SetCallingWindow(windowId);
             }
             case ON_CURSOR_UPDATE: {
@@ -89,7 +89,7 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodAgentStub::SetCallingWindow");
         if (!msgHandler_) {
-            return false;
+            return;
         }
         InputMethodAbility::GetInstance()->SetCallingWindow(windowId);
         return;

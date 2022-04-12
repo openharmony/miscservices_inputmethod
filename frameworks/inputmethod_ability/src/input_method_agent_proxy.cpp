@@ -84,7 +84,7 @@ namespace MiscServices {
             return;
         }
 
-        data.WriteInt32(windowId);
+        data.WriteUint32(windowId);
         Remote()->SendRequest(SET_CALLING_WINDOW_ID, data, reply, option);
     }
 } // namespace MiscServices
