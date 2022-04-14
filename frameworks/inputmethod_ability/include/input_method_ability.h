@@ -54,6 +54,7 @@ namespace MiscServices {
         void SendFunctionKey(int32_t funcKey);
         void MoveCursor(int32_t keyCode);
         bool DispatchKeyEvent(int32_t keyCode, int32_t keyStatus);
+        void SetCallingWindow(uint32_t windowId);
         int32_t GetEnterKeyType();
         int32_t GetInputPattern();
         void StopInput();
