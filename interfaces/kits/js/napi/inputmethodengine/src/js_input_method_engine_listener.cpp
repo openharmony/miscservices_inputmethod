@@ -198,5 +198,19 @@ namespace MiscServices {
         };
         mainHandler_->PostTask(task);
     }
+
+    void JsInputMethodEngineListener::OnSetCallingWindow(uint32_t windowId)
+    {
+        std::lock_guard<std::mutex> lock(mMutex);
+        IMSA_HILOGI("JsInputMethodEngineListener::OnSetCallingWindow");
+
+        auto task = [this, windowId] () {
+            NativeValue* nativeValue = CreateJsValue(*engine_, windowId);
+            NativeValue* argv[] = { nativeValue };
+            std::string methodName = "setCallingWindow";
+            CallJsMethod(methodName, argv, ArraySize(argv));
+        };
+        mainHandler_->PostTask(task);
+    }
 } // namespace MiscServices
 } // namespace OHOS

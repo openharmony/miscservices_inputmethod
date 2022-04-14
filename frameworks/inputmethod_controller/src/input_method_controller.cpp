@@ -420,5 +420,16 @@ using namespace MessageID;
         IMSA_HILOGI("InputMethodController::GetInputPattern");
         return inputPattern_;
     }
+
+    void InputMethodController::SetCallingWindow(uint32_t windowId)
+    {
+        IMSA_HILOGI("InputMethodController::SetCallingWindow windowId = %{public}d", windowId);
+        if (!mAgent) {
+            IMSA_HILOGI("InputMethodController::SetCallingWindow mAgent is nullptr");
+            return;
+        }
+        mAgent->SetCallingWindow(windowId);
+        return;
+    }
 } // namespace MiscServices
 } // namespace OHOS
