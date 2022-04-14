@@ -31,6 +31,7 @@ namespace MiscServices {
             DISPATCH_KEY_EVENT = FIRST_CALL_TRANSACTION,
             ON_CURSOR_UPDATE,
             ON_SELECTION_CHANGE,
+            SET_CALLING_WINDOW_ID,
         };
 
         DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.IInputMethodAgent");
@@ -39,6 +40,7 @@ namespace MiscServices {
         virtual void OnCursorUpdate(int32_t positionX, int32_t positionY, int height) = 0;
         virtual void OnSelectionChange(std::u16string text, int32_t oldBegin, int32_t oldEnd,
                                        int32_t newBegin, int32_t newEnd) = 0;
+        virtual void SetCallingWindow(uint32_t windowId) = 0;
     };
 }
 }

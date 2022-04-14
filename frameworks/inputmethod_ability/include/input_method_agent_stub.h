@@ -36,6 +36,7 @@ namespace MiscServices {
         virtual void OnCursorUpdate(int32_t positionX, int32_t positionY, int height) override;
         virtual void OnSelectionChange(std::u16string text, int32_t oldBegin, int32_t oldEnd,
                                        int32_t newBegin, int32_t newEnd) override;
+        void SetCallingWindow(uint32_t windowId) override;
         void SetMessageHandler(MessageHandler *msgHandler);
     private:
         MessageHandler *msgHandler_;

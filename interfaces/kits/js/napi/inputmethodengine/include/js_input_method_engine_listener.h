@@ -39,6 +39,8 @@ namespace MiscServices {
         void OnKeyboardStatus(bool isShow);
         void OnInputStart();
         void OnInputStop(std::string imeId);
+        void OnSetCallingWindow(uint32_t windowId);
+
     private:
         void AddCallback(std::string type, NativeValue* jsListenerObject);
         void CallJsMethod(std::string methodName, NativeValue* const* argv = nullptr, size_t argc = 0);
