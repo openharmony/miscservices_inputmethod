@@ -271,7 +271,6 @@ namespace MiscServices {
 
     bool InputMethodAbility::DispatchKeyEvent(int32_t keyCode, int32_t keyStatus)
     {
-        IMSA_HILOGI("InputMethodAbility::DispatchKeyEvent");
         IMSA_HILOGI("InputMethodAbility::DispatchKeyEvent: key = %{public}d, status = %{public}d", keyCode, keyStatus);
         if (!isBindClient) {
             IMSA_HILOGI("InputMethodAbility::DispatchKeyEvent abort. no client");
@@ -283,6 +282,19 @@ namespace MiscServices {
         }
         return kdListener_->OnKeyEvent(keyCode, keyStatus);
     }
+
+    void InputMethodAbility::SetCallingWindow(uint32_t windowId)
+    {
+        IMSA_HILOGI("InputMethodAbility::SetCallingWindow");
+
+        if (!imeListener_) {
+            IMSA_HILOGI("InputMethodAbility::SetCallingWindow imeListener_ is nullptr");
+            return;
+        }
+        imeListener_->OnSetCallingWindow(windowId);
+        return;
+    }
+
  
     void InputMethodAbility::OnCursorUpdate(Message *msg)
     {
