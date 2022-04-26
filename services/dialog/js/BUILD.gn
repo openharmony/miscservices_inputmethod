@@ -10,7 +10,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import("//foundation/ace/ace_engine/build/ace_gen_sa_dialog_js.gni")
+import("//foundation/arkui/ace_engine/build/ace_gen_sa_dialog_js.gni")
 
 gen_sa_dialog_js("dialog_ime_js_files_etc") {
   project_path = "//base/miscservices/inputmethod/services/dialog/js/"
