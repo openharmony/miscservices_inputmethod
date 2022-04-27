@@ -13,7 +13,7 @@
     "name": "inputmethod_native",
     "subsystem": "miscservices",
     "syscap": [
-      "SystemCapability.Miscservices.InputMethod"
+      "SystemCapability.MiscServices.InputMethod"
     ],
     "features": [
     ],
