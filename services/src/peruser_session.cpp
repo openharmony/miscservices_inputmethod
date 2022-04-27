@@ -447,12 +447,12 @@ namespace MiscServices {
 
         IMSA_HILOGD("unbindInputMethodService...\n");
 
-        IMSA_HILOGD("destroyWindowToken...\n");
+        IMSA_HILOGD("destroyWindowTaskId...\n");
         int errorCode = ErrorCode::NO_ERROR;
         int ret = Platform::Instance()->DestroyWindowToken(userId_, currentIme[index]->mPackageName);
         inputMethodToken[index] = nullptr;
         if (ret != ErrorCode::NO_ERROR) {
-            IMSA_HILOGE("destroyWindowToken return : %{public}s [%{public}d]\n", ErrorCode::ToString(ret), userId_);
+            IMSA_HILOGE("destroyWindowTaskId return : %{public}s [%{public}d]\n", ErrorCode::ToString(ret), userId_);
             errorCode = ErrorCode::ERROR_TOKEN_DESTROY_FAILED;
         }
         sptr<IRemoteObject> b = imsCore[index]->AsObject();
