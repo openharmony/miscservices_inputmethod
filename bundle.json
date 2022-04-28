@@ -33,7 +33,7 @@
         "samgr_standard",
         "multimodalinput_base",
         "utils_base",
-        "resmgr_standard"
+        "resource_management"
       ],
       "third_party": [
         "jsoncpp"

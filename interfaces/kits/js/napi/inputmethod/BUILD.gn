@@ -38,7 +38,7 @@ ohos_shared_library("inputmethod") {
   configs = [ ":inputmethod_native_config" ]
 
   deps = [
-    "//base/global/resmgr_standard/frameworks/resmgr:global_resmgr",
+    "//base/global/resource_management/frameworks/resmgr:global_resmgr",
     "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
     "//base/miscservices/inputmethod/services:inputmethod_service",
     "//foundation/aafwk/standard/frameworks/kits/ability/native:abilitykit_native",

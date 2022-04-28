@@ -60,7 +60,7 @@ ohos_shared_library("inputmethod_ability") {
   configs = [ ":inputmethod_ability_native_config" ]
 
   deps = [
-    "//base/global/resmgr_standard/frameworks/resmgr:global_resmgr",
+    "//base/global/resource_management/frameworks/resmgr:global_resmgr",
     "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
     "//foundation/aafwk/standard/interfaces/innerkits/app_manager:app_manager",
     "//foundation/aafwk/standard/interfaces/innerkits/base:base",
