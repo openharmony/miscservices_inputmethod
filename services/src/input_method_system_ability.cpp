@@ -294,7 +294,12 @@ namespace MiscServices {
             IMSA_HILOGE("%s %d\n", ErrorCode::ToString(ErrorCode::ERROR_USER_NOT_UNLOCKED), userId);
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
-        retMode = GetUserSession(userId)->GetDisplayMode();
+        PerUserSession *session = GetUserSession(userId);
+        if (session == nullptr) {
+            IMSA_HILOGI("InputMethodSystemAbility::getDisplayMode session is nullptr");
+            return ErrorCode::ERROR_NULL_POINTER;
+        }
+        retMode = session->GetDisplayMode();
         return ErrorCode::NO_ERROR;
     }
 
@@ -314,7 +319,12 @@ namespace MiscServices {
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
 
-        int32_t ret = GetUserSession(userId)->GetKeyboardWindowHeight(retHeight);
+        PerUserSession *session = GetUserSession(userId);
+        if (session == nullptr) {
+            IMSA_HILOGI("InputMethodSystemAbility::getKeyboardWindowHeight session is nullptr");
+            return ErrorCode::ERROR_NULL_POINTER;
+        }
+        int32_t ret = session->GetKeyboardWindowHeight(retHeight);
         if (ret != ErrorCode::NO_ERROR) {
             IMSA_HILOGE("Failed to get keyboard window height. ErrorCode=%d\n", ret);
         }
@@ -769,6 +779,12 @@ namespace MiscServices {
             InputMethodProperty *securityIme = setting->GetSecurityInputMethod();
             InputMethodProperty *defaultIme = setting->GetCurrentInputMethod();
             GetUserSession(userId)->ResetIme(defaultIme, securityIme);
+            PerUserSession *session = GetUserSession(userId);
+            if (session == nullptr) {
+                IMSA_HILOGI("InputMethodSystemAbility::OnPackageAdded session is nullptr");
+                return ErrorCode::ERROR_NULL_POINTER;
+            }
+            session->ResetIme(defaultIme, securityIme);
         }
         IMSA_HILOGI("End...\n");
         return 0;
@@ -817,7 +833,7 @@ namespace MiscServices {
         if (securityImeFlag) {
             InputMethodProperty *securityIme = setting->GetSecurityInputMethod();
             InputMethodProperty *defaultIme = setting->GetCurrentInputMethod();
-            GetUserSession(userId)->ResetIme(defaultIme, securityIme);
+            session->ResetIme(defaultIme, securityIme);
         }
         return 0;
     }
