@@ -54,7 +54,7 @@ ohos_shared_library("inputmethod_service") {
   public_configs = [ ":inputmethod_services_native_config" ]
 
   deps = [
-    "//base/global/resmgr_standard/frameworks/resmgr:global_resmgr",
+    "//base/global/resource_management/frameworks/resmgr:global_resmgr",
     "//base/miscservices/inputmethod/etc/para:inputmethod_para",
     "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
     "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
