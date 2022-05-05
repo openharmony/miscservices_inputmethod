@@ -777,16 +777,7 @@ namespace MiscServices {
         }
         if (securityImeFlag) {
             InputMethodProperty *securityIme = setting->GetSecurityInputMethod();
-            if (securityIme == nullptr) {
-                IMSA_HILOGI("InputMethodSystemAbility::OnPackageAdded securityIme is nullptr");
-                return ErrorCode::ERROR_NULL_POINTER;
-            }
             InputMethodProperty *defaultIme = setting->GetCurrentInputMethod();
-            if (defaultIme == nullptr) {
-                IMSA_HILOGI("InputMethodSystemAbility::OnPackageAdded defaultIme is nullptr");
-                return ErrorCode::ERROR_NULL_POINTER;
-            }
-            GetUserSession(userId)->ResetIme(defaultIme, securityIme);
             PerUserSession *session = GetUserSession(userId);
             if (session == nullptr) {
                 IMSA_HILOGI("InputMethodSystemAbility::OnPackageAdded session is nullptr");
