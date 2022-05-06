@@ -778,7 +778,6 @@ namespace MiscServices {
         if (securityImeFlag) {
             InputMethodProperty *securityIme = setting->GetSecurityInputMethod();
             InputMethodProperty *defaultIme = setting->GetCurrentInputMethod();
-            GetUserSession(userId)->ResetIme(defaultIme, securityIme);
             PerUserSession *session = GetUserSession(userId);
             if (session == nullptr) {
                 IMSA_HILOGI("InputMethodSystemAbility::OnPackageAdded session is nullptr");
