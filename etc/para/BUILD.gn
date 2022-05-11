@@ -28,7 +28,7 @@ ohos_shared_library("inputmethod_para") {
   deps = []
   external_deps = [
     "hiviewdfx_hilog_native:libhilog",
-    "startup_l2:syspara",
+    "init:libbegetutil",
   ]
   public_configs = [ ":inputmethod_para_public_config" ]
   subsystem_name = "miscservices"
