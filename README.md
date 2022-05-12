@@ -58,7 +58,7 @@ libinputmethod_service.z.so to system/lib，and push libinputmethodability.z.so 
 
 3.  reboot
 
-####Participation contribution
+#### Participation contribution
 
 1. Fork warehouse
 2. Submission code
