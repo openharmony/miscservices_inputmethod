@@ -33,7 +33,6 @@ ohos_unittest("InputMethodControllerTest") {
     "//base/miscservices/inputmethod/frameworks/inputmethod_controller:inputmethod_client",
     "//base/miscservices/inputmethod/services:inputmethod_service",
     "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
-    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
     "//foundation/aafwk/standard/services/abilitymgr:abilityms",
     "//foundation/arkui/napi/:ace_napi",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
@@ -44,7 +43,10 @@ ohos_unittest("InputMethodControllerTest") {
     "//utils/native/base:utils",
   ]
 
-  external_deps = [ "hiviewdfx_hilog_native:libhilog" ]
+  external_deps = [
+    "ability_base:want",
+    "hiviewdfx_hilog_native:libhilog",
+  ]
 }
 
 ohos_unittest("InputMethodAbilityTest") {
@@ -59,7 +61,6 @@ ohos_unittest("InputMethodAbilityTest") {
     "//base/miscservices/inputmethod/frameworks/inputmethod_controller:inputmethod_client",
     "//base/miscservices/inputmethod/services:inputmethod_service",
     "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
-    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
     "//foundation/aafwk/standard/services/abilitymgr:abilityms",
     "//foundation/arkui/napi/:ace_napi",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
@@ -70,7 +71,10 @@ ohos_unittest("InputMethodAbilityTest") {
     "//utils/native/base:utils",
   ]
 
-  external_deps = [ "hiviewdfx_hilog_native:libhilog" ]
+  external_deps = [
+    "ability_base:want",
+    "hiviewdfx_hilog_native:libhilog",
+  ]
 }
 
 group("unittest") {
