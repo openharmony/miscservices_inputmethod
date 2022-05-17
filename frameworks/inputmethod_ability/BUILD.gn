@@ -63,8 +63,6 @@ ohos_shared_library("inputmethod_ability") {
     "//base/global/resource_management/frameworks/resmgr:global_resmgr",
     "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
     "//foundation/aafwk/standard/interfaces/innerkits/app_manager:app_manager",
-    "//foundation/aafwk/standard/interfaces/innerkits/base:base",
-    "//foundation/aafwk/standard/interfaces/innerkits/want:want",
     "//foundation/arkui/napi/:ace_napi",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_single:ipc_single",
@@ -74,6 +72,7 @@ ohos_shared_library("inputmethod_ability") {
   ]
 
   external_deps = [
+    "ability_base:want",
     "ability_runtime:runtime",
     "bundle_framework:appexecfwk_base",
     "bundle_framework:appexecfwk_core",
