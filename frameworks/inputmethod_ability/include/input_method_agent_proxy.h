@@ -31,6 +31,7 @@ namespace MiscServices {
         void OnCursorUpdate(int32_t positionX, int32_t positionY, int32_t height) override;
         void OnSelectionChange(std::u16string text, int32_t oldBegin, int32_t oldEnd,
                                int32_t newBegin, int32_t newEnd) override;
+        void SetCallingWindow(uint32_t windowId) override;
     private:
         static inline BrokerDelegator<InputMethodAgentProxy> delegator_;
     };
