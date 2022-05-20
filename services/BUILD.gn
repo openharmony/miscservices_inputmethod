@@ -54,12 +54,12 @@ ohos_shared_library("inputmethod_service") {
   public_configs = [ ":inputmethod_services_native_config" ]
 
   deps = [
+    "${aafwk_inner_api_path}/ability_manager:ability_manager",
+    "${aafwk_inner_api_path}/app_manager:app_manager",
+    "${aafwk_services_path}/abilitymgr:abilityms",
     "//base/global/resource_management/frameworks/resmgr:global_resmgr",
     "//base/miscservices/inputmethod/etc/para:inputmethod_para",
     "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
-    "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
-    "//foundation/aafwk/standard/interfaces/innerkits/app_manager:app_manager",
-    "//foundation/aafwk/standard/services/abilitymgr:abilityms",
     "//foundation/arkui/ace_engine/interfaces/inner_api/ui_service_manager:ui_service_mgr",
     "//foundation/arkui/napi/:ace_napi",
     "//foundation/arkui/napi/:ace_napi",
