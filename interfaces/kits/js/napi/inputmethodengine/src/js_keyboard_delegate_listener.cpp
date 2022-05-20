@@ -220,7 +220,6 @@ namespace MiscServices {
             std::string methodName = "textChange";
             CallJsMethod(methodName, argv, ArraySize(argv));
         };
-
         mainHandler_->PostTask(task);
     }
 }
