@@ -39,12 +39,12 @@ ohos_shared_library("inputmethodengine") {
   configs = [ ":inputmethodengine_native_config" ]
 
   deps = [
+    "${aafwk_inner_api_path}/ability_manager:ability_manager",
+    "${aafwk_inner_api_path}/app_manager:app_manager",
+    "${aafwk_kits_path}/ability/native:abilitykit_native",
     "//base/global/resource_management/frameworks/resmgr:global_resmgr",
     "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
     "//base/miscservices/inputmethod/services:inputmethod_service",
-    "//foundation/aafwk/standard/frameworks/kits/ability/native:abilitykit_native",
-    "//foundation/aafwk/standard/interfaces/innerkits/ability_manager:ability_manager",
-    "//foundation/aafwk/standard/interfaces/innerkits/app_manager:app_manager",
     "//foundation/arkui/napi/:ace_napi",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_single:ipc_single",
