@@ -131,7 +131,8 @@
       ],
       "test": [
         "//base/miscservices/inputmethod/unitest:InputMethodControllerTest",
-        "//base/miscservices/inputmethod/unitest:InputMethodAbilityTest"
+        "//base/miscservices/inputmethod/unitest:InputMethodAbilityTest",
+        "//base/miscservices/inputmethod/test/fuzztest:fuzztest"
       ]
     }
   }
