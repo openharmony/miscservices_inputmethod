@@ -14,10 +14,11 @@
  */
 
 
-#include <stddef.h>
-#include <stdint.h>
-
 #include "inputclientstub_fuzzer.h"
+
+#include <cstddef>
+#include <cstdint>
+
 #include "input_client_stub.h"
 #include "global.h"
 
@@ -31,11 +32,11 @@ namespace OHOS {
 
     uint32_t ConvertToUint32(const uint8_t *ptr)
     {
-        if (ptr == nullptr)
-        {
+        if (ptr == nullptr) {
             return 0;
         }
-        return (ptr[0] << 24) | (ptr[1] << 16) | (ptr[2] << 8) | (ptr[3]);
+        uint32_t bigvar = (ptr[0] << 24) | (ptr[1] << 16) | (ptr[2] << 8) | (ptr[3]);
+        return bigvar;
     }
     bool FuzzInputClientStub(const uint8_t* rawData, size_t size)
     {
@@ -59,8 +60,7 @@ namespace OHOS {
 /* Fuzzer entry point */
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size)
 {
-    if (size < OHOS::THRESHOLD)
-    {
+    if (size < OHOS::THRESHOLD) {
         return -1;
     }
     /* Run your code on data */
