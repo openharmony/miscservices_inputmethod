@@ -16,7 +16,5 @@ import("//base/miscservices/inputmethod/inputmethod.gni")
 group("fuzztest") {
   testonly = true
 
-  deps = [
-    "inputclientstub_fuzzer:fuzztest",
-  ]
+  deps = [ "inputclientstub_fuzzer:fuzztest" ]
 }
