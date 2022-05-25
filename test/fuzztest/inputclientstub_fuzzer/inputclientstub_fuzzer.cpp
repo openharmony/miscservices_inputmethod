@@ -28,15 +28,15 @@ using namespace OHOS::MiscServices;
 namespace OHOS {
     constexpr size_t THRESHOLD = 10;
     constexpr int32_t OFFSET = 4;
-    const std::u16string ICS_INTERFACE_TOKEN = u"ohos.miscservices.InputClientStub";
+    const std::u16string INPUTCLIENTSTUB_INTERFACE_TOKEN = u"ohos.miscservices.InputClientStub";
 
     uint32_t ConvertToUint32(const uint8_t *ptr)
     {
         if (ptr == nullptr) {
             return 0;
         }
-        uint32_t bigvar = (ptr[0] << 24) | (ptr[1] << 16) | (ptr[2] << 8) | (ptr[3]);
-        return bigvar;
+        uint32_t bigVar = (ptr[0] << 24) | (ptr[1] << 16) | (ptr[2] << 8) | (ptr[3]);
+        return bigVar;
     }
     bool FuzzInputClientStub(const uint8_t* rawData, size_t size)
     {
@@ -45,7 +45,7 @@ namespace OHOS {
         size = size - OFFSET;
 
         MessageParcel data;
-        data.WriteInterfaceToken(ICS_INTERFACE_TOKEN);
+        data.WriteInterfaceToken(INPUTCLIENTSTUB_INTERFACE_TOKEN);
         data.WriteBuffer(rawData, size);
         data.RewindRead(0);
         MessageParcel reply;
