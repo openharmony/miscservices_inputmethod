@@ -31,7 +31,6 @@ ohos_fuzztest("InputClientStubFuzzTest") {
     "//base/miscservices/inputmethod/services/include",
     "//base/hiviewdfx/hilog/interfaces/native/innerkits/include",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core/include",
-    "//foundation/multimodalinput/input/interfaces/native/innerkits/event/include",
     "//utils/native/base/include",
   ]
 
@@ -51,7 +50,6 @@ ohos_fuzztest("InputClientStubFuzzTest") {
     "//foundation/communication/ipc/interfaces/innerkits/ipc_single:ipc_single",
     "//foundation/distributedschedule/safwk/interfaces/innerkits/safwk:system_ability_fwk",
     "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
-    "//foundation/multimodalinput/input/frameworks/proxy:libmmi-common",
     "//utils/native/base:utils",
   ]
 
