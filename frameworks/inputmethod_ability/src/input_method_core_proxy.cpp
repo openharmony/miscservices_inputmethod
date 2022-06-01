@@ -287,7 +287,7 @@ namespace MiscServices {
         return code;
     }
 
-    int32_t InputMethodCoreProxy::getKeyboardWindowHeight(int32_t retHeight)
+    int32_t InputMethodCoreProxy::getKeyboardWindowHeight(int32_t &retHeight)
     {
         IMSA_HILOGI("InputMethodCoreProxy::getKeyboardWindowHeight");
         auto remote = Remote();

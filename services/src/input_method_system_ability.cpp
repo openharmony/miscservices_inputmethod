@@ -208,7 +208,7 @@ namespace MiscServices {
         std::map<int32_t, MessageHandler*>::const_iterator it = msgHandlers.find(MAIN_USER_ID);
         if (it == msgHandlers.end()) {
             IMSA_HILOGE("InputMethodSystemAbility::StartInputService() need start handler");
-            MessageHandler *handler = new MessageHandler();
+            sptr<MessageHandler> handler = new MessageHandler();
             if (session) {
                 IMSA_HILOGE("InputMethodSystemAbility::OnPrepareInput session is not nullptr");
                 session->CreateWorkThread(*handler);
