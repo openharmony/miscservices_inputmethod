@@ -56,7 +56,7 @@ namespace MiscServices {
         virtual bool showKeyboard(const sptr<IInputDataChannel>& inputDataChannel) = 0;
         virtual bool hideKeyboard(int32_t flags) = 0;
         virtual int32_t setKeyboardType(const KeyboardType& type) = 0;
-        virtual int32_t getKeyboardWindowHeight(int32_t retHeight) = 0;
+        virtual int32_t getKeyboardWindowHeight(int32_t &retHeight) = 0;
         virtual int32_t InitInputControlChannel(sptr<IInputControlChannel> &inputControlChannel) = 0;
         virtual void SetClientState(bool state) = 0;
         virtual void StopInputService(std::string imeId) = 0;
