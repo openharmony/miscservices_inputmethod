@@ -287,7 +287,7 @@ namespace MiscServices {
         msgHandler_->SendMessage(msg);
     }
 
-    int32_t InputMethodCoreStub::getKeyboardWindowHeight(int32_t retHeight)
+    int32_t InputMethodCoreStub::getKeyboardWindowHeight(int32_t &retHeight)
     {
         IMSA_HILOGI("InputMethodCoreStub::getKeyboardWindowHeight");
         if (!msgHandler_) {
