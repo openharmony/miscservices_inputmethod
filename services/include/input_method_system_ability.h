@@ -47,7 +47,7 @@ namespace MiscServices {
 
         int32_t OnRemoteRequest(uint32_t code, MessageParcel &data, MessageParcel &reply,
                                 MessageOption &option) override;
-        int32_t getDisplayMode(int32_t retMode) override;
+        int32_t getDisplayMode(int32_t &retMode) override;
         int32_t getKeyboardWindowHeight(int32_t retHeight) override;
         int32_t getCurrentKeyboardType(KeyboardType *retType) override;
         int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) override;
