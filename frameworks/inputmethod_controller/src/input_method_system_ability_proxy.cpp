@@ -255,7 +255,7 @@ namespace MiscServices {
         return NO_ERROR;
     }
 
-    int32_t InputMethodSystemAbilityProxy::getDisplayMode(int32_t &retMode)
+    int32_t InputMethodSystemAbilityProxy::getDisplayMode(int32_t *retMode)
     {
         MessageParcel data, reply;
         MessageOption option;
@@ -274,13 +274,13 @@ namespace MiscServices {
             return ret;
         }
 
-        if (!reply.ReadInt32(retMode)) {
+        if (!reply.ReadInt32(*retMode)) {
             return ERROR_STATUS_BAD_VALUE;
         }
         return NO_ERROR;
     }
 
-    int32_t InputMethodSystemAbilityProxy::getKeyboardWindowHeight(int32_t &retHeight)
+    int32_t InputMethodSystemAbilityProxy::getKeyboardWindowHeight(int32_t *retHeight)
     {
         MessageParcel data, reply;
         MessageOption option;
@@ -299,7 +299,7 @@ namespace MiscServices {
             return ret;
         }
 
-        if (!reply.ReadInt32(retHeight)) {
+        if (!reply.ReadInt32(*retHeight)) {
             return ERROR_STATUS_BAD_VALUE;
         }
         return NO_ERROR;

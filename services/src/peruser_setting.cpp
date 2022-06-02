@@ -76,10 +76,10 @@ namespace MiscServices {
       * ErrorCode::ERROR_NOT_IME_PACKAGE The installed package is not an IME package.
       * ErrorCode::ERROR_IME_PACKAGE_DUPLICATED The installed package is duplicated.
      */
-    int PerUserSetting::OnPackageAdded(std::u16string& packageName, bool &isSecurityIme)
+    int PerUserSetting::OnPackageAdded(std::u16string& packageName, bool *isSecurityIme)
     {
-        if (isSecurityIme) {
-            isSecurityIme = false;
+        if (*isSecurityIme) {
+            *isSecurityIme = false;
         }
         std::u16string imeId = GetImeId(packageName);
         if (imeId.size()) {
@@ -97,8 +97,8 @@ namespace MiscServices {
         }
         inputMethodProperties.push_back(property);
         if (CheckIfSecurityIme(*property)) {
-            if (isSecurityIme) {
-                isSecurityIme = true;
+            if (*isSecurityIme) {
+                *isSecurityIme = true;
             }
             return ErrorCode::NO_ERROR;
         }
@@ -126,7 +126,7 @@ namespace MiscServices {
      * and is removed from the input method management system
      * ErrorCode::ERROR_NOT_IME_PACKAGE The removed package is not an IME package.
      */
-    int PerUserSetting::OnPackageRemoved(std::u16string& packageName, bool &isSecurityIme)
+    int PerUserSetting::OnPackageRemoved(std::u16string& packageName, bool *isSecurityIme)
     {
         if (isSecurityIme) {
             isSecurityIme = false;

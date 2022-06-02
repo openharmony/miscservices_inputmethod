@@ -69,7 +69,7 @@ namespace MiscServices {
             }
             case GET_DISPLAY_MODE: {
                 int32_t mode = 0;
-                int32_t status = getDisplayMode(mode);
+                int32_t status = getDisplayMode(&mode);
                 if (status == ErrorCode::NO_ERROR) {
                     reply.WriteInt32(NO_ERROR);
                     reply.WriteInt32(mode);
@@ -81,7 +81,7 @@ namespace MiscServices {
             }
             case GET_KEYBOARD_WINDOW_HEIGHT: {
                 int32_t height = 0;
-                int32_t status = getKeyboardWindowHeight(height);
+                int32_t status = getKeyboardWindowHeight(&height);
                 if (status == ErrorCode::NO_ERROR) {
                     reply.WriteInt32(NO_ERROR);
                     reply.WriteInt32(height);
