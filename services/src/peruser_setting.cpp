@@ -76,7 +76,7 @@ namespace MiscServices {
       * ErrorCode::ERROR_NOT_IME_PACKAGE The installed package is not an IME package.
       * ErrorCode::ERROR_IME_PACKAGE_DUPLICATED The installed package is duplicated.
      */
-    int PerUserSetting::OnPackageAdded(std::u16string& packageName, bool *isSecurityIme)
+    int PerUserSetting::OnPackageAdded(std::u16string& packageName, bool &isSecurityIme)
     {
         if (*isSecurityIme) {
             *isSecurityIme = false;
@@ -126,7 +126,7 @@ namespace MiscServices {
      * and is removed from the input method management system
      * ErrorCode::ERROR_NOT_IME_PACKAGE The removed package is not an IME package.
      */
-    int PerUserSetting::OnPackageRemoved(std::u16string& packageName, bool *isSecurityIme)
+    int PerUserSetting::OnPackageRemoved(std::u16string& packageName, bool &isSecurityIme)
     {
         if (*isSecurityIme) {
             *isSecurityIme = false;
