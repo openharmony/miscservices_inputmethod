@@ -299,7 +299,7 @@ namespace MiscServices {
             IMSA_HILOGI("InputMethodSystemAbility::getDisplayMode session is nullptr");
             return ErrorCode::ERROR_NULL_POINTER;
         }
-        *retMode = session->GetDisplayMode();
+        retMode = session->GetDisplayMode();
         return ErrorCode::NO_ERROR;
     }
 
