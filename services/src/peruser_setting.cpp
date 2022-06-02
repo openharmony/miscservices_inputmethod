@@ -128,8 +128,8 @@ namespace MiscServices {
      */
     int PerUserSetting::OnPackageRemoved(std::u16string& packageName, bool *isSecurityIme)
     {
-        if (isSecurityIme) {
-            isSecurityIme = false;
+        if (*isSecurityIme) {
+            *isSecurityIme = false;
         }
         std::u16string imeId = GetImeId(packageName);
         if (!imeId.size()) {
@@ -151,8 +151,8 @@ namespace MiscServices {
             }
         }
         if (securityFlag) {
-            if (isSecurityIme) {
-                isSecurityIme = true;
+            if (*isSecurityIme) {
+                *isSecurityIme = true;
             }
             return ErrorCode::NO_ERROR;
         }
