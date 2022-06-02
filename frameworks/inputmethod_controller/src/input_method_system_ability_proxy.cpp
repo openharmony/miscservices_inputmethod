@@ -274,7 +274,7 @@ namespace MiscServices {
             return ret;
         }
 
-        if (!reply.ReadInt32(*retMode)) {
+        if (!reply.ReadInt32(retMode)) {
             return ERROR_STATUS_BAD_VALUE;
         }
         return NO_ERROR;
@@ -299,7 +299,7 @@ namespace MiscServices {
             return ret;
         }
 
-        if (!reply.ReadInt32(*retHeight)) {
+        if (!reply.ReadInt32(retHeight)) {
             return ERROR_STATUS_BAD_VALUE;
         }
         return NO_ERROR;

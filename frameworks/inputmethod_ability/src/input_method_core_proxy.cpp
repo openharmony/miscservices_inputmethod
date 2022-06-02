@@ -308,7 +308,7 @@ namespace MiscServices {
         if (code) {
             return code;
         }
-        *retHeight = reply.ReadInt32();
+        retHeight = reply.ReadInt32();
         return ErrorCode::NO_ERROR;
     }
 } // namespace MiscServices
