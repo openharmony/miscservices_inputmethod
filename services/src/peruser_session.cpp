@@ -546,7 +546,7 @@ namespace MiscServices {
     \param[out] retHeight the height of keyboard window showing or showed returned to caller
     \return ErrorCode
     */
-    int PerUserSession::GetKeyboardWindowHeight(int &retHeight)
+    int PerUserSession::GetKeyboardWindowHeight(int *retHeight)
     {
         if (imsCore[lastImeIndex]) {
             int ret = imsCore[lastImeIndex]->getKeyboardWindowHeight(retHeight);
