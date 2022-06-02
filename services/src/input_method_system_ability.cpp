@@ -214,8 +214,6 @@ namespace MiscServices {
                 session->CreateWorkThread(*handler);
                 msgHandlers.insert(std::pair<int32_t, MessageHandler*>(MAIN_USER_ID, handler));
             }
-            delete handler;
-            handler = nullptr;
         }
 
         bool isStartSuccess = false;
@@ -287,7 +285,7 @@ namespace MiscServices {
     \return ErrorCode::NO_ERROR no error
     \return ErrorCode::ERROR_USER_NOT_UNLOCKED user not unlocked
     */
-    int32_t InputMethodSystemAbility::getDisplayMode(int32_t *retMode)
+    int32_t InputMethodSystemAbility::getDisplayMode(int32_t &retMode)
     {
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
@@ -311,7 +309,7 @@ namespace MiscServices {
     \return ErrorCode::NO_ERROR no error
     \return ErrorCode::ERROR_USER_NOT_UNLOCKED user not unlocked
     */
-    int32_t InputMethodSystemAbility::getKeyboardWindowHeight(int32_t *retHeight)
+    int32_t InputMethodSystemAbility::getKeyboardWindowHeight(int32_t &retHeight)
     {
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
@@ -772,7 +770,7 @@ namespace MiscServices {
             return ErrorCode::ERROR_USER_NOT_UNLOCKED;
         }
         bool securityImeFlag = false;
-        int32_t ret = setting->OnPackageAdded(packageName, &securityImeFlag);
+        int32_t ret = setting->OnPackageAdded(packageName, securityImeFlag);
         if (ret != ErrorCode::NO_ERROR) {
             IMSA_HILOGI("End...\n");
             return ret;
@@ -826,7 +824,7 @@ namespace MiscServices {
         }
         session->OnPackageRemoved(packageName);
         bool securityImeFlag = false;
-        int32_t ret = setting->OnPackageRemoved(packageName, &securityImeFlag);
+        int32_t ret = setting->OnPackageRemoved(packageName, securityImeFlag);
         if (ret != ErrorCode::NO_ERROR) {
             IMSA_HILOGI("End...\n");
             return ret;

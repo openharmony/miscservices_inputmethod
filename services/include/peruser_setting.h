@@ -39,8 +39,8 @@ namespace MiscServices {
         InputMethodSetting *GetInputMethodSetting();
         InputMethodProperty *GetInputMethodProperty(const std::u16string& imeId);
 
-        int32_t OnPackageAdded(std::u16string& packageName, bool *isSecurityIme);
-        int32_t OnPackageRemoved(std::u16string& packageName, bool *isSecurityIme);
+        int32_t OnPackageAdded(std::u16string& packageName, bool &isSecurityIme);
+        int32_t OnPackageRemoved(std::u16string& packageName, bool &isSecurityIme);
         int32_t OnSettingChanged(const std::u16string& key, const std::u16string& value);
         void OnAdvanceToNext();
         void OnUserLocked();
