@@ -237,7 +237,7 @@ namespace MiscServices {
     {
         IMSA_HILOGI("PerUserSession::ResetIme");
         std::unique_lock<std::mutex> lock(mtx);
-        InputMethodProperty *ime[2] = {defaultIme, securityIme};
+        InputMethodProperty *ime[] = {defaultIme, securityIme};
         for (int i = 0; i < MIN_IME; i++) {
             if (currentIme[i] == ime[i] && ime[i]) {
                 continue;
