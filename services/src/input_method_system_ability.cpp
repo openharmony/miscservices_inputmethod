@@ -285,7 +285,7 @@ namespace MiscServices {
     \return ErrorCode::NO_ERROR no error
     \return ErrorCode::ERROR_USER_NOT_UNLOCKED user not unlocked
     */
-    int32_t InputMethodSystemAbility::getDisplayMode(int32_t retMode)
+    int32_t InputMethodSystemAbility::getDisplayMode(int32_t &retMode)
     {
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
@@ -309,7 +309,7 @@ namespace MiscServices {
     \return ErrorCode::NO_ERROR no error
     \return ErrorCode::ERROR_USER_NOT_UNLOCKED user not unlocked
     */
-    int32_t InputMethodSystemAbility::getKeyboardWindowHeight(int32_t retHeight)
+    int32_t InputMethodSystemAbility::getKeyboardWindowHeight(int32_t &retHeight)
     {
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);

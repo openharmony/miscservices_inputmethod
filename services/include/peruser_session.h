@@ -107,7 +107,7 @@ namespace MiscServices {
         void OnPackageRemoved(const std::u16string& packageName);
 
         int GetDisplayMode();
-        int GetKeyboardWindowHeight(int retHeight);
+        int GetKeyboardWindowHeight(int &retHeight);
         KeyboardType *GetCurrentKeyboardType();
 
         int OnSettingChanged(const std::u16string& key, const std::u16string& value);
