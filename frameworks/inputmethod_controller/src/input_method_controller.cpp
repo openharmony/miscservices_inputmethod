@@ -386,8 +386,9 @@ using namespace MessageID;
     {
         IMSA_HILOGI("InputMethodController::GetTextBeforeCursor");
         if (!mTextString.empty()) {
-            int32_t endPos = (mSelectNewEnd+number < static_cast<int32_t>(mTextString.size())) ? 
-                            (mSelectNewEnd + number) : mTextString.size();
+            int32_t endPos = (mSelectNewEnd + number < static_cast<int32_t>(mTextString.size()))
+                                 ? (mSelectNewEnd + number)
+                                 : mTextString.size();
             return mTextString.substr(mSelectNewEnd, endPos);
         }
         return u"";
