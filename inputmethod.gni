@@ -18,6 +18,8 @@ aafwk_services_path = "//foundation/ability/ability_runtime/services"
 
 aafwk_kits_path = "//foundation/ability/ability_runtime/frameworks/kits"
 
+aafwk_path = "//foundation/ability/ability_runtime"
+
 inputmethod_path = "//base/miscservices/inputmethod"
 
 kits_path = "${inputmethod_path}/interfaces/kits"

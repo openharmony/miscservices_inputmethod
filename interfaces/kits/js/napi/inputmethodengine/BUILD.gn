@@ -41,7 +41,7 @@ ohos_shared_library("inputmethodengine") {
   deps = [
     "${aafwk_inner_api_path}/ability_manager:ability_manager",
     "${aafwk_inner_api_path}/app_manager:app_manager",
-    "${aafwk_kits_path}/ability/native:abilitykit_native",
+    "${aafwk_path}/frameworks/native/ability/native:abilitykit_native",
     "//base/global/resource_management/frameworks/resmgr:global_resmgr",
     "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
     "//base/miscservices/inputmethod/services:inputmethod_service",
