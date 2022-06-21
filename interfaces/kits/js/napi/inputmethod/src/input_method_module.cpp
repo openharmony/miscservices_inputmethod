@@ -20,7 +20,7 @@ extern "C" __attribute__((constructor)) void NAPI_inputMethod_AutoRegister()
 {
     auto moduleManager = NativeModuleManager::GetInstance();
     NativeModule newModuleInfo = {
-    .name = "inputMethod",
+    .name = "inputmethod",
     .fileName = "inputmethod.so/inputmethod.js",
     .registerCallback = OHOS::MiscServices::JsInputMethodRegistryInit,
     };
