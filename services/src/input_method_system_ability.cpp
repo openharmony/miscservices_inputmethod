@@ -20,7 +20,6 @@
 #include "iservice_registry.h"
 #include "ipc_skeleton.h"
 #include "global.h"
-#include "wm_common.h"
 #include "ui_service_mgr_client.h"
 #include "bundle_mgr_proxy.h"
 #include "para_handle.h"
