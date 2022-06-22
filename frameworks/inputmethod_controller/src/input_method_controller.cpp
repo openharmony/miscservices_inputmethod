@@ -385,8 +385,10 @@ using namespace MessageID;
     std::u16string InputMethodController::GetTextAfterCursor(int32_t number)
     {
         IMSA_HILOGI("InputMethodController::GetTextBeforeCursor");
-        if (!mTextString.empty()) {
-            int32_t endPos = (mSelectNewEnd+number<mTextString.size()) ? (mSelectNewEnd + number) : mTextString.size();
+        if (!mTextString.empty() && mTextString.size() <= INT_MAX) {
+            int32_t endPos = (mSelectNewEnd + number < static_cast<int32_t>(mTextString.size()))
+                                 ? (mSelectNewEnd + number)
+                                 : mTextString.size();
             return mTextString.substr(mSelectNewEnd, endPos);
         }
         return u"";
