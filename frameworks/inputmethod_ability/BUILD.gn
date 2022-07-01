@@ -60,8 +60,8 @@ ohos_shared_library("inputmethod_ability") {
   configs = [ ":inputmethod_ability_native_config" ]
 
   deps = [
-    "${aafwk_inner_api_path}/ability_manager:ability_manager",
-    "${aafwk_inner_api_path}/app_manager:app_manager",
+    "${ability_runtime_inner_api_path}/ability_manager:ability_manager",
+    "${ability_runtime_inner_api_path}/app_manager:app_manager",
     "//base/global/resource_management/frameworks/resmgr:global_resmgr",
     "//foundation/arkui/napi/:ace_napi",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
