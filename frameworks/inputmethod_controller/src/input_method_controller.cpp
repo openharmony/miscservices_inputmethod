@@ -433,5 +433,14 @@ using namespace MessageID;
         mAgent->SetCallingWindow(windowId);
         return;
     }
+
+    int32_t InputMethodController::SwitchInputMethod(InputMethodProperty *target)
+    {
+        IMSA_HILOGI("InputMethodController::SwitchInputMethod");
+        if (!mImms) {
+            return false;
+        }
+        return mImms->SwitchInputMethod(target);
+    }
 } // namespace MiscServices
 } // namespace OHOS
