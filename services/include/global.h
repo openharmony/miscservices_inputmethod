@@ -136,6 +136,7 @@ namespace ErrorCode {
         ERROR_NO_NEXT_IME, // no next ime is available
         ERROR_CLIENTWINDOW_NOT_FOCUSED, // the input client window is not focused
         ERROR_CLIENT_NOT_WINDOW, // the input client is not from a valid window
+        ERROR_IME_PROPERTY_MARSHALL, // failed to marshall the ime property
         // error from ime
         ERROR_REMOTE_IME_DIED, // remote input method service died abnormally
         ERROR_RESTART_IME_FAILED, // failed to restart input method service
@@ -154,15 +155,15 @@ static constexpr HiviewDFX::HiLogLabel g_SMALL_SERVICES_LABEL = {
 };
 
 #define IMSA_HILOGD(fmt, ...) (void)OHOS::HiviewDFX::HiLog::Debug(OHOS::MiscServices::g_SMALL_SERVICES_LABEL, \
-    "line: %d, function: %s," fmt, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+    "line: %{public}d, function: %{public}s," fmt, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 #define IMSA_HILOGE(fmt, ...) (void)OHOS::HiviewDFX::HiLog::Error(OHOS::MiscServices::g_SMALL_SERVICES_LABEL, \
-    "line: %d, function: %s," fmt, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+    "line: %{public}d, function: %{public}s," fmt, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 #define IMSA_HILOGF(fmt, ...) (void)OHOS::HiviewDFX::HiLog::Fatal(OHOS::MiscServices::g_SMALL_SERVICES_LABEL, \
-    "line: %d, function: %s," fmt, __LINE__FILE__, __FUNCTION__, ##__VA_ARGS__)
+    "line: %{public}d, function: %{public}s," fmt, __LINE__FILE__, __FUNCTION__, ##__VA_ARGS__)
 #define IMSA_HILOGI(fmt, ...) (void)OHOS::HiviewDFX::HiLog::Info(OHOS::MiscServices::g_SMALL_SERVICES_LABEL, \
-    "line: %d, function: %s," fmt, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+    "line: %{public}d, function: %{public}s," fmt, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 #define IMSA_HILOGW(fmt, ...) (void)OHOS::HiviewDFX::HiLog::Warn(OHOS::MiscServices::g_SMALL_SERVICES_LABEL, \
-    "line: %d, function: %s," fmt, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+    "line: %{public}d, function: %{public}s," fmt, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 }
 }
 #endif // SERVICES_INCLUDE_GLOBAL_H

@@ -170,6 +170,10 @@ namespace MiscServices {
                 reply.WriteInt32(NO_ERROR);
                 break;
             }
+            case SWITCH_INPUT_METHOD: {
+                SwitchInputMethod(data, reply);
+                break;
+            }
             default: {
                 return BRemoteObject::OnRemoteRequest(code, data, reply, option);
             }
@@ -302,6 +306,27 @@ namespace MiscServices {
 
         Message *msg = new Message(MSG_HIDE_CURRENT_INPUT, parcel);
         MessageHandler::Instance()->SendMessage(msg);
+    }
+
+    int32_t InputMethodSystemAbilityStub::SwitchInputMethod(MessageParcel &data, MessageParcel &reply)
+    {
+        IMSA_HILOGI("InputMethodSystemAbilityStub::switchInputMethod");
+        int32_t uid = IPCSkeleton::GetCallingUid();
+        int32_t userId = getUserId(uid);
+
+        MessageParcel *parcel = new MessageParcel();
+        InputMethodProperty *target = InputMethodProperty::Unmarshalling(data);
+        parcel->WriteInt32(userId);
+        if (!target->Marshalling(*parcel)) {
+            IMSA_HILOGE("InputMethodSystemAbilityStub::switchInputMethod Failed to marshall the target! ");
+            delete target;
+            delete parcel;
+            return ErrorCode::ERROR_IME_PROPERTY_MARSHALL;
+        }
+        delete target;
+        Message *msg = new Message(MSG_ID_SWITCH_INPUT_METHOD, parcel, &reply);
+        MessageHandler::Instance()->SendMessage(msg);
+        return ErrorCode::NO_ERROR;
     }
 
     /*! Get user id from uid
