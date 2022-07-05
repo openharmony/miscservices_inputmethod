@@ -30,6 +30,9 @@ config("inputmethod_services_native_config") {
 ohos_shared_library("inputmethod_service") {
   sources = [
     "${inputmethod_path}/frameworks/inputmethod_controller/src/input_client_proxy.cpp",
+    "dfx/src/inputmethod_dump.cpp",
+    "dfx/src/inputmethod_sysevent.cpp",
+    "dfx/src/inputmethod_trace.cpp",
     "src/global.cpp",
     "src/im_common_event_manager.cpp",
     "src/input_attribute.cpp",
@@ -48,9 +51,6 @@ ohos_shared_library("inputmethod_service") {
     "src/peruser_setting.cpp",
     "src/platform.cpp",
     "src/platform_callback_stub.cpp",
-    "dfx/src/inputmethod_dump.cpp",
-    "dfx/src/inputmethod_trace.cpp",
-    "dfx/src/inputmethod_sysevent.cpp",
   ]
 
   configs = [ ":inputmethod_services_native_config" ]
