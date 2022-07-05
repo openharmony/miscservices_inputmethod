@@ -236,7 +236,7 @@ namespace MiscServices {
             auto callback = [this, imeId]() { StartInputService(imeId); };
             serviceHandler_->PostTask(callback, INIT_INTERVAL);
         }
-		return isStartSuccess;
+            return isStartSuccess;
     }
 
     void InputMethodSystemAbility::StopInputService(std::string imeId)
@@ -930,7 +930,8 @@ namespace MiscServices {
         IMSA_HILOGI("InputMethodSystemAbility::OnSwitchInputMethod DefaultIme : %{public}s, TargetIme : %{public}s",
             defaultIme.c_str(), targetIme.c_str());
         if (defaultIme != targetIme) {
-            IMSA_HILOGI("InputMethodSystemAbility::OnSwitchInputMethod DefaultIme is not target! Start Switching IME !");
+            IMSA_HILOGI("InputMethodSystemAbility::OnSwitchInputMethod DefaultIme is "
+                      "not target! Start Switching IME !");
             StopInputService(defaultIme);
             if (!StartInputService(targetIme)) {
                 return ErrorCode::ERROR_IME_START_FAILED;

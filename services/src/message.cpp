@@ -30,10 +30,10 @@ namespace MiscServices {
         }
     }
 
-	Message::Message(int32_t msgId, MessageParcel *msgContent, MessageParcel *msgReply) : Message(msgId, msgContent)
-	{
-	    msgReply_ = msgReply;
-	}
+    Message::Message(int32_t msgId, MessageParcel *msgContent, MessageParcel *msgReply) : Message(msgId, msgContent)
+    {
+        msgReply_ = msgReply;
+    }
     /*! Constructor
     \param msg a source message
     */
