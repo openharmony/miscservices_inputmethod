@@ -47,6 +47,7 @@ namespace MiscServices {
             LIST_KEYBOARD_TYPE,
             SET_CORE_AND_AGENT,
             DISPLAY_OPTIONAL_INPUT_METHOD,
+            SWITCH_INPUT_METHOD,
         };
 
         DECLARE_INTERFACE_DESCRIPTOR(u"ohos.miscservices.inputmethod.IInputMethodSystemAbility");
