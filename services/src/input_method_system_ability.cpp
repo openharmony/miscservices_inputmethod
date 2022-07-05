@@ -120,9 +120,63 @@ namespace MiscServices {
             IMSA_HILOGE("Init failed. Try again 10s later");
             return;
         }
-
+        InitHiTrace();
+        InputmethodTrace tracer("InputMethodController Attach trace.");
+        ValueTrace("InputMethodController", -1);
+        InputmethodDump::GetInstance().AddDumpAllMethod(
+            std::bind(&InputMethodSystemAbility::DumpAllMethod, this, std::placeholders::_1));
         IMSA_HILOGI("Start ImsaService ErrorCode::NO_ERROR.");
         return;
+    }
+
+    int InputMethodSystemAbility::Dump(int fd, const std::vector<std::u16string> &args)
+    {
+        std::vector<std::string> argsStr;
+        for (auto item : args) {
+            argsStr.emplace_back(Str16ToStr8(item));
+        }
+        if (InputmethodDump::GetInstance().Dump(fd, argsStr)) {
+            return ERR_OK;
+        }
+        return ERR_OK;
+    }
+
+    void InputMethodSystemAbility::DumpAllMethod(int fd)
+    {
+        IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod");
+        // dprintf(fd, "\n - dump all method:\n");
+        int32_t uid = IPCSkeleton::GetCallingUid();
+        int32_t userId = getUserId(uid);
+        std::vector<InputMethodProperty *> properties;
+        listInputMethodByUserId(userId, &properties);
+        if (!properties.size()) {
+            IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod has no ime");
+            dprintf(fd, "\n - dump has no ime:\n");
+            return;
+        }
+        std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
+        std::string params = "";
+        std::vector<InputMethodProperty *>::iterator it;
+        for (it = properties.begin(); it < properties.end(); ++it) {
+            if (it == properties.begin()) {
+                params += "{\"imeList\":[";
+            } else {
+                params += "},";
+            }
+            InputMethodProperty *property = (InputMethodProperty *)*it;
+            std::string imeId = Str16ToStr8(property->mPackageName) + "/" + Str16ToStr8(property->mAbilityName);
+            params += "{\"ime\": \"" + imeId + "\",";
+            params += "\"labelId\": \"" + std::to_string(property->labelId) + "\",";
+            params += "\"descriptionId\": \"" + std::to_string(property->descriptionId) + "\",";
+            std::string isDefaultIme = defaultIme == imeId ? "true" : "false";
+            params += "\"isDefaultIme\": \"" + isDefaultIme + "\",";
+            params += "\"label\": \"" + Str16ToStr8(property->label) + "\",";
+            params += "\"description\": \"" + Str16ToStr8(property->description) + "\"";
+        }
+        params += "}]}";
+
+        dprintf(fd, "\n - dump all input methods:%s\n\n", params.c_str());
+        IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod end.");
     }
 
     int32_t InputMethodSystemAbility::Init()
