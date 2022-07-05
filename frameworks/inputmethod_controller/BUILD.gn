@@ -40,6 +40,9 @@ config("inputmethod_client_native_public_config") {
 ohos_shared_library("inputmethod_client") {
   sources = [
     "${inputmethod_path}/frameworks/inputmethod_ability/src/input_method_agent_proxy.cpp",
+    "${inputmethod_path}/services/dfx/src/inputmethod_dump.cpp",
+    "${inputmethod_path}/services/dfx/src/inputmethod_sysevent.cpp",
+    "${inputmethod_path}/services/dfx/src/inputmethod_trace.cpp",
     "${inputmethod_path}/services/src/input_attribute.cpp",
     "${inputmethod_path}/services/src/input_method_property.cpp",
     "${inputmethod_path}/services/src/keyboard_type.cpp",
@@ -52,9 +55,6 @@ ohos_shared_library("inputmethod_client") {
     "src/input_method_controller.cpp",
     "src/input_method_system_ability_proxy.cpp",
     "src/input_method_utils.cpp",
-    "${inputmethod_path}/services/dfx/src/inputmethod_dump.cpp",
-    "${inputmethod_path}/services/dfx/src/inputmethod_trace.cpp",
-    "${inputmethod_path}/services/dfx/src/inputmethod_sysevent.cpp",
   ]
 
   deps = [
@@ -67,10 +67,10 @@ ohos_shared_library("inputmethod_client") {
   ]
 
   external_deps = [
-    "hiviewdfx_hilog_native:libhilog",
     "hisysevent_native:libhisysevent",
     "hitrace_native:hitrace_meter",
     "hitrace_native:libhitrace",
+    "hiviewdfx_hilog_native:libhilog",
   ]
 
   configs = [ ":inputmethod_client_native_config" ]
