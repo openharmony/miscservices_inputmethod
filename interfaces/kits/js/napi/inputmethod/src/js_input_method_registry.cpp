@@ -119,7 +119,8 @@ namespace MiscServices {
             return result;
         }
 
-        bool GetInputMethodPropertyFromJs(NativeEngine &engine, NativeObject *propertyObject, InputMethodProperty &target)
+        bool GetInputMethodPropertyFromJs(NativeEngine &engine, NativeObject *propertyObject, 
+            InputMethodProperty &target)
         {
             IMSA_HILOGI("JsInputMethodRegistry::GetInputMethodPropertyFromJs is called!");
             NativeValue *packageName = propertyObject->GetProperty("packageName");
