@@ -437,5 +437,26 @@ namespace MiscServices {
         }
         return NO_ERROR;
     }
+
+    int32_t InputMethodSystemAbilityProxy::SwitchInputMethod(InputMethodProperty* target)
+    {
+        IMSA_HILOGI("InputMethodSystemAbilityProxy::switchInputMethod");
+        MessageParcel data, reply;
+        MessageOption option;
+
+        if (!data.WriteInterfaceToken(GetDescriptor())) {
+            return false;
+        }
+
+        if (!target->Marshalling(data)) {
+            IMSA_HILOGE("InputMethodSystemAbilityProxy::switchInputMethod Failed to marshall target to data!");
+            delete target;
+            return false;
+        }
+        delete target;
+        auto ret = Remote()->SendRequest(SWITCH_INPUT_METHOD, data, reply, option);
+        ret = reply.ReadInt32();
+        return ret;
+    }
 } // namespace MiscServices
 } // namespace OHOS

@@ -58,6 +58,13 @@ namespace MiscServices {
             return (me != nullptr) ? me->OnGetInputMethodController(*engine, *info) : nullptr;
         }
 
+        static NativeValue *SwitchInputMethod(NativeEngine *engine, NativeCallbackInfo *info)
+        {
+            IMSA_HILOGI("JsInputMethodRegistry::SwitchInputMethod is called");
+            JsInputMethodRegistry *me = CheckParamsAndGetThis<JsInputMethodRegistry>(engine, info);
+            return (me != nullptr) ? me->OnSwitchInputMethod(*engine, *info) : nullptr;
+        }
+
     private:
         NativeValue* OnGetInputMethodSetting(NativeEngine& engine, NativeCallbackInfo& info)
         {
@@ -79,6 +86,61 @@ namespace MiscServices {
             }
 
             return CreateInputMethodController(engine);
+        }
+
+        NativeValue *OnSwitchInputMethod(NativeEngine &engine, NativeCallbackInfo &info)
+        {
+            IMSA_HILOGI("JsInputMethodRegistry::OnSwitchInputMethod is called!");
+            if (info.argc != 1) {
+                IMSA_HILOGE("JsInputMethodRegistry::OnSwitchInputMethod Params not match");
+                return engine.CreateUndefined();
+            }
+
+            InputMethodProperty *target = new InputMethodProperty();
+            NativeObject *object = ConvertNativeValueTo<NativeObject>(info.argv[0]);
+            if (object == nullptr) {
+                IMSA_HILOGE("JsInputMethodRegistry::OnSwitchInputMethod Failed to get object");
+                return engine.CreateUndefined();
+            }
+
+            if (!GetInputMethodPropertyFromJs(engine, object, *target)) {
+                return engine.CreateUndefined();
+            }
+
+            bool isSwitchSuccess = false;
+            if (!InputMethodController::GetInstance()->SwitchInputMethod(target)) {
+                isSwitchSuccess = true;
+            } else {
+                IMSA_HILOGE("JsInputMethodRegistry::OnSwitchInputMethod isSwitchSuccess is false !");
+            }
+
+            NativeValue *result = CreateJsValue(engine, isSwitchSuccess);
+
+            return result;
+        }
+
+        bool GetInputMethodPropertyFromJs(NativeEngine &engine, NativeObject *propertyObject, InputMethodProperty &target)
+        {
+            IMSA_HILOGI("JsInputMethodRegistry::GetInputMethodPropertyFromJs is called!");
+            NativeValue *packageName = propertyObject->GetProperty("packageName");
+            std::string packageNameUtf8;
+            if (!ConvertFromJsValue(engine, packageName, packageNameUtf8)) {
+                IMSA_HILOGE("JsInputMethodRegistry::GetInputMethodPropertyFromJs Failed to convert parameter to "
+                            "PackageName");
+                return false;
+            }
+            target.mPackageName =
+                std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t>{}.from_bytes(packageNameUtf8);
+
+            NativeValue *imeId = propertyObject->GetProperty("methodId");
+            std::string imeIdUtf8;
+            if (!ConvertFromJsValue(engine, imeId, imeIdUtf8)) {
+                IMSA_HILOGE("JsInputMethodRegistry::GetInputMethodPropertyFromJs Failed to convert parameter to ImeId");
+                return false;
+            }
+            target.mImeId = std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t>{}.from_bytes(imeIdUtf8);
+
+            return true;
         }
     };
 
@@ -102,6 +164,7 @@ namespace MiscServices {
 
         BindNativeFunction(*engine, *object, "getInputMethodSetting", JsInputMethodRegistry::GetInputMethodSetting);
         BindNativeFunction(*engine, *object, "getInputMethodController", JsInputMethodRegistry::GetInputMethodController);
+        BindNativeFunction(*engine, *object, "switchInputMethod", JsInputMethodRegistry::SwitchInputMethod);
 
         object->SetProperty("MAX_TYPE_NUM", CreateJsValue(*engine, static_cast<uint32_t>(MAX_TYPE_NUM)));
 
