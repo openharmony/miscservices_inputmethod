@@ -73,7 +73,7 @@ namespace MiscServices {
         void WorkThread();
         PerUserSetting *GetUserSetting(int32_t userId);
         PerUserSession *GetUserSession(int32_t userId);
-        void StartInputService(std::string imeId);
+        bool StartInputService(std::string imeId);
         void StopInputService(std::string imeId);
         int32_t OnUserStarted(const Message *msg);
         int32_t OnUserStopped(const Message *msg);
@@ -90,6 +90,7 @@ namespace MiscServices {
         static sptr<AAFwk::IAbilityManager> GetAbilityManagerService();
         OHOS::sptr<OHOS::AppExecFwk::IBundleMgr> GetBundleMgr();
         void StartUserIdListener();
+        int32_t OnSwitchInputMethod(int32_t userId, InputMethodProperty *target);
 
         ServiceRunningState state_;
         void InitServiceHandler();

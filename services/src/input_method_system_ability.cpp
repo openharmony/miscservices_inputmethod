@@ -198,7 +198,7 @@ namespace MiscServices {
         serviceHandler_->PostTask(callback, INIT_INTERVAL);
     }
 
-    void InputMethodSystemAbility::StartInputService(std::string imeId)
+    bool InputMethodSystemAbility::StartInputService(std::string imeId)
     {
         IMSA_HILOGE("InputMethodSystemAbility::StartInputService() ime:%{public}s", imeId.c_str());
 
@@ -236,6 +236,7 @@ namespace MiscServices {
             auto callback = [this, imeId]() { StartInputService(imeId); };
             serviceHandler_->PostTask(callback, INIT_INTERVAL);
         }
+		return isStartSuccess;
     }
 
     void InputMethodSystemAbility::StopInputService(std::string imeId)
@@ -562,6 +563,14 @@ namespace MiscServices {
                     msg = nullptr;
                     return;
                 }
+                case MSG_ID_SWITCH_INPUT_METHOD: {
+                    MessageParcel *data = msg->msgContent_;
+                    int32_t userId = data->ReadInt32();
+                    InputMethodProperty *target = InputMethodProperty::Unmarshalling(*data);
+                    auto ret = OnSwitchInputMethod(userId, target);
+                    msg->msgReply_->WriteInt32(ret);
+                    break;
+                }
                 default: {
                     break;
                 }
@@ -887,6 +896,49 @@ namespace MiscServices {
         InputMethodProperty *defaultIme = setting->GetCurrentInputMethod();
         session->ResetIme(defaultIme, securityIme);
         IMSA_HILOGI("End...\n");
+        return ErrorCode::NO_ERROR;
+    }
+
+    int32_t InputMethodSystemAbility::OnSwitchInputMethod(int32_t userId, InputMethodProperty *target)
+    {
+        IMSA_HILOGI("InputMethodSystemAbility::OnSwitchInputMethod");
+        std::vector<InputMethodProperty *> properties;
+        listInputMethodByUserId(userId, &properties);
+        if (!properties.size()) {
+            IMSA_HILOGE("InputMethodSystemAbility::OnSwitchInputMethod has no ime");
+            return ErrorCode::ERROR_BAD_PARAMETERS;
+        }
+        bool isTargetFound = false;
+        for (auto it = properties.begin(); it < properties.end(); ++it) {
+            InputMethodProperty *temp = (InputMethodProperty *)*it;
+            if (temp->mPackageName == target->mPackageName) {
+                *target = *temp;
+                isTargetFound = true;
+                IMSA_HILOGI("InputMethodSystemAbility::OnSwitchInputMethod target is found in installed packages!");
+            }
+            delete temp;
+        }
+        if (!isTargetFound) {
+            IMSA_HILOGE("InputMethodSystemAbility::OnSwitchInputMethod target is not an installed package !");
+            return ErrorCode::ERROR_NOT_IME_PACKAGE;
+        }
+
+        std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
+        std::string targetIme = "";
+        std::string imeId = Str16ToStr8(target->mPackageName) + "/" + Str16ToStr8(target->mAbilityName);
+        targetIme += imeId;
+        IMSA_HILOGI("InputMethodSystemAbility::OnSwitchInputMethod DefaultIme : %{public}s, TargetIme : %{public}s",
+            defaultIme.c_str(), targetIme.c_str());
+        if (defaultIme != targetIme) {
+            IMSA_HILOGI("InputMethodSystemAbility::OnSwitchInputMethod DefaultIme is not target! Start Switching IME !");
+            StopInputService(defaultIme);
+            if (!StartInputService(targetIme)) {
+                return ErrorCode::ERROR_IME_START_FAILED;
+            }
+            ParaHandle::SetDefaultIme(userId_, targetIme);
+        } else {
+            IMSA_HILOGI("InputMethodSystemAbility::OnSwitchInputMethod DefaultIme and TargetIme are the same one!");
+        }
         return ErrorCode::NO_ERROR;
     }
 
