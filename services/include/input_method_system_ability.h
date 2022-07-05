@@ -25,6 +25,8 @@
 #include "event_handler.h"
 #include "bundle_mgr_proxy.h"
 #include "ability_manager_interface.h"
+#include "inputmethod_dump.h"
+#include "inputmethod_trace.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -54,6 +56,8 @@ namespace MiscServices {
         int32_t listInputMethod(std::vector<InputMethodProperty*> *properties) override;
         int32_t listInputMethodByUserId(int32_t userId, std::vector<InputMethodProperty*> *properties) override;
         int32_t listKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) override;
+        int Dump(int fd, const std::vector<std::u16string> &args) override;
+        void DumpAllMethod(int fd);
 
     protected:
         void OnStart() override;

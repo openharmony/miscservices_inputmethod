@@ -17,6 +17,7 @@
 #ifndef FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_METHOD_CONTROLLER_H
 #define FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_METHOD_CONTROLLER_H
 
+#include "global.h"
 #include <mutex>
 #include <thread>
 #include "input_data_channel_stub.h"
@@ -28,6 +29,7 @@
 #include "iremote_object.h"
 #include "input_method_utils.h"
 #include "key_event.h"
+#include "ipc_skeleton.h"
 
 namespace OHOS {
 namespace MiscServices {

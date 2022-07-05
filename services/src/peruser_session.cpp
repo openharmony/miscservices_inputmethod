@@ -1190,6 +1190,7 @@ namespace MiscServices {
         delete attribute;
         if (ret != ErrorCode::NO_ERROR) {
             IMSA_HILOGE("PerUserSession::OnPrepareInput Aborted! %{public}s", ErrorCode::ToString(ret));
+            CreateComponentFailed(userId_, ret);
             return;
         }
         SendAgentToSingleClient(client);
@@ -1200,11 +1201,13 @@ namespace MiscServices {
         IMSA_HILOGI("PerUserSession::SendAgentToSingleClient");
         if (!imsAgent) {
             IMSA_HILOGI("PerUserSession::SendAgentToSingleClient imsAgent is nullptr");
+            CreateComponentFailed(userId_, ErrorCode::ERROR_NULL_POINTER);
             return;
         }
         ClientInfo *clientInfo = GetClientInfo(inputClient);
         if (!clientInfo) {
             IMSA_HILOGE("PerUserSession::SendAgentToSingleClient clientInfo is nullptr");
+            CreateComponentFailed(userId_, ErrorCode::ERROR_NULL_POINTER);
             return;
         }
         clientInfo->client->onInputReady(imsAgent);
