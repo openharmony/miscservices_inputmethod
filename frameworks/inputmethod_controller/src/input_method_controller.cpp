@@ -85,9 +85,7 @@ using namespace MessageID;
         }
 
         int32_t uid = IPCSkeleton::GetCallingUid();
-        std::string strBundleName;
-        strBundleName = "com.inputmethod.default";
-
+        std::string strBundleName = "com.inputmethod.default";
         auto systemAbility = systemAbilityManager->GetSystemAbility(INPUT_METHOD_SYSTEM_ABILITY_ID, "");
         if (!systemAbility) {
             IMSA_HILOGI("InputMethodController::GetImsaProxy systemAbility is nullptr");

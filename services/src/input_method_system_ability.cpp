@@ -144,7 +144,6 @@ namespace MiscServices {
     void InputMethodSystemAbility::DumpAllMethod(int fd)
     {
         IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod");
-        // dprintf(fd, "\n - dump all method:\n");
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
         std::vector<InputMethodProperty *> properties;
