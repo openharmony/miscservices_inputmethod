@@ -20,7 +20,6 @@
 
 namespace OHOS {
 namespace MiscServices {
-
 void InitHiTrace();
 void ValueTrace(const std::string &name, int64_t count);
 class InputmethodTrace {
