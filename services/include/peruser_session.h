@@ -38,6 +38,8 @@
 #include "keyboard_type.h"
 #include "ability_manager_interface.h"
 #include "ability_connect_callback_proxy.h"
+#include "global.h"
+#include "inputmethod_sysevent.h"
 
 namespace OHOS {
 namespace MiscServices {

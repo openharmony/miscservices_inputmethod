@@ -17,6 +17,8 @@
 #include "iservice_registry.h"
 #include "system_ability_definition.h"
 #include "global.h"
+#include "inputmethod_sysevent.h"
+#include "inputmethod_trace.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -82,9 +84,12 @@ using namespace MessageID;
             return nullptr;
         }
 
+        int32_t uid = IPCSkeleton::GetCallingUid();
+        std::string strBundleName = "com.inputmethod.default";
         auto systemAbility = systemAbilityManager->GetSystemAbility(INPUT_METHOD_SYSTEM_ABILITY_ID, "");
         if (!systemAbility) {
             IMSA_HILOGI("InputMethodController::GetImsaProxy systemAbility is nullptr");
+            FaultReporter(uid, strBundleName, ErrorCode::ERROR_NULL_POINTER);
             return nullptr;
         }
 
@@ -198,8 +203,9 @@ using namespace MessageID;
     {
         textListener = listener;
         IMSA_HILOGI("InputMethodController::Attach");
-        PrepareInput(0, mClient, mInputDataChannel, mAttribute);
+        InputmethodTrace tracer("InputMethodController Attach trace.");
         StartInput(mClient);
+        PrepareInput(0, mClient, mInputDataChannel, mAttribute);
     }
 
     void InputMethodController::ShowTextInput()
@@ -230,6 +236,7 @@ using namespace MessageID;
     void InputMethodController::Close()
     {
         ReleaseInput(mClient);
+        InputmethodTrace tracer("InputMethodController Close trace.");
         textListener = nullptr;
         IMSA_HILOGI("InputMethodController::Close");
     }
