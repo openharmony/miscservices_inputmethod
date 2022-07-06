@@ -19,15 +19,18 @@
 
 #include <mutex>
 #include <thread>
-#include "input_data_channel_stub.h"
-#include "input_client_stub.h"
-#include "input_method_system_ability_proxy.h"
-#include "input_method_agent_proxy.h"
+
+#include "global.h"
 #include "i_input_method_agent.h"
-#include "message_handler.h"
-#include "iremote_object.h"
+#include "input_client_stub.h"
+#include "input_data_channel_stub.h"
+#include "input_method_agent_proxy.h"
+#include "input_method_system_ability_proxy.h"
 #include "input_method_utils.h"
+#include "ipc_skeleton.h"
+#include "iremote_object.h"
 #include "key_event.h"
+#include "message_handler.h"
 
 namespace OHOS {
 namespace MiscServices {
