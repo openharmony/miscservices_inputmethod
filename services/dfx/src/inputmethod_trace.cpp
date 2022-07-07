@@ -27,6 +27,7 @@ void ValueTrace(const std::string &name, int64_t count)
 {
     CountTrace(HITRACE_TAG_MISC, name, count);
 }
+
 InputmethodTrace::InputmethodTrace(const std::string &value)
 {
     StartTrace(HITRACE_TAG_MISC, value);

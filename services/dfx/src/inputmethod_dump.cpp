@@ -14,6 +14,7 @@
  */
 
 #include "inputmethod_dump.h"
+#include "global.h"
 
 namespace OHOS {
 namespace MiscServices {
@@ -45,10 +46,14 @@ void InputmethodDump::AddErrorInfo(const std::string &error)
 
 bool InputmethodDump::Dump(int fd, const std::vector<std::string> &args)
 {
+    IMSA_HILOGI("InputmethodDump::Dump start.");
     std::string command = "";
     if (args.size() == CMD_ONE_PARAM) {
         command = args.at(SUB_CMD_NAME);
-    } else if (command == CMD_HELP) {
+    } else {
+        ShowIllealInfomation(fd);
+    }
+    if (command == CMD_HELP) {
         ShowHelp(fd);
     } else if (command == CMD_ALL_DUMP) {
         if (!dumpAllMethod_) {
@@ -58,6 +63,7 @@ bool InputmethodDump::Dump(int fd, const std::vector<std::string> &args)
     } else {
         ShowIllealInfomation(fd);
     }
+    IMSA_HILOGI("InputmethodDump::Dump command=%{public}s.", command.c_str());
     return true;
 }
 
@@ -73,7 +79,9 @@ void InputmethodDump::ShowHelp(int fd)
 
 void InputmethodDump::ShowIllealInfomation(int fd)
 {
+    IMSA_HILOGI("InputmethodDump::ShowIllealInfomation start.");
     dprintf(fd, "%s\n", illegalInfo.c_str());
+    IMSA_HILOGI("InputmethodDump::ShowIllealInfomation end.");
 }
 } // namespace MiscServices
 } // namespace OHOS
