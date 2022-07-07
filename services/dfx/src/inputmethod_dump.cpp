@@ -79,9 +79,7 @@ void InputmethodDump::ShowHelp(int fd)
 
 void InputmethodDump::ShowIllealInfomation(int fd)
 {
-    IMSA_HILOGI("InputmethodDump::ShowIllealInfomation start.");
     dprintf(fd, "%s\n", illegalInfo.c_str());
-    IMSA_HILOGI("InputmethodDump::ShowIllealInfomation end.");
 }
 } // namespace MiscServices
 } // namespace OHOS
