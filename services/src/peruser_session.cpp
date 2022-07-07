@@ -184,7 +184,6 @@ namespace MiscServices {
                 }
                 case MSG_HIDE_CURRENT_INPUT: {
                     OnHideKeyboardSelf(0);
-                    break;
                 }
                 default: {
                     break;
