@@ -36,7 +36,22 @@
         "samgr_standard",
         "multimodalinput_base",
         "utils_base",
-        "resource_management"
+        "resource_management",
+        "ace_engine",
+        "init",
+        "napi",
+        "samgr_standard",
+        "common_event_service",
+        "ipc",
+        "eventhandler",
+        "bundle_framework",
+        "ability_runtime",
+        "resource_management",
+        "hiviewdfx_hilog_native",
+        "ability_base",
+        "safwk",
+        "input",
+        "utils_base"
       ],
       "third_party": [
         "jsoncpp"
