@@ -81,6 +81,7 @@ namespace MiscServices {
             case MOVE_CURSOR: {
                 auto keyCode = data.ReadInt32();
                 MoveCursor(keyCode);
+                break;
             }
             case GET_ENTER_KEY_TYPE: {
                 reply.WriteInt32(GetEnterKeyType());
