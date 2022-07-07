@@ -50,6 +50,7 @@ namespace MiscServices {
             case SET_CALLING_WINDOW_ID: {
                 uint32_t windowId = data.ReadUint32();
                 SetCallingWindow(windowId);
+                break;
             }
             case ON_CURSOR_UPDATE: {
                 int32_t positionX = data.ReadInt32();
