@@ -135,7 +135,6 @@ namespace MiscServices {
         for (auto item : args) {
             argsStr.emplace_back(Str16ToStr8(item));
         }
-        IMSA_HILOGI("InputMethodSystemAbility::InputmethodDump::Dump");
         InputmethodDump::GetInstance().Dump(fd, argsStr);
         return ERR_OK;
     }
