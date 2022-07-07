@@ -122,7 +122,6 @@ namespace MiscServices {
         }
         InitHiTrace();
         InputmethodTrace tracer("InputMethodController Attach trace.");
-        ValueTrace("InputMethodController", -1);
         InputmethodDump::GetInstance().AddDumpAllMethod(
             std::bind(&InputMethodSystemAbility::DumpAllMethod, this, std::placeholders::_1));
         IMSA_HILOGI("Start ImsaService ErrorCode::NO_ERROR.");
@@ -131,13 +130,13 @@ namespace MiscServices {
 
     int InputMethodSystemAbility::Dump(int fd, const std::vector<std::u16string> &args)
     {
+        IMSA_HILOGI("InputMethodSystemAbility::Dump");
         std::vector<std::string> argsStr;
         for (auto item : args) {
             argsStr.emplace_back(Str16ToStr8(item));
         }
-        if (InputmethodDump::GetInstance().Dump(fd, argsStr)) {
-            return ERR_OK;
-        }
+        IMSA_HILOGI("InputMethodSystemAbility::InputmethodDump::Dump");
+        InputmethodDump::GetInstance().Dump(fd, argsStr);
         return ERR_OK;
     }
 

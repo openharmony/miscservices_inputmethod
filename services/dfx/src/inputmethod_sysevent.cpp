@@ -21,7 +21,7 @@ namespace OHOS {
 namespace MiscServices {
 namespace {
 using HiSysEventNameSpace = OHOS::HiviewDFX::HiSysEvent;
-const std::string DOMAIN_STR = std::string(HiSysEventNameSpace::Domain::OTHERS);
+const std::string DOMAIN_STR = std::string(HiSysEventNameSpace::Domain::INPUTMETHOD);
 } // namespace
 
 void FaultReporter(int32_t userId, std::string bundname, int32_t errCode)
