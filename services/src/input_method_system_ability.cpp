@@ -139,6 +139,30 @@ namespace MiscServices {
         return ERR_OK;
     }
 
+    void InputMethodSystemAbility::GetInputMethodParam(
+        std::vector<InputMethodProperty *> properties_, std::string &params_)
+    {
+        std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
+        std::vector<InputMethodProperty *>::iterator it;
+        for (it = properties_.begin(); it < properties_.end(); ++it) {
+            if (it == properties_.begin()) {
+                params_ += "{\"imeList\":[";
+            } else {
+                params_ += "},";
+            }
+            InputMethodProperty *property = (InputMethodProperty *)*it;
+            std::string imeId = Str16ToStr8(property->mPackageName) + "/" + Str16ToStr8(property->mAbilityName);
+            params_ += "{\"ime\": \"" + imeId + "\",";
+            params_ += "\"labelId\": \"" + std::to_string(property->labelId) + "\",";
+            params_ += "\"descriptionId\": \"" + std::to_string(property->descriptionId) + "\",";
+            std::string isDefaultIme = defaultIme == imeId ? "true" : "false";
+            params_ += "\"isDefaultIme\": \"" + isDefaultIme + "\",";
+            params_ += "\"label\": \"" + Str16ToStr8(property->label) + "\",";
+            params_ += "\"description\": \"" + Str16ToStr8(property->description) + "\"";
+        }
+        params_ += "}]}";
+    }
+
     void InputMethodSystemAbility::DumpAllMethod(int fd)
     {
         IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod");
@@ -151,27 +175,8 @@ namespace MiscServices {
             dprintf(fd, "\n - dump has no ime:\n");
             return;
         }
-        std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
         std::string params = "";
-        std::vector<InputMethodProperty *>::iterator it;
-        for (it = properties.begin(); it < properties.end(); ++it) {
-            if (it == properties.begin()) {
-                params += "{\"imeList\":[";
-            } else {
-                params += "},";
-            }
-            InputMethodProperty *property = (InputMethodProperty *)*it;
-            std::string imeId = Str16ToStr8(property->mPackageName) + "/" + Str16ToStr8(property->mAbilityName);
-            params += "{\"ime\": \"" + imeId + "\",";
-            params += "\"labelId\": \"" + std::to_string(property->labelId) + "\",";
-            params += "\"descriptionId\": \"" + std::to_string(property->descriptionId) + "\",";
-            std::string isDefaultIme = defaultIme == imeId ? "true" : "false";
-            params += "\"isDefaultIme\": \"" + isDefaultIme + "\",";
-            params += "\"label\": \"" + Str16ToStr8(property->label) + "\",";
-            params += "\"description\": \"" + Str16ToStr8(property->description) + "\"";
-        }
-        params += "}]}";
-
+        GetInputMethodParam(properties,params);
         dprintf(fd, "\n - dump all input methods:%s\n\n", params.c_str());
         IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod end.");
     }
@@ -1003,28 +1008,8 @@ namespace MiscServices {
             IMSA_HILOGI("InputMethodSystemAbility::OnDisplayOptionalInputMethod has no ime");
             return;
         }
-
-        std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
         std::string params = "";
-        std::vector<InputMethodProperty*>::iterator it;
-        for (it = properties.begin(); it < properties.end(); ++it) {
-            if (it == properties.begin()) {
-                params += "{\"imeList\":[";
-            } else {
-                params += "},";
-            }
-            InputMethodProperty *property = (InputMethodProperty*)*it;
-            std::string imeId = Str16ToStr8(property->mPackageName) + "/" + Str16ToStr8(property->mAbilityName);
-            params += "{\"ime\": \"" + imeId + "\",";
-            params += "\"labelId\": \"" + std::to_string(property->labelId) + "\",";
-            params += "\"descriptionId\": \"" + std::to_string(property->descriptionId) + "\",";
-            std::string isDefaultIme = defaultIme == imeId ? "true" : "false";
-            params += "\"isDefaultIme\": \"" + isDefaultIme + "\",";
-            params += "\"label\": \"" + Str16ToStr8(property->label) + "\",";
-            params += "\"description\": \"" + Str16ToStr8(property->description) + "\"";
-        }
-        params += "}]}";
-
+        GetInputMethodParam(properties,params);
         IMSA_HILOGI("InputMethodSystemAbility::OnDisplayOptionalInputMethod param : %{public}s", params.c_str());
         const int TITLE_HEIGHT = 62;
         const int SINGLE_IME_HEIGHT = 66;
