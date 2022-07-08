@@ -146,7 +146,7 @@ namespace MiscServices {
         std::vector<InputMethodProperty *>::iterator it;
         for (it = properties.begin(); it < properties.end(); ++it) {
             if (it == properties.begin()) {
-                params_ += "{\"imeList\":[";
+                params += "{\"imeList\":[";
             } else {
                 params += "},";
             }
