@@ -14,6 +14,7 @@
  */
 
 #include "inputmethod_dump.h"
+#include "global.h"
 
 namespace OHOS {
 namespace MiscServices {
