@@ -140,27 +140,27 @@ namespace MiscServices {
     }
 
     void InputMethodSystemAbility::GetInputMethodParam(
-        std::vector<InputMethodProperty *> properties_, std::string &params_)
+        std::vector<InputMethodProperty *> properties, std::string &params)
     {
         std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
         std::vector<InputMethodProperty *>::iterator it;
-        for (it = properties_.begin(); it < properties_.end(); ++it) {
-            if (it == properties_.begin()) {
+        for (it = properties.begin(); it < properties.end(); ++it) {
+            if (it == properties.begin()) {
                 params_ += "{\"imeList\":[";
             } else {
-                params_ += "},";
+                params += "},";
             }
             InputMethodProperty *property = (InputMethodProperty *)*it;
             std::string imeId = Str16ToStr8(property->mPackageName) + "/" + Str16ToStr8(property->mAbilityName);
-            params_ += "{\"ime\": \"" + imeId + "\",";
-            params_ += "\"labelId\": \"" + std::to_string(property->labelId) + "\",";
-            params_ += "\"descriptionId\": \"" + std::to_string(property->descriptionId) + "\",";
+            params += "{\"ime\": \"" + imeId + "\",";
+            params += "\"labelId\": \"" + std::to_string(property->labelId) + "\",";
+            params += "\"descriptionId\": \"" + std::to_string(property->descriptionId) + "\",";
             std::string isDefaultIme = defaultIme == imeId ? "true" : "false";
-            params_ += "\"isDefaultIme\": \"" + isDefaultIme + "\",";
-            params_ += "\"label\": \"" + Str16ToStr8(property->label) + "\",";
-            params_ += "\"description\": \"" + Str16ToStr8(property->description) + "\"";
+            params += "\"isDefaultIme\": \"" + isDefaultIme + "\",";
+            params += "\"label\": \"" + Str16ToStr8(property->label) + "\",";
+            params += "\"description\": \"" + Str16ToStr8(property->description) + "\"";
         }
-        params_ += "}]}";
+        params += "}]}";
     }
 
     void InputMethodSystemAbility::DumpAllMethod(int fd)
