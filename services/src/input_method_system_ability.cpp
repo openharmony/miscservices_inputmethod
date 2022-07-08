@@ -176,7 +176,7 @@ namespace MiscServices {
             return;
         }
         std::string params = "";
-        GetInputMethodParam(properties,params);
+        GetInputMethodParam(properties, params);
         dprintf(fd, "\n - dump all input methods:%s\n\n", params.c_str());
         IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod end.");
     }
@@ -1002,14 +1002,14 @@ namespace MiscServices {
     void InputMethodSystemAbility::OnDisplayOptionalInputMethod(int32_t userId)
     {
         IMSA_HILOGI("InputMethodSystemAbility::OnDisplayOptionalInputMethod");
-        std::vector<InputMethodProperty*> properties;
+        std::vector<InputMethodProperty *> properties;
         listInputMethodByUserId(userId, &properties);
         if (!properties.size()) {
             IMSA_HILOGI("InputMethodSystemAbility::OnDisplayOptionalInputMethod has no ime");
             return;
         }
         std::string params = "";
-        GetInputMethodParam(properties,params);
+        GetInputMethodParam(properties, params);
         IMSA_HILOGI("InputMethodSystemAbility::OnDisplayOptionalInputMethod param : %{public}s", params.c_str());
         const int TITLE_HEIGHT = 62;
         const int SINGLE_IME_HEIGHT = 66;
