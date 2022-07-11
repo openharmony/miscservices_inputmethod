@@ -30,10 +30,12 @@
 #include "common_event_support.h"
 #include "im_common_event_manager.h"
 #include "resource_manager.h"
+#include "os_account_manager.h"
 
 namespace OHOS {
 namespace MiscServices {
     using namespace MessageID;
+    using namespace AccountSA;
     REGISTER_SYSTEM_ABILITY_BY_ID(InputMethodSystemAbility, INPUT_METHOD_SYSTEM_ABILITY_ID, true);
     const std::int32_t INIT_INTERVAL = 10000L;
     const std::int32_t MAIN_USER_ID = 100;
@@ -166,18 +168,22 @@ namespace MiscServices {
     void InputMethodSystemAbility::DumpAllMethod(int fd)
     {
         IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod");
-        int32_t uid = IPCSkeleton::GetCallingUid();
-        int32_t userId = getUserId(uid);
-        std::vector<InputMethodProperty *> properties;
-        listInputMethodByUserId(userId, &properties);
-        if (!properties.size()) {
-            IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod has no ime");
-            dprintf(fd, "\n - dump has no ime:\n");
-            return;
+        std::vector<int32_t> ids;
+        OsAccountManager::QueryActiveOsAccountIds(ids);
+        dprintf(fd, "\n - DumpAllMethod Active Id count=%d", ids.size());
+        for (int i = 0; i < ids.size(); i++) {
+            int32_t userId = getUserId(ids.at(i));
+            std::vector<InputMethodProperty *> properties;
+            listInputMethodByUserId(userId, &properties);
+            if (properties.empty()) {
+                IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod has no ime");
+                dprintf(fd, "\n - dump has no ime:\n");
+                return;
+            }
+            std::string params = "";
+            GetInputMethodParam(properties, params);
+            dprintf(fd, "\n - the userId %d dump input methods:\n%s\n", userId, params.c_str());
         }
-        std::string params = "";
-        GetInputMethodParam(properties, params);
-        dprintf(fd, "\n - dump all input methods:%s\n\n", params.c_str());
         IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod end.");
     }
 
