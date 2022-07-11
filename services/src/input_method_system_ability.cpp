@@ -169,20 +169,24 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod");
         std::vector<int32_t> ids;
-        OsAccountManager::QueryActiveOsAccountIds(ids);
-        dprintf(fd, "\n - DumpAllMethod Active Id count=%d", ids.size());
-        for (int i = 0; i < ids.size(); i++) {
-            int32_t userId = getUserId(ids.at(i));
-            std::vector<InputMethodProperty *> properties;
-            listInputMethodByUserId(userId, &properties);
-            if (properties.empty()) {
-                IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod has no ime");
-                dprintf(fd, "\n - dump has no ime:\n");
-                return;
+        int errCode = OsAccountManager::QueryActiveOsAccountIds(ids);
+        if (errCode == 0) {
+            dprintf(fd, "\n - DumpAllMethod get Active Id succeed,count=%d,", ids.size());
+            for (auto it : ids) {
+                int32_t userId = getUserId(it);
+                std::vector<InputMethodProperty *> properties;
+                listInputMethodByUserId(userId, &properties);
+                if (properties.empty()) {
+                    IMSA_HILOGI("The IME properties is empty.");
+                    dprintf(fd, "\n - The IME properties is empty.\n");
+                    return;
+                }
+                std::string params;
+                GetInputMethodParam(properties, params);
+                dprintf(fd, "\n - The userId %d get input method:\n%s\n", userId, params.c_str());
             }
-            std::string params = "";
-            GetInputMethodParam(properties, params);
-            dprintf(fd, "\n - the userId %d dump input methods:\n%s\n", userId, params.c_str());
+        } else {
+            dprintf(fd, "\n - InputMethodSystemAbility::DumpAllMethod get Active Id failed.\n");
         }
         IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod end.");
     }
