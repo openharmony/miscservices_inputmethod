@@ -87,6 +87,7 @@ ohos_shared_library("inputmethod_service") {
     "hitrace_native:hitrace_meter",
     "hitrace_native:libhitrace",
     "hiviewdfx_hilog_native:libhilog",
+    "os_account:os_account_innerkits",
   ]
 
   subsystem_name = "miscservices"
