@@ -95,7 +95,7 @@ namespace MiscServices {
         OHOS::sptr<OHOS::AppExecFwk::IBundleMgr> GetBundleMgr();
         void StartUserIdListener();
         int32_t OnSwitchInputMethod(int32_t userId, InputMethodProperty *target);
-
+        void GetInputMethodParam(std::vector<InputMethodProperty *> properties, std::string &params);
         ServiceRunningState state_;
         void InitServiceHandler();
         static std::mutex instanceLock_;

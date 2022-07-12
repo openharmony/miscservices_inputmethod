@@ -19,6 +19,7 @@
 #include "system_ability_definition.h"
 #include "iservice_registry.h"
 #include "ipc_skeleton.h"
+#include "errors.h"
 #include "global.h"
 #include "ui_service_mgr_client.h"
 #include "bundle_mgr_proxy.h"
@@ -30,10 +31,12 @@
 #include "common_event_support.h"
 #include "im_common_event_manager.h"
 #include "resource_manager.h"
+#include "os_account_manager.h"
 
 namespace OHOS {
 namespace MiscServices {
     using namespace MessageID;
+    using namespace AccountSA;
     REGISTER_SYSTEM_ABILITY_BY_ID(InputMethodSystemAbility, INPUT_METHOD_SYSTEM_ABILITY_ID, true);
     const std::int32_t INIT_INTERVAL = 10000L;
     const std::int32_t MAIN_USER_ID = 100;
@@ -139,20 +142,10 @@ namespace MiscServices {
         return ERR_OK;
     }
 
-    void InputMethodSystemAbility::DumpAllMethod(int fd)
+    void InputMethodSystemAbility::GetInputMethodParam(
+        std::vector<InputMethodProperty *> properties, std::string &params)
     {
-        IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod");
-        int32_t uid = IPCSkeleton::GetCallingUid();
-        int32_t userId = getUserId(uid);
-        std::vector<InputMethodProperty *> properties;
-        listInputMethodByUserId(userId, &properties);
-        if (!properties.size()) {
-            IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod has no ime");
-            dprintf(fd, "\n - dump has no ime:\n");
-            return;
-        }
         std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
-        std::string params = "";
         std::vector<InputMethodProperty *>::iterator it;
         for (it = properties.begin(); it < properties.end(); ++it) {
             if (it == properties.begin()) {
@@ -171,8 +164,30 @@ namespace MiscServices {
             params += "\"description\": \"" + Str16ToStr8(property->description) + "\"";
         }
         params += "}]}";
+    }
 
-        dprintf(fd, "\n - dump all input methods:%s\n\n", params.c_str());
+    void InputMethodSystemAbility::DumpAllMethod(int fd)
+    {
+        IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod");
+        std::vector<int32_t> ids;
+        int errCode = OsAccountManager::QueryActiveOsAccountIds(ids);
+        if (errCode != ERR_OK) {
+            dprintf(fd, "\n - InputMethodSystemAbility::DumpAllMethod get Active Id failed.\n");
+            return;
+        }
+        dprintf(fd, "\n - DumpAllMethod get Active Id succeed,count=%d,", ids.size());
+        for (auto it : ids) {
+            std::vector<InputMethodProperty *> properties;
+            listInputMethodByUserId(it, &properties);
+            if (properties.empty()) {
+                IMSA_HILOGI("The IME properties is empty.");
+                dprintf(fd, "\n - The IME properties is empty.\n");
+                continue;
+            }
+            std::string params;
+            GetInputMethodParam(properties, params);
+            dprintf(fd, "\n - The Active Id:%d get input method:\n%s\n", it, params.c_str());
+        }
         IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod end.");
     }
 
@@ -997,34 +1012,14 @@ namespace MiscServices {
     void InputMethodSystemAbility::OnDisplayOptionalInputMethod(int32_t userId)
     {
         IMSA_HILOGI("InputMethodSystemAbility::OnDisplayOptionalInputMethod");
-        std::vector<InputMethodProperty*> properties;
+        std::vector<InputMethodProperty *> properties;
         listInputMethodByUserId(userId, &properties);
         if (!properties.size()) {
             IMSA_HILOGI("InputMethodSystemAbility::OnDisplayOptionalInputMethod has no ime");
             return;
         }
-
-        std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
         std::string params = "";
-        std::vector<InputMethodProperty*>::iterator it;
-        for (it = properties.begin(); it < properties.end(); ++it) {
-            if (it == properties.begin()) {
-                params += "{\"imeList\":[";
-            } else {
-                params += "},";
-            }
-            InputMethodProperty *property = (InputMethodProperty*)*it;
-            std::string imeId = Str16ToStr8(property->mPackageName) + "/" + Str16ToStr8(property->mAbilityName);
-            params += "{\"ime\": \"" + imeId + "\",";
-            params += "\"labelId\": \"" + std::to_string(property->labelId) + "\",";
-            params += "\"descriptionId\": \"" + std::to_string(property->descriptionId) + "\",";
-            std::string isDefaultIme = defaultIme == imeId ? "true" : "false";
-            params += "\"isDefaultIme\": \"" + isDefaultIme + "\",";
-            params += "\"label\": \"" + Str16ToStr8(property->label) + "\",";
-            params += "\"description\": \"" + Str16ToStr8(property->description) + "\"";
-        }
-        params += "}]}";
-
+        GetInputMethodParam(properties, params);
         IMSA_HILOGI("InputMethodSystemAbility::OnDisplayOptionalInputMethod param : %{public}s", params.c_str());
         const int TITLE_HEIGHT = 62;
         const int SINGLE_IME_HEIGHT = 66;
