@@ -19,6 +19,7 @@
 #include "system_ability_definition.h"
 #include "iservice_registry.h"
 #include "ipc_skeleton.h"
+#include "errors.h"
 #include "global.h"
 #include "ui_service_mgr_client.h"
 #include "bundle_mgr_proxy.h"
@@ -170,23 +171,22 @@ namespace MiscServices {
         IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod");
         std::vector<int32_t> ids;
         int errCode = OsAccountManager::QueryActiveOsAccountIds(ids);
-        if (errCode == 0) {
-            dprintf(fd, "\n - DumpAllMethod get Active Id succeed,count=%d,", ids.size());
-            for (auto it : ids) {
-                int32_t userId = getUserId(it);
-                std::vector<InputMethodProperty *> properties;
-                listInputMethodByUserId(userId, &properties);
-                if (properties.empty()) {
-                    IMSA_HILOGI("The IME properties is empty.");
-                    dprintf(fd, "\n - The IME properties is empty.\n");
-                    return;
-                }
-                std::string params;
-                GetInputMethodParam(properties, params);
-                dprintf(fd, "\n - The userId %d get input method:\n%s\n", userId, params.c_str());
-            }
-        } else {
+        if (errCode != ERR_OK) {
             dprintf(fd, "\n - InputMethodSystemAbility::DumpAllMethod get Active Id failed.\n");
+            return;
+        }
+        dprintf(fd, "\n - DumpAllMethod get Active Id succeed,count=%d,", ids.size());
+        for (auto it : ids) {
+            std::vector<InputMethodProperty *> properties;
+            listInputMethodByUserId(it, &properties);
+            if (properties.empty()) {
+                IMSA_HILOGI("The IME properties is empty.");
+                dprintf(fd, "\n - The IME properties is empty.\n");
+                continue;
+            }
+            std::string params;
+            GetInputMethodParam(properties, params);
+            dprintf(fd, "\n - The Active Id:%d get input method:\n%s\n", it, params.c_str());
         }
         IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod end.");
     }
