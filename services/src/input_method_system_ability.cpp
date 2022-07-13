@@ -181,7 +181,7 @@ namespace MiscServices {
             listInputMethodByUserId(id, &properties);
             if (properties.empty()) {
                 IMSA_HILOGI("The IME properties is empty.");
-                dprintf(fd, "\n - The IME properties about the Active Id %d is empty.\n",id);
+                dprintf(fd, "\n - The IME properties about the Active Id %d is empty.\n", id);
                 continue;
             }
             std::string params;
