@@ -27,16 +27,6 @@
     "ram": "1024KB",
     "deps": {
       "components": [
-        "ability_runtime",
-        "napi",
-        "bundle_framework",
-        "ipc",
-        "dmsfwk_standard",
-        "safwk",
-        "samgr_standard",
-        "multimodalinput_base",
-        "utils_base",
-        "resource_management",
         "ace_engine",
         "init",
         "napi",
