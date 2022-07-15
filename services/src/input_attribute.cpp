@@ -13,7 +13,9 @@
  * limitations under the License.
  */
 
+
 #include "input_attribute.h"
+#include "new"  
 
 namespace OHOS {
 namespace MiscServices {

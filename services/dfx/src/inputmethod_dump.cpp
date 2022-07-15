@@ -13,8 +13,16 @@
  * limitations under the License.
  */
 
+// #include "inputmethod_dump.h"
+// #include "global.h"
 #include "inputmethod_dump.h"
+#include <stdint.h>
+#include "functional"
 #include "global.h"
+#include "list"
+#include "stdio.h"     
+#include "string"
+#include "vector"
 
 namespace OHOS {
 namespace MiscServices {

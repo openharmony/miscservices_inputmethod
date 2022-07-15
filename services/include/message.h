@@ -17,8 +17,9 @@
 #ifndef SERVICES_INCLUDE_MESSAGE_H
 #define SERVICES_INCLUDE_MESSAGE_H
 
-#include "global.h"
-#include "message_parcel.h"
+#include <stdint.h>          
+#include "message_parcel.h"  
+
 namespace OHOS {
 namespace MiscServices {
     class Message {
