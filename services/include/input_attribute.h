@@ -16,8 +16,9 @@
 #ifndef SERVICES_INCLUDE_INPUT_ATTRIBUTE_H
 #define SERVICES_INCLUDE_INPUT_ATTRIBUTE_H
 
-#include <stdint.h>  
-#include "parcel.h"  
+#include <stdint.h>
+
+#include "parcel.h"
 
 namespace OHOS {
 namespace MiscServices {

@@ -16,13 +16,14 @@
 #ifndef INPUTMETHOD_DUMP_H
 #define INPUTMETHOD_DUMP_H
 
-#include <functional>    
-#include <list>          
-#include <string>        
-#include <vector>        
-#include "__mutex_base"  
-#include "iosfwd"        
-#include "singleton.h"   
+#include <functional>
+#include <list>
+#include <string>
+#include <vector>
+
+#include "__mutex_base"
+#include "iosfwd"
+#include "singleton.h"
 
 namespace OHOS {
 namespace MiscServices {

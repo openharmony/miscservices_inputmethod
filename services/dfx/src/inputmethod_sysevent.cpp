@@ -13,11 +13,11 @@
  * limitations under the License.
  */
 
-
 #include "inputmethod_sysevent.h"
-#include "global.h"      
-#include "hisysevent.h"  
-#include "string"        
+
+#include "global.h"
+#include "hisysevent.h"
+#include "string"
 
 namespace OHOS {
 namespace MiscServices {
