@@ -409,7 +409,7 @@ namespace MiscServices {
     {
         IMSA_HILOGI("InputMethodAbility::HideKeyboardSelf");
         sptr<IInputControlChannel> inputControlChannel_ = inputControlChannel;
-        if(!inputControlChannel_) {
+        if (!inputControlChannel_) {
             IMSA_HILOGI("InputMethodAbility::HideKeyboardSelf inputControlChannel_ is nullptr");
             return;
         }
