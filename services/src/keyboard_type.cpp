@@ -13,7 +13,11 @@
  * limitations under the License.
  */
 
+
 #include "keyboard_type.h"
+#include "__config"
+#include "new"
+#include "string"
 
 namespace OHOS {
 namespace MiscServices {

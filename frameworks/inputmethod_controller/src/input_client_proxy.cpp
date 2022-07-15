@@ -13,7 +13,11 @@
  * limitations under the License.
  */
 
+
 #include "input_client_proxy.h"
+#include "global.h"
+#include "message_option.h"
+#include "message_parcel.h"
 
 namespace OHOS {
 namespace MiscServices {

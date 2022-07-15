@@ -13,7 +13,9 @@
  * limitations under the License.
  */
 
+
 #include "message.h"
+#include "new"
 
 namespace OHOS {
 namespace MiscServices {

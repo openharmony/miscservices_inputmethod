@@ -12,8 +12,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+
 #include "para_handle.h"
 #include "parameter.h"
+#include "string"
 
 namespace OHOS {
     namespace MiscServices {

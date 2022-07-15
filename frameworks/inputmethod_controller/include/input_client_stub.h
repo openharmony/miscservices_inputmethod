@@ -17,10 +17,15 @@
 #ifndef FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_CLIENT_STUB_H
 #define FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_CLIENT_STUB_H
 
-#include "iremote_stub.h"
+#include <stdint.h>
 #include "i_input_client.h"
+#include "i_input_method_agent.h"
+#include "iremote_stub.h"
 #include "message_handler.h"
-#include "message.h"
+#include "message_option.h"
+#include "message_parcel.h"
+#include "nocopyable.h"
+#include "refbase.h"
 
 namespace OHOS {
 namespace MiscServices {
