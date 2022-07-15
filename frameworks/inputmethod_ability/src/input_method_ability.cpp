@@ -413,7 +413,7 @@ namespace MiscServices {
             IMSA_HILOGI("InputMethodAbility::HideKeyboardSelf inputControlChannel_ is nullptr");
             return;
         }
-        inputControlChannel->hideKeyboardSelf(1);
+        inputControlChannel_->hideKeyboardSelf(1);
     }
 
     std::u16string InputMethodAbility::GetTextBeforeCursor(int32_t number)
