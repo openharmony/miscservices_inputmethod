@@ -249,7 +249,7 @@ namespace MiscServices {
         IMSA_HILOGI("InputMethodAbility::OnShowKeyboard");
         MessageParcel *data = msg->msgContent_;
         sptr<InputDataChannelProxy> channalProxy = new (std::nothrow) InputDataChannelProxy(data->ReadRemoteObject());
-        if (inputDataChannel) {
+        if (channalProxy != nullptr) {
             inputDataChannel = channalProxy;
             IMSA_HILOGI("InputMethodAbility::OnShowKeyboard inputDataChannel is not nullptr");
         }
