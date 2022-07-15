@@ -339,9 +339,11 @@ namespace MiscServices {
         }
         imeListener_->OnInputStart();
         imeListener_->OnKeyboardStatus(true);
-        if (inputDataChannel) {
-            inputDataChannel->SendKeyboardStatus(KEYBOARD_SHOW);
+        sptr<IInputDataChannel> inputDataChannel_ = inputDataChannel;
+        if (!inputDataChannel_) {
+            IMSA_HILOGI("InputMethodAbility::ShowInputWindow inputDataChannel_ is nullptr");
         }
+        inputDataChannel_->SendKeyboardStatus(KEYBOARD_SHOW);
     }
 
     void InputMethodAbility::DissmissInputWindow()
@@ -352,124 +354,134 @@ namespace MiscServices {
             return;
         }
         imeListener_->OnKeyboardStatus(false);
-        if (inputDataChannel) {
-            inputDataChannel->SendKeyboardStatus(KEYBOARD_HIDE);
+        sptr<IInputDataChannel> inputDataChannel_ = inputDataChannel;
+        if (!inputDataChannel_) {
+            IMSA_HILOGI("InputMethodAbility::DissmissInputWindow inputDataChannel_ is nullptr");
         }
+        inputDataChannel_->SendKeyboardStatus(KEYBOARD_HIDE);
     }
 
     bool InputMethodAbility::InsertText(const std::string text)
     {
         IMSA_HILOGI("InputMethodAbility::InsertText");
-        if (!inputDataChannel) {
-            IMSA_HILOGI("InputMethodAbility::InsertText inputDataChanel is nullptr");
+        sptr<IInputDataChannel> inputDataChannel_ = inputDataChannel;
+        if (!inputDataChannel_) {
+            IMSA_HILOGI("InputMethodAbility::InsertText inputDataChannel_ is nullptr");
             return false;
         }
-
-        return inputDataChannel->InsertText(Utils::to_utf16(text));
+        return inputDataChannel_->InsertText(Utils::to_utf16(text));
     }
 
     void InputMethodAbility::DeleteForward(int32_t length)
     {
         IMSA_HILOGI("InputMethodAbility::DeleteForward");
-        if (!inputDataChannel) {
-            IMSA_HILOGI("InputMethodAbility::DeleteForward inputDataChanel is nullptr");
+        sptr<IInputDataChannel> inputDataChannel_ = inputDataChannel;
+        if (!inputDataChannel_) {
+            IMSA_HILOGI("InputMethodAbility::DeleteForward inputDataChanel_ is nullptr");
             return;
         }
-        inputDataChannel->DeleteForward(length);
+        inputDataChannel_->DeleteForward(length);
     }
 
     void InputMethodAbility::DeleteBackward(int32_t length)
     {
         IMSA_HILOGI("InputMethodAbility::DeleteBackward");
-        if (!inputDataChannel) {
-            IMSA_HILOGI("InputMethodAbility::DeleteBackward inputDataChanel is nullptr");
+        sptr<IInputDataChannel> inputDataChannel_ = inputDataChannel;
+        if (!inputDataChannel_) {
+            IMSA_HILOGI("InputMethodAbility::DeleteBackward inputDataChanel_ is nullptr");
             return;
         }
-        inputDataChannel->DeleteBackward(length);
+        inputDataChannel_->DeleteBackward(length);
     }
 
     void InputMethodAbility::SendFunctionKey(int32_t funcKey)
     {
         IMSA_HILOGI("InputMethodAbility::SendFunctionKey");
-        if (!inputDataChannel) {
-            IMSA_HILOGI("InputMethodAbility::SendFunctionKey inputDataChanel is nullptr");
+        sptr<IInputDataChannel> inputDataChannel_ = inputDataChannel;
+        if (!inputDataChannel_) {
+            IMSA_HILOGI("InputMethodAbility::SendFunctionKey inputDataChanel_ is nullptr");
             return;
         }
-        inputDataChannel->SendFunctionKey(funcKey);
+        inputDataChannel_->SendFunctionKey(funcKey);
     }
 
     void InputMethodAbility::HideKeyboardSelf()
     {
         IMSA_HILOGI("InputMethodAbility::HideKeyboardSelf");
+        sptr<IInputControlChannel> inputControlChannel_ = inputControlChannel;
+        if(!inputControlChannel_) {
+            IMSA_HILOGI("InputMethodAbility::HideKeyboardSelf inputControlChannel_ is nullptr");
+            return;
+        }
         inputControlChannel->hideKeyboardSelf(1);
     }
 
     std::u16string InputMethodAbility::GetTextBeforeCursor(int32_t number)
     {
         IMSA_HILOGI("InputMethodAbility::GetTextBeforeCursor");
-
-        if (!inputDataChannel) {
-            IMSA_HILOGI("InputMethodAbility::GetTextBeforeCursor inputDataChanel is nullptr");
+        sptr<IInputDataChannel> inputDataChannel_ = inputDataChannel;
+        if (!inputDataChannel_) {
+            IMSA_HILOGI("InputMethodAbility::GetTextBeforeCursor inputDataChanel_ is nullptr");
             return u"";
         }
-        return inputDataChannel->GetTextBeforeCursor(number);
+        return inputDataChannel_->GetTextBeforeCursor(number);
     }
 
     std::u16string InputMethodAbility::GetTextAfterCursor(int32_t number)
     {
         IMSA_HILOGI("InputMethodAbility::GetTextAfterCursor");
-
-        if (!inputDataChannel) {
-            IMSA_HILOGI("InputMethodAbility::GetTextAfterCursor inputDataChanel is nullptr");
+        sptr<IInputDataChannel> inputDataChannel_ = inputDataChannel;
+        if (!inputDataChannel_) {
+            IMSA_HILOGI("InputMethodAbility::GetTextAfterCursor inputDataChanel_ is nullptr");
             return u"";
         }
-        return inputDataChannel->GetTextAfterCursor(number);
+        return inputDataChannel_->GetTextAfterCursor(number);
     }
 
     void InputMethodAbility::MoveCursor(int32_t keyCode)
     {
         IMSA_HILOGI("InputMethodAbility::MoveCursor");
-
-        if (!inputDataChannel) {
-            IMSA_HILOGI("InputMethodAbility::MoveCursor inputDataChanel is nullptr");
+        sptr<IInputDataChannel> inputDataChannel_ = inputDataChannel;
+        if (!inputDataChannel_) {
+            IMSA_HILOGI("InputMethodAbility::MoveCursor inputDataChanel_ is nullptr");
             return;
         }
 
-        inputDataChannel->MoveCursor(keyCode);
+        inputDataChannel_->MoveCursor(keyCode);
         return;
     }
 
     int32_t InputMethodAbility::GetEnterKeyType()
     {
         IMSA_HILOGI("InputMethodAbility::GetEnterKeyType");
-
-        if (!inputDataChannel) {
-            IMSA_HILOGI("InputMethodAbility::GetEnterKeyType inputDataChanel is nullptr");
+        sptr<IInputDataChannel> inputDataChannel_ = inputDataChannel;
+        if (!inputDataChannel_) {
+            IMSA_HILOGI("InputMethodAbility::GetEnterKeyType inputDataChanel_ is nullptr");
             return 0;
         }
-        return inputDataChannel->GetEnterKeyType();
+        return inputDataChannel_->GetEnterKeyType();
     }
 
     int32_t InputMethodAbility::GetInputPattern()
     {
         IMSA_HILOGI("InputMethodAbility::GetInputPattern");
-
-        if (!inputDataChannel) {
-            IMSA_HILOGI("InputMethodAbility::GetInputPattern inputDataChanel is nullptr");
+        sptr<IInputDataChannel> inputDataChannel_ = inputDataChannel;
+        if (!inputDataChannel_) {
+            IMSA_HILOGI("InputMethodAbility::GetInputPattern inputDataChanel_ is nullptr");
             return 0;
         }
-        return inputDataChannel->GetInputPattern();
+        return inputDataChannel_->GetInputPattern();
     }
 
     void InputMethodAbility::StopInput()
     {
         IMSA_HILOGI("InputMethodAbility::StopInput");
-
-        if (!inputDataChannel) {
-            IMSA_HILOGI("InputMethodAbility::StopInput inputDataChanel is nullptr");
+        sptr<IInputDataChannel> inputDataChannel_ = inputDataChannel;
+        if (!inputDataChannel_) {
+            IMSA_HILOGI("InputMethodAbility::StopInput inputDataChanel_ is nullptr");
             return;
         }
-        inputDataChannel->StopInput();
+        inputDataChannel_->StopInput();
     }
 } // namespace MiscServices
 } // namespace OHOS
