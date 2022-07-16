@@ -14,7 +14,11 @@
  */
 
 #include "input_client_stub.h"
+
 #include "global.h"
+#include "ipc_object_stub.h"
+#include "ipc_types.h"
+#include "message.h"
 
 namespace OHOS {
 namespace MiscServices {

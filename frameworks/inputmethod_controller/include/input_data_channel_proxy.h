@@ -16,9 +16,16 @@
 #ifndef FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_DATA_CHANNEL_PROXY_H
 #define FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_DATA_CHANNEL_PROXY_H
 
-#include "iremote_proxy.h"
+#include <cstdint>
+#include <functional>
+#include <string>
+
 #include "i_input_data_channel.h"
-#include "input_method_utils.h"
+#include "iremote_broker.h"
+#include "iremote_object.h"
+#include "iremote_proxy.h"
+#include "nocopyable.h"
+#include "refbase.h"
 
 namespace OHOS {
 namespace MiscServices {

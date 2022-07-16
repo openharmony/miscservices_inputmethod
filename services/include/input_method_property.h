@@ -15,10 +15,13 @@
 
 #ifndef SERVICES_INCLUDE_INPUT_METHOD_PROPERTY_H
 #define SERVICES_INCLUDE_INPUT_METHOD_PROPERTY_H
-#include <vector>
+
+#include <cstdint>
 #include <string>
-#include "parcel.h"
+#include <vector>
+
 #include "keyboard_type.h"
+#include "parcel.h"
 
 namespace OHOS {
 namespace MiscServices {
