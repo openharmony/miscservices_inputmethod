@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-
 #include "input_data_channel_proxy.h"
 #include "global.h"
 #include "ipc_types.h"
