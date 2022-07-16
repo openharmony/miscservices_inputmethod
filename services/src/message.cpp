@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-#include <new>
-
 #include "message.h"
 
 namespace OHOS {
