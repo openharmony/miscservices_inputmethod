@@ -17,9 +17,11 @@
 #ifndef SERVICES_INCLUDE_MESSAGE_HANDLER_H
 #define SERVICES_INCLUDE_MESSAGE_HANDLER_H
 
-#include <condition_variable>
-#include <mutex>
 #include <queue>
+#include <mutex>
+#include <condition_variable>
+#include "global.h"
+#include "message_parcel.h"
 #include "message.h"
 
 namespace OHOS {
