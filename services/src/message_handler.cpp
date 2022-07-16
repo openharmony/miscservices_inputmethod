@@ -18,7 +18,7 @@
 #include <new>
 #include <queue>
 
-    namespace OHOS {
+namespace OHOS {
 namespace MiscServices {
     /*! Constructor
     */
