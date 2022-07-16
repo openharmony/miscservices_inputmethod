@@ -15,9 +15,6 @@
 
 #include "keyboard_type.h"
 
-#include <new>
-#include <string>
-
 #include "__config"
 
 namespace OHOS {

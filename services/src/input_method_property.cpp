@@ -15,10 +15,6 @@
 
 #include "input_method_property.h"
 
-#include <new>
-#include <string>
-#include <vector>
-
 #include "__config"
 
 namespace OHOS {

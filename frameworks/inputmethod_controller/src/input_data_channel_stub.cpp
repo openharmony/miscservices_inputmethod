@@ -15,8 +15,6 @@
 
 #include "input_data_channel_stub.h"
 
-#include <new>
-
 #include "global.h"
 #include "input_method_controller.h"
 #include "ipc_object_stub.h"
