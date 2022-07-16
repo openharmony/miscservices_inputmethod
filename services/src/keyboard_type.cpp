@@ -15,8 +15,6 @@
 
 #include "keyboard_type.h"
 
-#include "__config"
-
 namespace OHOS {
 namespace MiscServices {
     using namespace std;

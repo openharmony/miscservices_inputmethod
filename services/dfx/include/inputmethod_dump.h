@@ -16,12 +16,12 @@
 #ifndef INPUTMETHOD_DUMP_H
 #define INPUTMETHOD_DUMP_H
 
+#include <cstdlib>
 #include <functional>
 #include <list>
 #include <string>
 #include <vector>
 
-#include "__mutex_base"
 #include "iosfwd"
 #include "singleton.h"
 
