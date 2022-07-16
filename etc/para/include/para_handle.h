@@ -15,10 +15,7 @@
 
 #ifndef ETC_PARA_INCLUDE_PARA_HANDLE_H
 #define ETC_PARA_INCLUDE_PARA_HANDLE_H
-
-#include <cstdint>
-
-#include "iosfwd"
+#include <string>
 namespace OHOS {
     namespace MiscServices {
         class ParaHandle {

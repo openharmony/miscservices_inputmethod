@@ -16,9 +16,8 @@
 #ifndef INPUTMETHOD_SYSEVENT_H
 #define INPUTMETHOD_SYSEVENT_H
 
-#include <cstdint>
-
-#include "iosfwd"
+#include <string>
+#include "global.h"
 
 namespace OHOS {
 namespace MiscServices {
