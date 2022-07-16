@@ -16,7 +16,6 @@
 
 #include "para_handle.h"
 #include "parameter.h"
-#include "string"
 
 namespace OHOS {
     namespace MiscServices {

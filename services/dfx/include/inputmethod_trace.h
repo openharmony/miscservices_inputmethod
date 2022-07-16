@@ -16,8 +16,7 @@
 #ifndef INPUTMETHOD_TRACE_H
 #define INPUTMETHOD_TRACE_H
 
-#include <cstdint>
-#include "iosfwd"
+#include <string>
 
 namespace OHOS {
 namespace MiscServices {

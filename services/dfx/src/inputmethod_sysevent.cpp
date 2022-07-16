@@ -15,9 +15,8 @@
 
 #include "inputmethod_sysevent.h"
 
-#include "global.h"
 #include "hisysevent.h"
-#include "string"
+
 
 namespace OHOS {
 namespace MiscServices {
