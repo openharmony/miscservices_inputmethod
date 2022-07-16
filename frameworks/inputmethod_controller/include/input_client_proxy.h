@@ -13,12 +13,19 @@
  * limitations under the License.
  */
 
-
 #ifndef FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_CLIENT_PROXY_H
 #define FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_CLIENT_PROXY_H
 
-#include "iremote_proxy.h"
+#include <cstdint>
+#include <functional>
+
 #include "i_input_client.h"
+#include "i_input_method_agent.h"
+#include "iremote_broker.h"
+#include "iremote_object.h"
+#include "iremote_proxy.h"
+#include "nocopyable.h"
+#include "refbase.h"
 
 namespace OHOS {
 namespace MiscServices {

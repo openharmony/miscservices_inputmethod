@@ -14,6 +14,8 @@
  */
 
 #include "input_method_agent_proxy.h"
+#include "global.h"
+#include "message_option.h"
 
 namespace OHOS {
 namespace MiscServices {

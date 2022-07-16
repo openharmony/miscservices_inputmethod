@@ -15,6 +15,9 @@
 
 #ifndef SERVICES_INCLUDE_INPUT_ATTRIBUTE_H
 #define SERVICES_INCLUDE_INPUT_ATTRIBUTE_H
+
+#include <cstdint>
+
 #include "parcel.h"
 
 namespace OHOS {

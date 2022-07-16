@@ -14,6 +14,13 @@
  */
 
 #include "inputmethod_dump.h"
+
+#include <cstdint>
+#include <functional>
+#include <list>
+#include <string>
+#include <vector>
+
 #include "global.h"
 
 namespace OHOS {

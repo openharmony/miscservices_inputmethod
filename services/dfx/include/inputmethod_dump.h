@@ -16,11 +16,13 @@
 #ifndef INPUTMETHOD_DUMP_H
 #define INPUTMETHOD_DUMP_H
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <functional>
 #include <list>
 #include <string>
 #include <vector>
+
+#include "iosfwd"
 #include "singleton.h"
 
 namespace OHOS {

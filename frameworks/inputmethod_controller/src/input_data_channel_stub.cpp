@@ -14,7 +14,12 @@
  */
 
 #include "input_data_channel_stub.h"
-#include "string_ex.h"
+
+#include "global.h"
+#include "input_method_controller.h"
+#include "ipc_object_stub.h"
+#include "ipc_types.h"
+#include "message.h"
 
 namespace OHOS {
 namespace MiscServices {
