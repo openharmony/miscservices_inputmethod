@@ -13,11 +13,10 @@
  * limitations under the License.
  */
 
-
 #ifndef FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_CLIENT_STUB_H
 #define FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_CLIENT_STUB_H
 
-#include <stdint.h>
+#include <cstdint>
 #include "i_input_client.h"
 #include "i_input_method_agent.h"
 #include "iremote_stub.h"

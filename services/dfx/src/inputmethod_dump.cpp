@@ -16,12 +16,12 @@
 #include "inputmethod_dump.h"
 
 #include <cstdint>
+#include <functional>
+#include <list>
+#include <string>
+#include <vector>
 
-#include "functional"
 #include "global.h"
-#include "list"
-#include "string"
-#include "vector"
 
 namespace OHOS {
 namespace MiscServices {

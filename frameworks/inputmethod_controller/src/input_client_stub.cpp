@@ -13,14 +13,15 @@
  * limitations under the License.
  */
 
-
 #include "input_client_stub.h"
+
+#include <new>
+#include <string>
+
 #include "global.h"
 #include "ipc_object_stub.h"
 #include "ipc_types.h"
 #include "message.h"
-#include "new"
-#include "string"
 
 namespace OHOS {
 namespace MiscServices {

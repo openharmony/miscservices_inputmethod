@@ -16,9 +16,10 @@
 #ifndef FRAMEWORKS_INPUTMETHOD_ABILITY_INCLUDE_INPUT_METHOD_AGENT_PROXY_H
 #define FRAMEWORKS_INPUTMETHOD_ABILITY_INCLUDE_INPUT_METHOD_AGENT_PROXY_H
 
-#include <stdint.h>
+#include <cstdint>
+#include <functional>
+#include <string>
 
-#include "functional"
 #include "i_input_method_agent.h"
 #include "iremote_broker.h"
 #include "iremote_object.h"
@@ -26,7 +27,6 @@
 #include "message_parcel.h"
 #include "nocopyable.h"
 #include "refbase.h"
-#include "string"
 
 namespace OHOS {
 namespace MiscServices {

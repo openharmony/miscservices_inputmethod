@@ -13,12 +13,13 @@
  * limitations under the License.
  */
 
-
 #include "input_method_property.h"
+
+#include <new>
+#include <string>
+#include <vector>
+
 #include "__config"
-#include "new"
-#include "string"
-#include "vector"
 
 namespace OHOS {
 namespace MiscServices {

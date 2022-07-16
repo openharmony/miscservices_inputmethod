@@ -16,8 +16,7 @@
 #ifndef SERVICES_INCLUDE_INPUT_METHOD_PROPERTY_H
 #define SERVICES_INCLUDE_INPUT_METHOD_PROPERTY_H
 
-#include <stdint.h>
-
+#include <cstdint>
 #include <string>
 #include <vector>
 

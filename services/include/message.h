@@ -17,7 +17,7 @@
 #ifndef SERVICES_INCLUDE_MESSAGE_H
 #define SERVICES_INCLUDE_MESSAGE_H
 
-#include <stdint.h>
+#include <cstdint>
 
 #include "message_parcel.h"
 

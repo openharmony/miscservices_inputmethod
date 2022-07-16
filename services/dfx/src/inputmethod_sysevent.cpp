@@ -17,7 +17,6 @@
 
 #include "hisysevent.h"
 
-
 namespace OHOS {
 namespace MiscServices {
 namespace {

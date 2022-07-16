@@ -15,7 +15,7 @@
 
 #include "input_attribute.h"
 
-#include "new"
+#include <new>
 
 namespace OHOS {
 namespace MiscServices {
