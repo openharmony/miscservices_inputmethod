@@ -13,12 +13,12 @@
  * limitations under the License.
  */
 
-
 #include "message_handler.h"
-#include "new"
-#include "queue"
 
-namespace OHOS {
+#include <new>
+#include <queue>
+
+    namespace OHOS {
 namespace MiscServices {
     /*! Constructor
     */

@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-
 #include "para_handle.h"
 #include "parameter.h"
 

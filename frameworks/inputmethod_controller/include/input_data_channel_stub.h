@@ -13,11 +13,12 @@
  * limitations under the License.
  */
 
-
 #ifndef FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_DATA_CHANNEL_STUB_H
 #define FRAMEWORKS_INPUTMETHOD_CONTROLLER_INCLUDE_INPUT_DATA_CHANNEL_STUB_H
 
-#include <stdint.h>
+#include <cstdint>
+#include <string>
+
 #include "i_input_data_channel.h"
 #include "iremote_stub.h"
 #include "message_handler.h"
@@ -25,7 +26,6 @@
 #include "message_parcel.h"
 #include "nocopyable.h"
 #include "refbase.h"
-#include "string"
 
 namespace OHOS {
 namespace MiscServices {

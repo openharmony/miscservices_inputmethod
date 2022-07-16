@@ -16,7 +16,7 @@
 #ifndef SERVICES_INCLUDE_KEYBOARD_TYPE_H
 #define SERVICES_INCLUDE_KEYBOARD_TYPE_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include "parcel.h"
 
