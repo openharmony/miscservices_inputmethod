@@ -175,18 +175,18 @@ namespace MiscServices {
             dprintf(fd, "\n - InputMethodSystemAbility::DumpAllMethod get Active Id failed.\n");
             return;
         }
-        dprintf(fd, "\n - DumpAllMethod get Active Id succeed,count=%d,", ids.size());
-        for (auto it : ids) {
+        dprintf(fd, "\n - DumpAllMethod get Active Id succeed,count=%zu,", ids.size());
+        for (auto id : ids) {
             std::vector<InputMethodProperty *> properties;
-            listInputMethodByUserId(it, &properties);
+            listInputMethodByUserId(id, &properties);
             if (properties.empty()) {
                 IMSA_HILOGI("The IME properties is empty.");
-                dprintf(fd, "\n - The IME properties is empty.\n");
+                dprintf(fd, "\n - The IME properties about the Active Id %d is empty.\n", id);
                 continue;
             }
             std::string params;
             GetInputMethodParam(properties, params);
-            dprintf(fd, "\n - The Active Id:%d get input method:\n%s\n", it, params.c_str());
+            dprintf(fd, "\n - The Active Id:%d get input method:\n%s\n", id, params.c_str());
         }
         IMSA_HILOGI("InputMethodSystemAbility::DumpAllMethod end.");
     }
