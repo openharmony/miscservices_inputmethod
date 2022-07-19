@@ -20,6 +20,7 @@
 namespace OHOS {
 namespace MiscServices {
     using namespace AbilityRuntime;
+    std::recursive_mutex JsInputMethodEngineListener::mapMutex{};
     void JsInputMethodEngineListener::RegisterListenerWithType(NativeEngine& engine,
                                                                std::string type, NativeValue* value)
     {
@@ -28,72 +29,62 @@ namespace MiscServices {
             IMSA_HILOGI("JsInputMethodEngineListener::RegisterListenerWithType callback already registered!");
             return;
         }
-        std::unique_ptr<NativeReference> callbackRef;
-        callbackRef.reset(engine.CreateReference(value, 1));
-
         AddCallback(type, value);
+    }
+
+    JsInputMethodEngineListener::~JsInputMethodEngineListener()
+    {
+      IMSA_HILOGE("JsInputMethodEngineListener::~JsInputMethodEngineListener");
     }
 
     void JsInputMethodEngineListener::AddCallback(std::string type, NativeValue* jsListenerObject)
     {
-        IMSA_HILOGI("JsInputMethodEngineListener::AddCallback is called");
+        IMSA_HILOGI("JsInputMethodEngineListener::AddCallback is called : %{public}s", type.c_str());
         std::lock_guard<std::mutex> lock(mMutex);
-        std::unique_ptr<NativeReference> callbackRef;
-        callbackRef.reset(engine_->CreateReference(jsListenerObject, 1));
-        jsCbMap_[type].push_back(std::move(callbackRef));
+        std::shared_ptr<NativeReference> callbackRef(engine_->CreateReference(jsListenerObject, 1));
+        if (callbackRef == nullptr) {
+          IMSA_HILOGI("JsInputMethodEngineListener::AddCallback fail, callbackRef is nullptr.");
+          return;
+        }
+        std::lock_guard<std::recursive_mutex> mapLock(mapMutex);
+        jsCbMap_[type].push_back(callbackRef);
         IMSA_HILOGI("JsInputMethodEngineListener::AddCallback success");
         IMSA_HILOGI("jsCbMap_ size: %{public}d, and type[%{public}s] size: %{public}d!",
             static_cast<uint32_t>(jsCbMap_.size()), type.c_str(), static_cast<uint32_t>(jsCbMap_[type].size()));
-        return;
     }
 
     void JsInputMethodEngineListener::UnregisterAllListenerWithType(std::string type)
     {
-        IMSA_HILOGI("JsInputMethodEngineListener::UnregisterAllListenerWithType");
+        IMSA_HILOGI("JsInputMethodEngineListener::UnregisterAllListenerWithType : %{public}s.", type.c_str());
         // should do type check
+        std::lock_guard<std::recursive_mutex> mapLock(mapMutex);
         if (jsCbMap_.empty() || jsCbMap_.find(type) == jsCbMap_.end()) {
             IMSA_HILOGI("methodName %{public}s not registerted!", type.c_str());
             return;
         }
-        for (auto it = jsCbMap_[type].begin(); it != jsCbMap_[type].end();) {
-            jsCbMap_[type].erase(it);
-        }
-        // one type with multi jscallback, erase type when there is no callback in one type
-        if (jsCbMap_[type].empty()) {
-            jsCbMap_.erase(type);
-        }
-        return;
+        jsCbMap_.erase(type);
     }
 
     void JsInputMethodEngineListener::UnregisterListenerWithType(std::string type, NativeValue* value)
     {
-        IMSA_HILOGI("JsInputMethodEngineListener::UnregisterListenerWithType");
+        IMSA_HILOGI("JsInputMethodEngineListener::UnregisterListenerWithType : %{public}s.", type.c_str());
         // should do type check
+        std::lock_guard<std::recursive_mutex> mapLock(mapMutex);
         if (jsCbMap_.empty() || jsCbMap_.find(type) == jsCbMap_.end()) {
             IMSA_HILOGI("methodName %{public}s not registerted!", type.c_str());
             return;
         }
-        for (auto it = jsCbMap_[type].begin(); it != jsCbMap_[type].end();) {
-            if (value->StrictEquals((*it)->Get())) {
-                jsCbMap_[type].erase(it);
-                break;
-            }
-        }
-        // one type with multi jscallback, erase type when there is no callback in one type
-        if (jsCbMap_[type].empty()) {
-            jsCbMap_.erase(type);
-        }
-        return;
+        jsCbMap_.erase(type);
     }
 
     bool JsInputMethodEngineListener::IfCallbackRegistered(std::string type, NativeValue* jsListenerObject)
     {
         IMSA_HILOGI("JsInputMethodEngineListener::IfCallbackRegistered");
+        std::lock_guard<std::recursive_mutex> mapLock(mapMutex);
         if (jsCbMap_.empty() || jsCbMap_.find(type) == jsCbMap_.end()) {
             IMSA_HILOGI("methodName %{public}s not registertd!", type.c_str());
             return false;
         }
-
         for (auto iter = jsCbMap_[type].begin(); iter != jsCbMap_[type].end(); iter++) {
             if (jsListenerObject->StrictEquals((*iter)->Get())) {
                 IMSA_HILOGI("JsInputMethodEngineListener::IfCallbackRegistered callback already registered!");
@@ -105,19 +96,22 @@ namespace MiscServices {
 
     void JsInputMethodEngineListener::CallJsMethod(std::string methodName, NativeValue* const* argv, size_t argc)
     {
-        IMSA_HILOGI("JsInputMethodEngineListener::CallJsMethod");
+        IMSA_HILOGI("JsInputMethodEngineListener::CallJsMethod : %{public}s", methodName.c_str());
         if (!engine_) {
             IMSA_HILOGI("engine_ nullptr");
             return;
         }
-
+        std::lock_guard<std::recursive_mutex> mapLock(mapMutex);
         if (jsCbMap_.empty() || jsCbMap_.find(methodName) == jsCbMap_.end()) {
             IMSA_HILOGI("methodName %{public}s not registertd!", methodName.c_str());
             return;
         }
-
-        for (auto iter = jsCbMap_[methodName].begin(); iter != jsCbMap_[methodName].end(); iter++) {
-            engine_->CallFunction(engine_->CreateUndefined(), (*iter)->Get(), argv, argc);
+        for (auto iter : jsCbMap_[methodName]) {
+            if (iter == nullptr) {
+                IMSA_HILOGE("JsInputMethodEngineListener::CallJsMethod iter is null!");
+                return;
+            }
+            engine_->CallFunction(engine_->CreateUndefined(), iter->Get(), argv, argc);
         }
     }
 
@@ -129,15 +123,16 @@ namespace MiscServices {
             IMSA_HILOGI("engine_ nullptr");
             return false;
         }
-
+        std::lock_guard<std::recursive_mutex> mapLock(mapMutex);
         if (jsCbMap_.empty() || jsCbMap_.find(methodName) == jsCbMap_.end()) {
-            IMSA_HILOGI("methodName %{public}s not registertd!", methodName.c_str());
+            IMSA_HILOGI("methodName %{public}s not registered!", methodName.c_str());
             return false;
         }
 
         bool result = false;
-        for (auto iter = jsCbMap_[methodName].begin(); iter != jsCbMap_[methodName].end(); iter++) {
-            NativeValue* nativeValue = engine_->CallFunction(engine_->CreateUndefined(), (*iter)->Get(), argv, argc);
+        for (auto iter : jsCbMap_[methodName]) {
+            NativeValue *nativeValue =
+                engine_->CallFunction(engine_->CreateUndefined(), iter->Get(), argv, argc);
             bool ret = false;
             if (ConvertFromJsValue(*engine_, nativeValue, ret) && ret) {
                 result = true;

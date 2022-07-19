@@ -440,7 +440,7 @@ namespace MiscServices {
 
     int32_t InputMethodSystemAbilityProxy::SwitchInputMethod(InputMethodProperty* target)
     {
-        IMSA_HILOGI("InputMethodSystemAbilityProxy::switchInputMethod");
+        IMSA_HILOGI("InputMethodSystemAbilityProxy::SwitchInputMethod");
         MessageParcel data, reply;
         MessageOption option;
 
@@ -454,8 +454,9 @@ namespace MiscServices {
             return false;
         }
         delete target;
-        auto ret = Remote()->SendRequest(SWITCH_INPUT_METHOD, data, reply, option);
-        ret = reply.ReadInt32();
+        Remote()->SendRequest(SWITCH_INPUT_METHOD, data, reply, option);
+        int32_t ret = reply.ReadInt32();
+        IMSA_HILOGE("InputMethodSystemAbilityProxy::switchInputMethod ret = %{public}d", ret);
         return ret;
     }
 } // namespace MiscServices
