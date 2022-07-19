@@ -34,7 +34,7 @@ namespace MiscServices {
 
     JsInputMethodEngineListener::~JsInputMethodEngineListener()
     {
-      IMSA_HILOGE("JsInputMethodEngineListener::~JsInputMethodEngineListener");
+        IMSA_HILOGE("JsInputMethodEngineListener::~JsInputMethodEngineListener");
     }
 
     void JsInputMethodEngineListener::AddCallback(std::string type, NativeValue* jsListenerObject)
@@ -43,8 +43,8 @@ namespace MiscServices {
         std::lock_guard<std::mutex> lock(mMutex);
         std::shared_ptr<NativeReference> callbackRef(engine_->CreateReference(jsListenerObject, 1));
         if (callbackRef == nullptr) {
-          IMSA_HILOGI("JsInputMethodEngineListener::AddCallback fail, callbackRef is nullptr.");
-          return;
+            IMSA_HILOGI("JsInputMethodEngineListener::AddCallback fail, callbackRef is nullptr.");
+            return;
         }
         std::lock_guard<std::recursive_mutex> mapLock(mapMutex);
         jsCbMap_[type].push_back(callbackRef);
