@@ -20,7 +20,7 @@
 namespace OHOS {
 namespace MiscServices {
     using namespace AbilityRuntime;
-    std::recursive_mutex JsInputMethodEngineListener::mapMutex{};
+    std::recursive_mutex JsInputMethodEngineListener::mapMutex {};
     void JsInputMethodEngineListener::RegisterListenerWithType(NativeEngine& engine,
                                                                std::string type, NativeValue* value)
     {
