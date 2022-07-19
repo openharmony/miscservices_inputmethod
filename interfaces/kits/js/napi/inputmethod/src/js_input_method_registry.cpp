@@ -109,9 +109,10 @@ namespace MiscServices {
 
             bool isSwitchSuccess = false;
             if (!InputMethodController::GetInstance()->SwitchInputMethod(target)) {
+                IMSA_HILOGE("JsInputMethodRegistry::OnSwitchInputMethod success!");
                 isSwitchSuccess = true;
             } else {
-                IMSA_HILOGE("JsInputMethodRegistry::OnSwitchInputMethod isSwitchSuccess is false !");
+                IMSA_HILOGE("JsInputMethodRegistry::OnSwitchInputMethod failed!");
             }
 
             NativeValue *result = CreateJsValue(engine, isSwitchSuccess);
