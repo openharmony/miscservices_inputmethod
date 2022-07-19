@@ -34,11 +34,6 @@ namespace MiscServices {
         InputMethodAbility::GetInstance()->setImeListener(imeListener_);
     }
 
-    JsInputMethodEngine::~JsInputMethodEngine()
-    {
-        IMSA_HILOGE("JsInputMethodEngine::~JsInputMethodEngine");
-    }
-
     void JsInputMethodEngine::Finalizer(NativeEngine* engine, void* data, void* hint)
     {
         IMSA_HILOGI("JsInputMethodEngine::Finalizer is called");
