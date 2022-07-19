@@ -20,7 +20,6 @@
 namespace OHOS {
 namespace MiscServices {
     using namespace AbilityRuntime;
-    std::recursive_mutex JsInputMethodEngineListener::mapMutex {};
     void JsInputMethodEngineListener::RegisterListenerWithType(NativeEngine& engine,
                                                                std::string type, NativeValue* value)
     {
@@ -32,21 +31,18 @@ namespace MiscServices {
         AddCallback(type, value);
     }
 
-    JsInputMethodEngineListener::~JsInputMethodEngineListener()
-    {
-        IMSA_HILOGE("JsInputMethodEngineListener::~JsInputMethodEngineListener");
-    }
-
     void JsInputMethodEngineListener::AddCallback(std::string type, NativeValue* jsListenerObject)
     {
         IMSA_HILOGI("JsInputMethodEngineListener::AddCallback is called : %{public}s", type.c_str());
-        std::lock_guard<std::mutex> lock(mMutex);
-        std::shared_ptr<NativeReference> callbackRef(engine_->CreateReference(jsListenerObject, 1));
-        if (callbackRef == nullptr) {
-            IMSA_HILOGI("JsInputMethodEngineListener::AddCallback fail, callbackRef is nullptr.");
-            return;
+        {
+            std::lock_guard<std::mutex> lock(mMutex);
+            std::shared_ptr<NativeReference> callbackRef(engine_->CreateReference(jsListenerObject, 1));
+            if (callbackRef == nullptr) {
+                IMSA_HILOGI("JsInputMethodEngineListener::AddCallback fail, callbackRef is nullptr.");
+                return;
+            }
         }
-        std::lock_guard<std::recursive_mutex> mapLock(mapMutex);
+        std::lock_guard<std::recursive_mutex> lk(mapMutex);
         jsCbMap_[type].push_back(callbackRef);
         IMSA_HILOGI("JsInputMethodEngineListener::AddCallback success");
         IMSA_HILOGI("jsCbMap_ size: %{public}d, and type[%{public}s] size: %{public}d!",
@@ -57,7 +53,7 @@ namespace MiscServices {
     {
         IMSA_HILOGI("JsInputMethodEngineListener::UnregisterAllListenerWithType : %{public}s.", type.c_str());
         // should do type check
-        std::lock_guard<std::recursive_mutex> mapLock(mapMutex);
+        std::lock_guard<std::recursive_mutex> lk(mapMutex);
         if (jsCbMap_.empty() || jsCbMap_.find(type) == jsCbMap_.end()) {
             IMSA_HILOGI("methodName %{public}s not registerted!", type.c_str());
             return;
@@ -69,7 +65,7 @@ namespace MiscServices {
     {
         IMSA_HILOGI("JsInputMethodEngineListener::UnregisterListenerWithType : %{public}s.", type.c_str());
         // should do type check
-        std::lock_guard<std::recursive_mutex> mapLock(mapMutex);
+        std::lock_guard<std::recursive_mutex> lk(mapMutex);
         if (jsCbMap_.empty() || jsCbMap_.find(type) == jsCbMap_.end()) {
             IMSA_HILOGI("methodName %{public}s not registerted!", type.c_str());
             return;
@@ -80,7 +76,7 @@ namespace MiscServices {
     bool JsInputMethodEngineListener::IfCallbackRegistered(std::string type, NativeValue* jsListenerObject)
     {
         IMSA_HILOGI("JsInputMethodEngineListener::IfCallbackRegistered");
-        std::lock_guard<std::recursive_mutex> mapLock(mapMutex);
+        std::lock_guard<std::recursive_mutex> lk(mapMutex);
         if (jsCbMap_.empty() || jsCbMap_.find(type) == jsCbMap_.end()) {
             IMSA_HILOGI("methodName %{public}s not registertd!", type.c_str());
             return false;
@@ -101,7 +97,7 @@ namespace MiscServices {
             IMSA_HILOGI("engine_ nullptr");
             return;
         }
-        std::lock_guard<std::recursive_mutex> mapLock(mapMutex);
+        std::lock_guard<std::recursive_mutex> lk(mapMutex);
         if (jsCbMap_.empty() || jsCbMap_.find(methodName) == jsCbMap_.end()) {
             IMSA_HILOGI("methodName %{public}s not registertd!", methodName.c_str());
             return;
@@ -123,7 +119,7 @@ namespace MiscServices {
             IMSA_HILOGI("engine_ nullptr");
             return false;
         }
-        std::lock_guard<std::recursive_mutex> mapLock(mapMutex);
+        std::lock_guard<std::recursive_mutex> lk(mapMutex);
         if (jsCbMap_.empty() || jsCbMap_.find(methodName) == jsCbMap_.end()) {
             IMSA_HILOGI("methodName %{public}s not registered!", methodName.c_str());
             return false;

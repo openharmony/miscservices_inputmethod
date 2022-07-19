@@ -25,11 +25,9 @@ namespace OHOS {
 namespace MiscServices {
     class Message {
     public:
-        int32_t msgId_ {}; // message id
+        int32_t msgId_ {0}; // message id
         MessageParcel *msgContent_ = nullptr; // message content
-        MessageParcel *msgReply_ = nullptr; // message reply
         Message(int32_t msgId, MessageParcel *msgContent);
-        Message(int32_t msgId, MessageParcel *msgContent, MessageParcel *msgReply);
         explicit Message(const Message& msg);
         Message& operator =(const Message& msg);
         ~Message();

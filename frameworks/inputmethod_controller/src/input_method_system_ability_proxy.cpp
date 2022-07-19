@@ -445,18 +445,20 @@ namespace MiscServices {
         MessageOption option;
 
         if (!data.WriteInterfaceToken(GetDescriptor())) {
-            return false;
+            return ERROR_EX_PARCELABLE;
         }
 
         if (!target->Marshalling(data)) {
             IMSA_HILOGE("InputMethodSystemAbilityProxy::switchInputMethod Failed to marshall target to data!");
             delete target;
-            return false;
+            return ERROR_IME_PROPERTY_MARSHALL;
         }
         delete target;
-        Remote()->SendRequest(SWITCH_INPUT_METHOD, data, reply, option);
-        int32_t ret = reply.ReadInt32();
-        IMSA_HILOGE("InputMethodSystemAbilityProxy::switchInputMethod ret = %{public}d", ret);
+        auto ret = Remote()->SendRequest(SWITCH_INPUT_METHOD, data, reply, option);
+        if (ret != NO_ERROR) {
+            return ERROR_STATUS_FAILED_TRANSACTION;
+        }
+        ret = reply.ReadInt32();
         return ret;
     }
 } // namespace MiscServices

@@ -1002,7 +1002,13 @@ namespace MiscServices {
             if (!StartInputService(targetIme)) {
                 return ErrorCode::ERROR_IME_START_FAILED;
             }
-            ParaHandle::SetDefaultIme(userId_, targetIme);
+            bool setResult = ParaHandle::SetDefaultIme(userId_, targetIme);
+            if (setResult) {
+                IMSA_HILOGI("SetDefaultIme Successfully.");
+            } else {
+                IMSA_HILOGI("SetDefaultIme Failed.");
+                return ErrorCode::ERROR_STATUS_PERMISSION_DENIED;
+            }
         } else {
             IMSA_HILOGI("InputMethodSystemAbility::OnSwitchInputMethod DefaultIme and TargetIme are the same one!");
         }

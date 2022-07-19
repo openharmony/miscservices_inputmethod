@@ -325,7 +325,7 @@ namespace MiscServices {
             return ErrorCode::ERROR_IME_PROPERTY_MARSHALL;
         }
         delete target;
-        auto *msg = new Message(MSG_ID_SWITCH_INPUT_METHOD, parcel);
+        auto *msg = new (std::nothrow) Message(MSG_ID_SWITCH_INPUT_METHOD, parcel);
         MessageHandler::Instance()->SendMessage(msg);
         return ErrorCode::NO_ERROR;
     }

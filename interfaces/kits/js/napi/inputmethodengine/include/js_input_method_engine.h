@@ -26,7 +26,7 @@ namespace OHOS {
         class JsInputMethodEngine {
         public:
             JsInputMethodEngine(NativeEngine* engine);
-            ~JsInputMethodEngine();
+            ~JsInputMethodEngine() = default;
             static void Finalizer(NativeEngine* engine, void* data, void* hint);
             static NativeValue* RegisterCallback(NativeEngine* engine, NativeCallbackInfo* info);
             static NativeValue* UnRegisterCallback(NativeEngine* engine, NativeCallbackInfo* info);

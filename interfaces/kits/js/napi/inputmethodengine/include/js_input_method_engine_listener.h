@@ -32,7 +32,7 @@ namespace MiscServices {
         explicit JsInputMethodEngineListener(NativeEngine* engine) : engine_(engine) {}
         JsInputMethodEngineListener(NativeEngine* engine, std::shared_ptr<AppExecFwk::EventHandler> &handler)
             : engine_(engine), mainHandler_(handler) {}
-        virtual ~JsInputMethodEngineListener();
+        virtual ~JsInputMethodEngineListener() = default;
         void RegisterListenerWithType(NativeEngine& engine, std::string type, NativeValue* value);
         void UnregisterListenerWithType(std::string type, NativeValue* value);
         void UnregisterAllListenerWithType(std::string type);
@@ -43,7 +43,7 @@ namespace MiscServices {
 
     private:
         std::mutex mMutex;
-        static std::recursive_mutex mapMutex;
+        std::recursive_mutex mapMutex;
         void AddCallback(std::string type, NativeValue* jsListenerObject);
         void CallJsMethod(std::string methodName, NativeValue* const* argv = nullptr, size_t argc = 0);
         bool CallJsMethodReturnBool(std::string methodName, NativeValue* const* argv = nullptr, size_t argc = 0);
