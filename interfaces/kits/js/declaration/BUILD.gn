@@ -15,7 +15,7 @@ import("//build/ohos.gni")
 import("//build/ohos/ace/ace.gni")
 
 js_declaration("inputmethod") {
-  part_name = "inputmethod_native"
+  part_name = "imf"
   sources = [ "./api" ]
 }
 

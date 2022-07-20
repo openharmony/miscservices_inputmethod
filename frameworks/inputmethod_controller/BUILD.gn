@@ -10,7 +10,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import("//base/miscservices/inputmethod/inputmethod.gni")
+import("//base/inputmethod/imf/inputmethod.gni")
 import("//build/ohos.gni")
 
 config("inputmethod_client_native_config") {
@@ -26,9 +26,9 @@ config("inputmethod_client_native_config") {
 config("inputmethod_client_native_public_config") {
   visibility = []
   include_dirs = [
-    "//base/miscservices/inputmethod/frameworks/inputmethod_controller/include",
-    "//base/miscservices/inputmethod/frameworks/inputmethod_ability/include",
-    "//base/miscservices/inputmethod/services/include",
+    "//base/inputmethod/imf/frameworks/inputmethod_controller/include",
+    "//base/inputmethod/imf/frameworks/inputmethod_ability/include",
+    "//base/inputmethod/imf/services/include",
     "//base/hiviewdfx/hilog/interfaces/native/innerkits/include",
     "${inputmethod_path}/services/dfx/include",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core/include",
@@ -77,6 +77,6 @@ ohos_shared_library("inputmethod_client") {
 
   public_configs = [ ":inputmethod_client_native_public_config" ]
 
-  subsystem_name = "miscservices"
-  part_name = "inputmethod_native"
+  subsystem_name = "inputmethod"
+  part_name = "imf"
 }
