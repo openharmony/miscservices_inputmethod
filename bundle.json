@@ -5,20 +5,20 @@
   "license": "Apache License 2.0",
   "publishAs": "code-segment",
   "segment": {
-    "destPath": "base/miscservices/inputmethod"
+    "destPath": "base/inputmethod/imf"
   },
   "dirs": {},
   "scripts": {},
   "component": {
-    "name": "inputmethod_native",
-    "subsystem": "miscservices",
+    "name": "imf",
+    "subsystem": "inputmethod",
     "syscap": [
       "SystemCapability.MiscServices.InputMethod"
     ],
     "features": [
     ],
     "hisysevent_config": [
-        "//base/miscservices/inputmethod/hisysevent.yaml"
+        "//base/inputmethod/imf/hisysevent.yaml"
     ],
     "adapted_system_type": [
       "standard"
@@ -49,11 +49,11 @@
     },
     "build": {
       "sub_component": [
-        "//base/miscservices/inputmethod:inputmethod_native_packages"
+        "//base/inputmethod/imf:imf_packages"
       ],
       "inner_kits": [
         {
-          "name": "//base/miscservices/inputmethod/services:inputmethod_service",
+          "name": "//base/inputmethod/imf/services:inputmethod_service",
           "header": {
             "header_files": [
               "global.h",
@@ -74,11 +74,11 @@
               "platform.h",
               "platform_callback_stub.h"
             ],
-            "header_base": "//base/miscservices/inputmethod/services/include"
+            "header_base": "//base/inputmethod/imf/services/include"
           }
         },
         {
-          "name": "//base/miscservices/inputmethod/frameworks/inputmethod_controller:inputmethod_client",
+          "name": "//base/inputmethod/imf/frameworks/inputmethod_controller:inputmethod_client",
           "header": {
             "header_files": [
               "i_input_client.h",
@@ -91,11 +91,11 @@
               "input_method_system_ability_proxy.h",
               "input_method_utils.h"
             ],
-            "header_base": "//base/miscservices/inputmethod/frameworks/inputmethod_controller/include"
+            "header_base": "//base/inputmethod/imf/frameworks/inputmethod_controller/include"
           }
         },
         {
-          "name": "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
+          "name": "//base/inputmethod/imf/frameworks/inputmethod_ability:inputmethod_ability",
           "header": {
             "header_files": [
               "i_input_method_agent.h",
@@ -106,11 +106,11 @@
               "input_method_core_proxy.h",
               "input_method_core_stub.h"
             ],
-            "header_base": "//base/miscservices/inputmethod/frameworks/inputmethod_ability/include"
+            "header_base": "//base/inputmethod/imf/frameworks/inputmethod_ability/include"
           }
         },
         {
-          "name": "//base/miscservices/inputmethod/interfaces/kits/js/napi/inputmethod:inputmethod",
+          "name": "//base/inputmethod/imf/interfaces/kits/js/napi/inputmethod:inputmethod",
           "header": {
             "header_files": [
               "js_input_method_registry.h",
@@ -118,11 +118,11 @@
               "js_input_method_setting.h",
               "js_input_method_controller.h"
             ],
-            "header_base": "//base/miscservices/inputmethod/interfaces/kits/js/napi/inputmethod/include"
+            "header_base": "//base/inputmethod/imf/interfaces/kits/js/napi/inputmethod/include"
           }
         },
         {
-          "name": "//base/miscservices/inputmethod/interfaces/kits/js/napi/inputmethodengine:inputmethodengine",
+          "name": "//base/inputmethod/imf/interfaces/kits/js/napi/inputmethodengine:inputmethodengine",
           "header": {
             "header_files": [
               "js_input_method_engine_registry.h",
@@ -133,14 +133,14 @@
               "js_text_input_client.h",
               "js_keyboard_delegate.h"
             ],
-            "header_base": "//base/miscservices/inputmethod/interfaces/kits/js/napi/inputmethodengine/include"
+            "header_base": "//base/inputmethod/imf/interfaces/kits/js/napi/inputmethodengine/include"
           }
         }
       ],
       "test": [
-        "//base/miscservices/inputmethod/unitest:InputMethodControllerTest",
-        "//base/miscservices/inputmethod/unitest:InputMethodAbilityTest",
-        "//base/miscservices/inputmethod/test/fuzztest:fuzztest"
+        "//base/inputmethod/imf/unitest:InputMethodControllerTest",
+        "//base/inputmethod/imf/unitest:InputMethodAbilityTest",
+        "//base/inputmethod/imf/test/fuzztest:fuzztest"
       ]
     }
   }

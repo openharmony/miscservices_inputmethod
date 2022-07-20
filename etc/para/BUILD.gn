@@ -11,7 +11,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//base/miscservices/inputmethod/inputmethod.gni")
+import("//base/inputmethod/imf/inputmethod.gni")
 import("//build/ohos.gni")
 
 config("inputmethod_para_config") {
@@ -31,12 +31,12 @@ ohos_shared_library("inputmethod_para") {
     "init:libbegetutil",
   ]
   public_configs = [ ":inputmethod_para_public_config" ]
-  subsystem_name = "miscservices"
-  part_name = "inputmethod_native"
+  subsystem_name = "inputmethod"
+  part_name = "imf"
 }
 
 ohos_prebuilt_etc("inputmethod.para") {
-  source = "//base/miscservices/inputmethod/etc/para/inputmethod.para"
-  part_name = "inputmethod_native"
+  source = "//base/inputmethod/imf/etc/para/inputmethod.para"
+  part_name = "imf"
   module_install_dir = "etc/param"
 }
