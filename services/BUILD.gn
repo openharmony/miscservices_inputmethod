@@ -75,7 +75,8 @@ ohos_shared_library("inputmethod_service") {
     "//utils/native/base:utils",
   ]
 
-  deps += [ "//base/inputmethod/imf/services/dialog/js:dialog_ime_js_files_etc" ]
+  deps +=
+      [ "//base/inputmethod/imf/services/dialog/js:dialog_ime_js_files_etc" ]
   external_deps = [
     "ability_base:want",
     "bundle_framework:appexecfwk_base",
