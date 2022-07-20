@@ -96,14 +96,14 @@ namespace MiscServices {
                 return engine.CreateUndefined();
             }
 
-            InputMethodProperty *target = new InputMethodProperty();
+            InputMethodProperty target;
             NativeObject *object = ConvertNativeValueTo<NativeObject>(info.argv[0]);
             if (object == nullptr) {
                 IMSA_HILOGE("JsInputMethodRegistry::OnSwitchInputMethod Failed to get object");
                 return engine.CreateUndefined();
             }
 
-            if (!GetInputMethodPropertyFromJs(engine, object, *target)) {
+            if (!GetInputMethodPropertyFromJs(engine, object, target)) {
                 return engine.CreateUndefined();
             }
 
