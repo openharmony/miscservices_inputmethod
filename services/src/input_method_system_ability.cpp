@@ -290,7 +290,7 @@ namespace MiscServices {
             want.SetElementName(imeId.substr(0, pos), imeId.substr(pos + 1));
             int32_t result = abms->StartAbility(want);
             if (result) {
-                IMSA_HILOGE("InputMethodSystemAbility::StartInputService fail.");
+                IMSA_HILOGE("InputMethodSystemAbility::StartInputService failed, result = %{public}d", result);
                 isStartSuccess = false;
             } else {
                 IMSA_HILOGE("InputMethodSystemAbility::StartInputService success.");
@@ -990,9 +990,7 @@ namespace MiscServices {
         }
 
         std::string defaultIme = ParaHandle::GetDefaultIme(userId_);
-        std::string targetIme;
-        std::string imeId = Str16ToStr8(target->mPackageName) + "/" + Str16ToStr8(target->mAbilityName);
-        targetIme += imeId;
+        std::string targetIme = Str16ToStr8(target->mPackageName) + "/" + Str16ToStr8(target->mAbilityName);
         IMSA_HILOGI("InputMethodSystemAbility::OnSwitchInputMethod DefaultIme : %{public}s, TargetIme : %{public}s",
             defaultIme.c_str(), targetIme.c_str());
         if (defaultIme != targetIme) {
@@ -1004,9 +1002,11 @@ namespace MiscServices {
             }
             bool setResult = ParaHandle::SetDefaultIme(userId_, targetIme);
             if (setResult) {
-                IMSA_HILOGI("SetDefaultIme Successfully.");
+                IMSA_HILOGI("InputMethodSystemAbility::OnSwitchInputMethod SetDefaultIme Successfully.");
             } else {
-                IMSA_HILOGI("SetDefaultIme Failed.");
+                IMSA_HILOGI("InputMethodSystemAbility::OnSwitchInputMethod SetDefaultIme Failed. setResult = "
+                            "%{public}d",
+                    setResult);
                 return ErrorCode::ERROR_STATUS_PERMISSION_DENIED;
             }
         } else {

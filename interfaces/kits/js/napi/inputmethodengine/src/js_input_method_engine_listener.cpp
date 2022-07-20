@@ -37,19 +37,18 @@ namespace MiscServices {
         std::lock_guard<std::mutex> lock(mMutex);
         std::shared_ptr<NativeReference> callbackRef(engine_->CreateReference(jsListenerObject, 1));
         if (callbackRef == nullptr) {
-            IMSA_HILOGI("JsInputMethodEngineListener::AddCallback fail, callbackRef is nullptr.");
+            IMSA_HILOGI("JsInputMethodEngineListener::AddCallback fail, callbackRef is nullptr");
             return;
         }
         std::lock_guard<std::recursive_mutex> lk(mapMutex);
         jsCbMap_[type].push_back(callbackRef);
-        IMSA_HILOGI("JsInputMethodEngineListener::AddCallback success");
-        IMSA_HILOGI("jsCbMap_ size: %{public}d, and type[%{public}s] size: %{public}d!",
+        IMSA_HILOGI("AddCallback success! jsCbMap_ size: %{public}d, and type[%{public}s] size: %{public}d",
             static_cast<uint32_t>(jsCbMap_.size()), type.c_str(), static_cast<uint32_t>(jsCbMap_[type].size()));
     }
 
     void JsInputMethodEngineListener::UnregisterAllListenerWithType(std::string type)
     {
-        IMSA_HILOGI("JsInputMethodEngineListener::UnregisterAllListenerWithType : %{public}s.", type.c_str());
+        IMSA_HILOGI("JsInputMethodEngineListener::UnregisterAllListenerWithType : %{public}s", type.c_str());
         // should do type check
         std::lock_guard<std::recursive_mutex> lk(mapMutex);
         if (jsCbMap_.empty() || jsCbMap_.find(type) == jsCbMap_.end()) {
@@ -102,8 +101,8 @@ namespace MiscServices {
         }
         for (auto iter : jsCbMap_[methodName]) {
             if (iter == nullptr) {
-                IMSA_HILOGE("JsInputMethodEngineListener::CallJsMethod iter is null!");
-                return;
+                IMSA_HILOGE("JsInputMethodEngineListener::CallJsMethod iter is null");
+                continue;
             }
             engine_->CallFunction(engine_->CreateUndefined(), iter->Get(), argv, argc);
         }
