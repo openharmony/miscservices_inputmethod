@@ -294,6 +294,7 @@ using namespace MessageID;
             && data.WriteRemoteObject(client->AsObject()))) {
             return;
         }
+        isStopInput = false;
         mImms->startInput(data);
     }
 
@@ -308,6 +309,7 @@ using namespace MessageID;
             && data.WriteRemoteObject(client->AsObject().GetRefPtr()))) {
             return;
         }
+        isStopInput = true;
         mImms->releaseInput(data);
     }
 
@@ -322,6 +324,7 @@ using namespace MessageID;
             && data.WriteRemoteObject(client->AsObject().GetRefPtr()))) {
             return;
         }
+        isStopInput = true;
         mImms->stopInput(data);
     }
 
@@ -344,6 +347,11 @@ using namespace MessageID;
         sptr<InputMethodAgentProxy> agent = mAgent;
         if (agent == nullptr) {
             IMSA_HILOGI("InputMethodController::OnCursorUpdate agent is nullptr");
+            return;
+        }
+
+        if (isStopInput == true) {
+            IMSA_HILOGD("InputMethodController::OnCursorUpdate isStopInput is true");
             return;
         }
 
@@ -371,6 +379,12 @@ using namespace MessageID;
             IMSA_HILOGI("InputMethodController::OnSelectionChange agent is nullptr");
             return;
         }
+
+        if (isStopInput == true) {
+            IMSA_HILOGD("InputMethodController::OnSelectionChange isStopInput is true");
+            return;
+        }
+
         agent->OnSelectionChange(mTextString, mSelectOldBegin, mSelectOldEnd, mSelectNewBegin, mSelectNewEnd);
     }
 
@@ -411,6 +425,12 @@ using namespace MessageID;
             IMSA_HILOGI("InputMethodController::dispatchKeyEvent agent is nullptr");
             return false;
         }
+        
+        if (isStopInput == true) {
+            IMSA_HILOGD("InputMethodController::dispatchKeyEvent isStopInput is true");
+            return false;
+        }
+
         MessageParcel data;
         if (!(data.WriteInterfaceToken(agent->GetDescriptor())
             && data.WriteInt32(keyEvent->GetKeyCode())
@@ -441,6 +461,12 @@ using namespace MessageID;
             IMSA_HILOGI("InputMethodController::SetCallingWindow agent is nullptr");
             return;
         }
+        
+        if (isStopInput == true) {
+            IMSA_HILOGD("InputMethodController::SetCallingWindow isStopInput is true");
+            return;
+        }
+        
         agent->SetCallingWindow(windowId);
     }
 
