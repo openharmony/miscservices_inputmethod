@@ -1,5 +1,5 @@
 {
-  "name": "@ohos/inputmethod",
+  "name": "@ohos/imf",
   "description": "Provide input capability to ime app",
   "version": "3.1",
   "license": "Apache License 2.0",
