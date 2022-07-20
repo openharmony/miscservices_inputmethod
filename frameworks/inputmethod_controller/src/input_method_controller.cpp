@@ -350,8 +350,8 @@ using namespace MessageID;
             return;
         }
 
-        if (isStopInput == true) {
-            IMSA_HILOGD("InputMethodController::OnCursorUpdate isStopInput is true");
+        if (isStopInput) {
+            IMSA_HILOGD("InputMethodController::OnCursorUpdate isStopInput");
             return;
         }
 
@@ -380,8 +380,8 @@ using namespace MessageID;
             return;
         }
 
-        if (isStopInput == true) {
-            IMSA_HILOGD("InputMethodController::OnSelectionChange isStopInput is true");
+        if (isStopInput) {
+            IMSA_HILOGD("InputMethodController::OnSelectionChange isStopInput");
             return;
         }
 
@@ -426,8 +426,8 @@ using namespace MessageID;
             return false;
         }
         
-        if (isStopInput == true) {
-            IMSA_HILOGD("InputMethodController::dispatchKeyEvent isStopInput is true");
+        if (isStopInput) {
+            IMSA_HILOGD("InputMethodController::dispatchKeyEvent isStopInput");
             return false;
         }
 
@@ -462,8 +462,8 @@ using namespace MessageID;
             return;
         }
         
-        if (isStopInput == true) {
-            IMSA_HILOGD("InputMethodController::SetCallingWindow isStopInput is true");
+        if (isStopInput) {
+            IMSA_HILOGD("InputMethodController::SetCallingWindow isStopInput");
             return;
         }
         
