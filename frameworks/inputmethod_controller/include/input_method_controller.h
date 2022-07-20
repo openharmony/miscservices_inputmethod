@@ -111,6 +111,8 @@ namespace MiscServices {
         bool stop_;
         int32_t enterKeyType_ = 0;
         int32_t inputPattern_ = 0;
+        
+        bool isStopInput {false};
     };
 } // namespace MiscServices
 } // namespace OHOS
