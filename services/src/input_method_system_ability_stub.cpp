@@ -316,6 +316,9 @@ namespace MiscServices {
         int32_t userId = getUserId(uid);
 
         auto *parcel = new (std::nothrow) MessageParcel();
+        if (parcel == nullptr) {
+            return ErrorCode::ERROR_EX_NULL_POINTER;
+        }
         InputMethodProperty *target = InputMethodProperty::Unmarshalling(data);
         parcel->WriteInt32(userId);
         if (!target->Marshalling(*parcel)) {
@@ -326,6 +329,9 @@ namespace MiscServices {
         }
         delete target;
         auto *msg = new (std::nothrow) Message(MSG_ID_SWITCH_INPUT_METHOD, parcel);
+        if (msg == nullptr) {
+            return ErrorCode::ERROR_EX_NULL_POINTER;
+        }
         MessageHandler::Instance()->SendMessage(msg);
         return ErrorCode::NO_ERROR;
     }
