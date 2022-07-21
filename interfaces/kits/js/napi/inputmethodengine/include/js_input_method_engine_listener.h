@@ -42,14 +42,15 @@ namespace MiscServices {
         void OnSetCallingWindow(uint32_t windowId);
 
     private:
+        std::mutex mMutex;
+        std::recursive_mutex mapMutex;
         void AddCallback(std::string type, NativeValue* jsListenerObject);
         void CallJsMethod(std::string methodName, NativeValue* const* argv = nullptr, size_t argc = 0);
         bool CallJsMethodReturnBool(std::string methodName, NativeValue* const* argv = nullptr, size_t argc = 0);
         void RemoveCallback(NativeValue* jsListenerObject);
         bool IfCallbackRegistered(std::string type, NativeValue* jsListenerObject);
         NativeEngine* engine_ = nullptr;
-        std::mutex mMutex;
-        std::map<std::string, std::vector<std::unique_ptr<NativeReference>>> jsCbMap_;
+        std::map<std::string, std::vector<std::shared_ptr<NativeReference>>> jsCbMap_;
         std::shared_ptr<AppExecFwk::EventHandler> mainHandler_ = nullptr;
     };
 } // namespace MiscServices
