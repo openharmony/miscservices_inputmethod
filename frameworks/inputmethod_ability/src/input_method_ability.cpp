@@ -73,7 +73,7 @@ namespace MiscServices {
 
         auto systemAbility = systemAbilityManager->GetSystemAbility(INPUT_METHOD_SYSTEM_ABILITY_ID, "");
         if (!systemAbility) {
-            IMSA_HILOGI("InputMethodAbility::GetImsaProxy systemAbility is nullptr");
+            IMSA_HILOGI("InputMethodAbility::GetImsaProxy systemAbility is nullptr.");
             return nullptr;
         }
 
