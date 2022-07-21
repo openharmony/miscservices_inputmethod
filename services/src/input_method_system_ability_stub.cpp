@@ -315,7 +315,7 @@ namespace MiscServices {
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
 
-        auto *parcel = new MessageParcel();
+        auto *parcel = new (std::nothrow) MessageParcel();
         InputMethodProperty *target = InputMethodProperty::Unmarshalling(data);
         parcel->WriteInt32(userId);
         if (!target->Marshalling(*parcel)) {
