@@ -44,8 +44,8 @@ namespace MiscServices {
         static sptr<InputMethodAbility> GetInstance();
         sptr<IInputMethodCore> OnConnect();
         bool InsertText(const std::string text);
-        void setImeListener(sptr<JsInputMethodEngineListener> &imeListener);
-        void setKdListener(sptr<JsKeyboardDelegateListener> &kdListener);
+        void setImeListener(sptr<JsInputMethodEngineListener> imeListener);
+        void setKdListener(sptr<JsKeyboardDelegateListener> kdListener);
         void DeleteForward(int32_t length);
         void DeleteBackward(int32_t length);
         void HideKeyboardSelf();

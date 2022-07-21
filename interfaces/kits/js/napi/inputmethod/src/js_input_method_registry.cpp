@@ -96,22 +96,23 @@ namespace MiscServices {
                 return engine.CreateUndefined();
             }
 
-            InputMethodProperty *target = new InputMethodProperty();
+            InputMethodProperty target;
             NativeObject *object = ConvertNativeValueTo<NativeObject>(info.argv[0]);
             if (object == nullptr) {
                 IMSA_HILOGE("JsInputMethodRegistry::OnSwitchInputMethod Failed to get object");
                 return engine.CreateUndefined();
             }
 
-            if (!GetInputMethodPropertyFromJs(engine, object, *target)) {
+            if (!GetInputMethodPropertyFromJs(engine, object, target)) {
                 return engine.CreateUndefined();
             }
 
             bool isSwitchSuccess = false;
             if (!InputMethodController::GetInstance()->SwitchInputMethod(target)) {
+                IMSA_HILOGE("JsInputMethodRegistry::OnSwitchInputMethod success!");
                 isSwitchSuccess = true;
             } else {
-                IMSA_HILOGE("JsInputMethodRegistry::OnSwitchInputMethod isSwitchSuccess is false !");
+                IMSA_HILOGE("JsInputMethodRegistry::OnSwitchInputMethod failed!");
             }
 
             NativeValue *result = CreateJsValue(engine, isSwitchSuccess);
