@@ -294,6 +294,7 @@ using namespace MessageID;
             && data.WriteRemoteObject(client->AsObject()))) {
             return;
         }
+        isStopInput = false;
         mImms->startInput(data);
     }
 
@@ -308,6 +309,7 @@ using namespace MessageID;
             && data.WriteRemoteObject(client->AsObject().GetRefPtr()))) {
             return;
         }
+        isStopInput = true;
         mImms->releaseInput(data);
     }
 
@@ -322,6 +324,7 @@ using namespace MessageID;
             && data.WriteRemoteObject(client->AsObject().GetRefPtr()))) {
             return;
         }
+        isStopInput = true;
         mImms->stopInput(data);
     }
 
@@ -341,8 +344,14 @@ using namespace MessageID;
 
     void InputMethodController::OnCursorUpdate(CursorInfo cursorInfo)
     {
-        if (!mAgent) {
-            IMSA_HILOGI("InputMethodController::OnCursorUpdate mAgent is nullptr");
+        sptr<InputMethodAgentProxy> agent = mAgent;
+        if (agent == nullptr) {
+            IMSA_HILOGI("InputMethodController::OnCursorUpdate agent is nullptr");
+            return;
+        }
+
+        if (isStopInput) {
+            IMSA_HILOGD("InputMethodController::OnCursorUpdate isStopInput");
             return;
         }
 
@@ -351,7 +360,7 @@ using namespace MessageID;
             return;
         }
         cursorInfo_ = cursorInfo;
-        mAgent->OnCursorUpdate(cursorInfo.left, cursorInfo.top, cursorInfo.height);
+        agent->OnCursorUpdate(cursorInfo.left, cursorInfo.top, cursorInfo.height);
     }
 
     void InputMethodController::OnSelectionChange(std::u16string text, int start, int end)
@@ -365,11 +374,18 @@ using namespace MessageID;
         mSelectOldEnd = mSelectNewEnd;
         mSelectNewBegin = start;
         mSelectNewEnd = end;
-        if (!mAgent) {
-            IMSA_HILOGI("InputMethodController::OnSelectionChange mAgent is nullptr");
+        sptr<InputMethodAgentProxy> agent = mAgent;
+        if (agent == nullptr) {
+            IMSA_HILOGI("InputMethodController::OnSelectionChange agent is nullptr");
             return;
         }
-        mAgent->OnSelectionChange(mTextString, mSelectOldBegin, mSelectOldEnd, mSelectNewBegin, mSelectNewEnd);
+
+        if (isStopInput) {
+            IMSA_HILOGD("InputMethodController::OnSelectionChange isStopInput");
+            return;
+        }
+
+        agent->OnSelectionChange(mTextString, mSelectOldBegin, mSelectOldEnd, mSelectNewBegin, mSelectNewEnd);
     }
 
     void InputMethodController::OnConfigurationChange(Configuration info)
@@ -404,18 +420,25 @@ using namespace MessageID;
     bool InputMethodController::dispatchKeyEvent(std::shared_ptr<MMI::KeyEvent> keyEvent)
     {
         IMSA_HILOGI("InputMethodController::dispatchKeyEvent");
-        if (!mAgent) {
-            IMSA_HILOGI("InputMethodController::dispatchKeyEvent mAgent is nullptr");
+        sptr<InputMethodAgentProxy> agent = mAgent;
+        if (agent == nullptr) {
+            IMSA_HILOGI("InputMethodController::dispatchKeyEvent agent is nullptr");
             return false;
         }
+        
+        if (isStopInput) {
+            IMSA_HILOGD("InputMethodController::dispatchKeyEvent isStopInput");
+            return false;
+        }
+
         MessageParcel data;
-        if (!(data.WriteInterfaceToken(mAgent->GetDescriptor())
+        if (!(data.WriteInterfaceToken(agent->GetDescriptor())
             && data.WriteInt32(keyEvent->GetKeyCode())
             && data.WriteInt32(keyEvent->GetKeyAction()))) {
             return false;
         }
 
-        return mAgent->DispatchKeyEvent(data);
+        return agent->DispatchKeyEvent(data);
     }
 
     int32_t InputMethodController::GetEnterKeyType()
@@ -432,13 +455,19 @@ using namespace MessageID;
 
     void InputMethodController::SetCallingWindow(uint32_t windowId)
     {
+        sptr<InputMethodAgentProxy> agent = mAgent;
         IMSA_HILOGI("InputMethodController::SetCallingWindow windowId = %{public}d", windowId);
-        if (!mAgent) {
-            IMSA_HILOGI("InputMethodController::SetCallingWindow mAgent is nullptr");
+        if (agent == nullptr) {
+            IMSA_HILOGI("InputMethodController::SetCallingWindow agent is nullptr");
             return;
         }
-        mAgent->SetCallingWindow(windowId);
-        return;
+        
+        if (isStopInput) {
+            IMSA_HILOGD("InputMethodController::SetCallingWindow isStopInput");
+            return;
+        }
+        
+        agent->SetCallingWindow(windowId);
     }
 
     int32_t InputMethodController::SwitchInputMethod(InputMethodProperty *target)
