@@ -61,7 +61,7 @@ namespace OHOS {
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size)
 {
     if (size < OHOS::THRESHOLD) {
-        return -1;
+        return 0;
     }
     /* Run your code on data */
     OHOS::FuzzInputClientStub(data, size);
