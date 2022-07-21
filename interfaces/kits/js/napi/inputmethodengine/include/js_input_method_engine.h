@@ -32,8 +32,8 @@ namespace OHOS {
             static NativeValue* UnRegisterCallback(NativeEngine* engine, NativeCallbackInfo* info);
 
         private:
-            sptr<JsInputMethodEngineListener> imeListener_;
             std::mutex mtx_;
+            sptr<JsInputMethodEngineListener> imeListener_;
             NativeValue* OnRegisterCallback(NativeEngine& engine, NativeCallbackInfo& info);
             NativeValue* OnUnRegisterCallback(NativeEngine& engine, NativeCallbackInfo& info);
             std::shared_ptr<AppExecFwk::EventHandler> GetMainHandler();

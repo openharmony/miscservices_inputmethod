@@ -56,7 +56,7 @@ namespace MiscServices {
         int32_t listInputMethodEnabled(std::vector<InputMethodProperty*> *properties) override;
         int32_t listInputMethod(std::vector<InputMethodProperty*> *properties) override;
         int32_t listKeyboardType(const std::u16string& imeId, std::vector<KeyboardType*> *types) override;
-        int32_t SwitchInputMethod(InputMethodProperty* target);
+        int32_t SwitchInputMethod(const InputMethodProperty &target);
 
     private:
         static inline BrokerDelegator<InputMethodSystemAbilityProxy> delegator_;
