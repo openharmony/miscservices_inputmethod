@@ -64,10 +64,18 @@ namespace MiscServices {
         // should do type check
         std::lock_guard<std::recursive_mutex> lk(mapMutex);
         if (jsCbMap_.empty() || jsCbMap_.find(type) == jsCbMap_.end()) {
-            IMSA_HILOGI("methodName %{public}s not registerted!", type.c_str());
+            IMSA_HILOGI("methodName %{public}s not registered!", type.c_str());
             return;
         }
-        jsCbMap_.erase(type);
+        for (auto it = jsCbMap_[type].begin(); it != jsCbMap_[type].end();) {
+            if (value->StrictEquals((*it)->Get())) {
+                jsCbMap_[type].erase(it);
+                break;
+            }
+        }
+        if (jsCbMap_[type].empty()) {
+            jsCbMap_.erase(type);
+        }
     }
 
     bool JsInputMethodEngineListener::IfCallbackRegistered(std::string type, NativeValue* jsListenerObject)
