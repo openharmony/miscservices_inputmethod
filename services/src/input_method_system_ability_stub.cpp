@@ -171,7 +171,8 @@ namespace MiscServices {
                 break;
             }
             case SWITCH_INPUT_METHOD: {
-                SwitchInputMethod(data, reply);
+                int32_t ret = SwitchInputMethod(data);
+                reply.WriteInt32(ret);
                 break;
             }
             default: {
@@ -308,13 +309,16 @@ namespace MiscServices {
         MessageHandler::Instance()->SendMessage(msg);
     }
 
-    int32_t InputMethodSystemAbilityStub::SwitchInputMethod(MessageParcel &data, MessageParcel &reply)
+    int32_t InputMethodSystemAbilityStub::SwitchInputMethod(MessageParcel &data)
     {
         IMSA_HILOGI("InputMethodSystemAbilityStub::switchInputMethod");
         int32_t uid = IPCSkeleton::GetCallingUid();
         int32_t userId = getUserId(uid);
 
-        MessageParcel *parcel = new MessageParcel();
+        auto *parcel = new (std::nothrow) MessageParcel();
+        if (parcel == nullptr) {
+            return ErrorCode::ERROR_EX_NULL_POINTER;
+        }
         InputMethodProperty *target = InputMethodProperty::Unmarshalling(data);
         parcel->WriteInt32(userId);
         if (!target->Marshalling(*parcel)) {
@@ -324,7 +328,10 @@ namespace MiscServices {
             return ErrorCode::ERROR_IME_PROPERTY_MARSHALL;
         }
         delete target;
-        Message *msg = new Message(MSG_ID_SWITCH_INPUT_METHOD, parcel, &reply);
+        auto *msg = new (std::nothrow) Message(MSG_ID_SWITCH_INPUT_METHOD, parcel);
+        if (msg == nullptr) {
+            return ErrorCode::ERROR_EX_NULL_POINTER;
+        }
         MessageHandler::Instance()->SendMessage(msg);
         return ErrorCode::NO_ERROR;
     }
