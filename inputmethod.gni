@@ -19,7 +19,7 @@ ability_runtime_services_path = "${ability_runtime_path}/services"
 
 ability_runtime_kits_path = "${ability_runtime_path}/frameworks/kits"
 
-inputmethod_path = "//base/miscservices/inputmethod"
+inputmethod_path = "//base/inputmethod/imf"
 
 kits_path = "${inputmethod_path}/interfaces/kits"
 

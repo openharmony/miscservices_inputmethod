@@ -18,6 +18,6 @@ import("//build/ohos.gni")
 ohos_prebuilt_etc("inputmethodservice.cfg") {
   source = "inputmethodservice.cfg"
   relative_install_dir = "init"
-  part_name = "inputmethod_native"
-  subsystem_name = "miscservices"
+  part_name = "imf"
+  subsystem_name = "inputmethod"
 }

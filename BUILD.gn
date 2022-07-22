@@ -15,7 +15,7 @@ import("//build/ohos.gni")
 
 ################################################################################
 
-group("inputmethod_native_packages") {
+group("imf_packages") {
   if (is_standard_system) {
     deps = [
       "etc/init:inputmethodservice.cfg",
@@ -26,7 +26,7 @@ group("inputmethod_native_packages") {
       "interfaces/kits/js/declaration:inputmethod",
       "interfaces/kits/js/napi/inputmethod:inputmethod",
       "interfaces/kits/js/napi/inputmethodengine:inputmethodengine",
-      "profile:miscservices_inputmethod_sa_profiles",
+      "profile:inputmethod_inputmethod_sa_profiles",
       "services:inputmethod_service",
     ]
   }

@@ -10,15 +10,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import("//base/miscservices/inputmethod/inputmethod.gni")
+import("//base/inputmethod/imf/inputmethod.gni")
 import("//build/ohos.gni")
 
-config("inputmethod_native_config") {
+config("imf_config") {
   visibility = [ ":*" ]
   include_dirs = [ "include" ]
 }
 
-config("inputmethod_native_public_config") {
+config("imf_public_config") {
   visibility = []
   include_dirs = [ "include" ]
 }
@@ -35,15 +35,15 @@ ohos_shared_library("inputmethod") {
     "src/js_input_method_utils.cpp",
   ]
 
-  configs = [ ":inputmethod_native_config" ]
+  configs = [ ":imf_config" ]
 
   deps = [
     "${ability_runtime_inner_api_path}/ability_manager:ability_manager",
     "${ability_runtime_inner_api_path}/app_manager:app_manager",
     "${ability_runtime_path}/frameworks/native/ability/native:abilitykit_native",
     "//base/global/resource_management/frameworks/resmgr:global_resmgr",
-    "//base/miscservices/inputmethod/frameworks/inputmethod_ability:inputmethod_ability",
-    "//base/miscservices/inputmethod/services:inputmethod_service",
+    "//base/inputmethod/imf/frameworks/inputmethod_ability:inputmethod_ability",
+    "//base/inputmethod/imf/services:inputmethod_service",
     "//foundation/arkui/napi/:ace_napi",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_single:ipc_single",
@@ -62,9 +62,9 @@ ohos_shared_library("inputmethod") {
     "ipc:ipc_core",
   ]
 
-  public_configs = [ ":inputmethod_native_public_config" ]
+  public_configs = [ ":imf_public_config" ]
 
   relative_install_dir = "module"
-  subsystem_name = "miscservices"
-  part_name = "inputmethod_native"
+  subsystem_name = "inputmethod"
+  part_name = "imf"
 }
