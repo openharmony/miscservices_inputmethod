@@ -10,7 +10,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import("//base/miscservices/inputmethod/inputmethod.gni")
+import("//base/inputmethod/imf/inputmethod.gni")
 import("//build/ohos.gni")
 
 config("inputmethod_ability_native_config") {
@@ -82,6 +82,6 @@ ohos_shared_library("inputmethod_ability") {
 
   public_configs = [ ":inputmethod_ability_native_public_config" ]
 
-  subsystem_name = "miscservices"
-  part_name = "inputmethod_native"
+  subsystem_name = "inputmethod"
+  part_name = "imf"
 }

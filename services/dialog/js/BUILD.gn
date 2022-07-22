@@ -13,13 +13,13 @@
 import("//foundation/arkui/ace_engine/build/ace_gen_sa_dialog_js.gni")
 
 gen_sa_dialog_js("dialog_ime_js_files_etc") {
-  project_path = "//base/miscservices/inputmethod/services/dialog/js/"
+  project_path = "//base/inputmethod/imf/services/dialog/js/"
   i18n_files = [
     "i18n/en-US.json",
     "i18n/zh-CN.json",
   ]
   common_files = []
   dialog_name = "input_method_choose_dialog"
-  part_name = "inputmethod_native"
-  subsystem_name = "miscservices"
+  part_name = "imf"
+  subsystem_name = "inputmethod"
 }
