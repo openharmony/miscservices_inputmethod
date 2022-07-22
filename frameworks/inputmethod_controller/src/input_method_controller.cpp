@@ -470,7 +470,7 @@ using namespace MessageID;
         agent->SetCallingWindow(windowId);
     }
 
-    int32_t InputMethodController::SwitchInputMethod(InputMethodProperty *target)
+    int32_t InputMethodController::SwitchInputMethod(const InputMethodProperty &target)
     {
         IMSA_HILOGI("InputMethodController::SwitchInputMethod");
         if (!mImms) {
