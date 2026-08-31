@@ -14,6 +14,7 @@
  */
 
 #include "input_method_setting.h"
+#include "parse_setting_int.h"
 #include "utils.h"
 
 namespace OHOS {
@@ -234,7 +235,13 @@ namespace MiscServices {
         std::vector<std::u16string> tmp2 = Split(imeStr, DELIM_KBD_TYPE);
         for (int i = 1; i < (int)tmp2.size(); i++) {
             std::u16string str = tmp2[i];
-            retValue.push_back(std::atoi(Utils::to_utf8(str).c_str()));
+            int32_t hashCode = 0;
+            std::string text = Utils::to_utf8(str);
+            if (!ParseSettingInt(text, hashCode)) {
+                IMSA_HILOGE("Invalid keyboard type hashCode: %{public}s", text.c_str());
+                continue;
+            }
+            retValue.push_back(hashCode);
         }
         tmp2.clear();
 
@@ -247,7 +254,13 @@ namespace MiscServices {
     int32_t InputMethodSetting::GetCurrentKeyboardType()
     {
         std::u16string value = GetValue(CURRENT_KEYBOARD_TYPE_TAG);
-        return std::atoi(Utils::to_utf8(value).c_str());
+        int32_t type = 0;
+        std::string text = Utils::to_utf8(value);
+        if (!ParseSettingInt(text, type)) {
+            IMSA_HILOGE("Invalid current keyboard type: %{public}s", text.c_str());
+            return 0;
+        }
+        return type;
     }
 
     /*! Set the default keyboard type
@@ -265,7 +278,13 @@ namespace MiscServices {
     int32_t InputMethodSetting::GetCurrentSysKeyboardType()
     {
         std::u16string value = GetValue(CURRENT_SYS_KEYBOARD_TYPE_TAG);
-        return std::atoi(Utils::to_utf8(value).c_str());
+        int32_t type = 0;
+        std::string text = Utils::to_utf8(value);
+        if (!ParseSettingInt(text, type)) {
+            IMSA_HILOGE("Invalid current sys keyboard type: %{public}s", text.c_str());
+            return 0;
+        }
+        return type;
     }
 
     /*! Set the default keyboard type for security IME
