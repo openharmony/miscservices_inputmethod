@@ -14,6 +14,7 @@
  */
 
 #include "peruser_session.h"
+#include "parse_setting_int.h"
 #include "unistd.h"
 #include "platform.h"
 #include "parcel.h"
@@ -738,9 +739,13 @@ namespace MiscServices {
     int PerUserSession::OnCurrentKeyboardTypeChanged(int index, const std::u16string& value)
     {
         std::string str = Utils::to_utf8(value);
-        int hashCode = std::atoi(str.c_str());
+        int32_t hashCode = 0;
+        if (!ParseSettingInt(str, hashCode)) {
+            IMSA_HILOGE("Invalid keyboard type setting: %{public}s", str.c_str());
+            return ErrorCode::ERROR_BAD_PARAMETERS;
+        }
         if (hashCode == -1) {
-            return ErrorCode::ERROR_SETTING_SAME_VALUE;;
+            return ErrorCode::ERROR_SETTING_SAME_VALUE;
         }
         // switch within the current ime.
         if (index == SECURITY_IME || currentIme[DEFAULT_IME] == currentIme[SECURITY_IME]) {
